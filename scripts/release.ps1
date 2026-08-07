@@ -37,30 +37,13 @@ if ($sourceCommit -notmatch '^[0-9a-f]{40}$' -or $sourceCommit -eq '000000000000
     throw 'Could not resolve a full source commit.'
 }
 
-$versionReader = @'
-import json, re, sys
-def pairs(items):
-    output = {}
-    for key, value in items:
-        if key in output:
-            raise ValueError(f"duplicate JSON key: {key}")
-        output[key] = value
-    return output
-def constant(value):
-    raise ValueError(f"non-finite JSON value: {value}")
-with open(sys.argv[1], encoding="utf-8") as handle:
-    data = json.load(handle, object_pairs_hook=pairs, parse_constant=constant)
-expected = {"author","download_url","homepage","last_updated","name","requires","requires_php","sections","slug","tested","version"}
-if not isinstance(data, dict) or set(data) != expected:
-    raise ValueError("release manifest fields are missing or unexpected")
-version = data.get("version")
-if not isinstance(version, str) or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)+", version):
-    raise ValueError("release version is invalid")
-print(version)
-'@
-
-$version = (& $pythonExecutable -c $versionReader (Join-Path $repositoryRoot 'release.json')).Trim()
-if ($LASTEXITCODE -ne 0 -or $version -notmatch '^[0-9]+(?:\.[0-9]+)+$') {
+$versionReader = Join-Path $repositoryRoot 'scripts\read_release_version.py'
+$versionOutput = & $pythonExecutable $versionReader (Join-Path $repositoryRoot 'release.json')
+if ($LASTEXITCODE -ne 0) {
+    throw 'Could not read a strict release version.'
+}
+$version = ($versionOutput | Select-Object -Last 1).Trim()
+if ($version -notmatch '^[0-9]+(?:\.[0-9]+)+$') {
     throw 'Could not read a strict release version.'
 }
 
@@ -68,6 +51,7 @@ $releaseInputs = @(
     'package-files.txt',
     'release.json',
     'scripts/build_plugin_zip.py',
+    'scripts/read_release_version.py',
     'scripts/release.ps1',
     'scripts/verify_release_receipt.py',
     'tests/run.php'
