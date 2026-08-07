@@ -17,8 +17,10 @@ foreach ($trustedTool in @($trustedGit, $trustedTar)) {
     }
 }
 
-$pythonExecutable = (Get-Command $PythonBinary -CommandType Application -ErrorAction Stop).Source
-$phpExecutable = (Get-Command $PhpBinary -CommandType Application -ErrorAction Stop).Source
+$pythonCommand = @(Get-Command $PythonBinary -CommandType Application -All -ErrorAction Stop)[0]
+$phpCommand = @(Get-Command $PhpBinary -CommandType Application -All -ErrorAction Stop)[0]
+$pythonExecutable = $pythonCommand.Source
+$phpExecutable = $phpCommand.Source
 
 $detectedRoot = (& $trustedGit -C $repositoryRoot rev-parse --show-toplevel).Trim()
 if ([IO.Path]::GetFullPath($detectedRoot) -ne [IO.Path]::GetFullPath($repositoryRoot)) {
