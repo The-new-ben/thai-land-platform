@@ -12,3 +12,4 @@
 *.zip binary
 *.mo binary
 lib/plugin-update-checker/** -text -diff
+plugin-dist/**/*.receipt.json -text -diff
