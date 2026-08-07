@@ -1,0 +1,15 @@
+{
+  "name": "Thailand Platform",
+  "slug": "thailand-platform",
+  "version": "0.1.0",
+  "author": "thai-land.co.il",
+  "homepage": "https://thai-land.co.il/",
+  "requires": "6.9",
+  "tested": "7.0.3",
+  "requires_php": "7.4",
+  "download_url": "https://raw.githubusercontent.com/The-new-ben/thai-land-platform/main/plugin-dist/0.1.0/thailand-platform-0.1.0.zip",
+  "last_updated": "2026-08-07 22:18:12",
+  "sections": {
+    "changelog": "<h4>0.1.0</h4><ul><li>Add the bounded, no-write platform bootstrap and public release healthcheck.</li><li>Vendor the non-fatal update UI fallback while keeping it disabled until the PHP 7.4 canary passes.</li></ul>"
+  }
+}

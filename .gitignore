@@ -1,0 +1,16 @@
+.DS_Store
+Thumbs.db
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+coverage/
+test-results/
+playwright-report/
+prototype/screenshots/
+plugin-dist/**
+output/playwright/homepage-desktop-1440.png
+*.log
+.env
+.env.*
+!.env.example
