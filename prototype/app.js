@@ -450,10 +450,30 @@
 
     try {
       api.minimize();
-      return true;
+      return typeof api.isChatMinimized === 'function'
+        ? api.isChatMinimized()
+        : api.onLoaded === true;
     } catch {
       return false;
     }
+  };
+
+  let tawkRetryDelay = 250;
+  let tawkRetryTimer = 0;
+  const settleTawkWidget = () => {
+    if (minimizeTawkWidget()) {
+      if (tawkRetryTimer) window.clearTimeout(tawkRetryTimer);
+      tawkRetryTimer = 0;
+      return;
+    }
+    if (tawkRetryTimer) return;
+
+    const delay = tawkRetryDelay;
+    tawkRetryDelay = Math.min(tawkRetryDelay * 2, 4000);
+    tawkRetryTimer = window.setTimeout(() => {
+      tawkRetryTimer = 0;
+      settleTawkWidget();
+    }, delay);
   };
 
   const tawkApi = window.Tawk_API = window.Tawk_API || {};
@@ -462,10 +482,13 @@
     try {
       if (typeof previousTawkOnLoad === 'function') previousTawkOnLoad.apply(this, args);
     } finally {
-      minimizeTawkWidget();
+      settleTawkWidget();
     }
   };
-  minimizeTawkWidget();
+  settleTawkWidget();
+  window.addEventListener('pagehide', () => {
+    if (tawkRetryTimer) window.clearTimeout(tawkRetryTimer);
+  }, { once: true });
 
   /* Back to top */
   doc.querySelector('[data-back-to-top]')?.addEventListener('click', () => {

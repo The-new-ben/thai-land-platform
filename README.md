@@ -2,7 +2,7 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.2.2 boundary
+## Release 0.2.3 boundary
 
 The package preserves the minimal public healthcheck at
 `/wp-json/thailand-platform/v1/health` and adds a theme-independent RTL homepage
