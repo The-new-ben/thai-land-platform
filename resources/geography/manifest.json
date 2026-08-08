@@ -77,8 +77,8 @@
       "sha256": "0827eaa5a764ea810d85362022103a475ba58114663e6cc9992a29675bfd0547"
     },
     "registry.json": {
-      "bytes": 4317,
-      "sha256": "dc7ad84f70abe719ab35b603d396f2f931b296e7a06eea4b043fa25111f1ae72"
+      "bytes": 4347,
+      "sha256": "ea8071cbcb2dc8e5d0d2e6472ae735220d6304a2d03d0dc8114dde02679d68db"
     },
     "registry.schema.json": {
       "bytes": 4195,
@@ -89,5 +89,5 @@
       "sha256": "df57bf7931b7bf15afb36f212343441d2ca8f3acf2adc1bef73f009ab4bedf68"
     }
   },
-  "source_manifest_sha256": "dc7ad84f70abe719ab35b603d396f2f931b296e7a06eea4b043fa25111f1ae72"
+  "source_manifest_sha256": "ea8071cbcb2dc8e5d0d2e6472ae735220d6304a2d03d0dc8114dde02679d68db"
 }

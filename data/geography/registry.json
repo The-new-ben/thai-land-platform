@@ -52,6 +52,7 @@
       "path": "aliases.csv",
       "sha256": "b958c316bcbf761e723f90a77075b2127b8cfd845fa81e33ad70010fa98424c8",
       "source_ids": [
+        "nso-province-codes",
         "thai-land-editorial-names"
       ]
     },

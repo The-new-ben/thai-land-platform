@@ -6,7 +6,8 @@ compiler produces the bounded server and client artifacts used by WordPress.
 
 `registry.json` owns the independent schema and dataset versions, canonical ID
 rules, geography-only types, classification schemes, input inventory, and exact
-source metadata. `registry.schema.json` documents that contract.
+source metadata. `registry.schema.json` documents that contract, and its exact
+reviewed bytes are bound by the compiler so silent schema weakening is rejected.
 
 The administrative spine is country, province, district, subdistrict, and
 village. The seven NSO regions are statistical classifications, not
@@ -16,7 +17,9 @@ separate SEO ownership registry.
 `provinces.csv` contains all 77 province-equivalent first-level records,
 including Bangkok. The compiler derives immutable IDs such as
 `geo:th:province:10` and keeps `TH-10` as an external ISO identifier. The
-`priority` field controls editorial sequencing only.
+`priority` field controls editorial sequencing only. Both the official code
+order and every code-to-region membership are checked against the reviewed
+truth map, rather than inferred from aggregate totals.
 
 `relations.json` defines typed relation rules and explicit relation records.
 This permits one administrative parent while preserving separate statistical,
@@ -25,7 +28,8 @@ relations. Commercial entities are not geography types.
 
 `aliases.csv` contains reviewed aliases with locale, context, lifecycle, and
 source identity. Alias resolution is exact and may return an ambiguous result.
-It must never choose between duplicate names without context.
+It must never choose between duplicate names without context. Every row-level
+source must also appear in that input's source declaration.
 
 `geometry.json` holds optional centers and bounds. Boundary polygons do not
 belong in the core homepage payload. `normalization-vectors.json` fixes the

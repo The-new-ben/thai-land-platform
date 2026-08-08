@@ -9,6 +9,7 @@ import importlib.util
 import io
 import json
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -50,6 +51,13 @@ def refresh_input_digest(source_dir: Path, relative_path: str) -> None:
     write_json(registry_path, registry)
 
 
+def set_input_sources(source_dir: Path, input_name: str, source_ids: list[str]) -> None:
+    registry_path = source_dir / "registry.json"
+    registry = read_json(registry_path)
+    registry["inputs"][input_name]["source_ids"] = sorted(source_ids)
+    write_json(registry_path, registry)
+
+
 def read_csv_rows(path: Path) -> list[list[str]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
         return list(csv.reader(handle, strict=True))
@@ -60,6 +68,24 @@ def write_csv_rows(path: Path, rows: list[list[str]]) -> None:
     writer = csv.writer(buffer, lineterminator="\n")
     writer.writerows(rows)
     path.write_text(buffer.getvalue(), encoding="utf-8", newline="")
+
+
+def sort_alias_rows(rows: list[list[str]]) -> list[list[str]]:
+    header = rows[0]
+    records = sorted(
+        rows[1:],
+        key=lambda row: (
+            row[0],
+            row[1],
+            COMPILER.normalize_alias(row[2]),
+            row[4],
+            row[2],
+            row[3],
+            row[5],
+            row[6],
+        ),
+    )
+    return [header, *records]
 
 
 class GeographyBuilderTest(unittest.TestCase):
@@ -364,6 +390,7 @@ class GeographyBuilderTest(unittest.TestCase):
                 }
             ]
             write_json(path, document)
+            set_input_sources(source_dir, "geometry", ["nso-geographic-standard"])
             refresh_input_digest(source_dir, "geometry.json")
 
         self.assert_rejected(mutate, "geometry center is out of range")
@@ -381,9 +408,203 @@ class GeographyBuilderTest(unittest.TestCase):
                 }
             ]
             write_json(path, document)
+            set_input_sources(source_dir, "geometry", ["nso-geographic-standard"])
             refresh_input_digest(source_dir, "geometry.json")
 
         self.assert_rejected(mutate, "center is outside longitude bounds")
+
+    def test_region_swap_that_preserves_counts_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "provinces.csv"
+            rows = read_csv_rows(path)
+            by_code = {row[0]: row for row in rows[1:]}
+            by_code["10"][5], by_code["83"][5] = by_code["83"][5], by_code["10"][5]
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "provinces.csv")
+
+        self.assert_rejected(mutate, "province statistical region truth mismatch")
+
+    def test_alias_source_must_be_declared_by_its_input(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            set_input_sources(source_dir, "aliases", ["thai-land-editorial-names"])
+
+        self.assert_rejected(mutate, "alias source is not declared for its input")
+
+    def test_php_and_core_payloads_preserve_float_parity(self) -> None:
+        temporary, source_dir = self.copied_source()
+        try:
+            geometry_path = source_dir / "geometry.json"
+            geometry = read_json(geometry_path)
+            geometry["records"] = [
+                {
+                    "entity_id": "geo:th:province:10",
+                    "center": {"lat": 13.756331234567891, "lng": 100.50176234567891},
+                    "bounds": {
+                        "south": 13.0,
+                        "west": 100.0,
+                        "north": 14.0,
+                        "east": 101.0,
+                    },
+                    "source_id": "nso-geographic-standard",
+                }
+            ]
+            write_json(geometry_path, geometry)
+            set_input_sources(source_dir, "geometry", ["nso-geographic-standard"])
+            refresh_input_digest(source_dir, "geometry.json")
+            result = COMPILER.compile_registry(source_dir)
+
+            output_root = Path(temporary.name) / "output"
+            COMPILER.write_or_check(result, output_root, False)
+            php = shutil.which("php")
+            self.assertIsNotNone(php, "PHP is required for generated payload parity")
+            php_script = (
+                "$r = require $argv[1]; "
+                "echo json_encode($r['public_payload'], "
+                "JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION);"
+            )
+            process = subprocess.run(
+                [str(php), "-n", "-r", php_script, str(output_root / "resources" / "geography" / "registry.php")],
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+            )
+            self.assertEqual(0, process.returncode, process.stderr)
+            self.assertEqual(
+                read_json(output_root / "assets" / "geography" / "core.json"),
+                json.loads(process.stdout),
+            )
+        finally:
+            temporary.cleanup()
+
+    def test_schema_drift_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "registry.schema.json"
+            schema = read_json(path)
+            schema["additionalProperties"] = True
+            write_json(path, schema)
+
+        self.assert_rejected(mutate, "schema bytes do not match the reviewed contract")
+
+    def test_arbitrary_geography_type_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            registry_path = source_dir / "registry.json"
+            registry = read_json(registry_path)
+            registry["geography_types"].append("hotel")
+            registry["geography_types"].sort()
+            write_json(registry_path, registry)
+
+            regions_path = source_dir / "regions.json"
+            regions = read_json(regions_path)
+            regions["editorial_entity_types"].append("hotel")
+            write_json(regions_path, regions)
+            refresh_input_digest(source_dir, "regions.json")
+
+        self.assert_rejected(mutate, "geography types do not match the reviewed allowlist")
+
+    def test_malformed_geography_type_is_a_controlled_rejection(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            registry_path = source_dir / "registry.json"
+            registry = read_json(registry_path)
+            registry["geography_types"].append(["hotel"])
+            write_json(registry_path, registry)
+
+        self.assert_rejected(mutate, "must be a string")
+
+    def test_unrelated_alias_context_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "aliases.csv"
+            rows = read_csv_rows(path)
+            rows[1][3] = "geo:th:province:83"
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "aliases.csv")
+
+        self.assert_rejected(mutate, "alias context is not the canonical administrative context")
+
+    def test_unsorted_geometry_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "geometry.json"
+            document = read_json(path)
+            document["records"] = [
+                {
+                    "entity_id": entity_id,
+                    "center": {"lat": 13.5, "lng": 100.5},
+                    "bounds": {"south": 13.0, "west": 100.0, "north": 14.0, "east": 101.0},
+                    "source_id": "nso-geographic-standard",
+                }
+                for entity_id in ("geo:th:province:11", "geo:th:province:10")
+            ]
+            write_json(path, document)
+            set_input_sources(source_dir, "geometry", ["nso-geographic-standard"])
+            refresh_input_digest(source_dir, "geometry.json")
+
+        self.assert_rejected(mutate, "geometry records must be sorted by entity ID")
+
+    def test_region_order_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "regions.json"
+            document = read_json(path)
+            regions = document["region_model"]["regions"]
+            regions[0], regions[1] = regions[1], regions[0]
+            write_json(path, document)
+            refresh_input_digest(source_dir, "regions.json")
+
+        self.assert_rejected(mutate, "region IDs or ordering do not match the reviewed contract")
+
+    def test_reversed_relation_interval_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "relations.json"
+            document = read_json(path)
+            document["rules"][0]["valid_from"] = "2026-12-31"
+            document["rules"][0]["valid_to"] = "2026-01-01"
+            write_json(path, document)
+            refresh_input_digest(source_dir, "relations.json")
+
+        self.assert_rejected(mutate, "date interval is reversed")
+
+    def test_dataset_version_requires_a_real_calendar_date(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "registry.json"
+            registry = read_json(path)
+            registry["dataset_version"] = "2026.99.99.1"
+            write_json(path, registry)
+
+        self.assert_rejected(mutate, "does not contain a real calendar date")
+
+    def test_reviewed_thai_alias_indexes_nfkc_and_no_intl_forms(self) -> None:
+        temporary, source_dir = self.copied_source()
+        try:
+            baseline = COMPILER.compile_registry(source_dir)
+            selected = None
+            for entity in baseline.registry["entities_by_id"].values():
+                thai_name = entity["names"]["th"]
+                if COMPILER.normalize_alias(thai_name) != COMPILER.normalize_alias_without_intl(thai_name):
+                    selected = (entity["id"], thai_name)
+                    break
+            self.assertIsNotNone(selected)
+            entity_id, thai_alias = selected
+
+            path = source_dir / "aliases.csv"
+            rows = read_csv_rows(path)
+            rows.append(
+                [
+                    entity_id,
+                    "th",
+                    thai_alias,
+                    "" if entity_id == "geo:th:country" else "geo:th:country",
+                    "active",
+                    "",
+                    "thai-land-editorial-names",
+                ]
+            )
+            write_csv_rows(path, sort_alias_rows(rows))
+            refresh_input_digest(source_dir, "aliases.csv")
+            result = COMPILER.compile_registry(source_dir)
+            aliases = result.registry["indexes"]["by_alias"]["th"]
+            self.assertIn(COMPILER.normalize_alias(thai_alias), aliases)
+            self.assertIn(COMPILER.normalize_alias_without_intl(thai_alias), aliases)
+        finally:
+            temporary.cleanup()
 
 
 if __name__ == "__main__":

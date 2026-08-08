@@ -40,6 +40,110 @@ EXPECTED_REGION_COUNTS = {
     "southern": 14,
     "western": 6,
 }
+EXPECTED_REGION_IDS = (
+    "bangkok-vicinity",
+    "central",
+    "eastern",
+    "western",
+    "northern",
+    "northeastern",
+    "southern",
+)
+EXPECTED_GEOGRAPHY_TYPES = (
+    "beach",
+    "city",
+    "country",
+    "district",
+    "editorial_region",
+    "island",
+    "municipality",
+    "neighborhood",
+    "province",
+    "special_local_authority",
+    "statistical_region",
+    "subdistrict",
+    "village",
+)
+EXPECTED_PROVINCE_REGION = {
+    "10": "bangkok-vicinity",
+    "11": "bangkok-vicinity",
+    "12": "bangkok-vicinity",
+    "13": "bangkok-vicinity",
+    "14": "central",
+    "15": "central",
+    "16": "central",
+    "17": "central",
+    "18": "central",
+    "19": "central",
+    "20": "eastern",
+    "21": "eastern",
+    "22": "eastern",
+    "23": "eastern",
+    "24": "eastern",
+    "25": "eastern",
+    "26": "eastern",
+    "27": "eastern",
+    "30": "northeastern",
+    "31": "northeastern",
+    "32": "northeastern",
+    "33": "northeastern",
+    "34": "northeastern",
+    "35": "northeastern",
+    "36": "northeastern",
+    "37": "northeastern",
+    "38": "northeastern",
+    "39": "northeastern",
+    "40": "northeastern",
+    "41": "northeastern",
+    "42": "northeastern",
+    "43": "northeastern",
+    "44": "northeastern",
+    "45": "northeastern",
+    "46": "northeastern",
+    "47": "northeastern",
+    "48": "northeastern",
+    "49": "northeastern",
+    "50": "northern",
+    "51": "northern",
+    "52": "northern",
+    "53": "northern",
+    "54": "northern",
+    "55": "northern",
+    "56": "northern",
+    "57": "northern",
+    "58": "northern",
+    "60": "northern",
+    "61": "northern",
+    "62": "northern",
+    "63": "northern",
+    "64": "northern",
+    "65": "northern",
+    "66": "northern",
+    "67": "northern",
+    "70": "western",
+    "71": "western",
+    "72": "western",
+    "73": "bangkok-vicinity",
+    "74": "bangkok-vicinity",
+    "75": "western",
+    "76": "western",
+    "77": "western",
+    "80": "southern",
+    "81": "southern",
+    "82": "southern",
+    "83": "southern",
+    "84": "southern",
+    "85": "southern",
+    "86": "southern",
+    "90": "southern",
+    "91": "southern",
+    "92": "southern",
+    "93": "southern",
+    "94": "southern",
+    "95": "southern",
+    "96": "southern",
+}
+EXPECTED_SCHEMA_SHA256 = "8073eea58c0b06821c8235f0b4f09fc8beecb697ebb2a1dee089b1b715135957"
 REGISTRY_KEYS = {
     "$schema",
     "schema_version",
@@ -207,6 +311,24 @@ def validate_date(value: Any, label: str, *, nullable: bool = True) -> str | Non
     return text
 
 
+def validate_dataset_version(value: Any) -> str:
+    text = validate_text(value, "dataset version", trimmed=True)
+    match = re.fullmatch(r"([0-9]{4})\.([0-9]{2})\.([0-9]{2})\.([1-9][0-9]*)", text)
+    require(match is not None, "dataset version is invalid")
+    try:
+        date(int(match.group(1)), int(match.group(2)), int(match.group(3)))
+    except ValueError as error:
+        raise RegistryError("dataset version does not contain a real calendar date") from error
+    return text
+
+
+def validate_interval(valid_from: Any, valid_to: Any, label: str) -> tuple[str | None, str | None]:
+    start = validate_date(valid_from, f"{label}.valid_from")
+    end = validate_date(valid_to, f"{label}.valid_to")
+    require(start is None or end is None or start <= end, f"{label} date interval is reversed")
+    return start, end
+
+
 def validate_identifier(value: Any, label: str) -> str:
     text = validate_text(value, label, trimmed=True)
     require(bool(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", text)), f"{label} is invalid")
@@ -256,16 +378,17 @@ def validate_registry_contract(source_dir: Path) -> tuple[dict[str, Any], dict[s
     registry_payload, registry = parse_json(source_dir / "registry.json")
     exact_keys(registry, REGISTRY_KEYS, "registry")
     require(registry["$schema"] == "./registry.schema.json", "registry schema reference mismatch")
-    require(bool(re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", str(registry["schema_version"]))), "schema version is invalid")
-    require(bool(re.fullmatch(r"[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[1-9][0-9]*", str(registry["dataset_version"]))), "dataset version is invalid")
+    schema_version = validate_text(registry["schema_version"], "schema version", trimmed=True)
+    require(bool(re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+", schema_version)), "schema version is invalid")
+    validate_dataset_version(registry["dataset_version"])
     require(registry["country_id"] == "geo:th:country", "country ID mismatch")
 
     geography_types = registry["geography_types"]
-    require(isinstance(geography_types, list) and geography_types == sorted(set(geography_types)), "geography types must be unique and sorted")
-    for geography_type in geography_types:
-        require(bool(re.fullmatch(r"[a-z][a-z0-9]*(?:_[a-z0-9]+)*", str(geography_type))), "geography type is invalid")
-    require({"country", "statistical_region", "province"}.issubset(geography_types), "required geography types are missing")
-    require(not {"attraction", "business", "product", "real_estate_project", "service"}.intersection(geography_types), "commercial entity entered geography types")
+    require(isinstance(geography_types, list), "geography types must be an array")
+    for index, geography_type in enumerate(geography_types):
+        validate_text(geography_type, f"geography_types[{index}]", trimmed=True)
+        require(bool(re.fullmatch(r"[a-z][a-z0-9]*(?:_[a-z0-9]+)*", geography_type)), "geography type is invalid")
+    require(tuple(geography_types) == EXPECTED_GEOGRAPHY_TYPES, "geography types do not match the reviewed allowlist")
 
     sources = registry["sources"]
     require(isinstance(sources, list) and bool(sources), "source metadata is empty")
@@ -284,9 +407,10 @@ def validate_registry_contract(source_dir: Path) -> tuple[dict[str, Any], dict[s
         validate_date(source["effective_on"], f"source[{index}].effective_on")
         validate_date(source["retrieved_on"], f"source[{index}].retrieved_on", nullable=False)
         covers = source["covers"]
-        require(isinstance(covers, list) and bool(covers) and len(covers) == len(set(covers)), f"source coverage is invalid: {source_id}")
-        for item in covers:
-            validate_text(item, f"source[{index}].covers", trimmed=True)
+        require(isinstance(covers, list) and bool(covers), f"source coverage is invalid: {source_id}")
+        for item_index, item in enumerate(covers):
+            validate_text(item, f"source[{index}].covers[{item_index}]", trimmed=True)
+        require(len(covers) == len(set(covers)), f"source coverage is duplicated: {source_id}")
         source_index[source_id] = source
         source_ids_in_order.append(source_id)
     require(source_ids_in_order == sorted(source_ids_in_order), "source metadata must be sorted by ID")
@@ -300,13 +424,20 @@ def validate_registry_contract(source_dir: Path) -> tuple[dict[str, Any], dict[s
         exact_keys(scheme, scheme_keys, f"classification scheme[{index}]")
         scheme_id = validate_identifier(scheme["id"], f"classification scheme[{index}].id")
         require(scheme_id not in scheme_index, f"duplicate classification scheme: {scheme_id}")
-        require(scheme["kind"] in {"administrative", "editorial", "statistical"}, f"classification scheme kind is invalid: {scheme_id}")
+        scheme_kind = validate_text(scheme["kind"], f"classification scheme[{index}].kind", trimmed=True)
+        require(scheme_kind in {"administrative", "editorial", "statistical"}, f"classification scheme kind is invalid: {scheme_id}")
         require(type(scheme["is_administrative_parent"]) is bool, f"classification scheme parent flag is not boolean: {scheme_id}")
         levels = scheme["levels"]
-        require(isinstance(levels, list) and bool(levels) and len(levels) == len(set(levels)), f"classification levels are invalid: {scheme_id}")
+        require(isinstance(levels, list) and bool(levels), f"classification levels are invalid: {scheme_id}")
+        for level_index, level in enumerate(levels):
+            validate_text(level, f"classification scheme[{index}].levels[{level_index}]", trimmed=True)
+        require(len(levels) == len(set(levels)), f"classification levels are duplicated: {scheme_id}")
         require(all(level in geography_types for level in levels), f"classification scheme references an unknown geography type: {scheme_id}")
         scheme_sources = scheme["source_ids"]
-        require(isinstance(scheme_sources, list) and bool(scheme_sources) and len(scheme_sources) == len(set(scheme_sources)), f"classification source IDs are invalid: {scheme_id}")
+        require(isinstance(scheme_sources, list) and bool(scheme_sources), f"classification source IDs are invalid: {scheme_id}")
+        for source_index_in_scheme, source_id_in_scheme in enumerate(scheme_sources):
+            validate_identifier(source_id_in_scheme, f"classification scheme[{index}].source_ids[{source_index_in_scheme}]")
+        require(scheme_sources == sorted(set(scheme_sources)), f"classification source IDs must be unique and sorted: {scheme_id}")
         require(all(source_id in source_index for source_id in scheme_sources), f"classification scheme references an unknown source: {scheme_id}")
         scheme_index[scheme_id] = scheme
         scheme_ids_in_order.append(scheme_id)
@@ -327,13 +458,17 @@ def validate_registry_contract(source_dir: Path) -> tuple[dict[str, Any], dict[s
         digest = validate_text(descriptor["sha256"], f"input descriptor {name}.sha256", trimmed=True)
         require(bool(re.fullmatch(r"[0-9a-f]{64}", digest)), f"input digest is invalid: {name}")
         input_sources = descriptor["source_ids"]
-        require(isinstance(input_sources, list) and len(input_sources) == len(set(input_sources)), f"input source IDs are invalid: {name}")
+        require(isinstance(input_sources, list), f"input source IDs are invalid: {name}")
+        for source_position, source_id in enumerate(input_sources):
+            validate_identifier(source_id, f"input descriptor {name}.source_ids[{source_position}]")
+        require(input_sources == sorted(set(input_sources)), f"input source IDs must be unique and sorted: {name}")
         require(all(source_id in source_index for source_id in input_sources), f"input references an unknown source: {name}")
         payload, _ = read_utf8(source_dir / relative)
         require(sha256_bytes(payload) == digest, f"input digest mismatch: {relative}")
         source_payloads[relative] = payload
 
     schema_payload, schema_document = parse_json(source_dir / "registry.schema.json")
+    require(sha256_bytes(schema_payload) == EXPECTED_SCHEMA_SHA256, "registry schema bytes do not match the reviewed contract")
     require(isinstance(schema_document, dict), "registry schema must be an object")
     require(schema_document.get("$schema") == "https://json-schema.org/draft/2020-12/schema", "registry schema draft mismatch")
     require(schema_document.get("$id") == "https://thai-land.co.il/data/geography/registry.schema.json", "registry schema ID mismatch")
@@ -372,7 +507,11 @@ def load_entities(
     exact_keys(metadata, {"schema_version", "country", "administrative_hierarchy", "editorial_entity_types", "region_model", "sources"}, "regions metadata")
     require(metadata["schema_version"] == contract["schema_version"], "regions schema version mismatch")
     require(metadata["administrative_hierarchy"] == ["country", "province", "district", "subdistrict", "village"], "administrative hierarchy mismatch")
-    require(set(metadata["editorial_entity_types"]) == set(contract["geography_types"]), "legacy geography types disagree with registry contract")
+    legacy_types = metadata["editorial_entity_types"]
+    require(isinstance(legacy_types, list), "legacy geography types must be an array")
+    for index, geography_type in enumerate(legacy_types):
+        validate_text(geography_type, f"editorial_entity_types[{index}]", trimmed=True)
+    require(set(legacy_types) == set(contract["geography_types"]), "legacy geography types disagree with registry contract")
 
     country = metadata["country"]
     exact_keys(country, {"id", "name_he", "name_en", "name_th"}, "country")
@@ -404,6 +543,7 @@ def load_entities(
     require(isinstance(regions, list) and len(regions) == 7, "region model must contain seven regions")
     region_ids: list[str] = []
     region_lookup: dict[str, str] = {}
+    seen_region_names: dict[str, set[str]] = {"en": set(), "th": set(), "he": set()}
     for index, region in enumerate(regions):
         exact_keys(region, {"id", "name_he", "name_en", "name_th"}, f"region[{index}]")
         short_id = validate_identifier(region["id"], f"region[{index}].id")
@@ -414,6 +554,9 @@ def load_entities(
             "en": validate_text(region["name_en"], f"region {short_id} English name", trimmed=True),
             "th": validate_text(region["name_th"], f"region {short_id} Thai name", trimmed=True),
         }
+        for locale, name in names.items():
+            require(name not in seen_region_names[locale], f"duplicate region name for locale {locale}: {name}")
+            seen_region_names[locale].add(name)
         entities[entity_id] = entity_record(
             entity_id,
             "statistical_region",
@@ -425,6 +568,7 @@ def load_entities(
         source_fields[entity_id] = {"region_id": short_id}
         region_lookup[short_id] = entity_id
         region_ids.append(short_id)
+    require(tuple(region_ids) == EXPECTED_REGION_IDS, "region IDs or ordering do not match the reviewed contract")
     metadata_sources = metadata["sources"]
     require(isinstance(metadata_sources, list), "legacy source register is invalid")
     legacy_ids: list[str] = []
@@ -455,6 +599,7 @@ def load_entities(
         slug = validate_identifier(row["slug"], f"provinces.csv:{row_number}:slug")
         require(slug not in seen_slugs, f"duplicate province slug: {slug}")
         require(row["region_id"] in region_lookup, f"province references an unknown region: {code}")
+        require(row["region_id"] == EXPECTED_PROVINCE_REGION[code], f"province statistical region truth mismatch: {code}")
         require(row["priority"] in {"0", "1"}, f"province priority is invalid: {code}")
         names = {
             "he": validate_text(row["name_he"], f"province {code} Hebrew name", trimmed=True),
@@ -502,11 +647,16 @@ def load_geometry(
     require(document["dataset_version"] == contract["dataset_version"], "geometry dataset version mismatch")
     require(isinstance(document["records"], list), "geometry records must be an array")
     seen: set[str] = set()
+    record_ids: list[str] = []
+    declared_sources = set(contract["inputs"]["geometry"]["source_ids"])
+    used_sources: set[str] = set()
     for index, record in enumerate(document["records"]):
         exact_keys(record, {"entity_id", "center", "bounds", "source_id"}, f"geometry[{index}]")
         entity_id = validate_geo_id(record["entity_id"], f"geometry[{index}].entity_id")
         require(entity_id in entities and entity_id not in seen, f"geometry entity is missing or duplicated: {entity_id}")
-        require(record["source_id"] in source_index, f"geometry source is unknown: {entity_id}")
+        source_id = validate_identifier(record["source_id"], f"geometry[{index}].source_id")
+        require(source_id in source_index, f"geometry source is unknown: {entity_id}")
+        require(source_id in declared_sources, f"geometry source is not declared for its input: {entity_id}")
         exact_keys(record["center"], {"lat", "lng"}, f"geometry[{index}].center")
         exact_keys(record["bounds"], {"south", "west", "north", "east"}, f"geometry[{index}].bounds")
         numbers: dict[str, float] = {}
@@ -535,6 +685,10 @@ def load_geometry(
             },
         }
         seen.add(entity_id)
+        record_ids.append(entity_id)
+        used_sources.add(source_id)
+    require(record_ids == sorted(record_ids), "geometry records must be sorted by entity ID")
+    require(used_sources == declared_sources, "geometry input source declarations do not match used sources")
 
 
 def validate_rule_template(template: str, label: str) -> set[str]:
@@ -603,7 +757,11 @@ def load_relations(
     require(document["schema_version"] == contract["schema_version"], "relations schema version mismatch")
     require(document["dataset_version"] == contract["dataset_version"], "relations dataset version mismatch")
     relation_types = document["relation_types"]
-    require(isinstance(relation_types, list) and relation_types == sorted(set(relation_types)), "relation types must be unique and sorted")
+    require(isinstance(relation_types, list), "relation types must be an array")
+    for index, relation_type in enumerate(relation_types):
+        validate_text(relation_type, f"relation_types[{index}]", trimmed=True)
+        require(bool(re.fullmatch(r"[a-z][a-z0-9]*(?:_[a-z0-9]+)*", relation_type)), "relation type is invalid")
+    require(relation_types == sorted(set(relation_types)), "relation types must be unique and sorted")
     allowed_types = {"admin_parent", "available_in", "classified_in", "located_in", "near", "part_of", "serves"}
     require(set(relation_types) == allowed_types, "relation type contract mismatch")
     rules = document["rules"]
@@ -612,19 +770,26 @@ def load_relations(
     rule_keys = {"id", "subject_type", "type", "object_id_template", "scheme_id", "is_primary", "valid_from", "valid_to", "source_id"}
     rule_ids: list[str] = []
     expanded: list[tuple[str, dict[str, Any]]] = []
+    declared_sources = set(contract["inputs"]["relations"]["source_ids"])
+    used_sources: set[str] = set()
     for index, rule in enumerate(rules):
         exact_keys(rule, rule_keys, f"relation rule[{index}]")
         rule_id = validate_identifier(rule["id"], f"relation rule[{index}].id")
         rule_ids.append(rule_id)
-        require(rule["subject_type"] in contract["geography_types"], f"relation rule subject type is invalid: {rule_id}")
-        require(rule["type"] in allowed_types, f"relation rule type is invalid: {rule_id}")
+        subject_type = validate_text(rule["subject_type"], f"relation rule {rule_id}.subject_type", trimmed=True)
+        relation_type = validate_text(rule["type"], f"relation rule {rule_id}.type", trimmed=True)
+        require(subject_type in contract["geography_types"], f"relation rule subject type is invalid: {rule_id}")
+        require(relation_type in allowed_types, f"relation rule type is invalid: {rule_id}")
         template = validate_text(rule["object_id_template"], f"relation rule {rule_id} object template", trimmed=True)
         placeholders = validate_rule_template(template, f"relation rule {rule_id} object template")
-        require(rule["scheme_id"] in schemes, f"relation rule scheme is unknown: {rule_id}")
+        scheme_id = validate_identifier(rule["scheme_id"], f"relation rule {rule_id}.scheme_id")
+        require(scheme_id in schemes, f"relation rule scheme is unknown: {rule_id}")
         require(type(rule["is_primary"]) is bool, f"relation rule primary flag is not boolean: {rule_id}")
-        validate_date(rule["valid_from"], f"relation rule {rule_id}.valid_from")
-        validate_date(rule["valid_to"], f"relation rule {rule_id}.valid_to")
-        require(rule["source_id"] in source_index, f"relation rule source is unknown: {rule_id}")
+        validate_interval(rule["valid_from"], rule["valid_to"], f"relation rule {rule_id}")
+        source_id = validate_identifier(rule["source_id"], f"relation rule {rule_id}.source_id")
+        require(source_id in source_index, f"relation rule source is unknown: {rule_id}")
+        require(source_id in declared_sources, f"relation rule source is not declared for its input: {rule_id}")
+        used_sources.add(source_id)
         for subject_id, entity in sorted(entities.items()):
             if entity["type"] != rule["subject_type"]:
                 continue
@@ -644,21 +809,37 @@ def load_relations(
     require(rule_ids == sorted(set(rule_ids)), "relation rules must be unique and sorted by ID")
 
     record_keys = {"subject_id", "type", "object_id", "scheme_id", "is_primary", "valid_from", "valid_to", "source_id"}
-    record_sort_keys: list[tuple[str, str, str, str]] = []
+    record_sort_keys: list[tuple[Any, ...]] = []
     for index, record in enumerate(records):
         exact_keys(record, record_keys, f"relation record[{index}]")
         subject_id = validate_geo_id(record["subject_id"], f"relation record[{index}].subject_id")
         object_id = validate_geo_id(record["object_id"], f"relation record[{index}].object_id")
-        require(record["type"] in allowed_types, f"relation record type is invalid: {subject_id}")
-        require(record["scheme_id"] in schemes, f"relation record scheme is unknown: {subject_id}")
+        relation_type = validate_text(record["type"], f"relation record[{index}].type", trimmed=True)
+        scheme_id = validate_identifier(record["scheme_id"], f"relation record[{index}].scheme_id")
+        require(relation_type in allowed_types, f"relation record type is invalid: {subject_id}")
+        require(scheme_id in schemes, f"relation record scheme is unknown: {subject_id}")
         require(type(record["is_primary"]) is bool, f"relation record primary flag is not boolean: {subject_id}")
-        validate_date(record["valid_from"], f"relation record[{index}].valid_from")
-        validate_date(record["valid_to"], f"relation record[{index}].valid_to")
-        require(record["source_id"] in source_index, f"relation record source is unknown: {subject_id}")
+        validate_interval(record["valid_from"], record["valid_to"], f"relation record[{index}]")
+        source_id = validate_identifier(record["source_id"], f"relation record[{index}].source_id")
+        require(source_id in source_index, f"relation record source is unknown: {subject_id}")
+        require(source_id in declared_sources, f"relation record source is not declared for its input: {subject_id}")
+        used_sources.add(source_id)
         relation = {key: record[key] for key in RELATION_KEYS}
         expanded.append((subject_id, relation))
-        record_sort_keys.append((subject_id, record["type"], object_id, record["scheme_id"]))
-    require(record_sort_keys == sorted(record_sort_keys), "explicit relation records must be sorted")
+        record_sort_keys.append(
+            (
+                subject_id,
+                record["type"],
+                object_id,
+                record["scheme_id"],
+                record["is_primary"],
+                record["valid_from"] or "",
+                record["valid_to"] or "",
+                record["source_id"],
+            )
+        )
+    require(record_sort_keys == sorted(record_sort_keys), "explicit relation records must be sorted by their complete identity")
+    require(used_sources == declared_sources, "relations input source declarations do not match used sources")
 
     relations: dict[str, list[dict[str, Any]]] = {}
     seen: set[tuple[Any, ...]] = set()
@@ -714,8 +895,24 @@ def load_aliases(
         path,
         ["entity_id", "locale", "alias", "context_id", "status", "ambiguity_group", "source_id"],
     )
-    sort_keys: list[tuple[str, str, str, str, str]] = []
+    sort_keys: list[tuple[str, ...]] = []
     candidates: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    declared_sources = set(contract["inputs"]["aliases"]["source_ids"])
+    used_sources: set[str] = set()
+    seen_rows: set[tuple[str, ...]] = set()
+    primary_parent: dict[str, str] = {}
+    for subject_id, subject_relations in relations.items():
+        parents = [relation["object_id"] for relation in subject_relations if relation["type"] == "admin_parent" and relation["is_primary"]]
+        if len(parents) == 1:
+            primary_parent[subject_id] = parents[0]
+
+    def canonical_context(entity_id: str) -> str | None:
+        entity_type = entities[entity_id]["type"]
+        if entity_type == "country":
+            return None
+        if entity_type == "statistical_region":
+            return contract["country_id"]
+        return primary_parent.get(entity_id)
 
     def add_candidate(
         entity_id: str,
@@ -746,34 +943,32 @@ def load_aliases(
         require(entity_id in entities, f"alias entity does not exist: {entity_id}")
         locale = validate_text(record["locale"], f"aliases.csv:{row_number}:locale", trimmed=True)
         require(bool(re.fullmatch(r"[a-z]{2}(?:-[A-Z]{2})?", locale)), f"alias locale is invalid: {entity_id}")
-        alias = validate_text(record["alias"], f"aliases.csv:{row_number}:alias", trimmed=True, nfkc_safe=True)
+        alias = validate_text(record["alias"], f"aliases.csv:{row_number}:alias", trimmed=True)
         context_id = record["context_id"] or None
         if context_id is not None:
             validate_geo_id(context_id, f"aliases.csv:{row_number}:context_id")
             require(context_id in entities, f"alias context does not exist: {context_id}")
+            require(context_id == canonical_context(entity_id), f"alias context is not the canonical administrative context: {entity_id}")
         status = record["status"]
         require(status in {"active", "retired"}, f"alias status is invalid: {entity_id}")
         ambiguity_group = record["ambiguity_group"] or None
         if ambiguity_group is not None:
             validate_identifier(ambiguity_group, f"aliases.csv:{row_number}:ambiguity_group")
-        require(record["source_id"] in source_index, f"alias source is unknown: {entity_id}")
+        source_id = record["source_id"]
+        require(source_id in source_index, f"alias source is unknown: {entity_id}")
+        require(source_id in declared_sources, f"alias source is not declared for its input: {entity_id}")
         normalized = normalize_alias(alias)
-        sort_keys.append((entity_id, locale, normalized, status, alias))
-        add_candidate(entity_id, locale, alias, context_id, status, ambiguity_group)
-    require(sort_keys == sorted(sort_keys), "aliases must be sorted by entity, locale, normalized value, status, and value")
+        row_identity = tuple(record[field] for field in ("entity_id", "locale", "alias", "context_id", "status", "ambiguity_group", "source_id"))
+        require(row_identity not in seen_rows, f"duplicate alias source row: {entity_id}:{locale}:{alias}")
+        seen_rows.add(row_identity)
+        sort_keys.append((entity_id, locale, normalized, status, alias, context_id or "", ambiguity_group or "", source_id))
+        used_sources.add(source_id)
+        add_candidate(entity_id, locale, alias, context_id, status, ambiguity_group, True)
+    require(sort_keys == sorted(sort_keys), "aliases must be sorted by their complete normalized identity")
+    require(used_sources == declared_sources, "aliases input source declarations do not match used sources")
 
-    primary_parent: dict[str, str] = {}
-    for subject_id, subject_relations in relations.items():
-        parents = [relation["object_id"] for relation in subject_relations if relation["type"] == "admin_parent" and relation["is_primary"]]
-        if len(parents) == 1:
-            primary_parent[subject_id] = parents[0]
     for entity_id, entity in sorted(entities.items()):
-        if entity["type"] == "country":
-            context_id = None
-        elif entity["type"] == "statistical_region":
-            context_id = contract["country_id"]
-        else:
-            context_id = primary_parent.get(entity_id)
+        context_id = canonical_context(entity_id)
         for locale, alias in sorted(entity["names"].items()):
             add_candidate(entity_id, locale, alias, context_id, "active", None, True)
 
@@ -910,7 +1105,7 @@ def php_export(value: Any, level: int = 0) -> str:
         return str(value)
     if type(value) is float:
         require(math.isfinite(value), "generated PHP contains a non-finite float")
-        return format(value, ".15g")
+        return repr(value)
     if isinstance(value, str):
         return php_quote(value)
     if isinstance(value, list):
