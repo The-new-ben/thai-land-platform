@@ -2,7 +2,7 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.3.3 boundary
+## Release 0.3.4 boundary
 
 The package keeps the live RTL homepage, country, seven-region, and 77-province
 geography spine intact. It adds the first national real-estate hub and connects
@@ -13,6 +13,8 @@ The responsive menu stays visible through pointer hover and keyboard focus,
 the search action keeps its intended contrast, and the accessibility control
 uses a reserved sticky-header dock on smaller screens so it cannot cover prose,
 calls to action, or footer controls while the reader scrolls.
+The responsive overflow contract explicitly wins over theme-level overflow
+rules while preserving the drawer's scroll lock.
 
 The public healthcheck confirms that the compiled geography artifact can be
 loaded. Upgrade and activation still create no content, options, tables,

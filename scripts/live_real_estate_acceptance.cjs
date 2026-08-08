@@ -5,7 +5,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const rootDir = path.resolve(__dirname, '..');
-const release = process.env.THP_RELEASE || '0.3.3';
+const release = process.env.THP_RELEASE || '0.3.4';
 const baseUrl = new URL(process.env.THP_BASE_URL || 'https://thai-land.co.il/');
 const chromePath = process.env.THP_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const timeout = Number.parseInt(process.env.THP_LIVE_TIMEOUT_MS || '45000', 10);

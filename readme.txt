@@ -4,14 +4,14 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.3.3
+Stable tag: 0.3.4
 License: Proprietary
 
 Geography, search, homepage, and content runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.3.3 polishes the real-estate hub and spoke experience while
+Version 0.3.4 polishes the real-estate hub and spoke experience while
 keeping every existing article URL and stored body intact. The exact page and
 post bindings receive a dedicated RTL document, keyword-led metadata, visible
 breadcrumbs, contextual continuations, source links, responsive artwork, and a
@@ -20,6 +20,11 @@ real-estate and business owners. Upgrade and activation do not change content,
 URLs, redirects, taxonomies, schema, or database structure.
 
 == Changelog ==
+
+= 0.3.4 =
+* Keep the responsive header dock attached while scrolling even when the active
+  theme sets its own document overflow rules.
+* Preserve the mobile drawer scroll lock with an explicit open-state override.
 
 = 0.3.3 =
 * Dock the responsive accessibility control inside a reserved sticky header

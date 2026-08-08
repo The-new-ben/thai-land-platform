@@ -213,7 +213,8 @@ body.thp-real-estate:not(.thp-content-menu-open) #pojo-a11y-toolbar { top: auto 
 .thp-footer-bottom a { color: #c7dad6; font-size: 12px; text-decoration: none; }
 
 @media (max-width: 1230px) {
-  html.thp-content-document, body.thp-real-estate, .thp-content { overflow: visible; }
+  html.thp-content-document, body.thp-real-estate, .thp-content { overflow: visible !important; }
+  body.thp-real-estate.thp-content-menu-open { overflow: hidden !important; }
   .thp-site-header { position: sticky; top: 0; }
   body.thp-real-estate:not(.thp-content-menu-open) #pojo-a11y-toolbar { top: 12px !important; right: auto !important; bottom: auto !important; left: -180px !important; transition: none !important; }
   body.thp-real-estate:not(.thp-content-menu-open) #pojo-a11y-toolbar.pojo-a11y-toolbar-open { left: 76px !important; }
