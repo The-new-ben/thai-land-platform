@@ -1,0 +1,1211 @@
+{
+  "$schema": "./ownership-registry.schema.json",
+  "registry_version": "1.0.0",
+  "site": {
+    "name": "Thai-Land.co.il",
+    "base_url": "https://thai-land.co.il",
+    "default_language": "he-IL"
+  },
+  "discovery": {
+    "source_files": [
+      "README.md",
+      "assets/homepage/homepage.js",
+      "prototype/app.js",
+      "prototype/index.html",
+      "release.json",
+      "resources/homepage.html",
+      "src/Health/Route.php",
+      "tests/run.php",
+      "thailand-platform.php"
+    ],
+    "route_policy": "כל כתובת ציבורית של thai-land.co.il שמופיעה במקור או בבדיקות מקבלת בעל כוונה אחד. כתובת חיפוש נשמרת כדפוס נפרד.",
+    "excluded_surfaces": [
+      "מקטעי עמוד שמתחילים בסימן #",
+      "קובצי CSS, JavaScript, תמונות וגופנים",
+      "כתובות ניהול וקנרי פרטיות",
+      "כתובות אנליטיקה, GitHub ועדכוני תוסף",
+      "כתובות דמה בסביבת הבדיקות"
+    ]
+  },
+  "owners": [
+    {
+      "owner_id": "home",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/",
+      "name": "תאילנד: מדריכים, יעדים, מגורים, נדל״ן ועסקים",
+      "primary_intent": "למצוא את נקודת הכניסה המתאימה לכל צורך מרכזי בתאילנד",
+      "canonical_owner": "/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": null,
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        }
+      ],
+      "entity_type": "homepage",
+      "audience": "ישראלים שמתכננים לבקר, לחיות, לקנות או לפעול עסקית בתאילנד",
+      "funnel_role": "discovery",
+      "freshness_class": "editorial_quarterly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "תכנון טיול מלא בתאילנד",
+          "owner_url": "/תיירות-בתאילנד/"
+        },
+        {
+          "intent": "רכישה ובעלות על נדל״ן בתאילנד",
+          "owner_url": "/נדלן-בתאילנד/"
+        },
+        {
+          "intent": "הקמה ותפעול של עסק בתאילנד",
+          "owner_url": "/עסקים-בתאילנד/"
+        },
+        {
+          "intent": "קניית מוצרים ושירותים במחיר קבוע",
+          "owner_url": "/חנות-לישראלים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "release.json:6",
+        "resources/homepage.html:19,342",
+        "thailand-platform.php:4,10,12"
+      ]
+    },
+    {
+      "owner_id": "site-search",
+      "lifecycle": "live",
+      "route_kind": "pattern",
+      "url": "/?s={query}",
+      "name": "חיפוש באתר",
+      "primary_intent": "לחפש יעד, מדריך או נושא בתוך האתר",
+      "canonical_owner": "/",
+      "subject_entity_ids": [],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "חיפוש באתר",
+          "url": "/?s={query}"
+        }
+      ],
+      "entity_type": "site_search",
+      "audience": "מבקרים שמחפשים מידע מסוים באתר",
+      "funnel_role": "support",
+      "freshness_class": "generated_daily",
+      "indexing_policy": "noindex",
+      "cannibalization_exclusions": [
+        {
+          "intent": "סקירה ארצית וכניסה לנושאי האתר",
+          "owner_url": "/"
+        },
+        {
+          "intent": "תכנון טיול מלא בתאילנד",
+          "owner_url": "/תיירות-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "resources/homepage.html:122-126"
+      ]
+    },
+    {
+      "owner_id": "thailand-tourism",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/תיירות-בתאילנד/",
+      "name": "תיירות בתאילנד",
+      "primary_intent": "לתכנן טיול שלם בתאילנד לפי יעדים, זמן וקצב",
+      "canonical_owner": "/תיירות-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "תיירות בתאילנד",
+          "url": "/תיירות-בתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "ישראלים שמתכננים חופשה או מסלול בתאילנד",
+      "funnel_role": "planning",
+      "freshness_class": "editorial_quarterly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "בחירת העונה המתאימה לטיסה",
+          "owner_url": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/"
+        },
+        {
+          "intent": "מסלול בבנגקוק לפי מספר ימים",
+          "owner_url": "/טיול-בבנגקוק-ליומיים-3-ימים-או-4-ימים-מדר/"
+        },
+        {
+          "intent": "מציאת טיסות לתאילנד",
+          "owner_url": "/המדריך-האולטימטיבי-למציאת-טיסות-זולו/"
+        },
+        {
+          "intent": "בחירת יעד לפי אזור ואופי",
+          "owner_url": "/יעדים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "assets/homepage/homepage.js:184",
+        "resources/homepage.html:39"
+      ]
+    },
+    {
+      "owner_id": "bangkok",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/בנגקוק-תאילנד/",
+      "name": "בנגקוק תאילנד",
+      "primary_intent": "להכיר את בנגקוק לפי שכונות, תחבורה, אוכל ואתרים מרכזיים",
+      "canonical_owner": "/בנגקוק-תאילנד/",
+      "subject_entity_ids": [
+        "geo:th:province:10"
+      ],
+      "parent_hub": "/יעדים-בתאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
+        },
+        {
+          "name": "בנגקוק",
+          "url": "/בנגקוק-תאילנד/"
+        }
+      ],
+      "entity_type": "destination_guide",
+      "audience": "מטיילים ותושבים שמחפשים מידע מקיף על בנגקוק",
+      "funnel_role": "planning",
+      "freshness_class": "editorial_quarterly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "מסלול בבנגקוק לפי יומיים, שלושה או ארבעה ימים",
+          "owner_url": "/טיול-בבנגקוק-ליומיים-3-ימים-או-4-ימים-מדר/"
+        },
+        {
+          "intent": "סקירת כל יעדי תאילנד",
+          "owner_url": "/יעדים-בתאילנד/"
+        },
+        {
+          "intent": "השוואה בין פוקט לקוסמוי",
+          "owner_url": "/פוקט-או-קו-סמוי/"
+        }
+      ],
+      "source_evidence": [
+        "assets/homepage/homepage.js:183,316",
+        "resources/homepage.html:41"
+      ]
+    },
+    {
+      "owner_id": "phuket-or-samui",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/פוקט-או-קו-סמוי/",
+      "name": "פוקט או קוסמוי",
+      "primary_intent": "להחליט בין פוקט לקוסמוי לפי חופים, הגעה ואופי החופשה",
+      "canonical_owner": "/פוקט-או-קו-סמוי/",
+      "subject_entity_ids": [
+        "geo:th:province:83",
+        "geo:th:province:84"
+      ],
+      "parent_hub": "/תיירות-בתאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "תיירות בתאילנד",
+          "url": "/תיירות-בתאילנד/"
+        },
+        {
+          "name": "פוקט או קוסמוי",
+          "url": "/פוקט-או-קו-סמוי/"
+        }
+      ],
+      "entity_type": "comparison_guide",
+      "audience": "מטיילים שבוחרים אי לחופשה בתאילנד",
+      "funnel_role": "evaluation",
+      "freshness_class": "seasonal_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "בחירת יעד מכל אזורי תאילנד",
+          "owner_url": "/יעדים-בתאילנד/"
+        },
+        {
+          "intent": "בחירת עונה לכל תאילנד",
+          "owner_url": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/"
+        },
+        {
+          "intent": "קנייה וניהול של נכס בפוקט או בקוסמוי",
+          "owner_url": "/נדלן-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "assets/homepage/homepage.js:185,322,325",
+        "resources/homepage.html:41"
+      ]
+    },
+    {
+      "owner_id": "bangkok-itinerary-two-to-four-days",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/טיול-בבנגקוק-ליומיים-3-ימים-או-4-ימים-מדר/",
+      "name": "מסלול בבנגקוק ליומיים עד ארבעה ימים",
+      "primary_intent": "לבנות מסלול בבנגקוק לפי יומיים, שלושה או ארבעה ימים",
+      "canonical_owner": "/טיול-בבנגקוק-ליומיים-3-ימים-או-4-ימים-מדר/",
+      "subject_entity_ids": [
+        "geo:th:province:10"
+      ],
+      "parent_hub": "/בנגקוק-תאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
+        },
+        {
+          "name": "בנגקוק",
+          "url": "/בנגקוק-תאילנד/"
+        },
+        {
+          "name": "מסלול בבנגקוק לפי מספר ימים",
+          "url": "/טיול-בבנגקוק-ליומיים-3-ימים-או-4-ימים-מדר/"
+        }
+      ],
+      "entity_type": "itinerary_guide",
+      "audience": "מטיילים עם יומיים עד ארבעה ימים בבנגקוק",
+      "funnel_role": "action",
+      "freshness_class": "editorial_quarterly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "מידע מקיף על בנגקוק ללא מסגרת ימים",
+          "owner_url": "/בנגקוק-תאילנד/"
+        },
+        {
+          "intent": "תכנון טיול ארצי בתאילנד",
+          "owner_url": "/תיירות-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "assets/homepage/homepage.js:187",
+        "resources/homepage.html:42"
+      ]
+    },
+    {
+      "owner_id": "best-time-for-thailand",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/",
+      "name": "הזמן הטוב ביותר לחופשה בתאילנד",
+      "primary_intent": "לבחור מתי לטוס לתאילנד לפי גשם, ים, חום ועומס",
+      "canonical_owner": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/תיירות-בתאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "תיירות בתאילנד",
+          "url": "/תיירות-בתאילנד/"
+        },
+        {
+          "name": "מתי לטוס לתאילנד",
+          "url": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/"
+        }
+      ],
+      "entity_type": "seasonal_guide",
+      "audience": "מטיילים שבוחרים תאריכים ואזור לחופשה בתאילנד",
+      "funnel_role": "evaluation",
+      "freshness_class": "seasonal_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "בחירת יעד לפי אופי החופשה",
+          "owner_url": "/יעדים-בתאילנד/"
+        },
+        {
+          "intent": "חיפוש והזמנת טיסות",
+          "owner_url": "/המדריך-האולטימטיבי-למציאת-טיסות-זולו/"
+        }
+      ],
+      "source_evidence": [
+        "assets/homepage/homepage.js:186",
+        "resources/homepage.html:42"
+      ]
+    },
+    {
+      "owner_id": "thailand-flights",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/המדריך-האולטימטיבי-למציאת-טיסות-זולו/",
+      "name": "מציאת טיסות זולות לתאילנד",
+      "primary_intent": "לחפש טיסות לתאילנד ולהשוות מחיר, זמן ותנאי כרטיס",
+      "canonical_owner": "/המדריך-האולטימטיבי-למציאת-טיסות-זולו/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/תיירות-בתאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "תיירות בתאילנד",
+          "url": "/תיירות-בתאילנד/"
+        },
+        {
+          "name": "טיסות לתאילנד",
+          "url": "/המדריך-האולטימטיבי-למציאת-טיסות-זולו/"
+        }
+      ],
+      "entity_type": "booking_guide",
+      "audience": "נוסעים שמחפשים טיסה מתאימה לתאילנד",
+      "funnel_role": "action",
+      "freshness_class": "price_sensitive_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "בחירת עונה לפי מזג האוויר",
+          "owner_url": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/"
+        },
+        {
+          "intent": "תחבורה בתוך תאילנד",
+          "owner_url": "/תחבורה-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "assets/homepage/homepage.js:188",
+        "resources/homepage.html:43"
+      ]
+    },
+    {
+      "owner_id": "useful-thai-language",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/איך-אומרים-בתאילנדית/",
+      "name": "איך אומרים בתאילנדית",
+      "primary_intent": "ללמוד מילים וביטויים שימושיים בתאילנדית לחיי היום-יום",
+      "canonical_owner": "/איך-אומרים-בתאילנדית/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/חיים-בתאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "חיים בתאילנד",
+          "url": "/חיים-בתאילנד/"
+        },
+        {
+          "name": "תאילנדית שימושית",
+          "url": "/איך-אומרים-בתאילנדית/"
+        }
+      ],
+      "entity_type": "language_guide",
+      "audience": "מטיילים ותושבים שרוצים לתקשר בתאילנדית בסיסית",
+      "funnel_role": "support",
+      "freshness_class": "static_annual",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "מעבר ומגורים בתאילנד",
+          "owner_url": "/חיים-בתאילנד/"
+        },
+        {
+          "intent": "תכנון חופשה בתאילנד",
+          "owner_url": "/תיירות-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "assets/homepage/homepage.js:189",
+        "resources/homepage.html:50"
+      ]
+    },
+    {
+      "owner_id": "useful-thailand-links",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/תאילנד-קישורים-שימושיים/",
+      "name": "קישורים שימושיים לתאילנד",
+      "primary_intent": "למצוא אתרים וכלים חיצוניים שימושיים לתכנון שהייה בתאילנד",
+      "canonical_owner": "/תאילנד-קישורים-שימושיים/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/תיירות-בתאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "תיירות בתאילנד",
+          "url": "/תיירות-בתאילנד/"
+        },
+        {
+          "name": "קישורים שימושיים",
+          "url": "/תאילנד-קישורים-שימושיים/"
+        }
+      ],
+      "entity_type": "resource_directory",
+      "audience": "מטיילים ותושבים שמחפשים מקורות וכלים חיצוניים",
+      "funnel_role": "support",
+      "freshness_class": "dynamic_weekly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "מדריך עריכתי מלא לתכנון טיול",
+          "owner_url": "/תיירות-בתאילנד/"
+        },
+        {
+          "intent": "איתור נותני שירות בתאילנד",
+          "owner_url": "/שירותים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "assets/homepage/homepage.js:190",
+        "resources/homepage.html:43"
+      ]
+    },
+    {
+      "owner_id": "about",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/אודות/",
+      "name": "אודות Thai-Land.co.il",
+      "primary_intent": "להבין מי עומד מאחורי האתר ומה הוא מציע לקוראים",
+      "canonical_owner": "/אודות/",
+      "subject_entity_ids": [],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "אודות",
+          "url": "/אודות/"
+        }
+      ],
+      "entity_type": "organization_page",
+      "audience": "מבקרים שרוצים להכיר את האתר ואת מטרתו",
+      "funnel_role": "trust",
+      "freshness_class": "static_annual",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "מציאת מידע על תאילנד",
+          "owner_url": "/"
+        },
+        {
+          "intent": "תכנון טיול בתאילנד",
+          "owner_url": "/תיירות-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "resources/homepage.html:353,358"
+      ]
+    },
+    {
+      "owner_id": "sitemap-index",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/sitemap_index.xml",
+      "name": "מפת אתר XML",
+      "primary_intent": "לאפשר למנועי חיפוש לגלות את כתובות האתר",
+      "canonical_owner": "/sitemap_index.xml",
+      "subject_entity_ids": [],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "מפת אתר XML",
+          "url": "/sitemap_index.xml"
+        }
+      ],
+      "entity_type": "sitemap",
+      "audience": "מנועי חיפוש וכלי סריקה",
+      "funnel_role": "technical",
+      "freshness_class": "generated_daily",
+      "indexing_policy": "technical",
+      "cannibalization_exclusions": [
+        {
+          "intent": "ניווט אנושי בין נושאי האתר",
+          "owner_url": "/"
+        }
+      ],
+      "source_evidence": [
+        "resources/homepage.html:353,358"
+      ]
+    },
+    {
+      "owner_id": "platform-health",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/wp-json/thailand-platform/v1/health",
+      "name": "בדיקת תקינות של Thailand Platform",
+      "primary_intent": "להחזיר למערכות ניטור את שם הרכיב, הגרסה ומצב התקינות",
+      "canonical_owner": "/wp-json/thailand-platform/v1/health",
+      "subject_entity_ids": [],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "בדיקת תקינות",
+          "url": "/wp-json/thailand-platform/v1/health"
+        }
+      ],
+      "entity_type": "api_endpoint",
+      "audience": "מערכות ניטור ובקרת גרסאות",
+      "funnel_role": "technical",
+      "freshness_class": "release_bound",
+      "indexing_policy": "noindex",
+      "cannibalization_exclusions": [
+        {
+          "intent": "מידע לקוראים על האתר",
+          "owner_url": "/אודות/"
+        },
+        {
+          "intent": "מידע על תאילנד",
+          "owner_url": "/"
+        }
+      ],
+      "source_evidence": [
+        "README.md:7-9",
+        "src/Health/Route.php:13-39",
+        "tests/run.php:384-401"
+      ]
+    },
+    {
+      "owner_id": "thailand-destinations",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/יעדים-בתאילנד/",
+      "name": "יעדים בתאילנד",
+      "primary_intent": "לבחור עיר, אי, חוף או אזור בתאילנד לפי אופי השהייה",
+      "canonical_owner": "/יעדים-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "מטיילים ותושבים שמשווים בין אזורי תאילנד",
+      "funnel_role": "discovery",
+      "freshness_class": "editorial_quarterly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "תכנון מסלול מלא לפי ימים",
+          "owner_url": "/תיירות-בתאילנד/"
+        },
+        {
+          "intent": "גלישה גאוגרפית אינטראקטיבית",
+          "owner_url": "/מפת-תאילנד/"
+        },
+        {
+          "intent": "מידע מעמיק על בנגקוק",
+          "owner_url": "/בנגקוק-תאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "thailand-map",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/מפת-תאילנד/",
+      "name": "מפת תאילנד",
+      "primary_intent": "לגלות מקומות, שירותים, נכסים ותחבורה על מפה אינטראקטיבית של תאילנד",
+      "canonical_owner": "/מפת-תאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/יעדים-בתאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
+        },
+        {
+          "name": "מפת תאילנד",
+          "url": "/מפת-תאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "מבקרים שמעדיפים לחפש מידע לפי מיקום",
+      "funnel_role": "discovery",
+      "freshness_class": "dynamic_weekly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "בחירת יעד באמצעות מדריכים והשוואות",
+          "owner_url": "/יעדים-בתאילנד/"
+        },
+        {
+          "intent": "איתור נותן שירות לפי תחום ולא לפי מפה",
+          "owner_url": "/שירותים-בתאילנד/"
+        },
+        {
+          "intent": "איתור פרויקט נדל״ן לפי מפרט ומחיר",
+          "owner_url": "/פרויקטים-נדלן-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "living-in-thailand",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/חיים-בתאילנד/",
+      "name": "חיים בתאילנד",
+      "primary_intent": "להבין איך נראים מגורים וחיי יום-יום בתאילנד לפי אזור ותקציב",
+      "canonical_owner": "/חיים-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "חיים בתאילנד",
+          "url": "/חיים-בתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "ישראלים שבוחנים מעבר, שהייה ארוכה או חיים קבועים בתאילנד",
+      "funnel_role": "evaluation",
+      "freshness_class": "regulated_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "דרישות כניסה, אשרות והארכת שהייה",
+          "owner_url": "/ויזות-לתאילנד/"
+        },
+        {
+          "intent": "קבלת טיפול רפואי ובחירת מסגרת בריאות",
+          "owner_url": "/בריאות-בתאילנד/"
+        },
+        {
+          "intent": "לימוד ביטויים בתאילנדית",
+          "owner_url": "/איך-אומרים-בתאילנדית/"
+        },
+        {
+          "intent": "איתור קהילה ישראלית לפי מקום",
+          "owner_url": "/ישראלים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "thailand-real-estate",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/נדלן-בתאילנד/",
+      "name": "נדל״ן בתאילנד",
+      "primary_intent": "להבין רכישה, בעלות, עלויות, חוזים וניהול נכס בתאילנד",
+      "canonical_owner": "/נדלן-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "ישראלים שבוחנים קנייה, שכירות, השקעה או ניהול נכס בתאילנד",
+      "funnel_role": "evaluation",
+      "freshness_class": "regulated_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "השוואת פרויקטים פעילים לפי מיקום, מחיר ומפרט",
+          "owner_url": "/פרויקטים-נדלן-בתאילנד/"
+        },
+        {
+          "intent": "הקמה ותפעול של חברה בתאילנד",
+          "owner_url": "/עסקים-בתאילנד/"
+        },
+        {
+          "intent": "סקירת חוק ומס שאינה ייחודית לעסקת נדל״ן",
+          "owner_url": "/חוקים-ומסים-בתאילנד/"
+        },
+        {
+          "intent": "בחירת אזור לחיי יום-יום ללא כוונת עסקה",
+          "owner_url": "/חיים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "thailand-property-projects",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/פרויקטים-נדלן-בתאילנד/",
+      "name": "פרויקטים של נדל״ן בתאילנד",
+      "primary_intent": "למצוא ולהשוות פרויקטים של נדל״ן בתאילנד לפי אזור, מחיר ומפרט",
+      "canonical_owner": "/פרויקטים-נדלן-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/נדלן-בתאילנד/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        },
+        {
+          "name": "פרויקטים של נדל״ן",
+          "url": "/פרויקטים-נדלן-בתאילנד/"
+        }
+      ],
+      "entity_type": "property_directory",
+      "audience": "קונים ומשקיעים שמחפשים פרויקט מסוים בתאילנד",
+      "funnel_role": "action",
+      "freshness_class": "dynamic_weekly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "הסבר ארצי על בעלות, חוזים ועלויות",
+          "owner_url": "/נדלן-בתאילנד/"
+        },
+        {
+          "intent": "גלישה כללית במפה לפי מיקום",
+          "owner_url": "/מפת-תאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "business-in-thailand",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/עסקים-בתאילנד/",
+      "name": "עסקים בתאילנד",
+      "primary_intent": "להבין הקמת חברה, רישוי, מסים, עובדים ותפעול עסק בתאילנד",
+      "canonical_owner": "/עסקים-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "עסקים בתאילנד",
+          "url": "/עסקים-בתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "יזמים ובעלי עסקים ישראלים שבוחנים פעילות בתאילנד",
+      "funnel_role": "evaluation",
+      "freshness_class": "regulated_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "חוקים ומסים לאנשים פרטיים ולמצבים שאינם עסקיים",
+          "owner_url": "/חוקים-ומסים-בתאילנד/"
+        },
+        {
+          "intent": "קנייה וניהול של נכס",
+          "owner_url": "/נדלן-בתאילנד/"
+        },
+        {
+          "intent": "מציאת נותן שירות מסוים",
+          "owner_url": "/שירותים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "services-in-thailand",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/שירותים-בתאילנד/",
+      "name": "שירותים בתאילנד",
+      "primary_intent": "למצוא ולהשוות נותני שירות בתאילנד לפי תחום ומיקום",
+      "canonical_owner": "/שירותים-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "שירותים בתאילנד",
+          "url": "/שירותים-בתאילנד/"
+        }
+      ],
+      "entity_type": "service_directory",
+      "audience": "ישראלים שמחפשים נותן שירות בתאילנד",
+      "funnel_role": "action",
+      "freshness_class": "dynamic_weekly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "קנייה מיידית של מוצר או שירות במחיר קבוע",
+          "owner_url": "/חנות-לישראלים-בתאילנד/"
+        },
+        {
+          "intent": "מציאת קהילה ואירועים לישראלים",
+          "owner_url": "/ישראלים-בתאילנד/"
+        },
+        {
+          "intent": "מידע רפואי ובחירת מסגרת טיפול",
+          "owner_url": "/בריאות-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "israelis-in-thailand",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/ישראלים-בתאילנד/",
+      "name": "ישראלים בתאילנד",
+      "primary_intent": "למצוא קהילות, מקומות ומידע שימושי לישראלים לפי אזור בתאילנד",
+      "canonical_owner": "/ישראלים-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "ישראלים בתאילנד",
+          "url": "/ישראלים-בתאילנד/"
+        }
+      ],
+      "entity_type": "community_hub",
+      "audience": "ישראלים שנמצאים בתאילנד או מתכננים להגיע אליה",
+      "funnel_role": "support",
+      "freshness_class": "dynamic_weekly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "איתור והשוואת נותני שירות",
+          "owner_url": "/שירותים-בתאילנד/"
+        },
+        {
+          "intent": "קנייה בחנות לישראלים",
+          "owner_url": "/חנות-לישראלים-בתאילנד/"
+        },
+        {
+          "intent": "מעבר ומגורים בתאילנד",
+          "owner_url": "/חיים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "israeli-store-thailand",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/חנות-לישראלים-בתאילנד/",
+      "name": "חנות לישראלים בתאילנד",
+      "primary_intent": "לקנות מוצרים ושירותים זמינים לישראלים ברחבי תאילנד",
+      "canonical_owner": "/חנות-לישראלים-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "חנות לישראלים בתאילנד",
+          "url": "/חנות-לישראלים-בתאילנד/"
+        }
+      ],
+      "entity_type": "storefront",
+      "audience": "ישראלים שרוצים לקנות מוצר או להזמין שירות בתאילנד",
+      "funnel_role": "transaction",
+      "freshness_class": "dynamic_weekly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "איתור והשוואת נותני שירות ללא רכישה מיידית",
+          "owner_url": "/שירותים-בתאילנד/"
+        },
+        {
+          "intent": "מידע קהילתי לישראלים לפי אזור",
+          "owner_url": "/ישראלים-בתאילנד/"
+        },
+        {
+          "intent": "תכנון חופשה ומסלול",
+          "owner_url": "/תיירות-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "thailand-visas",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/ויזות-לתאילנד/",
+      "name": "ויזות לתאילנד",
+      "primary_intent": "להבין דרישות כניסה, סוגי ויזה והארכת שהייה בתאילנד",
+      "canonical_owner": "/ויזות-לתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "ויזות לתאילנד",
+          "url": "/ויזות-לתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "ישראלים שבודקים כניסה, שהייה או הארכת שהייה בתאילנד",
+      "funnel_role": "action",
+      "freshness_class": "regulated_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "חוקים ומסים שאינם דרישות כניסה או שהייה",
+          "owner_url": "/חוקים-ומסים-בתאילנד/"
+        },
+        {
+          "intent": "חיי יום-יום ובחירת אזור מגורים",
+          "owner_url": "/חיים-בתאילנד/"
+        },
+        {
+          "intent": "הקמת חברה ותפעול עסק",
+          "owner_url": "/עסקים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "thailand-law-and-tax",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/חוקים-ומסים-בתאילנד/",
+      "name": "חוקים ומסים בתאילנד",
+      "primary_intent": "להבין חוקים, זכויות וחובות מס מרכזיות לישראלים בתאילנד",
+      "canonical_owner": "/חוקים-ומסים-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "חוקים ומסים בתאילנד",
+          "url": "/חוקים-ומסים-בתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "ישראלים שצריכים להבין חובה חוקית או השלכת מס בתאילנד",
+      "funnel_role": "evaluation",
+      "freshness_class": "regulated_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "דיני חברה, רישוי ותפעול עסק",
+          "owner_url": "/עסקים-בתאילנד/"
+        },
+        {
+          "intent": "חוק, מס וחוזים בעסקת נדל״ן",
+          "owner_url": "/נדלן-בתאילנד/"
+        },
+        {
+          "intent": "דרישות כניסה והארכת שהייה",
+          "owner_url": "/ויזות-לתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "health-in-thailand",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/בריאות-בתאילנד/",
+      "name": "בריאות בתאילנד",
+      "primary_intent": "להבין טיפול רפואי, חירום, ביטוח ובחירת מסגרת בריאות בתאילנד",
+      "canonical_owner": "/בריאות-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "בריאות בתאילנד",
+          "url": "/בריאות-בתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "מטיילים ותושבים שצריכים מידע רפואי מעשי בתאילנד",
+      "funnel_role": "support",
+      "freshness_class": "regulated_monthly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "איתור נותן שירות שאינו רפואי",
+          "owner_url": "/שירותים-בתאילנד/"
+        },
+        {
+          "intent": "בחירת אזור מגורים וחיי יום-יום",
+          "owner_url": "/חיים-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    },
+    {
+      "owner_id": "transport-in-thailand",
+      "lifecycle": "planned",
+      "route_kind": "exact",
+      "url": "/תחבורה-בתאילנד/",
+      "name": "תחבורה בתאילנד",
+      "primary_intent": "לתכנן תנועה בין ערים, איים ואזורים בתאילנד לפי אמצעי תחבורה",
+      "canonical_owner": "/תחבורה-בתאילנד/",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "תחבורה בתאילנד",
+          "url": "/תחבורה-בתאילנד/"
+        }
+      ],
+      "entity_type": "national_hub",
+      "audience": "מטיילים ותושבים שמתכננים נסיעה בתוך תאילנד",
+      "funnel_role": "planning",
+      "freshness_class": "dynamic_weekly",
+      "indexing_policy": "index",
+      "cannibalization_exclusions": [
+        {
+          "intent": "חיפוש טיסות בינלאומיות לתאילנד",
+          "owner_url": "/המדריך-האולטימטיבי-למציאת-טיסות-זולו/"
+        },
+        {
+          "intent": "בחירת יעד לפי אופי החופשה",
+          "owner_url": "/יעדים-בתאילנד/"
+        },
+        {
+          "intent": "בניית מסלול טיול מלא",
+          "owner_url": "/תיירות-בתאילנד/"
+        }
+      ],
+      "source_evidence": [
+        "תוכנית ההיררכיה הארצית"
+      ]
+    }
+  ]
+}

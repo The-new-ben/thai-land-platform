@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thai-land.co.il/data/seo/ownership-registry.schema.json",
+  "title": "מרשם בעלות SEO של Thai-Land.co.il",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "registry_version",
+    "site",
+    "discovery",
+    "owners"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "./ownership-registry.schema.json"
+    },
+    "registry_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "site": {
+      "$ref": "#/$defs/site"
+    },
+    "discovery": {
+      "$ref": "#/$defs/discovery"
+    },
+    "owners": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/owner"
+      }
+    }
+  },
+  "$defs": {
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "base_url",
+        "default_language"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_url": {
+          "const": "https://thai-land.co.il"
+        },
+        "default_language": {
+          "const": "he-IL"
+        }
+      }
+    },
+    "discovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_files",
+        "route_policy",
+        "excluded_surfaces"
+      ],
+      "properties": {
+        "source_files": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "route_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "excluded_surfaces": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "breadcrumb": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "url"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "$ref": "#/$defs/internal_url"
+        }
+      }
+    },
+    "exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intent",
+        "owner_url"
+      ],
+      "properties": {
+        "intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner_url": {
+          "$ref": "#/$defs/internal_url"
+        }
+      }
+    },
+    "internal_url": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^/[^#]*$"
+    },
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner_id",
+        "lifecycle",
+        "route_kind",
+        "url",
+        "name",
+        "primary_intent",
+        "canonical_owner",
+        "subject_entity_ids",
+        "parent_hub",
+        "breadcrumb_chain",
+        "entity_type",
+        "audience",
+        "funnel_role",
+        "freshness_class",
+        "indexing_policy",
+        "cannibalization_exclusions",
+        "source_evidence"
+      ],
+      "properties": {
+        "owner_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "lifecycle": {
+          "enum": [
+            "live",
+            "planned"
+          ]
+        },
+        "route_kind": {
+          "enum": [
+            "exact",
+            "pattern"
+          ]
+        },
+        "url": {
+          "$ref": "#/$defs/internal_url"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "primary_intent": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_owner": {
+          "$ref": "#/$defs/internal_url"
+        },
+        "subject_entity_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^geo:th:[a-z0-9:_-]+$"
+          }
+        },
+        "parent_hub": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^/[^#]*$"
+        },
+        "breadcrumb_chain": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/breadcrumb"
+          }
+        },
+        "entity_type": {
+          "enum": [
+            "homepage",
+            "site_search",
+            "national_hub",
+            "destination_guide",
+            "comparison_guide",
+            "itinerary_guide",
+            "seasonal_guide",
+            "booking_guide",
+            "language_guide",
+            "resource_directory",
+            "property_directory",
+            "service_directory",
+            "community_hub",
+            "storefront",
+            "organization_page",
+            "sitemap",
+            "api_endpoint"
+          ]
+        },
+        "audience": {
+          "type": "string",
+          "minLength": 1
+        },
+        "funnel_role": {
+          "enum": [
+            "discovery",
+            "planning",
+            "evaluation",
+            "action",
+            "transaction",
+            "support",
+            "trust",
+            "technical"
+          ]
+        },
+        "freshness_class": {
+          "enum": [
+            "static_annual",
+            "editorial_quarterly",
+            "seasonal_monthly",
+            "price_sensitive_monthly",
+            "regulated_monthly",
+            "dynamic_weekly",
+            "generated_daily",
+            "release_bound"
+          ]
+        },
+        "indexing_policy": {
+          "enum": [
+            "index",
+            "noindex",
+            "technical"
+          ]
+        },
+        "cannibalization_exclusions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/exclusion"
+          }
+        },
+        "source_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}
