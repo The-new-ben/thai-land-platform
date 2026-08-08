@@ -129,7 +129,8 @@ async function anonymousFetch(url) {
 
 function exactUrl(value) {
   const url = new URL(value);
-  return `${url.origin}${url.pathname}${url.search}${url.hash}`;
+  return `${url.origin}${url.pathname}${url.search}${url.hash}`
+    .replace(/%[0-9a-f]{2}/gi, (sequence) => sequence.toUpperCase());
 }
 
 async function run() {

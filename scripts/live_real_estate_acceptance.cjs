@@ -5,7 +5,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const rootDir = path.resolve(__dirname, '..');
-const release = process.env.THP_RELEASE || '0.3.0';
+const release = process.env.THP_RELEASE || '0.3.1';
 const baseUrl = new URL(process.env.THP_BASE_URL || 'https://thai-land.co.il/');
 const chromePath = process.env.THP_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const timeout = Number.parseInt(process.env.THP_LIVE_TIMEOUT_MS || '45000', 10);
@@ -36,6 +36,18 @@ function socialTitle(route) {
   return `${route.public.seo_title} | Thai-Land.co.il`;
 }
 
+function exactUrl(value) {
+  return new URL(value).href.replace(/%[0-9a-f]{2}/gi, (sequence) => sequence.toUpperCase());
+}
+
+function sameUrl(left, right) {
+  try {
+    return exactUrl(left) === exactUrl(right);
+  } catch {
+    return false;
+  }
+}
+
 function normalizeRobots(value) {
   return new Set(String(value || '').split(',').map((item) => item.trim().toLowerCase()).filter(Boolean));
 }
@@ -43,7 +55,12 @@ function normalizeRobots(value) {
 function listenForErrors(page) {
   const state = { console_errors: [], request_failures: [], bad_same_origin: [] };
   page.on('console', (message) => {
-    if (message.type() === 'error') state.console_errors.push(message.text());
+    if (message.type() === 'error') {
+      state.console_errors.push({
+        text: message.text(),
+        url: message.location()?.url || '',
+      });
+    }
   });
   page.on('requestfailed', (request) => {
     if (request.url().startsWith(baseUrl.origin)) {
@@ -56,6 +73,52 @@ function listenForErrors(page) {
     }
   });
   return state;
+}
+
+function unexpectedConsoleErrors(errors) {
+  return errors.filter((error) => {
+    const text = typeof error === 'string' ? error : error.text;
+    const url = typeof error === 'string' ? '' : error.url;
+    return !(
+      text.includes('embed.tawk.to')
+      || url.startsWith('https://embed.tawk.to/')
+    );
+  });
+}
+
+async function capturePage(page, basename) {
+  const dimensions = await page.evaluate(() => ({
+    width: document.documentElement.clientWidth,
+    height: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
+  }));
+  const files = [];
+  if (dimensions.height <= 15000) {
+    const filename = `${basename}.png`;
+    await page.screenshot({
+      path: path.join(outputDir, filename),
+      fullPage: true,
+      animations: 'disabled',
+    });
+    files.push(filename);
+    return files;
+  }
+
+  const segmentHeight = 7000;
+  for (let top = 0, part = 1; top < dimensions.height; top += segmentHeight, part += 1) {
+    const filename = `${basename}-part-${String(part).padStart(2, '0')}.png`;
+    await page.screenshot({
+      path: path.join(outputDir, filename),
+      clip: {
+        x: 0,
+        y: top,
+        width: dimensions.width,
+        height: Math.min(segmentHeight, dimensions.height - top),
+      },
+      animations: 'disabled',
+    });
+    files.push(filename);
+  }
+  return files;
 }
 
 async function inspectRoute(page, route, forbidden) {
@@ -73,6 +136,20 @@ async function inspectRoute(page, route, forbidden) {
     const renderedContinuationOwners = [...document.querySelectorAll('[data-thp-relationship="sibling"]')]
       .map((element) => element.getAttribute('data-thp-target-owner'))
       .sort();
+    const inspectAction = (selector, childSelector = null) => {
+      const element = document.querySelector(selector);
+      const styledElement = childSelector ? element?.querySelector(childSelector) : element;
+      if (!element || !styledElement) return null;
+      const style = getComputedStyle(styledElement);
+      return {
+        text: element.innerText.trim(),
+        color: style.color,
+        background_color: style.backgroundColor,
+        display: style.display,
+        visibility: style.visibility,
+        opacity: style.opacity,
+      };
+    };
 
     return {
       ready_state: document.readyState,
@@ -127,6 +204,10 @@ async function inspectRoute(page, route, forbidden) {
       hub_guide_groups: document.querySelectorAll('.thp-guide-group').length,
       hub_guide_cards: document.querySelectorAll('.thp-guide-card').length,
       hub_child_owners: [...document.querySelectorAll('[data-thp-relationship="child_spoke"]')].map((element) => element.getAttribute('data-thp-target-owner')).sort(),
+      hero_action: inspectAction('.thp-content-hero .thp-button-light'),
+      aside_hub_action: inspectAction('.thp-aside-hub-link'),
+      continuation_action: inspectAction('.thp-continuation-card', 'strong'),
+      footer_action: inspectAction('.thp-site-footer .thp-button-light'),
     };
   }, { expected: route, phrases: forbidden, version: release });
 }
@@ -173,16 +254,16 @@ async function run() {
         await page.waitForSelector(`main[data-thp-owner-id="${route.route_id}"]`, { timeout: 15000 });
         await page.waitForTimeout(900);
         const inspection = await inspectRoute(page, route, forbidden);
-        await page.screenshot({
-          path: path.join(outputDir, `${outputPrefix}-${route.route_id}-${profile.name}-${profile.viewport.width}.png`),
-          fullPage: true,
-          animations: 'disabled',
-        });
+        const screenshots = await capturePage(
+          page,
+          `${outputPrefix}-${route.route_id}-${profile.name}-${profile.viewport.width}`,
+        );
         report.routes[route.route_id][profile.name] = {
           http_status: response?.status() || null,
           final_url: page.url(),
           inspection,
           network,
+          screenshots,
         };
         await context.close();
       }
@@ -245,6 +326,19 @@ async function run() {
       focused_inside: Boolean(document.activeElement?.closest('#thp-mobile-nav')),
       body_open: document.body.classList.contains('thp-content-menu-open'),
       body_overflow: document.body.style.overflow,
+      heading: document.querySelector('.thp-mobile-nav-head strong')?.innerText.trim() || null,
+      backdrop_background: getComputedStyle(document.querySelector('.thp-mobile-nav-backdrop')).backgroundColor,
+      backdrop_width: document.querySelector('.thp-mobile-nav-backdrop')?.getBoundingClientRect().width || 0,
+      panel_width: document.querySelector('.thp-mobile-nav-panel')?.getBoundingClientRect().width || 0,
+      toggle_bars: [...document.querySelectorAll('.thp-menu-toggle span')].map((element) => {
+        const style = getComputedStyle(element);
+        return {
+          display: style.display,
+          background_color: style.backgroundColor,
+          height: element.getBoundingClientRect().height,
+          width: element.getBoundingClientRect().width,
+        };
+      }),
       page_isolated: [
         document.querySelector('.thp-skip-link'),
         document.querySelector('.thp-header-inner'),
@@ -325,7 +419,7 @@ async function run() {
       add(`${prefix}: exact canonical URL`, value.canonical === canonicalFor(route), value.canonical);
       add(`${prefix}: exact title`, value.title === socialTitle(route), value.title);
       add(`${prefix}: exact description`, value.description === route.public.meta_description, value.description);
-      add(`${prefix}: exact Open Graph metadata`, value.og_title === socialTitle(route) && value.og_description === route.public.meta_description && value.og_url === canonicalFor(route));
+      add(`${prefix}: exact Open Graph metadata`, value.og_title === socialTitle(route) && value.og_description === route.public.meta_description && sameUrl(value.og_url, canonicalFor(route)));
       add(`${prefix}: exact X metadata`, value.twitter_title === socialTitle(route) && value.twitter_description === route.public.meta_description);
       add(`${prefix}: social image`, value.og_image?.endsWith(socialImagePath) && value.twitter_image?.endsWith(socialImagePath) && value.og_width === '1717' && value.og_height === '916');
       add(`${prefix}: robots index contract`, robots.has('index') && robots.has('follow') && robots.has('max-image-preview:large'), value.robots);
@@ -336,10 +430,13 @@ async function run() {
       add(`${prefix}: release assets`, value.release_asset_count >= 2, value.release_asset_count);
       add(`${prefix}: clean public surface`, value.admin_bar === false && value.long_dash_count === 0 && value.forbidden_hits.length === 0 && value.duplicate_ids.length === 0 && value.unnamed_buttons === 0 && value.unnamed_links === 0 && value.missing_alt_images === 0 && value.broken_images.length === 0);
       add(`${prefix}: no horizontal overflow`, value.overflow_pixels === 0, value.overflow_pixels);
-      add(`${prefix}: network clean`, result.network.console_errors.length === 0 && result.network.request_failures.length === 0 && result.network.bad_same_origin.length === 0, result.network);
+      add(`${prefix}: network clean`, unexpectedConsoleErrors(result.network.console_errors).length === 0 && result.network.request_failures.length === 0 && result.network.bad_same_origin.length === 0, result.network);
+      add(`${prefix}: visible footer action`, value.footer_action?.text.length > 0 && value.footer_action.color === 'rgb(7, 47, 45)' && value.footer_action.background_color === 'rgb(255, 255, 255)' && value.footer_action.visibility === 'visible' && value.footer_action.opacity === '1', value.footer_action);
       if (route.kind === 'hub') {
         add(`${prefix}: hub decision and guide structure`, value.hub_decision_cards === 3 && value.hub_decision_links === 9 && value.hub_guide_groups === 3 && value.hub_guide_cards === 7 && JSON.stringify(value.hub_child_owners) === JSON.stringify(spokeIds));
       } else {
+        add(`${prefix}: visible hero and hub actions`, value.hero_action?.text.length > 0 && value.hero_action.color === 'rgb(7, 47, 45)' && value.hero_action.background_color === 'rgb(255, 255, 255)' && value.aside_hub_action?.text.length > 0 && value.aside_hub_action.color === 'rgb(255, 255, 255)', { hero: value.hero_action, hub: value.aside_hub_action });
+        add(`${prefix}: visible continuation action`, value.continuation_action?.text.length > 0 && value.continuation_action.color === 'rgb(255, 255, 255)' && value.continuation_action.visibility === 'visible' && value.continuation_action.opacity === '1', value.continuation_action);
         add(`${prefix}: spoke hierarchy`, value.parent_link_count === 2 && JSON.stringify(value.rendered_continuation_owners) === JSON.stringify(value.expected_continuation_owners));
         add(`${prefix}: generated article navigation`, value.toc_item_count === value.content_h2_count && value.toc_hidden === (value.content_h2_count === 0));
       }
@@ -353,12 +450,13 @@ async function run() {
   const open = report.responsive.menu_open;
   const closed = report.responsive.menu_closed;
   const desktop = report.responsive['1231'];
-  add('mobile drawer opens as an isolated dialog', open.expanded === 'true' && open.label === 'סגירת תפריט' && open.drawer_hidden === false && open.dialog_count === 1 && open.focused_inside === true && open.body_open === true && open.body_overflow === 'hidden' && open.page_isolated === true);
+  add('mobile drawer opens as an isolated dialog', open.expanded === 'true' && open.label === 'סגירת תפריט' && open.drawer_hidden === false && open.dialog_count === 1 && open.focused_inside === true && open.body_open === true && open.body_overflow === 'hidden' && open.page_isolated === true && open.heading === 'תפריט ראשי');
+  add('mobile drawer has a complete backdrop and visible menu bars', open.backdrop_background === 'rgba(3, 24, 23, 0.72)' && open.backdrop_width === 390 && open.panel_width > 0 && open.panel_width < open.backdrop_width && open.toggle_bars.length === 3 && open.toggle_bars.every((bar) => bar.display === 'block' && bar.background_color === 'rgb(11, 63, 60)' && bar.height >= 2 && bar.width > 0), { backdrop_background: open.backdrop_background, backdrop_width: open.backdrop_width, panel_width: open.panel_width, toggle_bars: open.toggle_bars });
   add('mobile focus trap wraps in both directions', open.shift_tab_wrapped === true && open.tab_wrapped === true);
   add('mobile drawer suppresses external accessibility controls', before.length === 2 && open.external_a11y_controls.every((control) => control.inert === true && control.aria_hidden === 'true' && control.visibility === 'hidden' && control.pointer_events === 'none'));
   add('Escape closes and restores the mobile page', closed.expanded === 'false' && closed.drawer_hidden === true && closed.body_open === false && closed.body_overflow === '' && closed.focused_toggle === true && JSON.stringify(closed.external_a11y_controls) === JSON.stringify(before));
   add('1231px closes the drawer and restores visible desktop focus', desktop.overflow_pixels === 0 && desktop.menu_display === 'none' && desktop.desktop_nav_display !== 'none' && desktop.expanded === 'false' && desktop.drawer_hidden === true && desktop.body_open === false && desktop.focused_in_hidden_drawer === false && desktop.focused_visible_header === true && JSON.stringify(desktop.external_a11y_controls) === JSON.stringify(before));
-  add('responsive network is clean', report.responsive.network.console_errors.length === 0 && report.responsive.network.request_failures.length === 0 && report.responsive.network.bad_same_origin.length === 0, report.responsive.network);
+  add('responsive network is clean', unexpectedConsoleErrors(report.responsive.network.console_errors).length === 0 && report.responsive.network.request_failures.length === 0 && report.responsive.network.bad_same_origin.length === 0, report.responsive.network);
 
   report.acceptance = {
     passed: checks.every((check) => check.passed),

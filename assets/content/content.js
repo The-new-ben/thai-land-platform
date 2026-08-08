@@ -57,7 +57,7 @@
 
   const openMenu = () => {
     if (!drawer || !toggle) return;
-    previousFocus = document.activeElement;
+    previousFocus = toggle;
     previousOverflow = body.style.overflow;
     drawer.hidden = false;
     toggle.setAttribute('aria-expanded', 'true');
@@ -98,12 +98,14 @@
     }
   });
 
-  desktop.addEventListener('change', (event) => {
+  const closeAtDesktop = (event) => {
     if (event.matches && drawer && !drawer.hidden) {
       closeMenu({ restoreFocus: false });
       root.querySelector('.thp-brand')?.focus();
     }
-  });
+  };
+  if (typeof desktop.addEventListener === 'function') desktop.addEventListener('change', closeAtDesktop);
+  else if (typeof desktop.addListener === 'function') desktop.addListener(closeAtDesktop);
   window.addEventListener('pagehide', () => closeMenu({ restoreFocus: false }));
 
   const prose = root.querySelector('.thp-prose');

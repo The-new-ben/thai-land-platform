@@ -356,7 +356,7 @@ use Thailand_Platform\Homepage\Seo;
 use Thailand_Platform\Geography\Repository as Geography_Repository;
 use Thailand_Platform\Content\FeatureFlag as Content_FeatureFlag;
 
-tl_test_assert( '0.3.0' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.3.1' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 

@@ -203,9 +203,16 @@ tl_test_assert( false !== strpos( $template, 'wp_head();' ) && false !== strpos(
 tl_test_assert( false !== strpos( $header, '/נדלן-בתאילנד/' ), 'Header does not link the real-estate hub.' );
 tl_test_assert( false !== strpos( $footer, '/נדלן-בתאילנד/' ), 'Footer does not link the real-estate hub.' );
 tl_test_assert( false !== strpos( $header, 'aria-modal="true"' ), 'Mobile navigation is not declared modal.' );
+tl_test_assert( false !== strpos( $header, '<strong>תפריט ראשי</strong>' ), 'Mobile navigation lacks its direct public heading.' );
+tl_test_assert( false === strpos( $header, 'לאן ממשיכים?' ), 'Mobile navigation retained generic presentation language.' );
 tl_test_assert( false !== strpos( $css, '.thp-content' ), 'Managed CSS is not scoped.' );
+tl_test_assert( false !== strpos( $css, ':where(.thp-content) a' ), 'Base link color still overrides managed action labels.' );
+tl_test_assert( false !== strpos( $css, '.thp-content .thp-menu-toggle' ), 'Menu control is not protected from theme specificity.' );
+tl_test_assert( false !== strpos( $css, '@media (min-width: 1231px)' ), 'Exact desktop menu breakpoint override is missing.' );
 tl_test_assert( false !== strpos( $css, 'body.thp-content-menu-open #pojo-a11y-toolbar' ), 'Open drawer does not hide the external accessibility control.' );
 tl_test_assert( false !== strpos( $js, "matchMedia('(min-width: 1231px)')" ), 'Managed menu breakpoint contract is missing.' );
+tl_test_assert( false !== strpos( $js, 'previousFocus = toggle;' ), 'Managed menu does not remember its visible opening control.' );
+tl_test_assert( false !== strpos( $js, 'desktop.addListener(closeAtDesktop)' ), 'Managed menu lacks the legacy MediaQueryList listener fallback.' );
 tl_test_assert( false !== strpos( $js, "root.querySelector('.thp-brand')?.focus()" ), 'Managed menu does not move focus to the visible desktop header.' );
 tl_test_assert( false !== strpos( $js, "event.key === 'Escape'" ), 'Managed menu Escape behavior is missing.' );
 tl_test_assert( false !== strpos( $js, 'element.inert = true' ), 'Managed menu does not isolate background controls.' );

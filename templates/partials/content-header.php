@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 	<div class="thp-mobile-nav" id="thp-mobile-nav" hidden>
 		<div class="thp-mobile-nav-panel" role="dialog" aria-modal="true" aria-label="תפריט ראשי">
-			<div class="thp-mobile-nav-head"><strong>לאן ממשיכים?</strong><button type="button" data-thp-menu-close aria-label="סגירת תפריט">×</button></div>
+			<div class="thp-mobile-nav-head"><strong>תפריט ראשי</strong><button type="button" data-thp-menu-close aria-label="סגירת תפריט">×</button></div>
 			<nav aria-label="ניווט בנייד">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">עמוד הבית</a>
 				<a href="<?php echo esc_url( home_url( '/תיירות-בתאילנד/' ) ); ?>">טיולים בתאילנד</a>

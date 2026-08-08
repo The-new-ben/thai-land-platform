@@ -4,14 +4,14 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.3.1
 License: Proprietary
 
 Geography, search, homepage, and content runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.3.0 adds the first complete real-estate hub and spoke experience while
+Version 0.3.1 polishes the real-estate hub and spoke experience while
 keeping every existing article URL and stored body intact. The exact page and
 post bindings receive a dedicated RTL document, keyword-led metadata, visible
 breadcrumbs, contextual continuations, source links, responsive artwork, and a
@@ -20,6 +20,15 @@ real-estate and business owners. Upgrade and activation do not change content,
 URLs, redirects, taxonomies, schema, or database structure.
 
 == Changelog ==
+
+= 0.3.1 =
+* Restore visible, high-contrast labels on hero, hub, continuation, and footer
+  actions across the managed real-estate pages.
+* Keep the mobile menu control hidden above its exact breakpoint and restore
+  focus to its opening control after the drawer closes.
+* Strengthen the drawer backdrop and hamburger icon against theme overrides.
+* Move the accessibility toolbar away from the header and breadcrumb area.
+* Capture very long production pages in reliable visual segments.
 
 = 0.3.0 =
 * Add a national Thailand real-estate hub connected to seven existing guides.
