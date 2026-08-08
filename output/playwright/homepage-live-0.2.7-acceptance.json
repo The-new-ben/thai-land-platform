@@ -1,0 +1,377 @@
+{
+  "generated_at": "2026-08-08T14:23:34.853Z",
+  "url": "https://thai-land.co.il/",
+  "release": "0.2.7",
+  "forbidden_phrase_count": 50,
+  "desktop": {
+    "initial": {
+      "title": "תאילנד: טיולים, מעבר, נדל״ן ועסקים | Thai-Land.co.il",
+      "h1_count": 1,
+      "h1": "תאילנד בעברית:\nטיולים, מגורים, נדל״ן ועסקים",
+      "description": "תאילנד בעברית: יעדים, מסלולים, מגורים, נדל״ן ועסקים לישראלים בבנגקוק, פוקט, קוסמוי וצ׳יאנג מאי.",
+      "open_graph_description": "תאילנד בעברית: יעדים, מסלולים, מגורים, נדל״ן ועסקים לישראלים בבנגקוק, פוקט, קוסמוי וצ׳יאנג מאי.",
+      "open_graph_image": "https://thai-land.co.il/wp-content/plugins/thailand-platform-live-027/assets/homepage/images/homepage-hero-thailand-system-v1-1713.webp",
+      "open_graph_image_width": "1713",
+      "open_graph_image_height": "918",
+      "twitter_description": "תאילנד בעברית: יעדים, מסלולים, מגורים, נדל״ן ועסקים לישראלים בבנגקוק, פוקט, קוסמוי וצ׳יאנג מאי.",
+      "twitter_image": "https://thai-land.co.il/wp-content/plugins/thailand-platform-live-027/assets/homepage/images/homepage-hero-thailand-system-v1-1713.webp",
+      "canonical": "https://thai-land.co.il/",
+      "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      "lang": "he-IL",
+      "dir": "rtl",
+      "body_class": "rtl home wp-singular page-template-default page page-id-2 wp-theme-hello-elementor unselectable ally-default thailand-platform-home thailand-platform-live",
+      "platform_live": true,
+      "admin_bar": false,
+      "overflow_pixels": 0,
+      "long_dash_count": 0,
+      "forbidden_hits": [],
+      "schema_types": [
+        "WebSite",
+        "Organization"
+      ],
+      "duplicate_ids": [],
+      "unnamed_buttons": 0,
+      "unnamed_links": 0,
+      "missing_alt_images": 0,
+      "broken_images": [],
+      "internal_links": 24,
+      "versioned_asset": true
+    },
+    "interactions": {
+      "search_options": [
+        "☼\nפוקט או קוסמוי\nהשוואה",
+        "⌖\nמפת תאילנד\nמפה"
+      ],
+      "selected_place": "פוקט",
+      "saved_count": "1",
+      "list_pressed": "true"
+    },
+    "network": {
+      "console_errors": [
+        "Access to script at 'https://embed.tawk.to/623f81162abe5b455fc1cb90/1fv410gnq' from origin 'https://thai-land.co.il' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "request_failures": [],
+      "bad_same_origin": []
+    },
+    "http_status": 200
+  },
+  "mobile": {
+    "initial": {
+      "ready_state": "complete",
+      "h1_count": 1,
+      "h1": "תאילנד בעברית:\nטיולים, מגורים, נדל״ן ועסקים",
+      "width": 390,
+      "scroll_width": 390,
+      "overflow_pixels": 0,
+      "menu_visible": true,
+      "body_class": "rtl home wp-singular page-template-default page page-id-2 wp-theme-hello-elementor unselectable ally-default thailand-platform-home thailand-platform-live",
+      "long_dash_count": 0
+    },
+    "external_a11y_before": [
+      {
+        "id": "pojo-a11y-skip-content",
+        "inert": false,
+        "aria_hidden": null,
+        "visibility": "visible",
+        "pointer_events": "auto"
+      },
+      {
+        "id": "pojo-a11y-toolbar",
+        "inert": false,
+        "aria_hidden": null,
+        "visibility": "visible",
+        "pointer_events": "auto"
+      }
+    ],
+    "menu_open": {
+      "expanded": "true",
+      "drawer_hidden": false,
+      "drawer_visible": true,
+      "dialog_count": 1,
+      "links": 23,
+      "focused_inside": true,
+      "background_inert": true,
+      "external_a11y_controls": [
+        {
+          "id": "pojo-a11y-skip-content",
+          "inert": true,
+          "aria_hidden": "true",
+          "visibility": "hidden",
+          "pointer_events": "none"
+        },
+        {
+          "id": "pojo-a11y-toolbar",
+          "inert": true,
+          "aria_hidden": "true",
+          "visibility": "hidden",
+          "pointer_events": "none"
+        }
+      ],
+      "overflow_pixels": 0
+    },
+    "menu_closed": {
+      "expanded": "false",
+      "drawer_hidden": true,
+      "body_drawer_open": false,
+      "external_a11y_controls": [
+        {
+          "id": "pojo-a11y-skip-content",
+          "inert": false,
+          "aria_hidden": null,
+          "visibility": "visible",
+          "pointer_events": "auto"
+        },
+        {
+          "id": "pojo-a11y-toolbar",
+          "inert": false,
+          "aria_hidden": null,
+          "visibility": "visible",
+          "pointer_events": "auto"
+        }
+      ]
+    },
+    "desktop_breakpoint_close": {
+      "expanded": "false",
+      "drawer_hidden": true,
+      "body_drawer_open": false,
+      "menu_display": "none",
+      "focused_in_hidden_drawer": false,
+      "focused_visible_header": true,
+      "external_a11y_controls": [
+        {
+          "id": "pojo-a11y-skip-content",
+          "inert": false,
+          "aria_hidden": null,
+          "visibility": "visible",
+          "pointer_events": "auto"
+        },
+        {
+          "id": "pojo-a11y-toolbar",
+          "inert": false,
+          "aria_hidden": null,
+          "visibility": "visible",
+          "pointer_events": "auto"
+        }
+      ]
+    },
+    "network": {
+      "console_errors": [
+        "Access to script at 'https://embed.tawk.to/623f81162abe5b455fc1cb90/1fv410gnq' from origin 'https://thai-land.co.il' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+        "Failed to load resource: net::ERR_FAILED"
+      ],
+      "bad_same_origin": []
+    },
+    "http_status": 200
+  },
+  "acceptance": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "desktop HTTP status is 200",
+        "passed": true
+      },
+      {
+        "name": "desktop title is current",
+        "passed": true
+      },
+      {
+        "name": "desktop has one H1",
+        "passed": true
+      },
+      {
+        "name": "desktop description is current",
+        "passed": true
+      },
+      {
+        "name": "Open Graph description is current",
+        "passed": true
+      },
+      {
+        "name": "X description is current",
+        "passed": true
+      },
+      {
+        "name": "Open Graph image is current",
+        "passed": true
+      },
+      {
+        "name": "X image is current",
+        "passed": true
+      },
+      {
+        "name": "Open Graph image width is correct",
+        "passed": true
+      },
+      {
+        "name": "Open Graph image height is correct",
+        "passed": true
+      },
+      {
+        "name": "canonical points to the homepage",
+        "passed": true
+      },
+      {
+        "name": "document language is Hebrew",
+        "passed": true
+      },
+      {
+        "name": "document direction is RTL",
+        "passed": true
+      },
+      {
+        "name": "public homepage is live",
+        "passed": true
+      },
+      {
+        "name": "public homepage has no admin bar",
+        "passed": true
+      },
+      {
+        "name": "desktop has no horizontal overflow",
+        "passed": true
+      },
+      {
+        "name": "desktop has no long dashes",
+        "passed": true
+      },
+      {
+        "name": "desktop has no presentation phrases",
+        "passed": true
+      },
+      {
+        "name": "desktop has no duplicate IDs",
+        "passed": true
+      },
+      {
+        "name": "desktop has no unnamed buttons",
+        "passed": true
+      },
+      {
+        "name": "desktop has no unnamed links",
+        "passed": true
+      },
+      {
+        "name": "desktop images all have alt attributes",
+        "passed": true
+      },
+      {
+        "name": "desktop images load",
+        "passed": true
+      },
+      {
+        "name": "WebSite schema exists",
+        "passed": true
+      },
+      {
+        "name": "Organization schema exists",
+        "passed": true
+      },
+      {
+        "name": "release asset version is live",
+        "passed": true
+      },
+      {
+        "name": "search suggestions work",
+        "passed": true
+      },
+      {
+        "name": "map selection works",
+        "passed": true
+      },
+      {
+        "name": "save control works",
+        "passed": true
+      },
+      {
+        "name": "list view works",
+        "passed": true
+      },
+      {
+        "name": "desktop same-origin requests load",
+        "passed": true
+      },
+      {
+        "name": "desktop has no same-origin HTTP errors",
+        "passed": true
+      },
+      {
+        "name": "mobile HTTP status is 200",
+        "passed": true
+      },
+      {
+        "name": "mobile has one H1",
+        "passed": true
+      },
+      {
+        "name": "mobile has no horizontal overflow",
+        "passed": true
+      },
+      {
+        "name": "mobile menu control is visible",
+        "passed": true
+      },
+      {
+        "name": "mobile has no long dashes",
+        "passed": true
+      },
+      {
+        "name": "mobile menu expands",
+        "passed": true
+      },
+      {
+        "name": "mobile drawer is exposed",
+        "passed": true
+      },
+      {
+        "name": "mobile drawer has one dialog",
+        "passed": true
+      },
+      {
+        "name": "mobile drawer contains navigation",
+        "passed": true
+      },
+      {
+        "name": "mobile drawer receives focus",
+        "passed": true
+      },
+      {
+        "name": "mobile background is inert",
+        "passed": true
+      },
+      {
+        "name": "mobile drawer has no horizontal overflow",
+        "passed": true
+      },
+      {
+        "name": "both external accessibility controls are present",
+        "passed": true
+      },
+      {
+        "name": "external accessibility control is suppressed while the drawer is open",
+        "passed": true
+      },
+      {
+        "name": "Escape closes the mobile drawer",
+        "passed": true
+      },
+      {
+        "name": "Escape restores external accessibility controls",
+        "passed": true
+      },
+      {
+        "name": "desktop breakpoint closes the mobile drawer",
+        "passed": true
+      },
+      {
+        "name": "desktop breakpoint restores external accessibility controls",
+        "passed": true
+      },
+      {
+        "name": "mobile has no same-origin HTTP errors",
+        "passed": true
+      }
+    ],
+    "failures": []
+  }
+}
