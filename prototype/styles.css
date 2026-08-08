@@ -46,6 +46,11 @@ body {
 }
 
 body.drawer-open { overflow: hidden; }
+body.drawer-open #pojo-a11y-toolbar,
+body.drawer-open #pojo-a11y-skip-content {
+  visibility: hidden;
+  pointer-events: none;
+}
 body.large-text { font-size: 18px; }
 
 img, svg { display: block; max-width: 100%; }

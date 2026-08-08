@@ -2,15 +2,14 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.2.6 boundary
+## Release 0.2.7 boundary
 
-The package preserves the live RTL homepage and adds a deterministic Thailand
-geography spine at `/wp-json/thailand-platform/v1/geography`. Its public payload
-contains the country, seven statistical regions, and all 77 provinces. Reviewed
-Hebrew, English, and Thai identities resolve through precompiled indexes, while
-ambiguous aliases remain explicit and fuzzy guesses are rejected. The endpoint
-supports ETag revalidation and does not expose authoring sources or internal
-indexes.
+The package keeps the live RTL homepage, country, seven-region, and 77-province
+geography spine intact. It also makes the current homepage description and hero
+artwork the explicit Open Graph and X sharing values, replacing legacy homepage
+social metadata without changing the canonical SEO description owner. While the
+mobile navigation drawer is open, the external accessibility controls are hidden
+and inert so they cannot cover the drawer heading or receive background focus.
 
 The public healthcheck now confirms that the compiled geography artifact can be
 loaded. Upgrade and activation still create no content, options, tables,

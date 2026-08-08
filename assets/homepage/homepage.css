@@ -47,6 +47,11 @@ body.thailand-platform-home {
 }
 
 body.thailand-platform-home.drawer-open { overflow: hidden; }
+body.thailand-platform-home.drawer-open #pojo-a11y-toolbar,
+body.thailand-platform-home.drawer-open #pojo-a11y-skip-content {
+  visibility: hidden;
+  pointer-events: none;
+}
 body.thailand-platform-home.large-text { font-size: 18px; }
 
 .thp-home img, .thp-home svg { display: block; max-width: 100%; }

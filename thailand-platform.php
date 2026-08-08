@@ -3,7 +3,7 @@
  * Plugin Name: Thailand Platform
  * Plugin URI: https://thai-land.co.il/
  * Description: Geography, search, and homepage runtime for thai-land.co.il.
- * Version: 0.2.6
+ * Version: 0.2.7
  * Requires at least: 6.9
  * Requires PHP: 7.4
  * Author: thai-land.co.il
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THAILAND_PLATFORM_VERSION', '0.2.6' );
+define( 'THAILAND_PLATFORM_VERSION', '0.2.7' );
 define( 'THAILAND_PLATFORM_FILE', __FILE__ );
 define( 'THAILAND_PLATFORM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );

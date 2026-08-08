@@ -355,7 +355,7 @@ use Thailand_Platform\Homepage\Renderer;
 use Thailand_Platform\Homepage\Seo;
 use Thailand_Platform\Geography\Repository as Geography_Repository;
 
-tl_test_assert( '0.2.6' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.2.7' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -387,8 +387,12 @@ tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_title' ), 'Y
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_metadesc' ), 'Yoast description filter mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_title' ), 'Open Graph title filter mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_desc' ), 'Open Graph description filter mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image' ), 'Open Graph image filter mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image_width' ), 'Open Graph image width filter mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image_height' ), 'Open Graph image height filter mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_title' ), 'Twitter title filter mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_description' ), 'Twitter description filter mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_image' ), 'Twitter image filter mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wp_headers' ), 'Homepage header filter mismatch.' );
 tl_test_assert( 5 === $GLOBALS['tl_test_actions']['init'][0]['priority'], 'Update checker priority mismatch.' );
 tl_test_assert( 99 === $GLOBALS['tl_test_filters']['template_include'][0]['priority'], 'Template filter priority mismatch.' );
@@ -688,6 +692,23 @@ tl_test_assert(
 tl_test_assert( false !== strpos( $css, '@keyframes thp-home-fade-in' ), 'Scoped homepage fade keyframe missing.' );
 tl_test_assert( false !== strpos( $css, '@keyframes thp-home-slide-in-rtl' ), 'Scoped homepage drawer keyframe missing.' );
 tl_test_assert( 0 === preg_match( '/@keyframes\s+(?:fade-in|slide-in-rtl)\b/', $css ), 'Generic homepage keyframe name leaked globally.' );
+tl_test_assert(
+	false !== strpos( $css, 'body.thailand-platform-home.drawer-open #pojo-a11y-toolbar' )
+	&& false !== strpos( $css, 'body.thailand-platform-home.drawer-open #pojo-a11y-skip-content' )
+	&& false !== strpos( $css, 'visibility: hidden;' )
+	&& false !== strpos( $css, 'pointer-events: none;' ),
+	'Open mobile drawer no longer suppresses the external accessibility control.'
+);
+tl_test_assert( false !== strpos( $js, "doc.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')" ), 'Mobile drawer no longer includes all external accessibility controls in its inert background.' );
+tl_test_assert( false !== strpos( $js, 'new Set([...drawerBackground, ...externalDrawerControls])' ), 'Mobile drawer background restoration can contain duplicate elements.' );
+tl_test_assert( false !== strpos( $js, 'inert: element.inert' ), 'Mobile drawer no longer records prior inert state.' );
+tl_test_assert( false !== strpos( $js, 'element.inert = inert' ), 'Mobile drawer no longer restores prior inert state.' );
+tl_test_assert( false !== strpos( $js, "window.matchMedia('(min-width: 1231px)')" ), 'Mobile drawer no longer watches the desktop navigation breakpoint.' );
+tl_test_assert( false !== strpos( $js, "desktopNavigation.addEventListener('change', closeDrawerAtDesktop)" ), 'Mobile drawer no longer closes when the desktop breakpoint is crossed.' );
+tl_test_assert( false !== strpos( $js, 'closeDrawer({ restoreFocus: false })' ), 'Desktop breakpoint close can move focus to the hidden menu button.' );
+tl_test_assert( false !== strpos( $js, "doc.querySelector('.site-header .brand')" ), 'Desktop breakpoint close has no visible focus destination.' );
+tl_test_assert( false !== strpos( $js, "doc.activeElement?.closest('#mobile-drawer')" ), 'Desktop breakpoint close no longer detects focus left in the hidden drawer.' );
+tl_test_assert( false !== strpos( $js, 'desktopFocusTarget?.focus({ preventScroll: true })' ), 'Desktop breakpoint close no longer moves focus to the visible header.' );
 foreach ( array( 'em dash' => "\xE2\x80\x94", 'en dash' => "\xE2\x80\x93" ) as $dash_name => $dash_bytes ) {
 	tl_test_assert( false === strpos( $markup, $dash_bytes ), 'Homepage public markup contains an ' . $dash_name . '.' );
 	tl_test_assert( false === strpos( $js, $dash_bytes ), 'Homepage public JavaScript contains an ' . $dash_name . '.' );
@@ -844,6 +865,11 @@ foreach ( array( 'pre_get_document_title', 'wpseo_title', 'wpseo_opengraph_title
 foreach ( array( 'wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description' ) as $description_filter ) {
 	tl_test_assert( 'Legacy description' === tl_test_apply_filters( $description_filter, 'Legacy description' ), 'Off mode changed description filter: ' . $description_filter );
 }
+foreach ( array( 'wpseo_opengraph_image', 'wpseo_twitter_image' ) as $image_filter ) {
+	tl_test_assert( 'legacy.webp' === tl_test_apply_filters( $image_filter, 'legacy.webp' ), 'Off mode changed social image filter: ' . $image_filter );
+}
+tl_test_assert( '640' === tl_test_apply_filters( 'wpseo_opengraph_image_width', '640' ), 'Off mode changed Open Graph image width.' );
+tl_test_assert( '421' === tl_test_apply_filters( 'wpseo_opengraph_image_height', '421' ), 'Off mode changed Open Graph image height.' );
 $GLOBALS['tl_test_styles']      = array();
 $GLOBALS['tl_test_scripts']     = array();
 $GLOBALS['tl_test_script_data'] = array();
@@ -944,8 +970,13 @@ tl_test_assert( 'Existing owner' === tl_test_apply_filters( 'wpseo_metadesc', 'E
 tl_test_assert( Seo::DESCRIPTION === tl_test_apply_filters( 'wpseo_metadesc', '' ), 'Missing live SEO description was not filled.' );
 tl_test_assert( Seo::DESCRIPTION === tl_test_apply_filters( 'wpseo_opengraph_desc', '' ), 'Open Graph description mismatch.' );
 tl_test_assert( Seo::DESCRIPTION === tl_test_apply_filters( 'wpseo_twitter_description', '' ), 'Twitter description mismatch.' );
-tl_test_assert( 'Social owner' === tl_test_apply_filters( 'wpseo_opengraph_desc', 'Social owner' ), 'Existing Open Graph description was replaced.' );
-tl_test_assert( 'Social owner' === tl_test_apply_filters( 'wpseo_twitter_description', 'Social owner' ), 'Existing Twitter description was replaced.' );
+tl_test_assert( Seo::DESCRIPTION === tl_test_apply_filters( 'wpseo_opengraph_desc', 'Legacy social description' ), 'Legacy Open Graph description remained live.' );
+tl_test_assert( Seo::DESCRIPTION === tl_test_apply_filters( 'wpseo_twitter_description', 'Legacy social description' ), 'Legacy Twitter description remained live.' );
+$expected_social_image = plugins_url( Seo::SOCIAL_IMAGE, THAILAND_PLATFORM_FILE );
+tl_test_assert( $expected_social_image === tl_test_apply_filters( 'wpseo_opengraph_image', 'legacy.webp' ), 'Live Open Graph image mismatch.' );
+tl_test_assert( $expected_social_image === tl_test_apply_filters( 'wpseo_twitter_image', 'legacy.webp' ), 'Live Twitter image mismatch.' );
+tl_test_assert( Seo::SOCIAL_IMAGE_WIDTH === tl_test_apply_filters( 'wpseo_opengraph_image_width', '640' ), 'Live Open Graph image width mismatch.' );
+tl_test_assert( Seo::SOCIAL_IMAGE_HEIGHT === tl_test_apply_filters( 'wpseo_opengraph_image_height', '421' ), 'Live Open Graph image height mismatch.' );
 
 /* Canary mode is administrator-only, noindex, and private. */
 tl_test_set_request( FeatureFlag::MODE_CANARY, true, false, true );

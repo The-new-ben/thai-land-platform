@@ -10,6 +10,9 @@ namespace Thailand_Platform\Homepage;
 final class Seo {
 	const TITLE       = 'תאילנד: טיולים, מעבר, נדל״ן ועסקים | Thai-Land.co.il';
 	const DESCRIPTION = 'תאילנד בעברית: יעדים, מסלולים, מגורים, נדל״ן ועסקים לישראלים בבנגקוק, פוקט, קוסמוי וצ׳יאנג מאי.';
+	const SOCIAL_IMAGE = 'assets/homepage/images/homepage-hero-thailand-system-v1-1713.webp';
+	const SOCIAL_IMAGE_WIDTH = '1713';
+	const SOCIAL_IMAGE_HEIGHT = '918';
 
 	/**
 	 * Register narrowly scoped filters without taking schema ownership.
@@ -24,9 +27,13 @@ final class Seo {
 		add_filter( 'wpseo_title', array( $this, 'title' ) );
 		add_filter( 'wpseo_metadesc', array( $this, 'description' ) );
 		add_filter( 'wpseo_opengraph_title', array( $this, 'title' ) );
-		add_filter( 'wpseo_opengraph_desc', array( $this, 'description' ) );
+		add_filter( 'wpseo_opengraph_desc', array( $this, 'social_description' ) );
+		add_filter( 'wpseo_opengraph_image', array( $this, 'social_image' ) );
+		add_filter( 'wpseo_opengraph_image_width', array( $this, 'social_image_width' ) );
+		add_filter( 'wpseo_opengraph_image_height', array( $this, 'social_image_height' ) );
 		add_filter( 'wpseo_twitter_title', array( $this, 'title' ) );
-		add_filter( 'wpseo_twitter_description', array( $this, 'description' ) );
+		add_filter( 'wpseo_twitter_description', array( $this, 'social_description' ) );
+		add_filter( 'wpseo_twitter_image', array( $this, 'social_image' ) );
 		add_filter( 'wp_headers', array( $this, 'headers' ) );
 	}
 
@@ -87,6 +94,44 @@ final class Seo {
 		}
 
 		return self::DESCRIPTION;
+	}
+
+	/**
+	 * Keep the live homepage message consistent when it is shared.
+	 *
+	 * @param string $description Existing social description.
+	 * @return string
+	 */
+	public function social_description( $description ) {
+		return Context::should_render() ? self::DESCRIPTION : $description;
+	}
+
+	/**
+	 * Use the current homepage artwork instead of the legacy social image.
+	 *
+	 * @param string $image Existing social image URL.
+	 * @return string
+	 */
+	public function social_image( $image ) {
+		return Context::should_render()
+			? plugins_url( self::SOCIAL_IMAGE, THAILAND_PLATFORM_FILE )
+			: $image;
+	}
+
+	/**
+	 * @param string $width Existing Open Graph image width.
+	 * @return string
+	 */
+	public function social_image_width( $width ) {
+		return Context::should_render() ? self::SOCIAL_IMAGE_WIDTH : $width;
+	}
+
+	/**
+	 * @param string $height Existing Open Graph image height.
+	 * @return string
+	 */
+	public function social_image_height( $height ) {
+		return Context::should_render() ? self::SOCIAL_IMAGE_HEIGHT : $height;
 	}
 
 	/**

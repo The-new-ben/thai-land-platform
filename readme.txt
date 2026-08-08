@@ -4,23 +4,30 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.2.6
+Stable tag: 0.2.7
 License: Proprietary
 
 Geography, search, and homepage runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.2.6 adds the canonical country, seven-region, and 77-province data
-spine. The compiled runtime resolves reviewed Hebrew, English, and Thai names,
-codes, slugs, and aliases without fuzzy guessing. A public read-only geography
-endpoint returns the bounded client payload with cache headers and ETag
-revalidation. Authoring sources, internal indexes, and source notes are not
-packaged as public data. Upgrade and activation do not change content, URLs,
-redirects, taxonomies, schema, or database structure. The existing RTL
-homepage and compact chat behavior remain unchanged.
+Version 0.2.7 keeps the canonical country, seven-region, and 77-province data
+spine intact. It aligns Open Graph and X descriptions and artwork with the live
+homepage, keeps both external accessibility controls out of the open mobile
+navigation drawer, and closes that drawer safely when the desktop breakpoint is
+crossed. Upgrade and activation do not change content, URLs, redirects,
+taxonomies, schema, or database structure.
 
 == Changelog ==
+
+= 0.2.7 =
+* Use the current homepage description and artwork for Open Graph and X shares.
+* Hide and inert both external accessibility controls while the mobile
+  navigation drawer is open, then restore their prior state exactly.
+* Close the mobile drawer and move focus to the visible header when the desktop
+  breakpoint is crossed.
+* Add anonymous production acceptance checks for social metadata, structured
+  data, language, interactions, responsive layout, and drawer focus behavior.
 
 = 0.2.6 =
 * Add the canonical Thailand country, seven-region, and 77-province registry.

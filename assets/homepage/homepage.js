@@ -100,6 +100,8 @@
   const drawerToggle = doc.querySelector('.menu-toggle');
   const drawerPanel = drawer?.querySelector('.mobile-drawer__panel');
   const pageRoot = doc.querySelector('.thp-home') || body;
+  const desktopFocusTarget = doc.querySelector('.site-header .brand');
+  const desktopNavigation = window.matchMedia('(min-width: 1231px)');
   let inertSiblings = [];
   let drawerReturnFocus = null;
 
@@ -114,12 +116,15 @@
     drawerToggle.setAttribute('aria-expanded', 'true');
     drawerToggle.setAttribute('aria-label', 'סגירת תפריט');
     body.classList.add('drawer-open');
-    inertSiblings = pageRoot
-      ? [...pageRoot.children].filter((element) => element !== drawer).map((element) => ({
-          element,
-          ariaHidden: element.getAttribute('aria-hidden')
-        }))
+    const drawerBackground = pageRoot
+      ? [...pageRoot.children].filter((element) => element !== drawer)
       : [];
+    const externalDrawerControls = [...doc.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')];
+    inertSiblings = [...new Set([...drawerBackground, ...externalDrawerControls])].map((element) => ({
+      element,
+      ariaHidden: element.getAttribute('aria-hidden'),
+      inert: element.inert
+    }));
     inertSiblings.forEach(({ element }) => {
       element.inert = true;
       element.setAttribute('aria-hidden', 'true');
@@ -127,19 +132,25 @@
     window.requestAnimationFrame(() => drawer.querySelector('.mobile-drawer__head [data-drawer-close]')?.focus());
   };
 
-  const closeDrawer = () => {
+  const closeDrawer = (options = {}) => {
     if (!drawer || drawer.hidden) return;
+    const restoreFocus = options.restoreFocus !== false;
     drawer.hidden = true;
     drawerToggle?.setAttribute('aria-expanded', 'false');
     drawerToggle?.setAttribute('aria-label', 'פתיחת תפריט');
     body.classList.remove('drawer-open');
-    inertSiblings.forEach(({ element, ariaHidden }) => {
-      element.inert = false;
+    inertSiblings.forEach(({ element, ariaHidden, inert }) => {
+      element.inert = inert;
       if (ariaHidden === null) element.removeAttribute('aria-hidden');
       else element.setAttribute('aria-hidden', ariaHidden);
     });
     inertSiblings = [];
-    if (drawerReturnFocus instanceof HTMLElement) drawerReturnFocus.focus();
+    if (restoreFocus && drawerReturnFocus instanceof HTMLElement) {
+      drawerReturnFocus.focus();
+    } else if (!restoreFocus && doc.activeElement?.closest('#mobile-drawer')) {
+      desktopFocusTarget?.focus({ preventScroll: true });
+    }
+    drawerReturnFocus = null;
   };
 
   drawerToggle?.addEventListener('click', () => {
@@ -147,6 +158,15 @@
   });
   drawer?.querySelectorAll('[data-drawer-close]').forEach((button) => button.addEventListener('click', closeDrawer));
   drawer?.querySelectorAll('a[href^="#"]').forEach((link) => link.addEventListener('click', closeDrawer));
+
+  const closeDrawerAtDesktop = (event) => {
+    if (event.matches) closeDrawer({ restoreFocus: false });
+  };
+  if (typeof desktopNavigation.addEventListener === 'function') {
+    desktopNavigation.addEventListener('change', closeDrawerAtDesktop);
+  } else if (typeof desktopNavigation.addListener === 'function') {
+    desktopNavigation.addListener(closeDrawerAtDesktop);
+  }
 
   drawerPanel?.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
