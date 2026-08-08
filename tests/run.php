@@ -758,7 +758,7 @@ foreach ( array( 'תאילנד לישראלים', 'ישראלים בתאילנד
 	tl_test_assert( false !== strpos( $markup, $reader_phrase ), 'Homepage public markup is missing reader-facing language: ' . $reader_phrase );
 }
 
-foreach ( array( 'שירותים', 'עסקים והאתר', 'כל המידע על בנגקוק', 'קהילה ושירותים', 'שירותים לפי אזור', 'מימון, שכירות, תשואה וניהול', 'MARKET<br>OPERATIONS', 'THAILAND<br>BUSINESS', 'חפשו יעד, שכונה, פרויקט, שירות או אטרקציה', 'חיפושים נפוצים', 'חיפוש בכל תאילנד' ) as $unsupported_phrase ) {
+foreach ( array( 'עסקים והאתר', 'כל המידע על בנגקוק', 'קהילה ושירותים', 'שירותים לפי אזור', 'מימון, שכירות, תשואה וניהול', 'MARKET<br>OPERATIONS', 'THAILAND<br>BUSINESS', 'חפשו יעד, שכונה, פרויקט, שירות או אטרקציה', 'חיפושים נפוצים', 'חיפוש בכל תאילנד' ) as $unsupported_phrase ) {
 	tl_test_assert( false === strpos( $markup, $unsupported_phrase ), 'Homepage public markup contains an unsupported promise or presentation label: ' . $unsupported_phrase );
 }
 

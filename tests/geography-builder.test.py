@@ -463,7 +463,7 @@ class GeographyBuilderTest(unittest.TestCase):
                 "JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION);"
             )
             process = subprocess.run(
-                [str(php), "-n", "-r", php_script, str(output_root / "resources" / "geography" / "registry.php")],
+                [str(php), "-r", php_script, str(output_root / "resources" / "geography" / "registry.php")],
                 check=False,
                 capture_output=True,
                 text=True,

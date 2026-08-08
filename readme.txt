@@ -29,8 +29,8 @@ homepage and compact chat behavior remain unchanged.
 * Add SEO intent ownership and geography source-lineage release evidence.
 * Add concrete Chabad and kosher-service details for Bangkok, Phuket, Samui,
   Koh Phangan, and Chiang Mai.
-* Replace unsupported search labels and enforce a 50-phrase public language
-  boundary.
+* Replace unsupported search labels and vague homepage copy, and enforce a
+  50-phrase public language boundary.
 
 = 0.2.5 =
 * Replace presentation-style homepage language with direct destination,
