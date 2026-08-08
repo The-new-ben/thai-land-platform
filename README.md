@@ -2,18 +2,19 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.2.5 boundary
+## Release 0.2.6 boundary
 
-The package preserves the minimal public healthcheck at
-`/wp-json/thailand-platform/v1/health` and adds a theme-independent RTL homepage
-behind the allowlisted `off | canary | live` presentation option. Upgrades
-default to the legacy homepage until an administrator deliberately changes the
-mode. Canary responses are private and noindex. Mode changes, deactivation,
-and uninstall clear the installed page cache so the original theme returns
-immediately after rollback.
+The package preserves the live RTL homepage and adds a deterministic Thailand
+geography spine at `/wp-json/thailand-platform/v1/geography`. Its public payload
+contains the country, seven statistical regions, and all 77 provinces. Reviewed
+Hebrew, English, and Thai identities resolve through precompiled indexes, while
+ambiguous aliases remain explicit and fuzzy guesses are rejected. The endpoint
+supports ETag revalidation and does not expose authoring sources or internal
+indexes.
 
-The homepage also keeps the existing chat compact and leaves enough room for
-its launcher beside the fixed phone actions.
+The public healthcheck now confirms that the compiled geography artifact can be
+loaded. Upgrade and activation still create no content, options, tables,
+taxonomies, or persistent rewrite rules.
 
 ## Local verification
 
@@ -23,6 +24,10 @@ php tests/run.php
 node --check prototype/app.js
 node tests/tawk-state.test.js
 python scripts/build_homepage_assets.py
+python scripts/build_geography_registry.py --check
+python tests/geography-builder.test.py
+python tests/seo-ownership-registry.test.py
+php -n tests/geography-resolver.test.php
 ```
 
 The deterministic builder includes only the exact sorted inventory in

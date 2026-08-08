@@ -7,6 +7,7 @@
 
 namespace Thailand_Platform\Health;
 
+use Thailand_Platform\Geography\Repository as Geography_Repository;
 use WP_REST_Response;
 
 final class Route {
@@ -45,13 +46,24 @@ final class Route {
 	 * @return WP_REST_Response
 	 */
 	public function respond() {
+		$status_code = 200;
+		$status      = 'ok';
+
+		try {
+			Geography_Repository::all();
+		} catch ( \Throwable $exception ) {
+			unset( $exception );
+			$status_code = 503;
+			$status      = 'degraded';
+		}
+
 		$response = new WP_REST_Response(
 			array(
 				'name'    => 'thailand-platform',
 				'version' => THAILAND_PLATFORM_VERSION,
-				'status'  => 'ok',
+				'status'  => $status,
 			),
-			200
+			$status_code
 		);
 
 		$response->header( 'Cache-Control', 'no-store' );

@@ -221,6 +221,22 @@ final class WP_REST_Server {
 	const READABLE = 'GET';
 }
 
+final class TL_Test_REST_Request {
+	private $headers;
+
+	public function __construct( $headers = array() ) {
+		$this->headers = array();
+		foreach ( $headers as $name => $value ) {
+			$this->headers[ strtolower( (string) $name ) ] = (string) $value;
+		}
+	}
+
+	public function get_header( $name ) {
+		$key = strtolower( (string) $name );
+		return isset( $this->headers[ $key ] ) ? $this->headers[ $key ] : '';
+	}
+}
+
 final class TL_Test_Query {
 	public $is_404 = false;
 
@@ -337,9 +353,9 @@ use Thailand_Platform\Homepage\Context;
 use Thailand_Platform\Homepage\FeatureFlag;
 use Thailand_Platform\Homepage\Renderer;
 use Thailand_Platform\Homepage\Seo;
-use Thailand_Platform\Geography\Registry as Geography_Registry;
+use Thailand_Platform\Geography\Repository as Geography_Repository;
 
-tl_test_assert( '0.2.5' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.2.6' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -387,6 +403,7 @@ tl_test_assert(
 );
 
 tl_test_do_action( 'rest_api_init' );
+tl_test_assert( ! Geography_Repository::is_loaded(), 'Geography registry loaded before a geography request.' );
 $route_key = 'thailand-platform/v1/health';
 tl_test_assert( isset( $GLOBALS['tl_test_routes'][ $route_key ] ), 'Health route missing.' );
 
@@ -405,55 +422,61 @@ tl_test_assert( 'ok' === $data['status'], 'Health response state mismatch.' );
 tl_test_assert( 'no-store' === $headers['Cache-Control'], 'Health response cache policy mismatch.' );
 tl_test_assert( 3 === count( $data ), 'Health response exposed unexpected fields.' );
 
-/* The public geography API must expose the complete, source-backed province spine. */
+/* The public geography API must expose only the compiled 77-province spine. */
 $geography_route_key = 'thailand-platform/v1/geography';
 tl_test_assert( isset( $GLOBALS['tl_test_routes'][ $geography_route_key ] ), 'Geography route missing.' );
 $geography_route = $GLOBALS['tl_test_routes'][ $geography_route_key ];
 tl_test_assert( 'GET' === $geography_route['methods'], 'Geography route is not GET-only.' );
 tl_test_assert( '__return_true' === $geography_route['permission_callback'], 'Geography permission callback mismatch.' );
 
-$geography_response = call_user_func( $geography_route['callback'] );
-$geography_data     = $geography_response->get_data();
-$geography_headers  = $geography_response->get_headers();
+$geography_response      = call_user_func( $geography_route['callback'] );
+$geography_data          = $geography_response->get_data();
+$geography_headers       = $geography_response->get_headers();
+$geography_actual_keys   = array_keys( $geography_data );
+$geography_expected_keys = array( 'schema_version', 'dataset_version', 'country', 'classification_schemes', 'regions', 'provinces' );
+sort( $geography_actual_keys );
+sort( $geography_expected_keys );
 tl_test_assert( 200 === $geography_response->get_status(), 'Geography response status mismatch.' );
-tl_test_assert( 'TH' === $geography_data['country']['id'], 'Geography country identity mismatch.' );
-tl_test_assert( 77 === $geography_data['counts']['provinces'], 'Geography province count mismatch.' );
-tl_test_assert( 7 === $geography_data['counts']['regions'], 'Geography region count mismatch.' );
-tl_test_assert( false === $geography_data['region_model']['is_administrative_parent'], 'Statistical regions became administrative parents.' );
+tl_test_assert( Geography_Repository::is_loaded(), 'Geography registry did not load for the geography request.' );
+tl_test_assert(
+	$geography_expected_keys === $geography_actual_keys,
+	'Geography public response shape mismatch.'
+);
+tl_test_assert( 'geo:th:country' === $geography_data['country']['id'], 'Geography country identity mismatch.' );
 tl_test_assert( 77 === count( $geography_data['provinces'] ), 'Geography payload does not contain 77 provinces.' );
+tl_test_assert( 7 === count( $geography_data['regions'] ), 'Geography payload does not contain seven statistical regions.' );
 tl_test_assert( 1 === preg_match( '/^"[0-9a-f]{64}"$/', $geography_headers['ETag'] ), 'Geography ETag is invalid.' );
 tl_test_assert( false !== strpos( $geography_headers['Cache-Control'], 'max-age=86400' ), 'Geography cache policy mismatch.' );
 tl_test_assert( 'nosniff' === $geography_headers['X-Content-Type-Options'], 'Geography content type protection missing.' );
 
-$region_counts = array();
+$public_geography_json = wp_json_encode( $geography_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+tl_test_assert( false !== $public_geography_json, 'Geography public response could not be encoded.' );
+foreach ( array( 'aliases', 'indexes', 'relations_by_subject', 'source_ids', 'sources' ) as $internal_field ) {
+	tl_test_assert( false === strpos( $public_geography_json, '"' . $internal_field . '"' ), 'Geography public response exposed an internal field: ' . $internal_field );
+}
+
+$conditional_request = new TL_Test_REST_Request( array( 'If-None-Match' => 'W/' . $geography_headers['ETag'] ) );
+$conditional_response = call_user_func( $geography_route['callback'], $conditional_request );
+tl_test_assert( 304 === $conditional_response->get_status(), 'Matching geography ETag did not return 304.' );
+tl_test_assert( null === $conditional_response->get_data(), 'Geography 304 response returned a body.' );
+tl_test_assert( $geography_headers['ETag'] === $conditional_response->get_headers()['ETag'], 'Geography 304 ETag changed.' );
+
+$stale_request = new TL_Test_REST_Request( array( 'If-None-Match' => '"' . str_repeat( '0', 64 ) . '"' ) );
+$stale_response = call_user_func( $geography_route['callback'], $stale_request );
+tl_test_assert( 200 === $stale_response->get_status(), 'Stale geography ETag did not return the current payload.' );
+
 $province_codes = array();
 $province_slugs = array();
 foreach ( $geography_data['provinces'] as $province ) {
-	$region_id = $province['region_id'];
-	$region_counts[ $region_id ] = isset( $region_counts[ $region_id ] ) ? $region_counts[ $region_id ] + 1 : 1;
-	$province_codes[] = $province['code'];
+	$province_codes[] = $province['external_ids']['moi_province_code'];
 	$province_slugs[] = $province['slug'];
-	tl_test_assert( 'TH-' . $province['code'] === $province['id'], 'Province stable identity mismatch.' );
+	tl_test_assert( 'geo:th:province:' . $province['external_ids']['moi_province_code'] === $province['id'], 'Province stable identity mismatch.' );
 	tl_test_assert( is_bool( $province['priority'] ), 'Province priority is not boolean.' );
+	tl_test_assert( 'geo:th:country' === $province['admin_parent_id'], 'Province administrative parent mismatch.' );
+	tl_test_assert( 1 === count( $province['memberships'] ), 'Province classification membership count mismatch.' );
 }
-ksort( $region_counts );
-tl_test_assert(
-	array(
-		'bangkok-vicinity' => 6,
-		'central'          => 6,
-		'eastern'          => 8,
-		'northeastern'     => 20,
-		'northern'         => 17,
-		'southern'         => 14,
-		'western'          => 6,
-	) === $region_counts,
-	'Province distribution across the seven statistical regions is invalid.'
-);
 tl_test_assert( 77 === count( array_unique( $province_codes ) ), 'Province codes are not unique.' );
 tl_test_assert( 77 === count( array_unique( $province_slugs ) ), 'Province slugs are not unique.' );
-tl_test_assert( 'Bangkok Metropolis' === Geography_Registry::province( '10' )['name_en'], 'Province code resolver failed.' );
-tl_test_assert( '83' === Geography_Registry::province( 'phuket' )['code'], 'Province slug resolver failed.' );
-tl_test_assert( null === Geography_Registry::province( 'not-a-province' ), 'Unknown province resolver did not fail closed.' );
 
 /* The administrator setting must be allowlisted and default to Off. */
 tl_test_do_action( 'admin_init' );
@@ -527,6 +550,26 @@ $node_status = proc_close( $node_process );
 tl_test_assert( 0 === $node_status, 'Tawk behavior test failed: ' . trim( $node_stderr ) );
 tl_test_assert( 'PASS: Tawk chat behavior' === trim( $node_stdout ), 'Unexpected Tawk behavior test output.' );
 
+$geography_process = proc_open(
+	array( PHP_BINARY, $root . '/tests/geography-resolver.test.php' ),
+	array(
+		0 => array( 'pipe', 'r' ),
+		1 => array( 'pipe', 'w' ),
+		2 => array( 'pipe', 'w' ),
+	),
+	$geography_pipes,
+	$root
+);
+tl_test_assert( is_resource( $geography_process ), 'Could not start the geography resolver test.' );
+fclose( $geography_pipes[0] );
+$geography_stdout = stream_get_contents( $geography_pipes[1] );
+$geography_stderr = stream_get_contents( $geography_pipes[2] );
+fclose( $geography_pipes[1] );
+fclose( $geography_pipes[2] );
+$geography_status = proc_close( $geography_process );
+tl_test_assert( 0 === $geography_status, 'Geography resolver test failed: ' . trim( $geography_stderr ) );
+tl_test_assert( 'PASS: geography resolver contract' === trim( $geography_stdout ), 'Unexpected geography resolver test output.' );
+
 $package_lines  = file( $root . '/package-files.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 $package_entries = array();
 foreach ( $package_lines as $line ) {
@@ -563,9 +606,11 @@ foreach ( $homepage_runtime_files as $runtime_file ) {
 }
 
 $geography_runtime_files = array(
-	'data/geography/provinces.csv',
-	'data/geography/regions.json',
-	'src/Geography/Registry.php',
+	'assets/geography/core.json',
+	'resources/geography/manifest.json',
+	'resources/geography/registry.php',
+	'src/Geography/Repository.php',
+	'src/Geography/Resolver.php',
 	'src/Geography/Route.php',
 );
 foreach ( $geography_runtime_files as $runtime_file ) {
@@ -574,7 +619,7 @@ foreach ( $geography_runtime_files as $runtime_file ) {
 }
 
 foreach ( $package_entries as $entry ) {
-	foreach ( array( 'output/', 'prototype/', 'scripts/', 'tests/' ) as $excluded_prefix ) {
+	foreach ( array( 'data/', 'output/', 'prototype/', 'scripts/', 'tests/' ) as $excluded_prefix ) {
 		tl_test_assert( 0 !== strpos( $entry, $excluded_prefix ), 'Non-runtime tree entered package: ' . $entry );
 	}
 }
@@ -668,7 +713,39 @@ $presentation_phrases = array(
 	'נושאים למעבר',
 	'למציאת מקום ראשון',
 	'נקודות בדיקה',
+	'הפלטפורמה המקיפה ביותר',
+	'כל מה שצריך לדעת במקום אחד',
+	'המסע שלכם לתאילנד מתחיל כאן',
+	'גלו את תאילנד כמו שלא הכרתם',
+	'אנחנו משנים את הדרך',
+	'החזון שלנו',
+	'המשימה שלנו',
+	'מערכת תוכן מתקדמת',
+	'חוויה דיגיטלית פורצת דרך',
+	'פתרון מקיף לכל צורך',
+	'מידע אמין ומאומת',
+	'הצוות שלנו בדק עבורכם',
+	'המידע המעודכן ביותר',
+	'אלפי ישראלים כבר',
+	'האתר המוביל',
+	'המומחים שלנו',
+	'שנים של ניסיון',
+	'קהילה ותיקה',
+	'הצטרפו לקהילה הצומחת',
+	'אנו גאים להציג',
+	'ללא גבולות',
+	'הנכס המושלם',
+	'שאסור לפספס',
+	'השקעה בטוחה',
+	'בלב גן עדן',
+	'ללא פשרות',
+	'מיקום מנצח',
+	'אטרקטיבי במיוחד',
+	'תשואה גבוהה במיוחד',
+	'החלום התאילנדי',
+	'ללא תחרות',
 );
+tl_test_assert( 50 === count( $presentation_phrases ), 'Homepage language boundary must keep all 50 rejected phrases.' );
 foreach ( array( 'homepage markup' => $markup, 'homepage JavaScript' => $js ) as $public_source_name => $public_source ) {
 	foreach ( $presentation_phrases as $presentation_phrase ) {
 		tl_test_assert(
@@ -677,11 +754,11 @@ foreach ( array( 'homepage markup' => $markup, 'homepage JavaScript' => $js ) as
 		);
 	}
 }
-foreach ( array( 'תאילנד לישראלים', 'ישראלים בתאילנד', 'בעלות, עלויות וחוזים', 'חברות, רישוי ומסים', 'קוסמוי וקופנגן', 'חפשו יעד, מדריך או נושא בתאילנד' ) as $authority_phrase ) {
-	tl_test_assert( false !== strpos( $markup, $authority_phrase ), 'Homepage public markup is missing established-site language: ' . $authority_phrase );
+foreach ( array( 'תאילנד לישראלים', 'ישראלים בתאילנד', 'בעלות, עלויות וחוזים', 'חברות, רישוי ומסים', 'קוסמוי וקופנגן', 'חפשו יעד, מדריך או נושא בתאילנד', 'בתי חב״ד', 'מסעדות כשרות' ) as $reader_phrase ) {
+	tl_test_assert( false !== strpos( $markup, $reader_phrase ), 'Homepage public markup is missing reader-facing language: ' . $reader_phrase );
 }
 
-foreach ( array( 'שירותים', 'עסקים והאתר', 'כל המידע על בנגקוק', 'קהילה ושירותים', 'שירותים לפי אזור', 'מימון, שכירות, תשואה וניהול', 'MARKET<br>OPERATIONS', 'THAILAND<br>BUSINESS', 'חפשו יעד, שכונה, פרויקט, שירות או אטרקציה' ) as $unsupported_phrase ) {
+foreach ( array( 'שירותים', 'עסקים והאתר', 'כל המידע על בנגקוק', 'קהילה ושירותים', 'שירותים לפי אזור', 'מימון, שכירות, תשואה וניהול', 'MARKET<br>OPERATIONS', 'THAILAND<br>BUSINESS', 'חפשו יעד, שכונה, פרויקט, שירות או אטרקציה', 'חיפושים נפוצים', 'חיפוש בכל תאילנד' ) as $unsupported_phrase ) {
 	tl_test_assert( false === strpos( $markup, $unsupported_phrase ), 'Homepage public markup contains an unsupported promise or presentation label: ' . $unsupported_phrase );
 }
 

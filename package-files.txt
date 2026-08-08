@@ -1,10 +1,9 @@
+assets/geography/core.json
 assets/homepage/homepage.css
 assets/homepage/homepage.js
 assets/homepage/images/homepage-hero-thailand-system-v1-1024.webp
 assets/homepage/images/homepage-hero-thailand-system-v1-1713.webp
 assets/homepage/images/homepage-hero-thailand-system-v1-640.webp
-data/geography/provinces.csv
-data/geography/regions.json
 lib/plugin-update-checker/Puc/v5/PucFactory.php
 lib/plugin-update-checker/Puc/v5p6/Autoloader.php
 lib/plugin-update-checker/Puc/v5p6/DebugBar/Extension.php
@@ -124,8 +123,11 @@ lib/plugin-update-checker/vendor/Parsedown.php
 lib/plugin-update-checker/vendor/ParsedownModern.php
 lib/plugin-update-checker/vendor/PucReadmeParser.php
 readme.txt
+resources/geography/manifest.json
+resources/geography/registry.php
 resources/homepage.html
-src/Geography/Registry.php
+src/Geography/Repository.php
+src/Geography/Resolver.php
 src/Geography/Route.php
 src/Health/Route.php
 src/Homepage/Assets.php

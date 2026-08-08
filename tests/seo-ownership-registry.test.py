@@ -198,20 +198,19 @@ def discover_live_routes() -> set[str]:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     routes.update(re.findall(r"`(/wp-json/[^`]+)`", readme))
 
-    health_source = (ROOT / "src" / "Health" / "Route.php").read_text(
-        encoding="utf-8"
-    )
-    namespace_match = re.search(
-        r"REST_NAMESPACE\s*=\s*'([^']+)'", health_source
-    )
-    route_match = re.search(r"REST_ROUTE\s*=\s*'([^']+)'", health_source)
-    if namespace_match and route_match:
-        routes.add(
-            "/wp-json/"
-            + namespace_match.group(1).strip("/")
-            + "/"
-            + route_match.group(1).strip("/")
+    for relative in ("src/Geography/Route.php", "src/Health/Route.php"):
+        route_source = (ROOT / relative).read_text(encoding="utf-8")
+        namespace_match = re.search(
+            r"REST_NAMESPACE\s*=\s*'([^']+)'", route_source
         )
+        route_match = re.search(r"REST_ROUTE\s*=\s*'([^']+)'", route_source)
+        if namespace_match and route_match:
+            routes.add(
+                "/wp-json/"
+                + namespace_match.group(1).strip("/")
+                + "/"
+                + route_match.group(1).strip("/")
+            )
 
     test_source = (ROOT / "tests" / "run.php").read_text(encoding="utf-8")
     for match in re.finditer(
@@ -237,12 +236,25 @@ def collect_geo_ids(value: Any) -> set[str]:
 
 
 def source_geography_ids() -> set[str]:
-    """Derive the exact canonical country and province IDs from reviewed source."""
+    """Derive every canonical public geography ID from reviewed source."""
     regions = load_json(ROOT / "data" / "geography" / "regions.json")
     if regions.get("country", {}).get("id") != "TH":
         raise AssertionError("geography country source must be TH")
 
     entity_ids = {"geo:th:country"}
+    region_model = regions.get("region_model", {})
+    region_model_id = region_model.get("id")
+    region_rows = region_model.get("regions")
+    if not isinstance(region_model_id, str) or not isinstance(region_rows, list):
+        raise AssertionError("geography region source is incomplete")
+    if len(region_rows) != 7:
+        raise AssertionError(f"expected 7 statistical regions, got {len(region_rows)}")
+    for region in region_rows:
+        region_id = region.get("id") if isinstance(region, dict) else None
+        if not isinstance(region_id, str) or not region_id:
+            raise AssertionError("geography region source has an invalid ID")
+        entity_ids.add(f"geo:th:region:{region_model_id}:{region_id}")
+
     with (ROOT / "data" / "geography" / "provinces.csv").open(
         "r", encoding="utf-8-sig", newline=""
     ) as handle:
@@ -310,7 +322,7 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
             owner["url"] for owner in self.owners if owner["lifecycle"] == "live"
         }
         self.assertEqual(discovered, registered_live)
-        self.assertEqual(13, len(registered_live))
+        self.assertEqual(14, len(registered_live))
 
     def test_next_national_owners_are_reserved(self) -> None:
         required = {
@@ -425,6 +437,10 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
         self.assertEqual(
             ["geo:th:province:83", "geo:th:province:84"],
             self.by_url["/פוקט-או-קו-סמוי/"]["subject_entity_ids"],
+        )
+        self.assertEqual(
+            ["geo:th:country"],
+            self.by_url["/wp-json/thailand-platform/v1/geography"]["subject_entity_ids"],
         )
         for url in (
             "/?s={query}",

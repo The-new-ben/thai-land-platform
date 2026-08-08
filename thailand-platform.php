@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Thailand Platform
  * Plugin URI: https://thai-land.co.il/
- * Description: The modular platform foundation for thai-land.co.il.
- * Version: 0.2.5
+ * Description: Geography, search, and homepage runtime for thai-land.co.il.
+ * Version: 0.2.6
  * Requires at least: 6.9
  * Requires PHP: 7.4
  * Author: thai-land.co.il
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THAILAND_PLATFORM_VERSION', '0.2.5' );
+define( 'THAILAND_PLATFORM_VERSION', '0.2.6' );
 define( 'THAILAND_PLATFORM_FILE', __FILE__ );
 define( 'THAILAND_PLATFORM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );
@@ -24,7 +24,8 @@ define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );
 require_once THAILAND_PLATFORM_DIR . 'src/Support/Compatibility.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Support/Loader.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Health/Route.php';
-require_once THAILAND_PLATFORM_DIR . 'src/Geography/Registry.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Geography/Repository.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Geography/Resolver.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Geography/Route.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Homepage/FeatureFlag.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Context.php';

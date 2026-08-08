@@ -4,25 +4,33 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.2.5
+Stable tag: 0.2.6
 License: Proprietary
 
-The modular platform foundation for thai-land.co.il.
+Geography, search, and homepage runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.2.5 adds the RTL homepage experience behind an
-administrator-controlled, fail-closed feature flag. Upgrade and activation do
-not change the configured front page, content, URLs, redirects, taxonomies,
-schema, or database structure. The default mode is Off; Canary is private and
-noindex; Live changes only the presentation of the existing canonical homepage.
-Mode transitions, deactivation, and uninstall purge the installed page cache.
-The existing chat stays compact on larger screens and does not cover the fixed
-homepage controls on phones.
-The public healthcheck remains available and the vendored update UI fallback
-remains disabled.
+Version 0.2.6 adds the canonical country, seven-region, and 77-province data
+spine. The compiled runtime resolves reviewed Hebrew, English, and Thai names,
+codes, slugs, and aliases without fuzzy guessing. A public read-only geography
+endpoint returns the bounded client payload with cache headers and ETag
+revalidation. Authoring sources, internal indexes, and source notes are not
+packaged as public data. Upgrade and activation do not change content, URLs,
+redirects, taxonomies, schema, or database structure. The existing RTL
+homepage and compact chat behavior remain unchanged.
 
 == Changelog ==
+
+= 0.2.6 =
+* Add the canonical Thailand country, seven-region, and 77-province registry.
+* Resolve reviewed Hebrew, English, and Thai identities without fuzzy guesses.
+* Add the cacheable public geography endpoint with ETag revalidation.
+* Add SEO intent ownership and geography source-lineage release evidence.
+* Add concrete Chabad and kosher-service details for Bangkok, Phuket, Samui,
+  Koh Phangan, and Chiang Mai.
+* Replace unsupported search labels and enforce a 50-phrase public language
+  boundary.
 
 = 0.2.5 =
 * Replace presentation-style homepage language with direct destination,

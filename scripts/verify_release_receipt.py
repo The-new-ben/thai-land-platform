@@ -83,6 +83,7 @@ def main() -> int:
             "built_at",
             "bytes",
             "deterministic_zip",
+            "geography",
             "inventory",
             "inventory_count",
             "path",
@@ -121,6 +122,126 @@ def main() -> int:
     require(type(receipt["inventory_count"]) is int, "inventory count type mismatch")
     require(receipt["inventory_count"] == len(expected_inventory), "inventory count mismatch")
 
+    geography = receipt["geography"]
+    require(isinstance(geography, dict), "geography evidence must be an object")
+    exact_keys(
+        geography,
+        {
+            "artifacts",
+            "country_id",
+            "counts",
+            "dataset_version",
+            "manifest",
+            "manifest_sha256",
+            "parity",
+            "schema_version",
+            "source_inputs",
+            "source_manifest_sha256",
+        },
+        "geography evidence",
+    )
+    require(geography["parity"] == "pass", "geography parity did not pass")
+    require(geography["schema_version"] == "1.0.0", "geography schema version mismatch")
+    require(
+        isinstance(geography["dataset_version"], str)
+        and re.fullmatch(r"[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+", geography["dataset_version"]) is not None,
+        "geography dataset version is invalid",
+    )
+    require(geography["country_id"] == "geo:th:country", "geography country identity mismatch")
+    require(geography["manifest"] == "resources/geography/manifest.json", "geography manifest path mismatch")
+
+    geography_manifest_path = source_root / geography["manifest"]
+    geography_manifest = parse_json(geography_manifest_path)
+    exact_keys(
+        geography_manifest,
+        {
+            "artifacts",
+            "country_id",
+            "counts",
+            "dataset_version",
+            "entity_type_counts",
+            "normalization",
+            "schema_version",
+            "source_inputs",
+            "source_manifest_sha256",
+        },
+        "geography manifest",
+    )
+    require(valid_hash(geography["manifest_sha256"]), "geography manifest hash is invalid")
+    require(geography["manifest_sha256"] == sha256(geography_manifest_path), "geography manifest hash mismatch")
+    for field in (
+        "artifacts",
+        "country_id",
+        "counts",
+        "dataset_version",
+        "schema_version",
+        "source_inputs",
+        "source_manifest_sha256",
+    ):
+        require(geography[field] == geography_manifest[field], f"geography manifest disagrees: {field}")
+
+    counts = geography["counts"]
+    require(isinstance(counts, dict), "geography counts must be an object")
+    exact_keys(
+        counts,
+        {"alias_candidates", "alias_keys", "entities", "provinces", "regions", "relations"},
+        "geography counts",
+    )
+    require(counts["entities"] == 85, "geography entity count mismatch")
+    require(counts["provinces"] == 77, "geography province count mismatch")
+    require(counts["regions"] == 7, "geography region count mismatch")
+    require(counts["relations"] == 154, "geography relation count mismatch")
+    require(
+        type(counts["alias_candidates"]) is int
+        and type(counts["alias_keys"]) is int
+        and counts["alias_candidates"] >= counts["alias_keys"] > 0,
+        "geography alias counts are invalid",
+    )
+    require(
+        geography_manifest["entity_type_counts"] == {"country": 1, "province": 77, "statistical_region": 7},
+        "geography entity type counts mismatch",
+    )
+
+    expected_sources = {
+        "aliases.csv",
+        "geometry.json",
+        "normalization-vectors.json",
+        "provinces.csv",
+        "regions.json",
+        "registry.json",
+        "registry.schema.json",
+        "relations.json",
+    }
+    source_inputs = geography["source_inputs"]
+    require(isinstance(source_inputs, dict), "geography source evidence must be an object")
+    exact_keys(source_inputs, expected_sources, "geography source evidence")
+    for relative, evidence in source_inputs.items():
+        require(isinstance(evidence, dict), f"geography source record is invalid: {relative}")
+        exact_keys(evidence, {"bytes", "sha256"}, f"geography source record {relative}")
+        source_path = source_root / "data" / "geography" / relative
+        require(source_path.is_file() and not source_path.is_symlink(), f"geography source is missing or unsafe: {relative}")
+        require(type(evidence["bytes"]) is int and evidence["bytes"] == source_path.stat().st_size, f"geography source size mismatch: {relative}")
+        require(valid_hash(evidence["sha256"]) and evidence["sha256"] == sha256(source_path), f"geography source hash mismatch: {relative}")
+    require(
+        geography["source_manifest_sha256"] == source_inputs["registry.json"]["sha256"],
+        "geography source manifest lineage mismatch",
+    )
+
+    expected_geography_artifacts = {
+        "assets/geography/core.json",
+        "resources/geography/registry.php",
+    }
+    geography_artifacts = geography["artifacts"]
+    require(isinstance(geography_artifacts, dict), "geography artifact evidence must be an object")
+    exact_keys(geography_artifacts, expected_geography_artifacts, "geography artifact evidence")
+    for relative, evidence in geography_artifacts.items():
+        require(isinstance(evidence, dict), f"geography artifact record is invalid: {relative}")
+        exact_keys(evidence, {"bytes", "sha256"}, f"geography artifact record {relative}")
+        artifact_path = source_root / relative
+        require(artifact_path.is_file() and not artifact_path.is_symlink(), f"geography artifact is missing or unsafe: {relative}")
+        require(type(evidence["bytes"]) is int and evidence["bytes"] == artifact_path.stat().st_size, f"geography artifact size mismatch: {relative}")
+        require(valid_hash(evidence["sha256"]) and evidence["sha256"] == sha256(artifact_path), f"geography artifact hash mismatch: {relative}")
+
     with zipfile.ZipFile(artifact, "r") as archive:
         require(archive.namelist() == expected_inventory, "ZIP inventory mismatch")
         require(archive.testzip() is None, "ZIP integrity check failed")
@@ -132,15 +253,21 @@ def main() -> int:
         {
             "contract_test_output",
             "contract_tests",
+            "geography_builder_tests",
+            "geography_compiler",
             "php_binary",
             "php_files_linted",
             "php_lint",
             "php_runtime",
+            "seo_registry_tests",
         },
         "QA evidence",
     )
     require(qa["php_lint"] == "pass", "PHP lint did not pass")
     require(qa["contract_tests"] == "pass", "contract tests did not pass")
+    require(qa["geography_compiler"] == "pass", "geography compiler parity did not pass")
+    require(qa["geography_builder_tests"] == "pass", "geography builder tests did not pass")
+    require(qa["seo_registry_tests"] == "pass", "SEO ownership registry tests did not pass")
     require(qa["contract_test_output"] == "PASS: Thailand Platform release contract", "contract test output mismatch")
     require(type(qa["php_files_linted"]) is int and qa["php_files_linted"] > 0, "PHP lint count is invalid")
     require(isinstance(qa["php_runtime"], str) and qa["php_runtime"].startswith("PHP "), "PHP runtime is invalid")

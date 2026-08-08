@@ -14,6 +14,7 @@
       "prototype/index.html",
       "release.json",
       "resources/homepage.html",
+      "src/Geography/Route.php",
       "src/Health/Route.php",
       "tests/run.php",
       "thailand-platform.php"
@@ -612,6 +613,53 @@
         "README.md:7-9",
         "src/Health/Route.php:13-39",
         "tests/run.php:384-401"
+      ]
+    },
+    {
+      "owner_id": "platform-geography",
+      "lifecycle": "live",
+      "route_kind": "exact",
+      "url": "/wp-json/thailand-platform/v1/geography",
+      "name": "נתוני מחוזות ואזורים של תאילנד",
+      "primary_intent": "להחזיר לרכיבי האתר את המדינה, שבעת האזורים הסטטיסטיים ואת 77 המחוזות",
+      "canonical_owner": "/wp-json/thailand-platform/v1/geography",
+      "subject_entity_ids": [
+        "geo:th:country"
+      ],
+      "parent_hub": "/",
+      "breadcrumb_chain": [
+        {
+          "name": "ראשי",
+          "url": "/"
+        },
+        {
+          "name": "נתוני גאוגרפיה",
+          "url": "/wp-json/thailand-platform/v1/geography"
+        }
+      ],
+      "entity_type": "api_endpoint",
+      "audience": "רכיבי החיפוש, המפה והניווט באתר",
+      "funnel_role": "technical",
+      "freshness_class": "release_bound",
+      "indexing_policy": "noindex",
+      "cannibalization_exclusions": [
+        {
+          "intent": "מפת תאילנד לקוראים",
+          "owner_url": "/מפת-תאילנד/"
+        },
+        {
+          "intent": "בחירת יעד בתאילנד",
+          "owner_url": "/יעדים-בתאילנד/"
+        },
+        {
+          "intent": "מידע כללי על תאילנד",
+          "owner_url": "/"
+        }
+      ],
+      "source_evidence": [
+        "resources/geography/manifest.json",
+        "src/Geography/Route.php",
+        "tests/run.php"
       ]
     },
     {

@@ -7,7 +7,6 @@
 
 namespace Thailand_Platform\Geography;
 
-use RuntimeException;
 use WP_REST_Response;
 
 final class Route {
@@ -24,7 +23,7 @@ final class Route {
 	}
 
 	/**
-	 * Register the public source-backed geography endpoint.
+	 * Register the public compiled geography endpoint.
 	 *
 	 * @return void
 	 */
@@ -41,19 +40,25 @@ final class Route {
 	}
 
 	/**
-	 * Return all 77 province entities and the non-administrative region facets.
+	 * Serve the compiled public payload with conditional cache validation.
 	 *
+	 * @param object|null $request REST request.
 	 * @return WP_REST_Response
 	 */
-	public function respond() {
+	public function respond( $request = null ) {
 		try {
-			$response = new WP_REST_Response( Registry::public_payload(), 200 );
+			$etag = '"' . Repository::public_digest() . '"';
+			$status = self::etag_matches( self::request_header( $request, 'if-none-match' ), $etag ) ? 304 : 200;
+			$response = new WP_REST_Response(
+				304 === $status ? null : Repository::public_payload(),
+				$status
+			);
 			$response->header( 'Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800' );
-			$response->header( 'ETag', '"' . Registry::digest() . '"' );
+			$response->header( 'ETag', $etag );
 			$response->header( 'X-Content-Type-Options', 'nosniff' );
 
 			return $response;
-		} catch ( RuntimeException $exception ) {
+		} catch ( \Throwable $exception ) {
 			unset( $exception );
 
 			$response = new WP_REST_Response(
@@ -67,5 +72,40 @@ final class Route {
 
 			return $response;
 		}
+	}
+
+	/**
+	 * @param object|null $request REST request.
+	 * @param string      $name Header name.
+	 * @return string
+	 */
+	private static function request_header( $request, $name ) {
+		if ( ! is_object( $request ) || ! method_exists( $request, 'get_header' ) ) {
+			return '';
+		}
+
+		return trim( (string) $request->get_header( $name ) );
+	}
+
+	/**
+	 * Match strong or weak validators from an If-None-Match list.
+	 *
+	 * @param string $request_value Request header.
+	 * @param string $etag Current ETag.
+	 * @return bool
+	 */
+	private static function etag_matches( $request_value, $etag ) {
+		if ( '' === $request_value ) {
+			return false;
+		}
+
+		foreach ( explode( ',', $request_value ) as $candidate ) {
+			$candidate = trim( $candidate );
+			if ( '*' === $candidate || $etag === $candidate || 'W/' . $etag === $candidate ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

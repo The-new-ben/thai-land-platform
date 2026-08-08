@@ -48,6 +48,17 @@ if ($version -notmatch '^[0-9]+(?:\.[0-9]+)+$') {
 }
 
 $releaseInputs = @(
+    'data/geography/aliases.csv',
+    'data/geography/geometry.json',
+    'data/geography/normalization-vectors.json',
+    'data/geography/provinces.csv',
+    'data/geography/regions.json',
+    'data/geography/registry.json',
+    'data/geography/registry.schema.json',
+    'data/geography/relations.json',
+    'data/seo/README.md',
+    'data/seo/ownership-registry.json',
+    'data/seo/ownership-registry.schema.json',
     'package-files.txt',
     'prototype/app.js',
     'prototype/assets/homepage-hero-thailand-system-v1-1024.webp',
@@ -57,11 +68,15 @@ $releaseInputs = @(
     'prototype/styles.css',
     'release.json',
     'scripts/build_homepage_assets.py',
+    'scripts/build_geography_registry.py',
     'scripts/build_plugin_zip.py',
     'scripts/read_release_version.py',
     'scripts/release.ps1',
     'scripts/verify_release_receipt.py',
+    'tests/geography-builder.test.py',
+    'tests/geography-resolver.test.php',
     'tests/run.php',
+    'tests/seo-ownership-registry.test.py',
     'tests/tawk-state.test.js'
 )
 $releaseInputs += Get-Content -LiteralPath (Join-Path $repositoryRoot 'package-files.txt')
@@ -122,6 +137,9 @@ try {
 
     $builder = Join-Path $frozenSource 'scripts\build_plugin_zip.py'
     $assetBuilder = Join-Path $frozenSource 'scripts\build_homepage_assets.py'
+    $geographyBuilder = Join-Path $frozenSource 'scripts\build_geography_registry.py'
+    $geographyBuilderTest = Join-Path $frozenSource 'tests\geography-builder.test.py'
+    $seoRegistryTest = Join-Path $frozenSource 'tests\seo-ownership-registry.test.py'
     $validator = Join-Path $frozenSource 'scripts\verify_release_receipt.py'
     $candidateA = Join-Path $resolvedTemporaryRoot 'candidate-a.zip'
     $candidateB = Join-Path $resolvedTemporaryRoot 'candidate-b.zip'
@@ -129,6 +147,21 @@ try {
     $assetCheckOutput = & $pythonExecutable $assetBuilder --check
     if ($LASTEXITCODE -ne 0) {
         throw "Generated homepage asset verification failed.`n$assetCheckOutput"
+    }
+
+    $geographyCheckOutput = & $pythonExecutable $geographyBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated geography registry verification failed.`n$geographyCheckOutput"
+    }
+
+    $geographyTestOutput = & $pythonExecutable $geographyBuilderTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Geography builder tests failed.`n$geographyTestOutput"
+    }
+
+    $seoTestOutput = & $pythonExecutable $seoRegistryTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "SEO ownership registry tests failed.`n$seoTestOutput"
     }
 
     $buildAOutput = & $pythonExecutable $builder --root $frozenSource --out $candidateA --php-bin $phpExecutable --source-commit $sourceCommit

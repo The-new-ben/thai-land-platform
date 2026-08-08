@@ -1,0 +1,77 @@
+name: Thailand Platform quality
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    name: PHP ${{ matrix.php }} contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        php:
+          - '7.4'
+          - '8.3'
+          - '8.4'
+          - '8.5'
+
+    steps:
+      - name: Check out reviewed source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Install PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@20529878ed81ef8e78ddf08b480401e6101a850f
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          extensions: intl
+          tools: none
+        env:
+          fail-fast: true
+
+      - name: Verify generated homepage assets
+        run: python scripts/build_homepage_assets.py --check
+
+      - name: Verify generated geography artifacts
+        run: python scripts/build_geography_registry.py --check
+
+      - name: Test geography compiler
+        run: python tests/geography-builder.test.py
+
+      - name: Test SEO ownership registry
+        run: python tests/seo-ownership-registry.test.py
+
+      - name: Check JavaScript syntax and chat behavior
+        run: |
+          node --check prototype/app.js
+          node --check assets/homepage/homepage.js
+          node tests/tawk-state.test.js
+
+      - name: Lint PHP
+        run: find . -type f -name '*.php' -not -path './plugin-dist/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Test plugin and runtime contracts
+        run: |
+          php tests/run.php
+          php -n tests/geography-resolver.test.php
+
+      - name: Build release candidate on minimum PHP
+        if: matrix.php == '7.4'
+        run: >-
+          python scripts/build_plugin_zip.py
+          --root .
+          --out "$RUNNER_TEMP/thailand-platform.zip"
+          --php-bin "$(command -v php)"
+          --source-commit "$GITHUB_SHA"

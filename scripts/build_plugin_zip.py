@@ -69,6 +69,103 @@ def json_no_duplicates(path: Path) -> dict[str, Any]:
     return parsed
 
 
+def geography_evidence(root: Path) -> dict[str, Any]:
+    """Validate and freeze the compiled geography lineage in the release receipt."""
+    manifest_path = root / "resources" / "geography" / "manifest.json"
+    manifest = json_no_duplicates(manifest_path)
+    expected_manifest_keys = {
+        "artifacts",
+        "country_id",
+        "counts",
+        "dataset_version",
+        "entity_type_counts",
+        "normalization",
+        "schema_version",
+        "source_inputs",
+        "source_manifest_sha256",
+    }
+    if set(manifest) != expected_manifest_keys:
+        raise ValueError("geography manifest fields are missing or unexpected")
+    if manifest.get("schema_version") != "1.0.0":
+        raise ValueError("geography schema version mismatch")
+    if not re.fullmatch(r"[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+", str(manifest.get("dataset_version", ""))):
+        raise ValueError("geography dataset version is invalid")
+    if manifest.get("country_id") != "geo:th:country":
+        raise ValueError("geography country identity mismatch")
+
+    counts = manifest.get("counts")
+    if not isinstance(counts, dict) or set(counts) != {
+        "alias_candidates",
+        "alias_keys",
+        "entities",
+        "provinces",
+        "regions",
+        "relations",
+    }:
+        raise ValueError("geography counts are missing or unexpected")
+    if counts["entities"] != 85 or counts["provinces"] != 77 or counts["regions"] != 7:
+        raise ValueError("geography entity counts do not match the national spine")
+    if counts["relations"] != 154 or counts["alias_candidates"] < counts["alias_keys"]:
+        raise ValueError("geography relation or alias counts are invalid")
+
+    entity_type_counts = manifest.get("entity_type_counts")
+    if entity_type_counts != {"country": 1, "province": 77, "statistical_region": 7}:
+        raise ValueError("geography entity type counts are invalid")
+
+    expected_sources = {
+        "aliases.csv",
+        "geometry.json",
+        "normalization-vectors.json",
+        "provinces.csv",
+        "regions.json",
+        "registry.json",
+        "registry.schema.json",
+        "relations.json",
+    }
+    source_inputs = manifest.get("source_inputs")
+    if not isinstance(source_inputs, dict) or set(source_inputs) != expected_sources:
+        raise ValueError("geography source inventory is missing or unexpected")
+
+    expected_artifacts = {
+        "assets/geography/core.json",
+        "resources/geography/registry.php",
+    }
+    artifacts = manifest.get("artifacts")
+    if not isinstance(artifacts, dict) or set(artifacts) != expected_artifacts:
+        raise ValueError("geography artifact inventory is missing or unexpected")
+
+    for label, records, base in (
+        ("source", source_inputs, root / "data" / "geography"),
+        ("artifact", artifacts, root),
+    ):
+        for relative, record in records.items():
+            if not isinstance(record, dict) or set(record) != {"bytes", "sha256"}:
+                raise ValueError(f"geography {label} evidence is invalid: {relative}")
+            path = base / relative if label == "source" else base / Path(*PurePosixPath(relative).parts)
+            if not path.is_file() or path.is_symlink():
+                raise ValueError(f"geography {label} is missing or unsafe: {relative}")
+            payload = path.read_bytes()
+            if record["bytes"] != len(payload) or record["sha256"] != sha256_bytes(payload):
+                raise ValueError(f"geography {label} evidence mismatch: {relative}")
+
+    registry_hash = source_inputs["registry.json"]["sha256"]
+    if manifest.get("source_manifest_sha256") != registry_hash:
+        raise ValueError("geography source manifest lineage mismatch")
+
+    return {
+        "artifacts": artifacts,
+        "country_id": manifest["country_id"],
+        "counts": counts,
+        "dataset_version": manifest["dataset_version"],
+        "manifest": "resources/geography/manifest.json",
+        "manifest_sha256": sha256_bytes(manifest_path.read_bytes()),
+        "parity": "pass",
+        "schema_version": manifest["schema_version"],
+        "source_inputs": source_inputs,
+        "source_manifest_sha256": manifest["source_manifest_sha256"],
+    }
+
+
 def read_inventory(root: Path) -> list[str]:
     inventory_path = root / "package-files.txt"
     entries = [
@@ -258,6 +355,9 @@ def run_qa(root: Path, entries: list[str], php_bin: Path) -> dict[str, Any]:
     for entry in php_files:
         run_checked([str(php_bin), "-l", str(root / Path(*PurePosixPath(entry).parts))], root)
 
+    run_checked([sys.executable, str(root / "scripts" / "build_geography_registry.py"), "--check"], root)
+    run_checked([sys.executable, str(root / "tests" / "geography-builder.test.py")], root)
+    run_checked([sys.executable, str(root / "tests" / "seo-ownership-registry.test.py")], root)
     test_output = run_checked([str(php_bin), str(root / "tests" / "run.php")], root)
     php_version = run_checked([str(php_bin), "--version"], root).splitlines()[0]
 
@@ -271,6 +371,9 @@ def run_qa(root: Path, entries: list[str], php_bin: Path) -> dict[str, Any]:
         "php_files_linted": len(php_files),
         "contract_tests": "pass",
         "contract_test_output": test_output,
+        "geography_compiler": "pass",
+        "geography_builder_tests": "pass",
+        "seo_registry_tests": "pass",
     }
 
 
@@ -351,6 +454,7 @@ def main() -> int:
     vendor = validate_vendor_tree(root)
     php_bin = resolve_php_binary(args.php_bin)
     qa = run_qa(root, entries, php_bin)
+    geography = geography_evidence(root)
     output = (args.out or root / "plugin-dist" / f"{PLUGIN_SLUG}-{contract['version']}.zip").resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
 
@@ -378,6 +482,7 @@ def main() -> int:
                 "python_runtime": sys.version.splitlines()[0],
                 "script_sha256": sha256_bytes(Path(__file__).read_bytes()),
             },
+            "geography": geography,
             "qa": qa,
             "release_contract": contract,
             "secret_scan": {
