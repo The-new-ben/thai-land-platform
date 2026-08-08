@@ -2,12 +2,15 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.1.0 boundary
+## Release 0.2.0 boundary
 
-The first package is deliberately additive and stores no data. It registers a
-minimal public healthcheck at `/wp-json/thailand-platform/v1/health` so a live
-package version can be verified independently before any visible or persistent
-platform feature is enabled.
+The package preserves the minimal public healthcheck at
+`/wp-json/thailand-platform/v1/health` and adds a theme-independent RTL homepage
+behind the allowlisted `off | canary | live` presentation option. Upgrades
+default to the legacy homepage until an administrator deliberately changes the
+mode. Canary responses are private and noindex. Mode changes, deactivation,
+and uninstall clear the installed page cache so the original theme returns
+immediately after rollback.
 
 ## Local verification
 
@@ -15,6 +18,7 @@ platform feature is enabled.
 Get-ChildItem -Recurse -Filter *.php | ForEach-Object { php -l $_.FullName }
 php tests/run.php
 node --check prototype/app.js
+python scripts/build_homepage_assets.py
 ```
 
 The deterministic builder includes only the exact sorted inventory in
@@ -39,7 +43,7 @@ commit.
 ## Production rule
 
 Never edit this plugin directly on production. Releases must come from reviewed
-Git code, pass the complete QA contract, use an immutable hash-matched public
-package, deploy through a temporary administrator-only route, verify the public
-healthcheck and rendered result independently, and delete that route with a
-confirmed `404`.
+Git code, pass the complete QA contract, use an immutable hash-matched package,
+deploy in Off mode, pass an administrator-only canary, and verify the public
+healthcheck and rendered result independently. Emergency recovery also includes
+an independent Upress cache clear because cached responses do not execute PHP.

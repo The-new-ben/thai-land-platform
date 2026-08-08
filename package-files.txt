@@ -1,3 +1,8 @@
+assets/homepage/homepage.css
+assets/homepage/homepage.js
+assets/homepage/images/homepage-hero-thailand-system-v1-1024.webp
+assets/homepage/images/homepage-hero-thailand-system-v1-1713.webp
+assets/homepage/images/homepage-hero-thailand-system-v1-640.webp
 lib/plugin-update-checker/Puc/v5/PucFactory.php
 lib/plugin-update-checker/Puc/v5p6/Autoloader.php
 lib/plugin-update-checker/Puc/v5p6/DebugBar/Extension.php
@@ -117,9 +122,18 @@ lib/plugin-update-checker/vendor/Parsedown.php
 lib/plugin-update-checker/vendor/ParsedownModern.php
 lib/plugin-update-checker/vendor/PucReadmeParser.php
 readme.txt
+resources/homepage.html
 src/Health/Route.php
+src/Homepage/Assets.php
+src/Homepage/Context.php
+src/Homepage/FeatureFlag.php
+src/Homepage/Module.php
+src/Homepage/Renderer.php
+src/Homepage/Seo.php
+src/Homepage/Settings.php
 src/Support/Compatibility.php
 src/Support/Loader.php
 src/Updates/Checker.php
+templates/front-page.php
 thailand-platform.php
 uninstall.php

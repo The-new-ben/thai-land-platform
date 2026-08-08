@@ -3,7 +3,7 @@
  * Plugin Name: Thailand Platform
  * Plugin URI: https://thai-land.co.il/
  * Description: The modular platform foundation for thai-land.co.il.
- * Version: 0.1.0
+ * Version: 0.2.0
  * Requires at least: 6.9
  * Requires PHP: 7.4
  * Author: thai-land.co.il
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THAILAND_PLATFORM_VERSION', '0.1.0' );
+define( 'THAILAND_PLATFORM_VERSION', '0.2.0' );
 define( 'THAILAND_PLATFORM_FILE', __FILE__ );
 define( 'THAILAND_PLATFORM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );
@@ -24,6 +24,13 @@ define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );
 require_once THAILAND_PLATFORM_DIR . 'src/Support/Compatibility.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Support/Loader.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Health/Route.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Homepage/FeatureFlag.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Context.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Assets.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Seo.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Renderer.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Settings.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Module.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Updates/Checker.php';
 
 define(
@@ -34,7 +41,7 @@ define(
 /**
  * Validate the bounded bootstrap release before activation.
  *
- * This release creates no options, tables, posts, users, or rewrite rules.
+ * Activation creates no options, tables, posts, users, or rewrite rules.
  *
  * @return void
  */
@@ -43,12 +50,12 @@ function thailand_platform_activate() {
 }
 
 /**
- * Keep deactivation free of destructive cleanup.
+ * Purge presentation caches without deleting content or configuration.
  *
  * @return void
  */
 function thailand_platform_deactivate() {
-	// Intentionally empty. Uninstall owns future deliberate data cleanup.
+	Thailand_Platform\Homepage\Settings::purge_caches();
 }
 
 register_activation_hook( THAILAND_PLATFORM_FILE, 'thailand_platform_activate' );

@@ -49,7 +49,14 @@ if ($version -notmatch '^[0-9]+(?:\.[0-9]+)+$') {
 
 $releaseInputs = @(
     'package-files.txt',
+    'prototype/app.js',
+    'prototype/assets/homepage-hero-thailand-system-v1-1024.webp',
+    'prototype/assets/homepage-hero-thailand-system-v1-1713.webp',
+    'prototype/assets/homepage-hero-thailand-system-v1-640.webp',
+    'prototype/index.html',
+    'prototype/styles.css',
     'release.json',
+    'scripts/build_homepage_assets.py',
     'scripts/build_plugin_zip.py',
     'scripts/read_release_version.py',
     'scripts/release.ps1',
@@ -113,9 +120,15 @@ try {
     }
 
     $builder = Join-Path $frozenSource 'scripts\build_plugin_zip.py'
+    $assetBuilder = Join-Path $frozenSource 'scripts\build_homepage_assets.py'
     $validator = Join-Path $frozenSource 'scripts\verify_release_receipt.py'
     $candidateA = Join-Path $resolvedTemporaryRoot 'candidate-a.zip'
     $candidateB = Join-Path $resolvedTemporaryRoot 'candidate-b.zip'
+
+    $assetCheckOutput = & $pythonExecutable $assetBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated homepage asset verification failed.`n$assetCheckOutput"
+    }
 
     $buildAOutput = & $pythonExecutable $builder --root $frozenSource --out $candidateA --php-bin $phpExecutable --source-commit $sourceCommit
     if ($LASTEXITCODE -ne 0) {
