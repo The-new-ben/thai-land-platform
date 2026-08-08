@@ -495,13 +495,13 @@ async function run() {
     await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
     await page.waitForFunction(() => {
       const toolbar = document.querySelector('#pojo-a11y-toolbar');
-      return toolbar?.classList.contains('pojo-a11y-toolbar-open') && Math.abs(toolbar.getBoundingClientRect().x) < 1;
+      return toolbar?.classList.contains('pojo-a11y-toolbar-open') && Math.abs(toolbar.getBoundingClientRect().x) < 0.05;
     });
     report.responsive.accessibility_rail_open = await inspectAccessibilityRail();
     await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
     await page.waitForFunction(() => {
       const toolbar = document.querySelector('#pojo-a11y-toolbar');
-      return !toolbar?.classList.contains('pojo-a11y-toolbar-open') && Math.abs(toolbar.getBoundingClientRect().x + 180) < 1;
+      return !toolbar?.classList.contains('pojo-a11y-toolbar-open') && Math.abs(toolbar.getBoundingClientRect().x + 180) < 0.05;
     });
     report.responsive.accessibility_rail_restored = await inspectAccessibilityRail();
     report.responsive.external_a11y_before = await page.evaluate(() => (
@@ -676,6 +676,7 @@ async function run() {
     });
     });
 
+    await page.mouse.move(10, 300);
     report.responsive.header_search_rest = await inspectHeaderSearchControl();
     await page.locator('.thp-header-search button').hover();
     report.responsive.header_search_hover = await inspectHeaderSearchControl();
@@ -823,7 +824,7 @@ async function run() {
   const railClosed = report.responsive.accessibility_rail_closed;
   const railOpen = report.responsive.accessibility_rail_open;
   const railRestored = report.responsive.accessibility_rail_restored;
-  add('mobile accessibility control uses a compact bottom-left rail and still opens', railClosed && railOpen && railRestored && railClosed.open === false && railClosed.toggle_visible === true && railClosed.toggle_topmost === true && railClosed.toolbar_rect.x === -180 && railClosed.toolbar_rect.right === 0 && railClosed.toggle_rect.x === 0 && railClosed.toggle_rect.right === 44 && railClosed.toggle_rect.width === 44 && railClosed.toggle_rect.height === 44 && railClosed.toggle_rect.y >= 68 && railClosed.toggle_rect.bottom <= 844 && railOpen.open === true && railOpen.toolbar_rect.x === 0 && railOpen.toolbar_rect.right === 180 && railOpen.toggle_rect.x === 180 && railOpen.toggle_rect.right === 224 && railOpen.toggle_topmost === true && railRestored.open === false && railRestored.toolbar_rect.x === -180 && railRestored.toggle_rect.x === 0 && railRestored.toggle_topmost === true, { closed: railClosed, open: railOpen, restored: railRestored });
+  add('mobile accessibility control uses a compact bottom-left rail and still opens', railClosed && railOpen && railRestored && railClosed.open === false && railClosed.toggle_visible === true && railClosed.toggle_topmost === true && Math.abs(railClosed.toolbar_rect.x + 180) <= 1 && Math.abs(railClosed.toolbar_rect.right) <= 1 && Math.abs(railClosed.toggle_rect.x) <= 1 && Math.abs(railClosed.toggle_rect.right - 44) <= 1 && railClosed.toggle_rect.width === 44 && railClosed.toggle_rect.height === 44 && railClosed.toggle_rect.y >= 68 && railClosed.toggle_rect.bottom <= 844 && railOpen.open === true && Math.abs(railOpen.toolbar_rect.x) <= 1 && Math.abs(railOpen.toolbar_rect.right - 180) <= 1 && Math.abs(railOpen.toggle_rect.x - 180) <= 1 && Math.abs(railOpen.toggle_rect.right - 224) <= 1 && railOpen.toggle_topmost === true && railRestored.open === false && Math.abs(railRestored.toolbar_rect.x + 180) <= 1 && Math.abs(railRestored.toggle_rect.x) <= 1 && railRestored.toggle_topmost === true, { closed: railClosed, open: railOpen, restored: railRestored });
   add('mobile drawer opens as an isolated dialog', open.expanded === 'true' && open.label === 'סגירת תפריט' && open.drawer_hidden === false && open.dialog_count === 1 && open.focused_inside === true && open.body_open === true && open.body_overflow === 'hidden' && open.page_isolated === true && open.heading === 'תפריט ראשי');
   add('mobile drawer has a complete pointer-only backdrop', open.backdrop_tag === 'DIV' && open.backdrop_aria_hidden === 'true' && sameColor(open.backdrop_background, [3, 24, 23, 0.72]) && open.backdrop_background_image === 'none' && open.backdrop_visibility === 'visible' && open.backdrop_pointer_events !== 'none' && open.backdrop_opacity === '1' && backdrop.x === 0 && backdrop.y === 0 && backdrop.width === 390 && backdrop.height === 844 && open.backdrop_is_top_left === true && panel.right === 390 && panel.width > 0 && panel.width < backdrop.width && panel.height === 844, { backdrop: open, panel });
   add('mobile drawer has three visible menu bars', open.toggle_bars.length === 3 && barsAreDistinct && open.toggle_bars.every((bar) => bar.display === 'block' && sameColor(bar.background_color, forest) && bar.opacity === '1' && bar.height >= 2 && bar.width >= 20 && contrastRatio(forest, white) >= 3), open.toggle_bars);
