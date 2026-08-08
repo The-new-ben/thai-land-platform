@@ -38,12 +38,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<nav aria-label="ניווט בנייד">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">עמוד הבית</a>
 				<a href="<?php echo esc_url( home_url( '/תיירות-בתאילנד/' ) ); ?>">טיולים בתאילנד</a>
-				<a href="<?php echo esc_url( home_url( '/נדלן-בתאילנד/' ) ); ?>">נדל״ן בתאילנד</a>
+				<a href="<?php echo esc_url( home_url( '/נדלן-בתאילנד/' ) ); ?>"<?php echo 'hub' === $route['kind'] ? ' aria-current="page"' : ''; ?>>נדל״ן בתאילנד</a>
 				<a href="<?php echo esc_url( home_url( '/עסקים-בתאילנד-סקירה-כללית/' ) ); ?>">עסקים בתאילנד</a>
 				<a href="<?php echo esc_url( home_url( '/בנגקוק-תאילנד/' ) ); ?>">בנגקוק</a>
 				<a href="<?php echo esc_url( home_url( '/פוקט-או-קו-סמוי/' ) ); ?>">פוקט או קוסמוי</a>
 			</nav>
 		</div>
-		<button class="thp-mobile-nav-backdrop" type="button" data-thp-menu-close aria-label="סגירת תפריט"></button>
+		<div class="thp-mobile-nav-backdrop" data-thp-menu-close aria-hidden="true"></div>
 	</div>
 </header>

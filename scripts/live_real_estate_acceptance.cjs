@@ -86,39 +86,111 @@ function unexpectedConsoleErrors(errors) {
   });
 }
 
+function parseColor(value) {
+  const match = String(value || '').match(/^rgba?\(\s*([\d.]+)[, ]+\s*([\d.]+)[, ]+\s*([\d.]+)(?:\s*[,/]\s*([\d.]+))?\s*\)$/i);
+  if (!match) return null;
+  return [Number(match[1]), Number(match[2]), Number(match[3]), match[4] === undefined ? 1 : Number(match[4])];
+}
+
+function sameColor(value, expected, tolerance = 0.01) {
+  const actual = parseColor(value);
+  return actual !== null && actual.every((channel, index) => Math.abs(channel - expected[index]) <= tolerance);
+}
+
+function contrastRatio(foreground, background) {
+  const linear = (channel) => {
+    const normalized = channel / 255;
+    return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+  };
+  const luminance = (color) => 0.2126 * linear(color[0]) + 0.7152 * linear(color[1]) + 0.0722 * linear(color[2]);
+  const first = luminance(foreground);
+  const second = luminance(background);
+  return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+}
+
+async function stabilizeForCapture(page) {
+  await page.evaluate(async () => {
+    const images = [...document.images];
+    images.forEach((image) => { image.loading = 'eager'; });
+    if (document.fonts?.ready) await document.fonts.ready;
+    await Promise.all(images.map(async (image) => {
+      if (!image.complete) await new Promise((resolve) => {
+        image.addEventListener('load', resolve, { once: true });
+        image.addEventListener('error', resolve, { once: true });
+      });
+      if (typeof image.decode === 'function') await image.decode().catch(() => {});
+    }));
+  });
+  await page.waitForFunction(() => {
+    const height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    const now = performance.now();
+    const state = window.__thpCaptureHeightState;
+    if (!state || state.height !== height) {
+      window.__thpCaptureHeightState = { height, since: now };
+      return false;
+    }
+    return now - state.since >= 300;
+  }, null, { polling: 100, timeout: 5000 });
+}
+
 async function capturePage(page, basename) {
+  await stabilizeForCapture(page);
   const dimensions = await page.evaluate(() => ({
     width: document.documentElement.clientWidth,
     height: Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
   }));
   const files = [];
-  if (dimensions.height <= 15000) {
+  const segments = [];
+  if (dimensions.height <= 7000) {
     const filename = `${basename}.png`;
     await page.screenshot({
       path: path.join(outputDir, filename),
       fullPage: true,
       animations: 'disabled',
+      scale: 'css',
     });
     files.push(filename);
-    return files;
+    segments.push({ filename, top: 0, height: dimensions.height, bottom: dimensions.height });
+  } else {
+    const segmentHeight = 6500;
+    const overlap = 160;
+    const step = segmentHeight - overlap;
+    const originalViewport = page.viewportSize();
+    await page.setViewportSize({ width: dimensions.width, height: segmentHeight });
+    await page.waitForFunction((expected) => innerWidth === expected.width && innerHeight === expected.height, { width: dimensions.width, height: segmentHeight });
+    const captureHeight = await page.evaluate(() => Math.max(document.body.scrollHeight, document.documentElement.scrollHeight));
+    const maxScroll = Math.max(0, captureHeight - segmentHeight);
+    const targets = [];
+    for (let top = 0; top < maxScroll; top += step) targets.push(top);
+    if (targets.at(-1) !== maxScroll) targets.push(maxScroll);
+    for (let index = 0; index < targets.length; index += 1) {
+      const targetTop = targets[index];
+      await page.evaluate(async (top) => {
+        window.scrollTo(0, top);
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      }, targetTop);
+      const actualTop = await page.evaluate(() => window.scrollY);
+      const filename = `${basename}-part-${String(index + 1).padStart(2, '0')}.png`;
+      await page.screenshot({
+        path: path.join(outputDir, filename),
+        fullPage: false,
+        animations: 'disabled',
+        scale: 'css',
+      });
+      files.push(filename);
+      segments.push({ filename, target_top: targetTop, top: actualTop, height: segmentHeight, bottom: actualTop + segmentHeight });
+    }
+    if (originalViewport) await page.setViewportSize(originalViewport);
   }
-
-  const segmentHeight = 7000;
-  for (let top = 0, part = 1; top < dimensions.height; top += segmentHeight, part += 1) {
-    const filename = `${basename}-part-${String(part).padStart(2, '0')}.png`;
-    await page.screenshot({
-      path: path.join(outputDir, filename),
-      clip: {
-        x: 0,
-        y: top,
-        width: dimensions.width,
-        height: Math.min(segmentHeight, dimensions.height - top),
-      },
-      animations: 'disabled',
-    });
-    files.push(filename);
-  }
-  return files;
+  const finalHeight = await page.evaluate(() => Math.max(document.body.scrollHeight, document.documentElement.scrollHeight));
+  return {
+    files,
+    segments,
+    width: dimensions.width,
+    measured_height: dimensions.height,
+    final_height: finalHeight,
+    coverage_complete: segments.at(-1)?.bottom >= finalHeight,
+  };
 }
 
 async function inspectRoute(page, route, forbidden) {
@@ -141,13 +213,25 @@ async function inspectRoute(page, route, forbidden) {
       const styledElement = childSelector ? element?.querySelector(childSelector) : element;
       if (!element || !styledElement) return null;
       const style = getComputedStyle(styledElement);
+      const elementRect = element.getBoundingClientRect();
+      const range = document.createRange();
+      range.selectNodeContents(styledElement);
+      const textRect = range.getBoundingClientRect();
+      const containerStyle = getComputedStyle(element);
       return {
         text: element.innerText.trim(),
         color: style.color,
+        text_fill_color: style.webkitTextFillColor,
         background_color: style.backgroundColor,
+        background_image: containerStyle.backgroundImage,
         display: style.display,
         visibility: style.visibility,
         opacity: style.opacity,
+        pointer_events: style.pointerEvents,
+        element_width: elementRect.width,
+        element_height: elementRect.height,
+        text_width: textRect.width,
+        text_height: textRect.height,
       };
     };
 
@@ -186,6 +270,11 @@ async function inspectRoute(page, route, forbidden) {
       release_asset_count: document.querySelectorAll(`link[href*="ver=${version}"],script[src*="ver=${version}"]`).length,
       overflow_pixels: document.documentElement.scrollWidth - document.documentElement.clientWidth,
       long_dash_count: (bodyText.match(/[\u2013\u2014]/g) || []).length,
+      hello_pink_link_count: [...document.querySelectorAll('.thp-content a[href]')].filter((element) => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0 && style.visibility === 'visible' && style.color === 'rgb(204, 51, 102)';
+      }).length,
       forbidden_hits: phrases.filter((phrase) => bodyText.includes(phrase)),
       duplicate_ids: [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))],
       unnamed_buttons: [...document.querySelectorAll('button')].filter((element) => !element.innerText.trim() && !element.getAttribute('aria-label') && !element.getAttribute('title')).length,
@@ -254,7 +343,7 @@ async function run() {
         await page.waitForSelector(`main[data-thp-owner-id="${route.route_id}"]`, { timeout: 15000 });
         await page.waitForTimeout(900);
         const inspection = await inspectRoute(page, route, forbidden);
-        const screenshots = await capturePage(
+        const screenshotCapture = await capturePage(
           page,
           `${outputPrefix}-${route.route_id}-${profile.name}-${profile.viewport.width}`,
         );
@@ -263,7 +352,8 @@ async function run() {
           final_url: page.url(),
           inspection,
           network,
-          screenshots,
+          screenshots: screenshotCapture.files,
+          screenshot_capture: screenshotCapture,
         };
         await context.close();
       }
@@ -287,18 +377,39 @@ async function run() {
 
     for (const width of [320, 768, 1230]) {
       await page.setViewportSize({ width, height: width === 320 ? 740 : 900 });
-      await page.waitForTimeout(120);
+      await page.waitForFunction((expectedWidth) => document.documentElement.clientWidth === expectedWidth, width);
       report.responsive[String(width)] = await page.evaluate(() => ({
         width: document.documentElement.clientWidth,
         scroll_width: document.documentElement.scrollWidth,
         overflow_pixels: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         menu_display: getComputedStyle(document.querySelector('.thp-menu-toggle')).display,
         desktop_nav_display: getComputedStyle(document.querySelector('.thp-primary-nav')).display,
+        search_display: getComputedStyle(document.querySelector('.thp-header-search')).display,
+        media_matches: matchMedia('(min-width: 1231px)').matches,
+        toggle_rect_count: document.querySelector('.thp-menu-toggle')?.getClientRects().length || 0,
+        toggle_width: document.querySelector('.thp-menu-toggle')?.getBoundingClientRect().width || 0,
+        toggle_height: document.querySelector('.thp-menu-toggle')?.getBoundingClientRect().height || 0,
       }));
     }
 
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.waitForTimeout(120);
+    await page.waitForFunction(() => document.documentElement.clientWidth === 390);
+    const inspectMenuControl = () => page.locator('.thp-menu-toggle').evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        color: style.color,
+        background_color: style.backgroundColor,
+        border_color: style.borderColor,
+        outline_color: style.outlineColor,
+        outline_width: style.outlineWidth,
+        outline_offset: style.outlineOffset,
+      };
+    });
+    report.responsive.toggle_rest = await inspectMenuControl();
+    await page.locator('.thp-menu-toggle').hover();
+    report.responsive.toggle_hover = await inspectMenuControl();
+    await page.locator('.thp-menu-toggle').focus();
+    report.responsive.toggle_focus = await inspectMenuControl();
     report.responsive.external_a11y_before = await page.evaluate(() => (
       [...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')].map((element) => ({
         id: element.id,
@@ -308,8 +419,17 @@ async function run() {
         pointer_events: getComputedStyle(element).pointerEvents,
       }))
     ));
+    report.responsive.external_surfaces_before = await page.evaluate(() => (
+      [...document.querySelectorAll('body > :not(.thp-content):not(script):not(style):not(link)')].map((element, index) => ({
+        identity: `${element.tagName}:${element.id}:${index}`,
+        inert: element.inert,
+        aria_hidden: element.getAttribute('aria-hidden'),
+        visibility: getComputedStyle(element).visibility,
+        pointer_events: getComputedStyle(element).pointerEvents,
+      }))
+    ));
     await page.locator('.thp-menu-toggle').click();
-    await page.waitForTimeout(120);
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === false && document.body.classList.contains('thp-content-menu-open'));
     const firstFocusable = page.locator('.thp-mobile-nav-panel a[href], .thp-mobile-nav-panel button:not([disabled])').first();
     const lastFocusable = page.locator('.thp-mobile-nav-panel a[href], .thp-mobile-nav-panel button:not([disabled])').last();
     const firstIdentity = await firstFocusable.evaluate((element) => ({ tag: element.tagName, text: element.innerText.trim(), label: element.getAttribute('aria-label') }));
@@ -318,7 +438,15 @@ async function run() {
     const shiftTabWrapped = await lastFocusable.evaluate((element) => element === document.activeElement);
     await page.keyboard.press('Tab');
     const tabWrapped = await firstFocusable.evaluate((element) => element === document.activeElement);
-    report.responsive.menu_open = await page.evaluate(() => ({
+    report.responsive.menu_open = await page.evaluate(() => {
+      const backdrop = document.querySelector('.thp-mobile-nav-backdrop');
+      const panel = document.querySelector('.thp-mobile-nav-panel');
+      const backdropStyle = getComputedStyle(backdrop);
+      const backdropRect = backdrop.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
+      const closeButton = document.querySelector('.thp-mobile-nav-head button');
+      const closeStyle = getComputedStyle(closeButton);
+      return ({
       expanded: document.querySelector('.thp-menu-toggle')?.getAttribute('aria-expanded'),
       label: document.querySelector('.thp-menu-toggle')?.getAttribute('aria-label'),
       drawer_hidden: document.querySelector('#thp-mobile-nav')?.hasAttribute('hidden'),
@@ -327,16 +455,34 @@ async function run() {
       body_open: document.body.classList.contains('thp-content-menu-open'),
       body_overflow: document.body.style.overflow,
       heading: document.querySelector('.thp-mobile-nav-head strong')?.innerText.trim() || null,
-      backdrop_background: getComputedStyle(document.querySelector('.thp-mobile-nav-backdrop')).backgroundColor,
-      backdrop_width: document.querySelector('.thp-mobile-nav-backdrop')?.getBoundingClientRect().width || 0,
-      panel_width: document.querySelector('.thp-mobile-nav-panel')?.getBoundingClientRect().width || 0,
+      backdrop_tag: backdrop.tagName,
+      backdrop_aria_hidden: backdrop.getAttribute('aria-hidden'),
+      backdrop_background: backdropStyle.backgroundColor,
+      backdrop_background_image: backdropStyle.backgroundImage,
+      backdrop_visibility: backdropStyle.visibility,
+      backdrop_pointer_events: backdropStyle.pointerEvents,
+      backdrop_opacity: backdropStyle.opacity,
+      backdrop_rect: { x: backdropRect.x, y: backdropRect.y, width: backdropRect.width, height: backdropRect.height },
+      backdrop_is_top_left: document.elementFromPoint(10, Math.floor(innerHeight / 2)) === backdrop,
+      panel_rect: { x: panelRect.x, y: panelRect.y, right: panelRect.right, width: panelRect.width, height: panelRect.height },
+      close_button: {
+        color: closeStyle.color,
+        background_color: closeStyle.backgroundColor,
+        outline_color: closeStyle.outlineColor,
+        outline_width: closeStyle.outlineWidth,
+        outline_offset: closeStyle.outlineOffset,
+      },
       toggle_bars: [...document.querySelectorAll('.thp-menu-toggle span')].map((element) => {
         const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
         return {
           display: style.display,
           background_color: style.backgroundColor,
-          height: element.getBoundingClientRect().height,
-          width: element.getBoundingClientRect().width,
+          opacity: style.opacity,
+          x: rect.x,
+          y: rect.y,
+          height: rect.height,
+          width: rect.width,
         };
       }),
       page_isolated: [
@@ -352,7 +498,15 @@ async function run() {
         visibility: getComputedStyle(element).visibility,
         pointer_events: getComputedStyle(element).pointerEvents,
       })),
-    }));
+      external_surfaces: [...document.querySelectorAll('body > :not(.thp-content):not(script):not(style):not(link)')].map((element, index) => ({
+        identity: `${element.tagName}:${element.id}:${index}`,
+        inert: element.inert,
+        aria_hidden: element.getAttribute('aria-hidden'),
+        visibility: getComputedStyle(element).visibility,
+        pointer_events: getComputedStyle(element).pointerEvents,
+      })),
+    });
+    });
     report.responsive.menu_open.first_focusable = firstIdentity;
     report.responsive.menu_open.shift_tab_wrapped = shiftTabWrapped;
     report.responsive.menu_open.tab_wrapped = tabWrapped;
@@ -360,9 +514,10 @@ async function run() {
       path: path.join(outputDir, `${outputPrefix}-hub-mobile-menu-390.png`),
       fullPage: false,
       animations: 'disabled',
+      scale: 'css',
     });
     await page.keyboard.press('Escape');
-    await page.waitForTimeout(120);
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === true && !document.body.classList.contains('thp-content-menu-open'));
     report.responsive.menu_closed = await page.evaluate(() => ({
       expanded: document.querySelector('.thp-menu-toggle')?.getAttribute('aria-expanded'),
       drawer_hidden: document.querySelector('#thp-mobile-nav')?.hasAttribute('hidden'),
@@ -376,22 +531,47 @@ async function run() {
         visibility: getComputedStyle(element).visibility,
         pointer_events: getComputedStyle(element).pointerEvents,
       })),
+      external_surfaces: [...document.querySelectorAll('body > :not(.thp-content):not(script):not(style):not(link)')].map((element, index) => ({
+        identity: `${element.tagName}:${element.id}:${index}`,
+        inert: element.inert,
+        aria_hidden: element.getAttribute('aria-hidden'),
+        visibility: getComputedStyle(element).visibility,
+        pointer_events: getComputedStyle(element).pointerEvents,
+      })),
     }));
     await page.locator('.thp-menu-toggle').click();
-    await page.waitForTimeout(80);
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === false);
     await page.setViewportSize({ width: 1231, height: 900 });
-    await page.waitForTimeout(160);
-    report.responsive['1231'] = await page.evaluate(() => ({
+    await page.waitForFunction(() => matchMedia('(min-width: 1231px)').matches && document.querySelector('#thp-mobile-nav')?.hidden === true && document.querySelector('.thp-menu-toggle')?.getAttribute('aria-expanded') === 'false');
+    report.responsive['1231'] = await page.evaluate(() => {
+      const toggle = document.querySelector('.thp-menu-toggle');
+      const drawer = document.querySelector('#thp-mobile-nav');
+      const brand = document.querySelector('.thp-brand');
+      const brandRect = brand.getBoundingClientRect();
+      const navRect = document.querySelector('.thp-primary-nav').getBoundingClientRect();
+      return ({
       width: document.documentElement.clientWidth,
       scroll_width: document.documentElement.scrollWidth,
       overflow_pixels: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-      menu_display: getComputedStyle(document.querySelector('.thp-menu-toggle')).display,
+      media_matches: matchMedia('(min-width: 1231px)').matches,
+      menu_display: getComputedStyle(toggle).display,
+      menu_rect_count: toggle.getClientRects().length,
+      menu_offset_width: toggle.offsetWidth,
+      menu_offset_height: toggle.offsetHeight,
       desktop_nav_display: getComputedStyle(document.querySelector('.thp-primary-nav')).display,
-      expanded: document.querySelector('.thp-menu-toggle')?.getAttribute('aria-expanded'),
-      drawer_hidden: document.querySelector('#thp-mobile-nav')?.hasAttribute('hidden'),
+      desktop_nav_width: navRect.width,
+      desktop_nav_height: navRect.height,
+      search_display: getComputedStyle(document.querySelector('.thp-header-search')).display,
+      expanded: toggle.getAttribute('aria-expanded'),
+      drawer_hidden: drawer.hasAttribute('hidden'),
+      drawer_display: getComputedStyle(drawer).display,
+      drawer_rect_count: drawer.getClientRects().length,
       body_open: document.body.classList.contains('thp-content-menu-open'),
       focused_in_hidden_drawer: Boolean(document.activeElement?.closest('#thp-mobile-nav')),
       focused_visible_header: Boolean(document.activeElement?.closest('.thp-site-header')),
+      focused_brand: document.activeElement === brand,
+      brand_width: brandRect.width,
+      brand_height: brandRect.height,
       external_a11y_controls: [...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')].map((element) => ({
         id: element.id,
         inert: element.inert,
@@ -399,7 +579,52 @@ async function run() {
         visibility: getComputedStyle(element).visibility,
         pointer_events: getComputedStyle(element).pointerEvents,
       })),
-    }));
+    });
+    });
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.waitForFunction(() => !matchMedia('(min-width: 1231px)').matches && getComputedStyle(document.querySelector('.thp-menu-toggle')).display !== 'none');
+    await page.locator('.thp-menu-toggle').click();
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === false);
+    const backdropAtPoint = await page.evaluate(() => document.elementFromPoint(10, Math.floor(innerHeight / 2))?.classList.contains('thp-mobile-nav-backdrop') === true);
+    await page.mouse.click(10, 422);
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === true);
+    report.responsive.backdrop_close = await page.evaluate((wasBackdrop) => ({
+      was_backdrop: wasBackdrop,
+      drawer_hidden: document.querySelector('#thp-mobile-nav')?.hidden === true,
+      expanded: document.querySelector('.thp-menu-toggle')?.getAttribute('aria-expanded'),
+      focused_toggle: document.activeElement === document.querySelector('.thp-menu-toggle'),
+      body_open: document.body.classList.contains('thp-content-menu-open'),
+      body_overflow: document.body.style.overflow,
+    }), backdropAtPoint);
+
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.waitForFunction(() => document.documentElement.clientWidth === 844 && getComputedStyle(document.querySelector('.thp-menu-toggle')).display !== 'none');
+    report.responsive.landscape_closed = await page.evaluate(() => {
+      const toggleRect = document.querySelector('.thp-menu-toggle').getBoundingClientRect();
+      return {
+        overflow_pixels: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+        toggle_rect: { x: toggleRect.x, y: toggleRect.y, right: toggleRect.right, bottom: toggleRect.bottom, width: toggleRect.width, height: toggleRect.height },
+        toolbar_rects: [...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')].map((element) => {
+          const rect = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          return { id: element.id, top: rect.top, bottom: rect.bottom, height: rect.height, visibility: style.visibility };
+        }),
+      };
+    });
+    await page.locator('.thp-menu-toggle').click();
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === false);
+    report.responsive.landscape_open = await page.evaluate(() => {
+      const panelRect = document.querySelector('.thp-mobile-nav-panel').getBoundingClientRect();
+      const backdropRect = document.querySelector('.thp-mobile-nav-backdrop').getBoundingClientRect();
+      return {
+        panel_rect: { x: panelRect.x, y: panelRect.y, right: panelRect.right, bottom: panelRect.bottom, width: panelRect.width, height: panelRect.height },
+        panel_overflow_y: getComputedStyle(document.querySelector('.thp-mobile-nav-panel')).overflowY,
+        backdrop_rect: { x: backdropRect.x, y: backdropRect.y, right: backdropRect.right, bottom: backdropRect.bottom, width: backdropRect.width, height: backdropRect.height },
+      };
+    });
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === true);
     report.responsive.network = responsiveNetwork;
     await responsiveContext.close();
   } finally {
@@ -408,6 +633,27 @@ async function run() {
 
   const checks = [];
   const add = (name, passed, detail = null) => checks.push({ name, passed: Boolean(passed), detail });
+  const white = [255, 255, 255, 1];
+  const deepForest = [7, 47, 45, 1];
+  const forest = [11, 63, 60, 1];
+  const actionIsVisible = (action) => Boolean(
+    action
+    && action.text.length > 0
+    && action.display !== 'none'
+    && action.visibility === 'visible'
+    && action.opacity === '1'
+    && action.element_width > 0
+    && action.element_height > 0
+    && action.text_width > 0
+    && action.text_height > 0
+  );
+  const exactReadableAction = (action, foreground, background) => (
+    actionIsVisible(action)
+    && sameColor(action.color, foreground)
+    && sameColor(action.text_fill_color, foreground)
+    && sameColor(action.background_color, background)
+    && contrastRatio(foreground, background) >= 4.5
+  );
   const spokeIds = contract.routes.filter((route) => route.kind === 'spoke').map((route) => route.route_id).sort();
   for (const route of contract.routes) {
     for (const profile of ['desktop', 'mobile']) {
@@ -428,15 +674,16 @@ async function run() {
       add(`${prefix}: preserved body and breadcrumb`, value.preserved_body_count === 1 && value.breadcrumb_count === 1 && value.breadcrumb_items === route.breadcrumbs.length && value.breadcrumb_current === route.breadcrumbs.at(-1).label);
       add(`${prefix}: sources and hero`, value.source_panel_count === 1 && value.source_count === route.source_ids.length && value.unsafe_source_rel_count === 0 && value.hero_picture_sources === 2 && value.hero_image_count === 1);
       add(`${prefix}: release assets`, value.release_asset_count >= 2, value.release_asset_count);
-      add(`${prefix}: clean public surface`, value.admin_bar === false && value.long_dash_count === 0 && value.forbidden_hits.length === 0 && value.duplicate_ids.length === 0 && value.unnamed_buttons === 0 && value.unnamed_links === 0 && value.missing_alt_images === 0 && value.broken_images.length === 0);
+      add(`${prefix}: clean public surface`, value.admin_bar === false && value.long_dash_count === 0 && value.forbidden_hits.length === 0 && value.hello_pink_link_count === 0 && value.duplicate_ids.length === 0 && value.unnamed_buttons === 0 && value.unnamed_links === 0 && value.missing_alt_images === 0 && value.broken_images.length === 0);
       add(`${prefix}: no horizontal overflow`, value.overflow_pixels === 0, value.overflow_pixels);
       add(`${prefix}: network clean`, unexpectedConsoleErrors(result.network.console_errors).length === 0 && result.network.request_failures.length === 0 && result.network.bad_same_origin.length === 0, result.network);
-      add(`${prefix}: visible footer action`, value.footer_action?.text.length > 0 && value.footer_action.color === 'rgb(7, 47, 45)' && value.footer_action.background_color === 'rgb(255, 255, 255)' && value.footer_action.visibility === 'visible' && value.footer_action.opacity === '1', value.footer_action);
+      add(`${prefix}: complete screenshot coverage`, result.screenshot_capture.coverage_complete === true && result.screenshot_capture.final_height === result.screenshot_capture.measured_height, result.screenshot_capture);
+      add(`${prefix}: visible footer action`, exactReadableAction(value.footer_action, deepForest, white), value.footer_action);
       if (route.kind === 'hub') {
         add(`${prefix}: hub decision and guide structure`, value.hub_decision_cards === 3 && value.hub_decision_links === 9 && value.hub_guide_groups === 3 && value.hub_guide_cards === 7 && JSON.stringify(value.hub_child_owners) === JSON.stringify(spokeIds));
       } else {
-        add(`${prefix}: visible hero and hub actions`, value.hero_action?.text.length > 0 && value.hero_action.color === 'rgb(7, 47, 45)' && value.hero_action.background_color === 'rgb(255, 255, 255)' && value.aside_hub_action?.text.length > 0 && value.aside_hub_action.color === 'rgb(255, 255, 255)', { hero: value.hero_action, hub: value.aside_hub_action });
-        add(`${prefix}: visible continuation action`, value.continuation_action?.text.length > 0 && value.continuation_action.color === 'rgb(255, 255, 255)' && value.continuation_action.visibility === 'visible' && value.continuation_action.opacity === '1', value.continuation_action);
+        add(`${prefix}: visible hero and hub actions`, exactReadableAction(value.hero_action, deepForest, white) && exactReadableAction(value.aside_hub_action, white, forest), { hero: value.hero_action, hub: value.aside_hub_action });
+        add(`${prefix}: visible continuation action`, actionIsVisible(value.continuation_action) && sameColor(value.continuation_action.color, white) && sameColor(value.continuation_action.text_fill_color, white) && value.continuation_action.background_image.includes('rgb(11, 63, 60)') && value.continuation_action.background_image.includes('rgb(7, 47, 45)') && contrastRatio(white, forest) >= 4.5 && contrastRatio(white, deepForest) >= 4.5, value.continuation_action);
         add(`${prefix}: spoke hierarchy`, value.parent_link_count === 2 && JSON.stringify(value.rendered_continuation_owners) === JSON.stringify(value.expected_continuation_owners));
         add(`${prefix}: generated article navigation`, value.toc_item_count === value.content_h2_count && value.toc_hidden === (value.content_h2_count === 0));
       }
@@ -444,18 +691,36 @@ async function run() {
   }
 
   for (const width of ['320', '768', '1230']) {
-    add(`${width}px: mobile navigation and no overflow`, report.responsive[width].overflow_pixels === 0 && report.responsive[width].menu_display !== 'none' && report.responsive[width].desktop_nav_display === 'none', report.responsive[width]);
+    const value = report.responsive[width];
+    add(`${width}px: mobile navigation and no overflow`, value.overflow_pixels === 0 && value.media_matches === false && value.menu_display !== 'none' && value.toggle_rect_count === 1 && value.toggle_width >= 44 && value.toggle_height >= 44 && value.desktop_nav_display === 'none' && value.search_display === 'none', value);
   }
   const before = report.responsive.external_a11y_before;
+  const externalBefore = report.responsive.external_surfaces_before;
   const open = report.responsive.menu_open;
   const closed = report.responsive.menu_closed;
   const desktop = report.responsive['1231'];
+  const backdrop = open.backdrop_rect;
+  const panel = open.panel_rect;
+  const barsAreDistinct = new Set(open.toggle_bars.map((bar) => bar.y)).size === 3;
+  const externalSurfacesRestored = externalBefore.every((original) => {
+    const restored = closed.external_surfaces.find((surface) => surface.identity === original.identity);
+    return restored && restored.inert === original.inert && restored.aria_hidden === original.aria_hidden && restored.visibility === original.visibility && restored.pointer_events === original.pointer_events;
+  });
+  const interactiveStateIsSealed = (state) => sameColor(state.color, forest) && sameColor(state.background_color, white) && !sameColor(state.background_color, [204, 51, 102, 1]);
+  add('mobile menu control resists theme hover and focus states', interactiveStateIsSealed(report.responsive.toggle_rest) && interactiveStateIsSealed(report.responsive.toggle_hover) && interactiveStateIsSealed(report.responsive.toggle_focus) && sameColor(report.responsive.toggle_focus.outline_color, [243, 181, 76, 1]) && report.responsive.toggle_focus.outline_width === '3px' && report.responsive.toggle_focus.outline_offset === '3px', { rest: report.responsive.toggle_rest, hover: report.responsive.toggle_hover, focus: report.responsive.toggle_focus });
   add('mobile drawer opens as an isolated dialog', open.expanded === 'true' && open.label === 'סגירת תפריט' && open.drawer_hidden === false && open.dialog_count === 1 && open.focused_inside === true && open.body_open === true && open.body_overflow === 'hidden' && open.page_isolated === true && open.heading === 'תפריט ראשי');
-  add('mobile drawer has a complete backdrop and visible menu bars', open.backdrop_background === 'rgba(3, 24, 23, 0.72)' && open.backdrop_width === 390 && open.panel_width > 0 && open.panel_width < open.backdrop_width && open.toggle_bars.length === 3 && open.toggle_bars.every((bar) => bar.display === 'block' && bar.background_color === 'rgb(11, 63, 60)' && bar.height >= 2 && bar.width > 0), { backdrop_background: open.backdrop_background, backdrop_width: open.backdrop_width, panel_width: open.panel_width, toggle_bars: open.toggle_bars });
+  add('mobile drawer has a complete pointer-only backdrop', open.backdrop_tag === 'DIV' && open.backdrop_aria_hidden === 'true' && sameColor(open.backdrop_background, [3, 24, 23, 0.72]) && open.backdrop_background_image === 'none' && open.backdrop_visibility === 'visible' && open.backdrop_pointer_events !== 'none' && open.backdrop_opacity === '1' && backdrop.x === 0 && backdrop.y === 0 && backdrop.width === 390 && backdrop.height === 844 && open.backdrop_is_top_left === true && panel.right === 390 && panel.width > 0 && panel.width < backdrop.width && panel.height === 844, { backdrop: open, panel });
+  add('mobile drawer has three visible menu bars', open.toggle_bars.length === 3 && barsAreDistinct && open.toggle_bars.every((bar) => bar.display === 'block' && sameColor(bar.background_color, forest) && bar.opacity === '1' && bar.height >= 2 && bar.width >= 20 && contrastRatio(forest, white) >= 3), open.toggle_bars);
+  add('mobile drawer close control resists theme focus styles', sameColor(open.close_button.color, forest) && sameColor(open.close_button.background_color, [237, 245, 242, 1]) && sameColor(open.close_button.outline_color, [243, 181, 76, 1]) && open.close_button.outline_width === '3px' && open.close_button.outline_offset === '3px', open.close_button);
   add('mobile focus trap wraps in both directions', open.shift_tab_wrapped === true && open.tab_wrapped === true);
   add('mobile drawer suppresses external accessibility controls', before.length === 2 && open.external_a11y_controls.every((control) => control.inert === true && control.aria_hidden === 'true' && control.visibility === 'hidden' && control.pointer_events === 'none'));
-  add('Escape closes and restores the mobile page', closed.expanded === 'false' && closed.drawer_hidden === true && closed.body_open === false && closed.body_overflow === '' && closed.focused_toggle === true && JSON.stringify(closed.external_a11y_controls) === JSON.stringify(before));
-  add('1231px closes the drawer and restores visible desktop focus', desktop.overflow_pixels === 0 && desktop.menu_display === 'none' && desktop.desktop_nav_display !== 'none' && desktop.expanded === 'false' && desktop.drawer_hidden === true && desktop.body_open === false && desktop.focused_in_hidden_drawer === false && desktop.focused_visible_header === true && JSON.stringify(desktop.external_a11y_controls) === JSON.stringify(before));
+  add('mobile drawer isolates every top-level external widget', open.external_surfaces.length >= externalBefore.length && open.external_surfaces.every((control) => control.inert === true && control.aria_hidden === 'true' && control.visibility === 'hidden' && control.pointer_events === 'none'), open.external_surfaces);
+  add('Escape closes and restores the mobile page', closed.expanded === 'false' && closed.drawer_hidden === true && closed.body_open === false && closed.body_overflow === '' && closed.focused_toggle === true && JSON.stringify(closed.external_a11y_controls) === JSON.stringify(before) && externalSurfacesRestored === true);
+  add('1231px closes the drawer and restores exact desktop focus', desktop.overflow_pixels === 0 && desktop.media_matches === true && desktop.menu_display === 'none' && desktop.menu_rect_count === 0 && desktop.menu_offset_width === 0 && desktop.menu_offset_height === 0 && desktop.desktop_nav_display !== 'none' && desktop.desktop_nav_width > 0 && desktop.desktop_nav_height > 0 && desktop.search_display !== 'none' && desktop.expanded === 'false' && desktop.drawer_hidden === true && desktop.drawer_display === 'none' && desktop.drawer_rect_count === 0 && desktop.body_open === false && desktop.focused_in_hidden_drawer === false && desktop.focused_visible_header === true && desktop.focused_brand === true && desktop.brand_width > 0 && desktop.brand_height > 0 && JSON.stringify(desktop.external_a11y_controls) === JSON.stringify(before), desktop);
+  add('pointer backdrop closes and restores its opener', report.responsive.backdrop_close.was_backdrop === true && report.responsive.backdrop_close.drawer_hidden === true && report.responsive.backdrop_close.expanded === 'false' && report.responsive.backdrop_close.focused_toggle === true && report.responsive.backdrop_close.body_open === false && report.responsive.backdrop_close.body_overflow === '', report.responsive.backdrop_close);
+  const landscapeClosed = report.responsive.landscape_closed;
+  const landscapeOpen = report.responsive.landscape_open;
+  add('short landscape keeps navigation controls inside the viewport', landscapeClosed.overflow_pixels === 0 && landscapeClosed.toggle_rect.x >= 0 && landscapeClosed.toggle_rect.y >= 0 && landscapeClosed.toggle_rect.right <= 844 && landscapeClosed.toggle_rect.bottom <= 390 && landscapeClosed.toggle_rect.width >= 44 && landscapeClosed.toggle_rect.height >= 44 && landscapeOpen.panel_rect.y === 0 && landscapeOpen.panel_rect.right === 844 && landscapeOpen.panel_rect.bottom === 390 && landscapeOpen.panel_rect.height === 390 && landscapeOpen.panel_overflow_y === 'auto' && landscapeOpen.backdrop_rect.x === 0 && landscapeOpen.backdrop_rect.y === 0 && landscapeOpen.backdrop_rect.right === 844 && landscapeOpen.backdrop_rect.bottom === 390, { closed: landscapeClosed, open: landscapeOpen });
   add('responsive network is clean', unexpectedConsoleErrors(report.responsive.network.console_errors).length === 0 && report.responsive.network.request_failures.length === 0 && report.responsive.network.bad_same_origin.length === 0, report.responsive.network);
 
   report.acceptance = {

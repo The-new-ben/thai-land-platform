@@ -12,30 +12,42 @@
   let previousFocus = null;
   let previousOverflow = '';
   let isolatedElements = [];
+  let isolationObserver = null;
 
   const focusables = () => Array.from(panel?.querySelectorAll('a[href], button:not([disabled]), input:not([disabled])') || []).filter((element) => !element.hidden);
 
   const isolatePage = () => {
-    const candidates = [
+    const candidates = [...new Set([
       root.querySelector('.thp-skip-link'),
       root.querySelector('.thp-header-inner'),
       root.querySelector('main'),
       root.querySelector('.thp-site-footer'),
-      ...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')
-    ].filter(Boolean);
+      ...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content'),
+      ...document.querySelectorAll('body > :not(.thp-content):not(script):not(style):not(link)')
+    ].filter(Boolean))];
 
-    isolatedElements = candidates.map((element) => ({
-      element,
-      inert: element.inert,
-      ariaHidden: element.getAttribute('aria-hidden')
-    }));
-    isolatedElements.forEach(({ element }) => {
+    const isolateElement = (element) => {
+      if (!(element instanceof HTMLElement) || element === root || isolatedElements.some((entry) => entry.element === element)) return;
+      isolatedElements.push({
+        element,
+        inert: element.inert,
+        ariaHidden: element.getAttribute('aria-hidden')
+      });
       element.inert = true;
       element.setAttribute('aria-hidden', 'true');
+    };
+    candidates.forEach(isolateElement);
+    isolationObserver = new MutationObserver((records) => {
+      records.forEach((record) => record.addedNodes.forEach((node) => {
+        if (node instanceof HTMLElement && node.parentElement === body) isolateElement(node);
+      }));
     });
+    isolationObserver.observe(body, { childList: true });
   };
 
   const restorePage = () => {
+    isolationObserver?.disconnect();
+    isolationObserver = null;
     isolatedElements.forEach(({ element, inert, ariaHidden }) => {
       element.inert = inert;
       if (ariaHidden === null) element.removeAttribute('aria-hidden');
