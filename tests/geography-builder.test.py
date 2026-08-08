@@ -1,0 +1,390 @@
+#!/usr/bin/env python3
+"""Adversarial tests for the deterministic geography registry compiler."""
+
+from __future__ import annotations
+
+import csv
+import hashlib
+import importlib.util
+import io
+import json
+import shutil
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+from typing import Any, Callable
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT / "data" / "geography"
+COMPILER_PATH = ROOT / "scripts" / "build_geography_registry.py"
+SPEC = importlib.util.spec_from_file_location("build_geography_registry", COMPILER_PATH)
+if SPEC is None or SPEC.loader is None:
+    raise RuntimeError("Cannot load geography registry compiler")
+COMPILER = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = COMPILER
+SPEC.loader.exec_module(COMPILER)
+
+
+def write_json(path: Path, value: Any) -> None:
+    payload = json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
+    path.write_text(payload, encoding="utf-8", newline="")
+
+
+def read_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def refresh_input_digest(source_dir: Path, relative_path: str) -> None:
+    registry_path = source_dir / "registry.json"
+    registry = read_json(registry_path)
+    matches = [
+        descriptor
+        for descriptor in registry["inputs"].values()
+        if descriptor["path"] == relative_path
+    ]
+    if len(matches) != 1:
+        raise AssertionError(f"Expected one input descriptor for {relative_path}")
+    matches[0]["sha256"] = hashlib.sha256((source_dir / relative_path).read_bytes()).hexdigest()
+    write_json(registry_path, registry)
+
+
+def read_csv_rows(path: Path) -> list[list[str]]:
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        return list(csv.reader(handle, strict=True))
+
+
+def write_csv_rows(path: Path, rows: list[list[str]]) -> None:
+    buffer = io.StringIO(newline="")
+    writer = csv.writer(buffer, lineterminator="\n")
+    writer.writerows(rows)
+    path.write_text(buffer.getvalue(), encoding="utf-8", newline="")
+
+
+class GeographyBuilderTest(unittest.TestCase):
+    maxDiff = None
+
+    def copied_source(self) -> tuple[tempfile.TemporaryDirectory[str], Path]:
+        temporary = tempfile.TemporaryDirectory()
+        source_dir = Path(temporary.name) / "geography"
+        shutil.copytree(SOURCE, source_dir)
+        return temporary, source_dir
+
+    def assert_rejected(
+        self,
+        mutation: Callable[[Path], None],
+        message_pattern: str,
+    ) -> None:
+        temporary, source_dir = self.copied_source()
+        try:
+            mutation(source_dir)
+            with self.assertRaisesRegex(COMPILER.RegistryError, message_pattern):
+                COMPILER.compile_registry(source_dir)
+        finally:
+            temporary.cleanup()
+
+    def test_runtime_contract_and_real_alias_safety_cases(self) -> None:
+        result = COMPILER.compile_registry(SOURCE)
+        registry = result.registry
+        self.assertEqual(
+            {
+                "schema_version",
+                "dataset_version",
+                "country_id",
+                "public_digest",
+                "entities_by_id",
+                "indexes",
+                "public_payload",
+            },
+            set(registry),
+        )
+        self.assertEqual(85, len(registry["entities_by_id"]))
+        self.assertEqual(
+            {
+                "by_external_id",
+                "by_slug",
+                "by_alias",
+                "relations_by_subject",
+                "children_by_parent",
+                "members_by_scheme",
+            },
+            set(registry["indexes"]),
+        )
+        expected_entity_fields = {
+            "id",
+            "kind",
+            "type",
+            "status",
+            "slug",
+            "names",
+            "external_ids",
+            "priority",
+            "geometry",
+        }
+        for entity in registry["entities_by_id"].values():
+            self.assertEqual(expected_entity_fields, set(entity))
+            self.assertEqual("geography", entity["kind"])
+
+        aliases = registry["indexes"]["by_alias"]
+        self.assertEqual(
+            ["geo:th:province:30", "geo:th:province:80"],
+            [candidate["entity_id"] for candidate in aliases["en"]["nakhon"]],
+        )
+        retired = aliases["en"]["sra kaew"]
+        self.assertEqual(1, len(retired))
+        self.assertEqual("geo:th:province:27", retired[0]["entity_id"])
+        self.assertEqual("retired", retired[0]["status"])
+        for locale_aliases in aliases.values():
+            for candidates in locale_aliases.values():
+                for candidate in candidates:
+                    self.assertEqual(
+                        {"entity_id", "context_id", "status", "alias"},
+                        set(candidate),
+                    )
+
+        relation_fields = {
+            "type",
+            "object_id",
+            "scheme_id",
+            "is_primary",
+            "valid_from",
+            "valid_to",
+            "source_id",
+        }
+        relations = registry["indexes"]["relations_by_subject"]
+        self.assertEqual(154, sum(len(items) for items in relations.values()))
+        for subject_relations in relations.values():
+            for relation in subject_relations:
+                self.assertEqual(relation_fields, set(relation))
+
+        public_payload = registry["public_payload"]
+        self.assertEqual(77, len(public_payload["provinces"]))
+        self.assertEqual(7, len(public_payload["regions"]))
+        self.assertEqual(
+            registry["public_digest"],
+            hashlib.sha256(result.artifacts["assets/geography/core.json"]).hexdigest(),
+        )
+        self.assertLessEqual(len(result.artifacts["assets/geography/core.json"]), 150_000)
+
+    def test_normalization_vectors_and_no_intl_thai_fallback(self) -> None:
+        result = COMPILER.compile_registry(SOURCE)
+        vectors = read_json(SOURCE / "normalization-vectors.json")["vectors"]
+        for vector in vectors:
+            self.assertEqual(vector["normalized"], COMPILER.normalize_alias(vector["input"]))
+
+        thai_aliases = result.registry["indexes"]["by_alias"]["th"]
+        fallback_count = 0
+        for entity in result.registry["entities_by_id"].values():
+            thai_name = entity["names"]["th"]
+            primary_key = COMPILER.normalize_alias(thai_name)
+            fallback_key = COMPILER.normalize_alias_without_intl(thai_name)
+            self.assertIn(primary_key, thai_aliases)
+            if fallback_key != primary_key:
+                fallback_count += 1
+                self.assertIn(fallback_key, thai_aliases)
+                self.assertIn(
+                    entity["id"],
+                    [candidate["entity_id"] for candidate in thai_aliases[fallback_key]],
+                )
+        self.assertGreater(fallback_count, 0)
+
+    def test_artifacts_are_deterministic_current_and_within_budget(self) -> None:
+        first = COMPILER.compile_registry(SOURCE)
+        second = COMPILER.compile_registry(SOURCE)
+        self.assertEqual(first.artifacts, second.artifacts)
+        COMPILER.write_or_check(first, ROOT, True)
+        self.assertLessEqual(len(first.artifacts["assets/geography/core.json"]), 150_000)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            output_root = Path(temporary)
+            COMPILER.write_or_check(first, output_root, False)
+            COMPILER.write_or_check(first, output_root, True)
+            core_path = output_root / "assets" / "geography" / "core.json"
+            core_path.write_bytes(core_path.read_bytes() + b" ")
+            with self.assertRaisesRegex(COMPILER.RegistryError, "artifacts are stale"):
+                COMPILER.write_or_check(first, output_root, True)
+
+    def test_duplicate_json_key_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "geometry.json"
+            text = path.read_text(encoding="utf-8")
+            text = text.replace(
+                '"schema_version": "1.0.0",',
+                '"schema_version": "1.0.0",\n  "schema_version": "1.0.0",',
+                1,
+            )
+            path.write_text(text, encoding="utf-8", newline="")
+            refresh_input_digest(source_dir, "geometry.json")
+
+        self.assert_rejected(mutate, "duplicate JSON key")
+
+    def test_non_finite_number_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "geometry.json"
+            document = read_json(path)
+            document["records"] = [
+                {
+                    "entity_id": "geo:th:province:10",
+                    "center": {"lat": 1.0, "lng": 100.5},
+                    "bounds": {"south": 0.0, "west": 100.0, "north": 2.0, "east": 101.0},
+                    "source_id": "nso-geographic-standard",
+                }
+            ]
+            write_json(path, document)
+            text = path.read_text(encoding="utf-8").replace('"lat": 1.0', '"lat": 1e999', 1)
+            path.write_text(text, encoding="utf-8", newline="")
+            refresh_input_digest(source_dir, "geometry.json")
+
+        self.assert_rejected(mutate, "non-finite number")
+
+    def test_unexpected_registry_field_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "registry.json"
+            registry = read_json(path)
+            registry["unexpected"] = "value"
+            write_json(path, registry)
+
+        self.assert_rejected(mutate, "fields are missing or unexpected")
+
+    def test_non_boolean_scheme_flag_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "registry.json"
+            registry = read_json(path)
+            registry["classification_schemes"][0]["is_administrative_parent"] = 0
+            write_json(path, registry)
+
+        self.assert_rejected(mutate, "flag is not boolean")
+
+    def test_bad_province_code_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "provinces.csv"
+            rows = read_csv_rows(path)
+            rows[1][0] = "09"
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "provinces.csv")
+
+        self.assert_rejected(mutate, "province code set or ordering is invalid")
+
+    def test_duplicate_province_slug_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "provinces.csv"
+            rows = read_csv_rows(path)
+            rows[2][1] = rows[1][1]
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "provinces.csv")
+
+        self.assert_rejected(mutate, "duplicate province slug")
+
+    def test_province_source_order_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "provinces.csv"
+            rows = read_csv_rows(path)
+            rows[1], rows[2] = rows[2], rows[1]
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "provinces.csv")
+
+        self.assert_rejected(mutate, "province code set or ordering is invalid")
+
+    def test_source_metadata_order_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "registry.json"
+            registry = read_json(path)
+            registry["sources"][0], registry["sources"][1] = (
+                registry["sources"][1],
+                registry["sources"][0],
+            )
+            write_json(path, registry)
+
+        self.assert_rejected(mutate, "source metadata must be sorted")
+
+    def test_missing_relation_target_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "relations.json"
+            document = read_json(path)
+            document["rules"][0]["object_id_template"] = "geo:th:country:missing"
+            write_json(path, document)
+            refresh_input_digest(source_dir, "relations.json")
+
+        self.assert_rejected(mutate, "relation object does not exist")
+
+    def test_relation_graph_cycle_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "relations.json"
+            document = read_json(path)
+            document["records"] = [
+                {
+                    "subject_id": "geo:th:country",
+                    "type": "part_of",
+                    "object_id": "geo:th:province:10",
+                    "scheme_id": "thai-administrative",
+                    "is_primary": False,
+                    "valid_from": None,
+                    "valid_to": None,
+                    "source_id": "nso-geographic-standard",
+                }
+            ]
+            write_json(path, document)
+            refresh_input_digest(source_dir, "relations.json")
+
+        self.assert_rejected(mutate, "graph contains a cycle")
+
+    def test_invalid_relation_scheme_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "relations.json"
+            document = read_json(path)
+            document["rules"][1]["scheme_id"] = "thai-administrative"
+            write_json(path, document)
+            refresh_input_digest(source_dir, "relations.json")
+
+        self.assert_rejected(mutate, "classification uses an administrative scheme")
+
+    def test_alias_ambiguity_without_shared_group_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "aliases.csv"
+            rows = read_csv_rows(path)
+            matching = [row for row in rows[1:] if row[2] == "Nakhon"]
+            self.assertEqual(2, len(matching))
+            matching[0][5] = ""
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "aliases.csv")
+
+        self.assert_rejected(mutate, "ambiguous alias lacks an explicit ambiguity group")
+
+    def test_invalid_coordinates_are_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "geometry.json"
+            document = read_json(path)
+            document["records"] = [
+                {
+                    "entity_id": "geo:th:province:10",
+                    "center": {"lat": 91.0, "lng": 100.5},
+                    "bounds": {"south": 10.0, "west": 100.0, "north": 20.0, "east": 101.0},
+                    "source_id": "nso-geographic-standard",
+                }
+            ]
+            write_json(path, document)
+            refresh_input_digest(source_dir, "geometry.json")
+
+        self.assert_rejected(mutate, "geometry center is out of range")
+
+    def test_center_outside_bounds_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "geometry.json"
+            document = read_json(path)
+            document["records"] = [
+                {
+                    "entity_id": "geo:th:province:10",
+                    "center": {"lat": 15.0, "lng": 102.0},
+                    "bounds": {"south": 10.0, "west": 100.0, "north": 20.0, "east": 101.0},
+                    "source_id": "nso-geographic-standard",
+                }
+            ]
+            write_json(path, document)
+            refresh_input_digest(source_dir, "geometry.json")
+
+        self.assert_rejected(mutate, "center is outside longitude bounds")
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)

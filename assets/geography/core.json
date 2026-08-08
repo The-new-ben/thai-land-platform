@@ -1,0 +1,2093 @@
+{
+  "classification_schemes": [
+    {
+      "as_of": "2024-12-31",
+      "id": "nso-seven-region-2025",
+      "is_administrative_parent": false,
+      "kind": "statistical",
+      "region_ids": [
+        "geo:th:region:nso-seven-region-2025:bangkok-vicinity",
+        "geo:th:region:nso-seven-region-2025:central",
+        "geo:th:region:nso-seven-region-2025:eastern",
+        "geo:th:region:nso-seven-region-2025:northeastern",
+        "geo:th:region:nso-seven-region-2025:northern",
+        "geo:th:region:nso-seven-region-2025:southern",
+        "geo:th:region:nso-seven-region-2025:western"
+      ]
+    },
+    {
+      "as_of": null,
+      "id": "thai-administrative",
+      "is_administrative_parent": true,
+      "kind": "administrative",
+      "region_ids": []
+    }
+  ],
+  "country": {
+    "external_ids": {
+      "iso_3166_1_alpha_2": "TH"
+    },
+    "geometry": null,
+    "id": "geo:th:country",
+    "kind": "geography",
+    "names": {
+      "en": "Thailand",
+      "he": "תאילנד",
+      "th": "ประเทศไทย"
+    },
+    "priority": true,
+    "slug": "thailand",
+    "status": "active",
+    "type": "country"
+  },
+  "dataset_version": "2026.08.08.1",
+  "provinces": [
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-10",
+        "moi_province_code": "10"
+      },
+      "geometry": null,
+      "id": "geo:th:province:10",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:bangkok-vicinity",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Bangkok Metropolis",
+        "he": "בנגקוק",
+        "th": "กรุงเทพมหานคร"
+      },
+      "priority": true,
+      "slug": "bangkok",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-11",
+        "moi_province_code": "11"
+      },
+      "geometry": null,
+      "id": "geo:th:province:11",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:bangkok-vicinity",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Samut Prakan",
+        "he": "סמוט פראקאן",
+        "th": "สมุทรปราการ"
+      },
+      "priority": true,
+      "slug": "samut-prakan",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-12",
+        "moi_province_code": "12"
+      },
+      "geometry": null,
+      "id": "geo:th:province:12",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:bangkok-vicinity",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nonthaburi",
+        "he": "נונתבורי",
+        "th": "นนทบุรี"
+      },
+      "priority": true,
+      "slug": "nonthaburi",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-13",
+        "moi_province_code": "13"
+      },
+      "geometry": null,
+      "id": "geo:th:province:13",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:bangkok-vicinity",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Pathum Thani",
+        "he": "פאתום תאני",
+        "th": "ปทุมธานี"
+      },
+      "priority": true,
+      "slug": "pathum-thani",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-14",
+        "moi_province_code": "14"
+      },
+      "geometry": null,
+      "id": "geo:th:province:14",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:central",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phra Nakhon Si Ayutthaya",
+        "he": "איוטהאיה",
+        "th": "พระนครศรีอยุธยา"
+      },
+      "priority": true,
+      "slug": "phra-nakhon-si-ayutthaya",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-15",
+        "moi_province_code": "15"
+      },
+      "geometry": null,
+      "id": "geo:th:province:15",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:central",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Ang Thong",
+        "he": "אנג תונג",
+        "th": "อ่างทอง"
+      },
+      "priority": false,
+      "slug": "ang-thong",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-16",
+        "moi_province_code": "16"
+      },
+      "geometry": null,
+      "id": "geo:th:province:16",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:central",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Lop Buri",
+        "he": "לופ בורי",
+        "th": "ลพบุรี"
+      },
+      "priority": false,
+      "slug": "lop-buri",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-17",
+        "moi_province_code": "17"
+      },
+      "geometry": null,
+      "id": "geo:th:province:17",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:central",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Sing Buri",
+        "he": "סינג בורי",
+        "th": "สิงห์บุรี"
+      },
+      "priority": false,
+      "slug": "sing-buri",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-18",
+        "moi_province_code": "18"
+      },
+      "geometry": null,
+      "id": "geo:th:province:18",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:central",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Chai Nat",
+        "he": "צ'אי נאט",
+        "th": "ชัยนาท"
+      },
+      "priority": false,
+      "slug": "chai-nat",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-19",
+        "moi_province_code": "19"
+      },
+      "geometry": null,
+      "id": "geo:th:province:19",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:central",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Saraburi",
+        "he": "סראבורי",
+        "th": "สระบุรี"
+      },
+      "priority": false,
+      "slug": "saraburi",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-20",
+        "moi_province_code": "20"
+      },
+      "geometry": null,
+      "id": "geo:th:province:20",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:eastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Chon Buri",
+        "he": "צ'ונבורי",
+        "th": "ชลบุรี"
+      },
+      "priority": true,
+      "slug": "chon-buri",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-21",
+        "moi_province_code": "21"
+      },
+      "geometry": null,
+      "id": "geo:th:province:21",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:eastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Rayong",
+        "he": "ראיונג",
+        "th": "ระยอง"
+      },
+      "priority": true,
+      "slug": "rayong",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-22",
+        "moi_province_code": "22"
+      },
+      "geometry": null,
+      "id": "geo:th:province:22",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:eastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Chanthaburi",
+        "he": "צ'נתבורי",
+        "th": "จันทบุรี"
+      },
+      "priority": false,
+      "slug": "chanthaburi",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-23",
+        "moi_province_code": "23"
+      },
+      "geometry": null,
+      "id": "geo:th:province:23",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:eastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Trat",
+        "he": "טראט",
+        "th": "ตราด"
+      },
+      "priority": true,
+      "slug": "trat",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-24",
+        "moi_province_code": "24"
+      },
+      "geometry": null,
+      "id": "geo:th:province:24",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:eastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Chachoengsao",
+        "he": "צ'אצ'ואנגסאו",
+        "th": "ฉะเชิงเทรา"
+      },
+      "priority": false,
+      "slug": "chachoengsao",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-25",
+        "moi_province_code": "25"
+      },
+      "geometry": null,
+      "id": "geo:th:province:25",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:eastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Prachin Buri",
+        "he": "פראצ'ין בורי",
+        "th": "ปราจีนบุรี"
+      },
+      "priority": false,
+      "slug": "prachin-buri",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-26",
+        "moi_province_code": "26"
+      },
+      "geometry": null,
+      "id": "geo:th:province:26",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:eastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nakhon Nayok",
+        "he": "נאקון נאיאוק",
+        "th": "นครนายก"
+      },
+      "priority": false,
+      "slug": "nakhon-nayok",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-27",
+        "moi_province_code": "27"
+      },
+      "geometry": null,
+      "id": "geo:th:province:27",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:eastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Sa Kaeo",
+        "he": "סה קאו",
+        "th": "สระแก้ว"
+      },
+      "priority": false,
+      "slug": "sa-kaeo",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-30",
+        "moi_province_code": "30"
+      },
+      "geometry": null,
+      "id": "geo:th:province:30",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nakhon Ratchasima",
+        "he": "נאקון ראטצ'סימה",
+        "th": "นครราชสีมา"
+      },
+      "priority": true,
+      "slug": "nakhon-ratchasima",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-31",
+        "moi_province_code": "31"
+      },
+      "geometry": null,
+      "id": "geo:th:province:31",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Buri Ram",
+        "he": "בורי ראם",
+        "th": "บุรีรัมย์"
+      },
+      "priority": false,
+      "slug": "buri-ram",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-32",
+        "moi_province_code": "32"
+      },
+      "geometry": null,
+      "id": "geo:th:province:32",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Surin",
+        "he": "סורין",
+        "th": "สุรินทร์"
+      },
+      "priority": false,
+      "slug": "surin",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-33",
+        "moi_province_code": "33"
+      },
+      "geometry": null,
+      "id": "geo:th:province:33",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Si Sa Ket",
+        "he": "סי סה קט",
+        "th": "ศรีสะเกษ"
+      },
+      "priority": false,
+      "slug": "si-sa-ket",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-34",
+        "moi_province_code": "34"
+      },
+      "geometry": null,
+      "id": "geo:th:province:34",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Ubon Ratchathani",
+        "he": "אובון ראטצ'תאני",
+        "th": "อุบลราชธานี"
+      },
+      "priority": true,
+      "slug": "ubon-ratchathani",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-35",
+        "moi_province_code": "35"
+      },
+      "geometry": null,
+      "id": "geo:th:province:35",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Yasothon",
+        "he": "יאסותון",
+        "th": "ยโสธร"
+      },
+      "priority": false,
+      "slug": "yasothon",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-36",
+        "moi_province_code": "36"
+      },
+      "geometry": null,
+      "id": "geo:th:province:36",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Chaiyaphum",
+        "he": "צ'איאפום",
+        "th": "ชัยภูมิ"
+      },
+      "priority": false,
+      "slug": "chaiyaphum",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-37",
+        "moi_province_code": "37"
+      },
+      "geometry": null,
+      "id": "geo:th:province:37",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Amnat Charoen",
+        "he": "אמנאט צ'רואן",
+        "th": "อำนาจเจริญ"
+      },
+      "priority": false,
+      "slug": "amnat-charoen",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-38",
+        "moi_province_code": "38"
+      },
+      "geometry": null,
+      "id": "geo:th:province:38",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Bueng Kan",
+        "he": "בואנג קאן",
+        "th": "บึงกาฬ"
+      },
+      "priority": false,
+      "slug": "bueng-kan",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-39",
+        "moi_province_code": "39"
+      },
+      "geometry": null,
+      "id": "geo:th:province:39",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nong Bua Lam Phu",
+        "he": "נונג בואה למפו",
+        "th": "หนองบัวลำภู"
+      },
+      "priority": false,
+      "slug": "nong-bua-lam-phu",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-40",
+        "moi_province_code": "40"
+      },
+      "geometry": null,
+      "id": "geo:th:province:40",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Khon Kaen",
+        "he": "קון קאן",
+        "th": "ขอนแก่น"
+      },
+      "priority": true,
+      "slug": "khon-kaen",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-41",
+        "moi_province_code": "41"
+      },
+      "geometry": null,
+      "id": "geo:th:province:41",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Udon Thani",
+        "he": "אודון תאני",
+        "th": "อุดรธานี"
+      },
+      "priority": true,
+      "slug": "udon-thani",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-42",
+        "moi_province_code": "42"
+      },
+      "geometry": null,
+      "id": "geo:th:province:42",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Loei",
+        "he": "לואי",
+        "th": "เลย"
+      },
+      "priority": false,
+      "slug": "loei",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-43",
+        "moi_province_code": "43"
+      },
+      "geometry": null,
+      "id": "geo:th:province:43",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nong Khai",
+        "he": "נונג קאי",
+        "th": "หนองคาย"
+      },
+      "priority": false,
+      "slug": "nong-khai",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-44",
+        "moi_province_code": "44"
+      },
+      "geometry": null,
+      "id": "geo:th:province:44",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Maha Sarakham",
+        "he": "מהא סראקהאם",
+        "th": "มหาสารคาม"
+      },
+      "priority": false,
+      "slug": "maha-sarakham",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-45",
+        "moi_province_code": "45"
+      },
+      "geometry": null,
+      "id": "geo:th:province:45",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Roi Et",
+        "he": "רוי אט",
+        "th": "ร้อยเอ็ด"
+      },
+      "priority": false,
+      "slug": "roi-et",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-46",
+        "moi_province_code": "46"
+      },
+      "geometry": null,
+      "id": "geo:th:province:46",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Kalasin",
+        "he": "קלאסין",
+        "th": "กาฬสินธุ์"
+      },
+      "priority": false,
+      "slug": "kalasin",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-47",
+        "moi_province_code": "47"
+      },
+      "geometry": null,
+      "id": "geo:th:province:47",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Sakon Nakhon",
+        "he": "סאקון נאקון",
+        "th": "สกลนคร"
+      },
+      "priority": false,
+      "slug": "sakon-nakhon",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-48",
+        "moi_province_code": "48"
+      },
+      "geometry": null,
+      "id": "geo:th:province:48",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nakhon Phanom",
+        "he": "נאקון פאנום",
+        "th": "นครพนม"
+      },
+      "priority": false,
+      "slug": "nakhon-phanom",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-49",
+        "moi_province_code": "49"
+      },
+      "geometry": null,
+      "id": "geo:th:province:49",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northeastern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Mukdahan",
+        "he": "מוקדהאן",
+        "th": "มุกดาหาร"
+      },
+      "priority": false,
+      "slug": "mukdahan",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-50",
+        "moi_province_code": "50"
+      },
+      "geometry": null,
+      "id": "geo:th:province:50",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Chiang Mai",
+        "he": "צ'יאנג מאי",
+        "th": "เชียงใหม่"
+      },
+      "priority": true,
+      "slug": "chiang-mai",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-51",
+        "moi_province_code": "51"
+      },
+      "geometry": null,
+      "id": "geo:th:province:51",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Lamphun",
+        "he": "למפון",
+        "th": "ลำพูน"
+      },
+      "priority": false,
+      "slug": "lamphun",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-52",
+        "moi_province_code": "52"
+      },
+      "geometry": null,
+      "id": "geo:th:province:52",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Lampang",
+        "he": "למפאנג",
+        "th": "ลำปาง"
+      },
+      "priority": false,
+      "slug": "lampang",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-53",
+        "moi_province_code": "53"
+      },
+      "geometry": null,
+      "id": "geo:th:province:53",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Uttaradit",
+        "he": "אוטרדיט",
+        "th": "อุตรดิตถ์"
+      },
+      "priority": false,
+      "slug": "uttaradit",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-54",
+        "moi_province_code": "54"
+      },
+      "geometry": null,
+      "id": "geo:th:province:54",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phrae",
+        "he": "פראה",
+        "th": "แพร่"
+      },
+      "priority": false,
+      "slug": "phrae",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-55",
+        "moi_province_code": "55"
+      },
+      "geometry": null,
+      "id": "geo:th:province:55",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nan",
+        "he": "נאן",
+        "th": "น่าน"
+      },
+      "priority": true,
+      "slug": "nan",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-56",
+        "moi_province_code": "56"
+      },
+      "geometry": null,
+      "id": "geo:th:province:56",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phayao",
+        "he": "פיאו",
+        "th": "พะเยา"
+      },
+      "priority": false,
+      "slug": "phayao",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-57",
+        "moi_province_code": "57"
+      },
+      "geometry": null,
+      "id": "geo:th:province:57",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Chiang Rai",
+        "he": "צ'יאנג ראי",
+        "th": "เชียงราย"
+      },
+      "priority": true,
+      "slug": "chiang-rai",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-58",
+        "moi_province_code": "58"
+      },
+      "geometry": null,
+      "id": "geo:th:province:58",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Mae Hong Son",
+        "he": "מאה הונג סון",
+        "th": "แม่ฮ่องสอน"
+      },
+      "priority": true,
+      "slug": "mae-hong-son",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-60",
+        "moi_province_code": "60"
+      },
+      "geometry": null,
+      "id": "geo:th:province:60",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nakhon Sawan",
+        "he": "נאקון סוואן",
+        "th": "นครสวรรค์"
+      },
+      "priority": false,
+      "slug": "nakhon-sawan",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-61",
+        "moi_province_code": "61"
+      },
+      "geometry": null,
+      "id": "geo:th:province:61",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Uthai Thani",
+        "he": "אותאי תאני",
+        "th": "อุทัยธานี"
+      },
+      "priority": false,
+      "slug": "uthai-thani",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-62",
+        "moi_province_code": "62"
+      },
+      "geometry": null,
+      "id": "geo:th:province:62",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Kamphaeng Phet",
+        "he": "קמפאנג פט",
+        "th": "กำแพงเพชร"
+      },
+      "priority": false,
+      "slug": "kamphaeng-phet",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-63",
+        "moi_province_code": "63"
+      },
+      "geometry": null,
+      "id": "geo:th:province:63",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Tak",
+        "he": "טאק",
+        "th": "ตาก"
+      },
+      "priority": false,
+      "slug": "tak",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-64",
+        "moi_province_code": "64"
+      },
+      "geometry": null,
+      "id": "geo:th:province:64",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Sukhothai",
+        "he": "סוקותאי",
+        "th": "สุโขทัย"
+      },
+      "priority": true,
+      "slug": "sukhothai",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-65",
+        "moi_province_code": "65"
+      },
+      "geometry": null,
+      "id": "geo:th:province:65",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phitsanulok",
+        "he": "פיטסנולוק",
+        "th": "พิษณุโลก"
+      },
+      "priority": false,
+      "slug": "phitsanulok",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-66",
+        "moi_province_code": "66"
+      },
+      "geometry": null,
+      "id": "geo:th:province:66",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phichit",
+        "he": "פיצ'יט",
+        "th": "พิจิตร"
+      },
+      "priority": false,
+      "slug": "phichit",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-67",
+        "moi_province_code": "67"
+      },
+      "geometry": null,
+      "id": "geo:th:province:67",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:northern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phetchabun",
+        "he": "פטצ'בון",
+        "th": "เพชรบูรณ์"
+      },
+      "priority": false,
+      "slug": "phetchabun",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-70",
+        "moi_province_code": "70"
+      },
+      "geometry": null,
+      "id": "geo:th:province:70",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:western",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Ratchaburi",
+        "he": "ראטצ'בורי",
+        "th": "ราชบุรี"
+      },
+      "priority": false,
+      "slug": "ratchaburi",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-71",
+        "moi_province_code": "71"
+      },
+      "geometry": null,
+      "id": "geo:th:province:71",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:western",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Kanchanaburi",
+        "he": "קנצ'נבורי",
+        "th": "กาญจนบุรี"
+      },
+      "priority": true,
+      "slug": "kanchanaburi",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-72",
+        "moi_province_code": "72"
+      },
+      "geometry": null,
+      "id": "geo:th:province:72",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:western",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Suphan Buri",
+        "he": "סופאן בורי",
+        "th": "สุพรรณบุรี"
+      },
+      "priority": false,
+      "slug": "suphan-buri",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-73",
+        "moi_province_code": "73"
+      },
+      "geometry": null,
+      "id": "geo:th:province:73",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:bangkok-vicinity",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nakhon Pathom",
+        "he": "נאקון פאתום",
+        "th": "นครปฐม"
+      },
+      "priority": true,
+      "slug": "nakhon-pathom",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-74",
+        "moi_province_code": "74"
+      },
+      "geometry": null,
+      "id": "geo:th:province:74",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:bangkok-vicinity",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Samut Sakhon",
+        "he": "סמוט סאחון",
+        "th": "สมุทรสาคร"
+      },
+      "priority": false,
+      "slug": "samut-sakhon",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-75",
+        "moi_province_code": "75"
+      },
+      "geometry": null,
+      "id": "geo:th:province:75",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:western",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Samut Songkhram",
+        "he": "סמוט סונגקראם",
+        "th": "สมุทรสงคราม"
+      },
+      "priority": false,
+      "slug": "samut-songkhram",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-76",
+        "moi_province_code": "76"
+      },
+      "geometry": null,
+      "id": "geo:th:province:76",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:western",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phetchaburi",
+        "he": "פטצ'בורי",
+        "th": "เพชรบุรี"
+      },
+      "priority": true,
+      "slug": "phetchaburi",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-77",
+        "moi_province_code": "77"
+      },
+      "geometry": null,
+      "id": "geo:th:province:77",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:western",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Prachuap Khiri Khan",
+        "he": "פראצ'ואפ קירי קאן",
+        "th": "ประจวบคีรีขันธ์"
+      },
+      "priority": true,
+      "slug": "prachuap-khiri-khan",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-80",
+        "moi_province_code": "80"
+      },
+      "geometry": null,
+      "id": "geo:th:province:80",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Nakhon Si Thammarat",
+        "he": "נאקון סי תמרט",
+        "th": "นครศรีธรรมราช"
+      },
+      "priority": true,
+      "slug": "nakhon-si-thammarat",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-81",
+        "moi_province_code": "81"
+      },
+      "geometry": null,
+      "id": "geo:th:province:81",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Krabi",
+        "he": "קראבי",
+        "th": "กระบี่"
+      },
+      "priority": true,
+      "slug": "krabi",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-82",
+        "moi_province_code": "82"
+      },
+      "geometry": null,
+      "id": "geo:th:province:82",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phang Nga",
+        "he": "פאנג נגה",
+        "th": "พังงา"
+      },
+      "priority": true,
+      "slug": "phang-nga",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-83",
+        "moi_province_code": "83"
+      },
+      "geometry": null,
+      "id": "geo:th:province:83",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phuket",
+        "he": "פוקט",
+        "th": "ภูเก็ต"
+      },
+      "priority": true,
+      "slug": "phuket",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-84",
+        "moi_province_code": "84"
+      },
+      "geometry": null,
+      "id": "geo:th:province:84",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Surat Thani",
+        "he": "סוראט תאני",
+        "th": "สุราษฎร์ธานี"
+      },
+      "priority": true,
+      "slug": "surat-thani",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-85",
+        "moi_province_code": "85"
+      },
+      "geometry": null,
+      "id": "geo:th:province:85",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Ranong",
+        "he": "רנונג",
+        "th": "ระนอง"
+      },
+      "priority": false,
+      "slug": "ranong",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-86",
+        "moi_province_code": "86"
+      },
+      "geometry": null,
+      "id": "geo:th:province:86",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Chumphon",
+        "he": "צ'ומפון",
+        "th": "ชุมพร"
+      },
+      "priority": false,
+      "slug": "chumphon",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-90",
+        "moi_province_code": "90"
+      },
+      "geometry": null,
+      "id": "geo:th:province:90",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Songkhla",
+        "he": "סונגקלה",
+        "th": "สงขลา"
+      },
+      "priority": true,
+      "slug": "songkhla",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-91",
+        "moi_province_code": "91"
+      },
+      "geometry": null,
+      "id": "geo:th:province:91",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Satun",
+        "he": "סאטון",
+        "th": "สตูล"
+      },
+      "priority": false,
+      "slug": "satun",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-92",
+        "moi_province_code": "92"
+      },
+      "geometry": null,
+      "id": "geo:th:province:92",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Trang",
+        "he": "טראנג",
+        "th": "ตรัง"
+      },
+      "priority": true,
+      "slug": "trang",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-93",
+        "moi_province_code": "93"
+      },
+      "geometry": null,
+      "id": "geo:th:province:93",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Phatthalung",
+        "he": "פטאלונג",
+        "th": "พัทลุง"
+      },
+      "priority": false,
+      "slug": "phatthalung",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-94",
+        "moi_province_code": "94"
+      },
+      "geometry": null,
+      "id": "geo:th:province:94",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Pattani",
+        "he": "פטאני",
+        "th": "ปัตตานี"
+      },
+      "priority": false,
+      "slug": "pattani",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-95",
+        "moi_province_code": "95"
+      },
+      "geometry": null,
+      "id": "geo:th:province:95",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Yala",
+        "he": "יאלה",
+        "th": "ยะลา"
+      },
+      "priority": false,
+      "slug": "yala",
+      "status": "active",
+      "type": "province"
+    },
+    {
+      "admin_parent_id": "geo:th:country",
+      "external_ids": {
+        "iso_3166_2": "TH-96",
+        "moi_province_code": "96"
+      },
+      "geometry": null,
+      "id": "geo:th:province:96",
+      "kind": "geography",
+      "memberships": [
+        {
+          "entity_id": "geo:th:region:nso-seven-region-2025:southern",
+          "scheme_id": "nso-seven-region-2025"
+        }
+      ],
+      "names": {
+        "en": "Narathiwat",
+        "he": "נאראטיוואט",
+        "th": "นราธิวาส"
+      },
+      "priority": false,
+      "slug": "narathiwat",
+      "status": "active",
+      "type": "province"
+    }
+  ],
+  "regions": [
+    {
+      "external_ids": {
+        "nso_region_id": "bangkok-vicinity"
+      },
+      "geometry": null,
+      "id": "geo:th:region:nso-seven-region-2025:bangkok-vicinity",
+      "kind": "geography",
+      "names": {
+        "en": "Bangkok and Vicinities",
+        "he": "בנגקוק והסביבה",
+        "th": "กรุงเทพมหานครและปริมณฑล"
+      },
+      "priority": false,
+      "slug": "bangkok-vicinity",
+      "status": "active",
+      "type": "statistical_region"
+    },
+    {
+      "external_ids": {
+        "nso_region_id": "central"
+      },
+      "geometry": null,
+      "id": "geo:th:region:nso-seven-region-2025:central",
+      "kind": "geography",
+      "names": {
+        "en": "Central Region",
+        "he": "מרכז תאילנד",
+        "th": "ภาคกลาง"
+      },
+      "priority": false,
+      "slug": "central",
+      "status": "active",
+      "type": "statistical_region"
+    },
+    {
+      "external_ids": {
+        "nso_region_id": "eastern"
+      },
+      "geometry": null,
+      "id": "geo:th:region:nso-seven-region-2025:eastern",
+      "kind": "geography",
+      "names": {
+        "en": "Eastern Region",
+        "he": "מזרח תאילנד",
+        "th": "ภาคตะวันออก"
+      },
+      "priority": false,
+      "slug": "eastern",
+      "status": "active",
+      "type": "statistical_region"
+    },
+    {
+      "external_ids": {
+        "nso_region_id": "northeastern"
+      },
+      "geometry": null,
+      "id": "geo:th:region:nso-seven-region-2025:northeastern",
+      "kind": "geography",
+      "names": {
+        "en": "Northeastern Region",
+        "he": "צפון מזרח תאילנד",
+        "th": "ภาคตะวันออกเฉียงเหนือ"
+      },
+      "priority": false,
+      "slug": "northeastern",
+      "status": "active",
+      "type": "statistical_region"
+    },
+    {
+      "external_ids": {
+        "nso_region_id": "northern"
+      },
+      "geometry": null,
+      "id": "geo:th:region:nso-seven-region-2025:northern",
+      "kind": "geography",
+      "names": {
+        "en": "Northern Region",
+        "he": "צפון תאילנד",
+        "th": "ภาคเหนือ"
+      },
+      "priority": false,
+      "slug": "northern",
+      "status": "active",
+      "type": "statistical_region"
+    },
+    {
+      "external_ids": {
+        "nso_region_id": "southern"
+      },
+      "geometry": null,
+      "id": "geo:th:region:nso-seven-region-2025:southern",
+      "kind": "geography",
+      "names": {
+        "en": "Southern Region",
+        "he": "דרום תאילנד",
+        "th": "ภาคใต้"
+      },
+      "priority": false,
+      "slug": "southern",
+      "status": "active",
+      "type": "statistical_region"
+    },
+    {
+      "external_ids": {
+        "nso_region_id": "western"
+      },
+      "geometry": null,
+      "id": "geo:th:region:nso-seven-region-2025:western",
+      "kind": "geography",
+      "names": {
+        "en": "Western Region",
+        "he": "מערב תאילנד",
+        "th": "ภาคตะวันตก"
+      },
+      "priority": false,
+      "slug": "western",
+      "status": "active",
+      "type": "statistical_region"
+    }
+  ],
+  "schema_version": "1.0.0"
+}

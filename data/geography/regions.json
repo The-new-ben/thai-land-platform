@@ -14,6 +14,7 @@
     "village"
   ],
   "editorial_entity_types": [
+    "country",
     "statistical_region",
     "province",
     "district",
@@ -25,12 +26,7 @@
     "island",
     "neighborhood",
     "beach",
-    "transport_hub",
-    "attraction",
-    "real_estate_project",
-    "business",
-    "service_area",
-    "product"
+    "editorial_region"
   ],
   "region_model": {
     "id": "nso-seven-region-2025",

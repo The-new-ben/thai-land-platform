@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "normalization_version": "1.0.0",
+  "vectors": [
+    {
+      "input": "  BANGKOK\tMetropolis  ",
+      "normalized": "bangkok metropolis"
+    },
+    {
+      "input": "צ׳יאנג   מאי",
+      "normalized": "צ'יאנג מאי"
+    },
+    {
+      "input": "“Phuket”",
+      "normalized": "\"phuket\""
+    },
+    {
+      "input": "ＰＨＵＫＥＴ",
+      "normalized": "phuket"
+    },
+    {
+      "input": "เชียงใหม่",
+      "normalized": "เชียงใหม่"
+    }
+  ]
+}

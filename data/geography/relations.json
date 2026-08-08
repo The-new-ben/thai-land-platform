@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "2026.08.08.1",
+  "relation_types": [
+    "admin_parent",
+    "available_in",
+    "classified_in",
+    "located_in",
+    "near",
+    "part_of",
+    "serves"
+  ],
+  "rules": [
+    {
+      "id": "province-admin-parent",
+      "subject_type": "province",
+      "type": "admin_parent",
+      "object_id_template": "geo:th:country",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "nso-geographic-standard"
+    },
+    {
+      "id": "province-statistical-membership",
+      "subject_type": "province",
+      "type": "classified_in",
+      "object_id_template": "geo:th:region:nso-seven-region-2025:{region_id}",
+      "scheme_id": "nso-seven-region-2025",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "nso-yearbook-2025"
+    }
+  ],
+  "records": []
+}

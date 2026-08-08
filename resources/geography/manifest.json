@@ -1,0 +1,93 @@
+{
+  "artifacts": {
+    "assets/geography/core.json": {
+      "bytes": 53867,
+      "sha256": "52793d56d7435d7f526578c3aee3e54ff24a0e45448638fda6f1cf659be3af02"
+    },
+    "resources/geography/registry.php": {
+      "bytes": 212016,
+      "sha256": "c47df4455ee4f60901c3849788067ec3c158723493e15b88e75a3c5b06a9ffe0"
+    }
+  },
+  "country_id": "geo:th:country",
+  "counts": {
+    "alias_candidates": 269,
+    "alias_keys": 268,
+    "entities": 85,
+    "provinces": 77,
+    "regions": 7,
+    "relations": 154
+  },
+  "dataset_version": "2026.08.08.1",
+  "entity_type_counts": {
+    "country": 1,
+    "province": 77,
+    "statistical_region": 7
+  },
+  "normalization": {
+    "ascii_case": "lower",
+    "no_intl_fallback": "also index reviewed NFC canonical names without NFKC when the key differs",
+    "punctuation": "U+2018 U+2019 U+05F3 to apostrophe; U+201C U+201D U+05F4 to straight quote",
+    "unicode": "NFKC",
+    "vectors": [
+      {
+        "input": "  BANGKOK\tMetropolis  ",
+        "normalized": "bangkok metropolis"
+      },
+      {
+        "input": "צ׳יאנג   מאי",
+        "normalized": "צ'יאנג מאי"
+      },
+      {
+        "input": "“Phuket”",
+        "normalized": "\"phuket\""
+      },
+      {
+        "input": "ＰＨＵＫＥＴ",
+        "normalized": "phuket"
+      },
+      {
+        "input": "เชียงใหม่",
+        "normalized": "เชียงใหม่"
+      }
+    ],
+    "version": "1.0.0",
+    "whitespace": "trim and collapse Unicode whitespace to one ASCII space"
+  },
+  "schema_version": "1.0.0",
+  "source_inputs": {
+    "aliases.csv": {
+      "bytes": 917,
+      "sha256": "b958c316bcbf761e723f90a77075b2127b8cfd845fa81e33ad70010fa98424c8"
+    },
+    "geometry.json": {
+      "bytes": 86,
+      "sha256": "3915232d4b9e97fef9bbe63f0c73d8f7211346859e84e119b6e48c6b382e15d2"
+    },
+    "normalization-vectors.json": {
+      "bytes": 542,
+      "sha256": "8354e52f3608e2a9010c5f2d1c7c1e8086fc1bb378b609d47f086acaa6e57720"
+    },
+    "provinces.csv": {
+      "bytes": 6021,
+      "sha256": "db9d2566ec2f11f515c0a713dc3f0deac408cc756ca09abddcc43caca3530366"
+    },
+    "regions.json": {
+      "bytes": 3060,
+      "sha256": "0827eaa5a764ea810d85362022103a475ba58114663e6cc9992a29675bfd0547"
+    },
+    "registry.json": {
+      "bytes": 4317,
+      "sha256": "dc7ad84f70abe719ab35b603d396f2f931b296e7a06eea4b043fa25111f1ae72"
+    },
+    "registry.schema.json": {
+      "bytes": 4195,
+      "sha256": "8073eea58c0b06821c8235f0b4f09fc8beecb697ebb2a1dee089b1b715135957"
+    },
+    "relations.json": {
+      "bytes": 936,
+      "sha256": "df57bf7931b7bf15afb36f212343441d2ca8f3acf2adc1bef73f009ab4bedf68"
+    }
+  },
+  "source_manifest_sha256": "dc7ad84f70abe719ab35b603d396f2f931b296e7a06eea4b043fa25111f1ae72"
+}

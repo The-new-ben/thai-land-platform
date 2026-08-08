@@ -1,0 +1,11 @@
+entity_id,locale,alias,context_id,status,ambiguity_group,source_id
+geo:th:province:10,en,Krung Thep,geo:th:country,active,,thai-land-editorial-names
+geo:th:province:10,he,קרונג טפ,geo:th:country,active,,thai-land-editorial-names
+geo:th:province:20,en,Chonburi,geo:th:country,active,,thai-land-editorial-names
+geo:th:province:27,en,Sra Kaew,geo:th:country,retired,,nso-province-codes
+geo:th:province:30,en,Nakhon,geo:th:country,active,nakhon-province,thai-land-editorial-names
+geo:th:province:50,en,Chiangmai,geo:th:country,active,,thai-land-editorial-names
+geo:th:province:50,he,צ׳יאנג מאי,geo:th:country,active,,thai-land-editorial-names
+geo:th:province:73,en,Nakhonpathom,geo:th:country,active,,thai-land-editorial-names
+geo:th:province:80,en,Nakhon,geo:th:country,active,nakhon-province,thai-land-editorial-names
+geo:th:province:83,en,Phuket Island,geo:th:country,active,,thai-land-editorial-names

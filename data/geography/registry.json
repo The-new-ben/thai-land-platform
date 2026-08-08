@@ -1,0 +1,154 @@
+{
+  "$schema": "./registry.schema.json",
+  "schema_version": "1.0.0",
+  "dataset_version": "2026.08.08.1",
+  "country_id": "geo:th:country",
+  "geography_types": [
+    "beach",
+    "city",
+    "country",
+    "district",
+    "editorial_region",
+    "island",
+    "municipality",
+    "neighborhood",
+    "province",
+    "special_local_authority",
+    "statistical_region",
+    "subdistrict",
+    "village"
+  ],
+  "classification_schemes": [
+    {
+      "id": "nso-seven-region-2025",
+      "kind": "statistical",
+      "is_administrative_parent": false,
+      "levels": [
+        "statistical_region"
+      ],
+      "source_ids": [
+        "nso-yearbook-2025"
+      ]
+    },
+    {
+      "id": "thai-administrative",
+      "kind": "administrative",
+      "is_administrative_parent": true,
+      "levels": [
+        "country",
+        "province",
+        "district",
+        "subdistrict",
+        "village"
+      ],
+      "source_ids": [
+        "nso-geographic-standard",
+        "nso-province-codes"
+      ]
+    }
+  ],
+  "inputs": {
+    "aliases": {
+      "path": "aliases.csv",
+      "sha256": "b958c316bcbf761e723f90a77075b2127b8cfd845fa81e33ad70010fa98424c8",
+      "source_ids": [
+        "thai-land-editorial-names"
+      ]
+    },
+    "geometry": {
+      "path": "geometry.json",
+      "sha256": "3915232d4b9e97fef9bbe63f0c73d8f7211346859e84e119b6e48c6b382e15d2",
+      "source_ids": []
+    },
+    "normalization_vectors": {
+      "path": "normalization-vectors.json",
+      "sha256": "8354e52f3608e2a9010c5f2d1c7c1e8086fc1bb378b609d47f086acaa6e57720",
+      "source_ids": []
+    },
+    "provinces": {
+      "path": "provinces.csv",
+      "sha256": "db9d2566ec2f11f515c0a713dc3f0deac408cc756ca09abddcc43caca3530366",
+      "source_ids": [
+        "nso-province-codes",
+        "thai-land-editorial-names"
+      ]
+    },
+    "regions": {
+      "path": "regions.json",
+      "sha256": "0827eaa5a764ea810d85362022103a475ba58114663e6cc9992a29675bfd0547",
+      "source_ids": [
+        "nso-geographic-standard",
+        "nso-yearbook-2025"
+      ]
+    },
+    "relations": {
+      "path": "relations.json",
+      "sha256": "df57bf7931b7bf15afb36f212343441d2ca8f3acf2adc1bef73f009ab4bedf68",
+      "source_ids": [
+        "nso-geographic-standard",
+        "nso-yearbook-2025"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "nso-geographic-standard",
+      "authority": "Thailand National Statistical Office",
+      "title": "Statistical standards and geographic administration",
+      "url": "https://www.nso.go.th/nsoweb/statisticalStandardsDetail/yp?set_lang=th",
+      "published_on": null,
+      "effective_on": null,
+      "retrieved_on": "2026-08-08",
+      "license": "not-stated",
+      "covers": [
+        "administrative hierarchy",
+        "two digit province code structure",
+        "separation of administrative and local government models"
+      ]
+    },
+    {
+      "id": "nso-province-codes",
+      "authority": "Thailand National Statistical Office",
+      "title": "Province code reference file",
+      "url": "https://catalogapi.nso.go.th/api/files/BSS_14_20721_9",
+      "published_on": null,
+      "effective_on": null,
+      "retrieved_on": "2026-08-08",
+      "license": "not-stated",
+      "covers": [
+        "province codes",
+        "Thai province names",
+        "English province names"
+      ]
+    },
+    {
+      "id": "nso-yearbook-2025",
+      "authority": "Thailand National Statistical Office",
+      "title": "Statistical Yearbook Thailand 2025",
+      "url": "https://www.nso.go.th/public/e-book/Statistical-Yearbook/SYB-2025/110/",
+      "published_on": "2025-01-01",
+      "effective_on": "2024-12-31",
+      "retrieved_on": "2026-08-08",
+      "license": "not-stated",
+      "covers": [
+        "seven statistical region membership",
+        "administration counts as of 2024-12-31"
+      ]
+    },
+    {
+      "id": "thai-land-editorial-names",
+      "authority": "Thai-Land.co.il",
+      "title": "Hebrew labels and reviewed transliteration aliases",
+      "url": "https://thai-land.co.il/",
+      "published_on": null,
+      "effective_on": "2026-08-08",
+      "retrieved_on": "2026-08-08",
+      "license": "proprietary",
+      "covers": [
+        "Hebrew province labels",
+        "reviewed Hebrew and English aliases",
+        "editorial priority"
+      ]
+    }
+  ]
+}
