@@ -443,6 +443,30 @@
     announce(isLarge ? 'התצוגה הוגדלה' : 'התצוגה חזרה לגודל הרגיל');
   });
 
+  /* Keep the existing Tawk chat compact while preserving its current callback. */
+  const minimizeTawkWidget = () => {
+    const api = window.Tawk_API;
+    if (!api || typeof api.minimize !== 'function') return false;
+
+    try {
+      api.minimize();
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const tawkApi = window.Tawk_API = window.Tawk_API || {};
+  const previousTawkOnLoad = tawkApi.onLoad;
+  tawkApi.onLoad = function (...args) {
+    try {
+      if (typeof previousTawkOnLoad === 'function') previousTawkOnLoad.apply(this, args);
+    } finally {
+      minimizeTawkWidget();
+    }
+  };
+  minimizeTawkWidget();
+
   /* Back to top */
   doc.querySelector('[data-back-to-top]')?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });

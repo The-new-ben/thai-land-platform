@@ -839,7 +839,7 @@ body.thailand-platform-home.large-text { font-size: 18px; }
   .thp-home .footer-bottom > div { padding-block: 18px; flex-wrap: wrap; }
   .thp-home .footer-bottom nav { order: 3; width: 100%; flex-basis: 100%; }
   .thp-home .back-to-top { margin-inline-start: auto; }
-  .thp-home .mobile-action-bar { position: fixed; z-index: 55; inset-block-end: 0; inset-inline: 0; display: grid; grid-template-columns: repeat(4, 1fr); height: 64px; padding: 6px max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); background: rgba(255,255,255,.96); border-top: 1px solid var(--line); box-shadow: 0 -8px 25px rgba(22,54,50,.08); backdrop-filter: blur(12px); }
+  .thp-home .mobile-action-bar { position: fixed; z-index: 55; inset-block-end: 0; inset-inline-start: 0; inset-inline-end: 88px; display: grid; grid-template-columns: repeat(4, 1fr); height: 64px; padding: 6px max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); background: rgba(255,255,255,.96); border-top: 1px solid var(--line); border-start-end-radius: 18px; box-shadow: 0 -8px 25px rgba(22,54,50,.08); backdrop-filter: blur(12px); }
   .thp-home .mobile-action-bar a, .thp-home .mobile-action-bar button { display: flex; padding: 2px; align-items: center; justify-content: center; flex-direction: column; color: var(--ink-soft); background: none; border: 0; cursor: pointer; }
   .thp-home .mobile-action-bar span { font-size: 1.15rem; line-height: 1; }
   .thp-home .mobile-action-bar small { margin-top: 4px; font-size: .62rem; }

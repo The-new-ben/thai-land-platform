@@ -334,7 +334,7 @@ use Thailand_Platform\Homepage\FeatureFlag;
 use Thailand_Platform\Homepage\Renderer;
 use Thailand_Platform\Homepage\Seo;
 
-tl_test_assert( '0.2.0' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.2.1' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -593,6 +593,12 @@ tl_test_assert( false !== strpos( $js, "querySelector('[data-saved-list]')" ), '
 tl_test_assert( false !== strpos( $js, 'savedList.replaceChildren()' ), 'Homepage JavaScript does not render the saved-list state.' );
 tl_test_assert( false !== strpos( $js, "closest('[data-atlas-place]')" ), 'Homepage JavaScript does not handle atlas-place controls.' );
 tl_test_assert( false !== strpos( $js, 'placeControl.dataset.atlasPlace' ), 'Homepage JavaScript does not resolve atlas-place keys.' );
+tl_test_assert( false !== strpos( $js, 'api.minimize()' ), 'Homepage JavaScript does not minimize the Tawk widget on load.' );
+tl_test_assert( false !== strpos( $js, 'const previousTawkOnLoad = tawkApi.onLoad' ), 'Homepage JavaScript does not preserve the current Tawk onLoad callback.' );
+tl_test_assert( false !== strpos( $js, 'previousTawkOnLoad.apply(this, args)' ), 'Homepage JavaScript does not run the preserved Tawk onLoad callback.' );
+tl_test_assert( false !== strpos( $js, 'tawkApi.onLoad = function (...args)' ), 'Homepage JavaScript does not register a Tawk readiness callback.' );
+tl_test_assert( false === strpos( $js, 'hideWidget()' ), 'Homepage JavaScript removes chat access on mobile.' );
+tl_test_assert( false !== strpos( $css, 'inset-inline-end: 88px' ), 'Homepage mobile action bar does not reserve room for the chat launcher.' );
 tl_test_assert( false !== strpos( $markup, 'יום־יום' ), 'Homepage public copy is missing the preferred יום־יום spelling.' );
 tl_test_assert( false === strpos( $markup, 'יום יום' ), 'Homepage public copy contains unhyphenated יום יום.' );
 tl_test_assert( false === strpos( $js, 'יום יום' ), 'Homepage JavaScript contains unhyphenated יום יום.' );

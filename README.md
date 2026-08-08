@@ -2,7 +2,7 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.2.0 boundary
+## Release 0.2.1 boundary
 
 The package preserves the minimal public healthcheck at
 `/wp-json/thailand-platform/v1/health` and adds a theme-independent RTL homepage
@@ -11,6 +11,9 @@ default to the legacy homepage until an administrator deliberately changes the
 mode. Canary responses are private and noindex. Mode changes, deactivation,
 and uninstall clear the installed page cache so the original theme returns
 immediately after rollback.
+
+The homepage also keeps the existing chat compact and leaves enough room for
+its launcher beside the fixed phone actions.
 
 ## Local verification
 
