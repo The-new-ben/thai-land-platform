@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "country": {
+    "id": "TH",
+    "name_he": "תאילנד",
+    "name_en": "Thailand",
+    "name_th": "ประเทศไทย"
+  },
+  "administrative_hierarchy": [
+    "country",
+    "province",
+    "district",
+    "subdistrict",
+    "village"
+  ],
+  "editorial_entity_types": [
+    "statistical_region",
+    "province",
+    "district",
+    "special_local_authority",
+    "municipality",
+    "subdistrict",
+    "village",
+    "city",
+    "island",
+    "neighborhood",
+    "beach",
+    "transport_hub",
+    "attraction",
+    "real_estate_project",
+    "business",
+    "service_area",
+    "product"
+  ],
+  "region_model": {
+    "id": "nso-seven-region-2025",
+    "kind": "statistical_facet",
+    "is_administrative_parent": false,
+    "as_of": "2024-12-31",
+    "regions": [
+      {
+        "id": "bangkok-vicinity",
+        "name_he": "בנגקוק והסביבה",
+        "name_en": "Bangkok and Vicinities",
+        "name_th": "กรุงเทพมหานครและปริมณฑล"
+      },
+      {
+        "id": "central",
+        "name_he": "מרכז תאילנד",
+        "name_en": "Central Region",
+        "name_th": "ภาคกลาง"
+      },
+      {
+        "id": "eastern",
+        "name_he": "מזרח תאילנד",
+        "name_en": "Eastern Region",
+        "name_th": "ภาคตะวันออก"
+      },
+      {
+        "id": "western",
+        "name_he": "מערב תאילנד",
+        "name_en": "Western Region",
+        "name_th": "ภาคตะวันตก"
+      },
+      {
+        "id": "northern",
+        "name_he": "צפון תאילנד",
+        "name_en": "Northern Region",
+        "name_th": "ภาคเหนือ"
+      },
+      {
+        "id": "northeastern",
+        "name_he": "צפון מזרח תאילנד",
+        "name_en": "Northeastern Region",
+        "name_th": "ภาคตะวันออกเฉียงเหนือ"
+      },
+      {
+        "id": "southern",
+        "name_he": "דרום תאילנד",
+        "name_en": "Southern Region",
+        "name_th": "ภาคใต้"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "nso-geographic-standard",
+      "authority": "Thailand National Statistical Office",
+      "url": "https://www.nso.go.th/nsoweb/statisticalStandardsDetail/yp?set_lang=th",
+      "covers": [
+        "administrative hierarchy",
+        "two digit province code structure",
+        "separation of administrative and local government models"
+      ]
+    },
+    {
+      "id": "nso-province-codes",
+      "authority": "Thailand National Statistical Office",
+      "url": "https://catalogapi.nso.go.th/api/files/BSS_14_20721_9",
+      "covers": [
+        "province codes",
+        "Thai province names",
+        "English province names"
+      ]
+    },
+    {
+      "id": "nso-yearbook-2025",
+      "authority": "Thailand National Statistical Office",
+      "url": "https://www.nso.go.th/public/e-book/Statistical-Yearbook/SYB-2025/110/",
+      "covers": [
+        "seven statistical region membership",
+        "administration counts as of 2024-12-31"
+      ]
+    }
+  ]
+}

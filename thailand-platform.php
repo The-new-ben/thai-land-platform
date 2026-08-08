@@ -24,6 +24,8 @@ define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );
 require_once THAILAND_PLATFORM_DIR . 'src/Support/Compatibility.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Support/Loader.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Health/Route.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Geography/Registry.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Geography/Route.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Homepage/FeatureFlag.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Context.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Assets.php';

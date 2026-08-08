@@ -1,0 +1,78 @@
+code,slug,name_en,name_th,name_he,region_id,priority
+10,bangkok,Bangkok Metropolis,กรุงเทพมหานคร,בנגקוק,bangkok-vicinity,1
+11,samut-prakan,Samut Prakan,สมุทรปราการ,סמוט פראקאן,bangkok-vicinity,1
+12,nonthaburi,Nonthaburi,นนทบุรี,נונתבורי,bangkok-vicinity,1
+13,pathum-thani,Pathum Thani,ปทุมธานี,פאתום תאני,bangkok-vicinity,1
+14,phra-nakhon-si-ayutthaya,Phra Nakhon Si Ayutthaya,พระนครศรีอยุธยา,איוטהאיה,central,1
+15,ang-thong,Ang Thong,อ่างทอง,אנג תונג,central,0
+16,lop-buri,Lop Buri,ลพบุรี,לופ בורי,central,0
+17,sing-buri,Sing Buri,สิงห์บุรี,סינג בורי,central,0
+18,chai-nat,Chai Nat,ชัยนาท,צ'אי נאט,central,0
+19,saraburi,Saraburi,สระบุรี,סראבורי,central,0
+20,chon-buri,Chon Buri,ชลบุรี,צ'ונבורי,eastern,1
+21,rayong,Rayong,ระยอง,ראיונג,eastern,1
+22,chanthaburi,Chanthaburi,จันทบุรี,צ'נתבורי,eastern,0
+23,trat,Trat,ตราด,טראט,eastern,1
+24,chachoengsao,Chachoengsao,ฉะเชิงเทรา,צ'אצ'ואנגסאו,eastern,0
+25,prachin-buri,Prachin Buri,ปราจีนบุรี,פראצ'ין בורי,eastern,0
+26,nakhon-nayok,Nakhon Nayok,นครนายก,נאקון נאיאוק,eastern,0
+27,sa-kaeo,Sa Kaeo,สระแก้ว,סה קאו,eastern,0
+30,nakhon-ratchasima,Nakhon Ratchasima,นครราชสีมา,נאקון ראטצ'סימה,northeastern,1
+31,buri-ram,Buri Ram,บุรีรัมย์,בורי ראם,northeastern,0
+32,surin,Surin,สุรินทร์,סורין,northeastern,0
+33,si-sa-ket,Si Sa Ket,ศรีสะเกษ,סי סה קט,northeastern,0
+34,ubon-ratchathani,Ubon Ratchathani,อุบลราชธานี,אובון ראטצ'תאני,northeastern,1
+35,yasothon,Yasothon,ยโสธร,יאסותון,northeastern,0
+36,chaiyaphum,Chaiyaphum,ชัยภูมิ,צ'איאפום,northeastern,0
+37,amnat-charoen,Amnat Charoen,อำนาจเจริญ,אמנאט צ'רואן,northeastern,0
+38,bueng-kan,Bueng Kan,บึงกาฬ,בואנג קאן,northeastern,0
+39,nong-bua-lam-phu,Nong Bua Lam Phu,หนองบัวลำภู,נונג בואה למפו,northeastern,0
+40,khon-kaen,Khon Kaen,ขอนแก่น,קון קאן,northeastern,1
+41,udon-thani,Udon Thani,อุดรธานี,אודון תאני,northeastern,1
+42,loei,Loei,เลย,לואי,northeastern,0
+43,nong-khai,Nong Khai,หนองคาย,נונג קאי,northeastern,0
+44,maha-sarakham,Maha Sarakham,มหาสารคาม,מהא סראקהאם,northeastern,0
+45,roi-et,Roi Et,ร้อยเอ็ด,רוי אט,northeastern,0
+46,kalasin,Kalasin,กาฬสินธุ์,קלאסין,northeastern,0
+47,sakon-nakhon,Sakon Nakhon,สกลนคร,סאקון נאקון,northeastern,0
+48,nakhon-phanom,Nakhon Phanom,นครพนม,נאקון פאנום,northeastern,0
+49,mukdahan,Mukdahan,มุกดาหาร,מוקדהאן,northeastern,0
+50,chiang-mai,Chiang Mai,เชียงใหม่,צ'יאנג מאי,northern,1
+51,lamphun,Lamphun,ลำพูน,למפון,northern,0
+52,lampang,Lampang,ลำปาง,למפאנג,northern,0
+53,uttaradit,Uttaradit,อุตรดิตถ์,אוטרדיט,northern,0
+54,phrae,Phrae,แพร่,פראה,northern,0
+55,nan,Nan,น่าน,נאן,northern,1
+56,phayao,Phayao,พะเยา,פיאו,northern,0
+57,chiang-rai,Chiang Rai,เชียงราย,צ'יאנג ראי,northern,1
+58,mae-hong-son,Mae Hong Son,แม่ฮ่องสอน,מאה הונג סון,northern,1
+60,nakhon-sawan,Nakhon Sawan,นครสวรรค์,נאקון סוואן,northern,0
+61,uthai-thani,Uthai Thani,อุทัยธานี,אותאי תאני,northern,0
+62,kamphaeng-phet,Kamphaeng Phet,กำแพงเพชร,קמפאנג פט,northern,0
+63,tak,Tak,ตาก,טאק,northern,0
+64,sukhothai,Sukhothai,สุโขทัย,סוקותאי,northern,1
+65,phitsanulok,Phitsanulok,พิษณุโลก,פיטסנולוק,northern,0
+66,phichit,Phichit,พิจิตร,פיצ'יט,northern,0
+67,phetchabun,Phetchabun,เพชรบูรณ์,פטצ'בון,northern,0
+70,ratchaburi,Ratchaburi,ราชบุรี,ראטצ'בורי,western,0
+71,kanchanaburi,Kanchanaburi,กาญจนบุรี,קנצ'נבורי,western,1
+72,suphan-buri,Suphan Buri,สุพรรณบุรี,סופאן בורי,western,0
+73,nakhon-pathom,Nakhon Pathom,นครปฐม,נאקון פאתום,bangkok-vicinity,1
+74,samut-sakhon,Samut Sakhon,สมุทรสาคร,סמוט סאחון,bangkok-vicinity,0
+75,samut-songkhram,Samut Songkhram,สมุทรสงคราม,סמוט סונגקראם,western,0
+76,phetchaburi,Phetchaburi,เพชรบุรี,פטצ'בורי,western,1
+77,prachuap-khiri-khan,Prachuap Khiri Khan,ประจวบคีรีขันธ์,פראצ'ואפ קירי קאן,western,1
+80,nakhon-si-thammarat,Nakhon Si Thammarat,นครศรีธรรมราช,נאקון סי תמרט,southern,1
+81,krabi,Krabi,กระบี่,קראבי,southern,1
+82,phang-nga,Phang Nga,พังงา,פאנג נגה,southern,1
+83,phuket,Phuket,ภูเก็ต,פוקט,southern,1
+84,surat-thani,Surat Thani,สุราษฎร์ธานี,סוראט תאני,southern,1
+85,ranong,Ranong,ระนอง,רנונג,southern,0
+86,chumphon,Chumphon,ชุมพร,צ'ומפון,southern,0
+90,songkhla,Songkhla,สงขลา,סונגקלה,southern,1
+91,satun,Satun,สตูล,סאטון,southern,0
+92,trang,Trang,ตรัง,טראנג,southern,1
+93,phatthalung,Phatthalung,พัทลุง,פטאלונג,southern,0
+94,pattani,Pattani,ปัตตานี,פטאני,southern,0
+95,yala,Yala,ยะลา,יאלה,southern,0
+96,narathiwat,Narathiwat,นราธิวาส,נאראטיוואט,southern,0

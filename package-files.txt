@@ -3,6 +3,8 @@ assets/homepage/homepage.js
 assets/homepage/images/homepage-hero-thailand-system-v1-1024.webp
 assets/homepage/images/homepage-hero-thailand-system-v1-1713.webp
 assets/homepage/images/homepage-hero-thailand-system-v1-640.webp
+data/geography/provinces.csv
+data/geography/regions.json
 lib/plugin-update-checker/Puc/v5/PucFactory.php
 lib/plugin-update-checker/Puc/v5p6/Autoloader.php
 lib/plugin-update-checker/Puc/v5p6/DebugBar/Extension.php
@@ -123,6 +125,8 @@ lib/plugin-update-checker/vendor/ParsedownModern.php
 lib/plugin-update-checker/vendor/PucReadmeParser.php
 readme.txt
 resources/homepage.html
+src/Geography/Registry.php
+src/Geography/Route.php
 src/Health/Route.php
 src/Homepage/Assets.php
 src/Homepage/Context.php

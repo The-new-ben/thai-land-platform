@@ -182,6 +182,10 @@ function esc_url( $url ) {
 	return htmlspecialchars( (string) $url, ENT_QUOTES, 'UTF-8' );
 }
 
+function wp_json_encode( $value, $flags = 0, $depth = 512 ) {
+	return json_encode( $value, $flags, $depth );
+}
+
 function wp_die( $message ) {
 	throw new RuntimeException( (string) $message );
 }
@@ -333,6 +337,7 @@ use Thailand_Platform\Homepage\Context;
 use Thailand_Platform\Homepage\FeatureFlag;
 use Thailand_Platform\Homepage\Renderer;
 use Thailand_Platform\Homepage\Seo;
+use Thailand_Platform\Geography\Registry as Geography_Registry;
 
 tl_test_assert( '0.2.5' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
@@ -348,7 +353,7 @@ $GLOBALS['tl_test_cache_flush_calls'] = 0;
 tl_test_do_action( 'plugins_loaded' );
 tl_test_do_action( 'plugins_loaded' );
 
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'rest_api_init' ), 'Duplicate REST hook registered.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'rest_api_init' ), 'REST hook registration count mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'init' ), 'Duplicate update hook registered.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'template_redirect' ), 'Canary protection hook mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'wp_enqueue_scripts' ), 'Homepage enqueue hook mismatch.' );
@@ -399,6 +404,56 @@ tl_test_assert( THAILAND_PLATFORM_VERSION === $data['version'], 'Health response
 tl_test_assert( 'ok' === $data['status'], 'Health response state mismatch.' );
 tl_test_assert( 'no-store' === $headers['Cache-Control'], 'Health response cache policy mismatch.' );
 tl_test_assert( 3 === count( $data ), 'Health response exposed unexpected fields.' );
+
+/* The public geography API must expose the complete, source-backed province spine. */
+$geography_route_key = 'thailand-platform/v1/geography';
+tl_test_assert( isset( $GLOBALS['tl_test_routes'][ $geography_route_key ] ), 'Geography route missing.' );
+$geography_route = $GLOBALS['tl_test_routes'][ $geography_route_key ];
+tl_test_assert( 'GET' === $geography_route['methods'], 'Geography route is not GET-only.' );
+tl_test_assert( '__return_true' === $geography_route['permission_callback'], 'Geography permission callback mismatch.' );
+
+$geography_response = call_user_func( $geography_route['callback'] );
+$geography_data     = $geography_response->get_data();
+$geography_headers  = $geography_response->get_headers();
+tl_test_assert( 200 === $geography_response->get_status(), 'Geography response status mismatch.' );
+tl_test_assert( 'TH' === $geography_data['country']['id'], 'Geography country identity mismatch.' );
+tl_test_assert( 77 === $geography_data['counts']['provinces'], 'Geography province count mismatch.' );
+tl_test_assert( 7 === $geography_data['counts']['regions'], 'Geography region count mismatch.' );
+tl_test_assert( false === $geography_data['region_model']['is_administrative_parent'], 'Statistical regions became administrative parents.' );
+tl_test_assert( 77 === count( $geography_data['provinces'] ), 'Geography payload does not contain 77 provinces.' );
+tl_test_assert( 1 === preg_match( '/^"[0-9a-f]{64}"$/', $geography_headers['ETag'] ), 'Geography ETag is invalid.' );
+tl_test_assert( false !== strpos( $geography_headers['Cache-Control'], 'max-age=86400' ), 'Geography cache policy mismatch.' );
+tl_test_assert( 'nosniff' === $geography_headers['X-Content-Type-Options'], 'Geography content type protection missing.' );
+
+$region_counts = array();
+$province_codes = array();
+$province_slugs = array();
+foreach ( $geography_data['provinces'] as $province ) {
+	$region_id = $province['region_id'];
+	$region_counts[ $region_id ] = isset( $region_counts[ $region_id ] ) ? $region_counts[ $region_id ] + 1 : 1;
+	$province_codes[] = $province['code'];
+	$province_slugs[] = $province['slug'];
+	tl_test_assert( 'TH-' . $province['code'] === $province['id'], 'Province stable identity mismatch.' );
+	tl_test_assert( is_bool( $province['priority'] ), 'Province priority is not boolean.' );
+}
+ksort( $region_counts );
+tl_test_assert(
+	array(
+		'bangkok-vicinity' => 6,
+		'central'          => 6,
+		'eastern'          => 8,
+		'northeastern'     => 20,
+		'northern'         => 17,
+		'southern'         => 14,
+		'western'          => 6,
+	) === $region_counts,
+	'Province distribution across the seven statistical regions is invalid.'
+);
+tl_test_assert( 77 === count( array_unique( $province_codes ) ), 'Province codes are not unique.' );
+tl_test_assert( 77 === count( array_unique( $province_slugs ) ), 'Province slugs are not unique.' );
+tl_test_assert( 'Bangkok Metropolis' === Geography_Registry::province( '10' )['name_en'], 'Province code resolver failed.' );
+tl_test_assert( '83' === Geography_Registry::province( 'phuket' )['code'], 'Province slug resolver failed.' );
+tl_test_assert( null === Geography_Registry::province( 'not-a-province' ), 'Unknown province resolver did not fail closed.' );
 
 /* The administrator setting must be allowlisted and default to Off. */
 tl_test_do_action( 'admin_init' );
@@ -505,6 +560,17 @@ $homepage_runtime_files = array(
 foreach ( $homepage_runtime_files as $runtime_file ) {
 	tl_test_assert( in_array( $runtime_file, $package_entries, true ), 'Homepage runtime file is not packaged: ' . $runtime_file );
 	tl_test_assert( is_file( $root . '/' . $runtime_file ), 'Homepage runtime file is missing: ' . $runtime_file );
+}
+
+$geography_runtime_files = array(
+	'data/geography/provinces.csv',
+	'data/geography/regions.json',
+	'src/Geography/Registry.php',
+	'src/Geography/Route.php',
+);
+foreach ( $geography_runtime_files as $runtime_file ) {
+	tl_test_assert( in_array( $runtime_file, $package_entries, true ), 'Geography runtime file is not packaged: ' . $runtime_file );
+	tl_test_assert( is_file( $root . '/' . $runtime_file ), 'Geography runtime file is missing: ' . $runtime_file );
 }
 
 foreach ( $package_entries as $entry ) {
