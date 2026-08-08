@@ -5,7 +5,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const rootDir = path.resolve(__dirname, '..');
-const release = process.env.THP_RELEASE || '0.3.4';
+const release = process.env.THP_RELEASE || '0.3.5';
 const baseUrl = new URL(process.env.THP_BASE_URL || 'https://thai-land.co.il/');
 const chromePath = process.env.THP_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const timeout = Number.parseInt(process.env.THP_LIVE_TIMEOUT_MS || '45000', 10);
@@ -463,16 +463,22 @@ async function run() {
       const brand = document.querySelector('.thp-brand');
       const toolbar = document.querySelector('#pojo-a11y-toolbar');
       const toggle = toolbar?.querySelector('.pojo-a11y-toolbar-toggle-link');
-      if (!header || !menu || !brand || !toolbar || !toggle) return null;
+      const overlay = toolbar?.querySelector('.pojo-a11y-toolbar-overlay');
+      if (!header || !menu || !brand || !toolbar || !toggle || !overlay) return null;
       const headerRect = rect(header);
       const menuRect = rect(menu);
       const brandRect = rect(brand);
       const toolbarRect = rect(toolbar);
       const toggleRect = rect(toggle);
+      const overlayRect = rect(overlay);
       const toggleStyle = getComputedStyle(toggle);
+      const overlayStyle = getComputedStyle(overlay);
       const headerStyle = getComputedStyle(header);
       const center = document.elementFromPoint(toggleRect.x + toggleRect.width / 2, toggleRect.y + toggleRect.height / 2);
+      const overlayCenter = document.elementFromPoint(overlayRect.x + overlayRect.width / 2, overlayRect.y + Math.min(overlayRect.height / 2, 120));
       return {
+        viewport_width: innerWidth,
+        viewport_height: innerHeight,
         scroll_y: scrollY,
         open: toolbar.classList.contains('pojo-a11y-toolbar-open'),
         header_position: headerStyle.position,
@@ -482,11 +488,21 @@ async function run() {
         brand_rect: brandRect,
         toolbar_rect: toolbarRect,
         toggle_rect: toggleRect,
+        overlay_rect: overlayRect,
         toggle_visible: toggleStyle.visibility === 'visible' && toggleStyle.display !== 'none' && toggleStyle.opacity === '1',
         toggle_topmost: center === toggle || toggle.contains(center),
         toggle_inside_header: toggleRect.x >= headerRect.x && toggleRect.y >= headerRect.y && toggleRect.right <= headerRect.right && toggleRect.bottom <= headerRect.bottom,
         overlaps_menu: intersects(toggleRect, menuRect),
         overlaps_brand: intersects(toggleRect, brandRect),
+        overlay_topmost: overlay === overlayCenter || overlay.contains(overlayCenter),
+        overlay_inside_viewport: overlayRect.x >= 0 && overlayRect.y >= 0 && overlayRect.right <= innerWidth && overlayRect.bottom <= innerHeight,
+        overlay_below_header: overlayRect.y >= headerRect.bottom,
+        overlay_overlaps_header: intersects(overlayRect, headerRect),
+        overlay_overlaps_menu: intersects(overlayRect, menuRect),
+        overlay_overlaps_brand: intersects(overlayRect, brandRect),
+        overlay_overflow_y: overlayStyle.overflowY,
+        overlay_scroll_height: overlay.scrollHeight,
+        overlay_client_height: overlay.clientHeight,
       };
     });
 
@@ -511,6 +527,13 @@ async function run() {
       await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
       await page.waitForFunction(() => Math.abs(scrollY - Math.max(0, document.documentElement.scrollHeight - innerHeight)) <= 1);
       responsiveWidthState.accessibility_dock_bottom = await inspectAccessibilityDock();
+      await page.evaluate(() => scrollTo(0, 0));
+      await page.waitForFunction(() => scrollY === 0);
+      await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
+      await page.waitForFunction(() => document.querySelector('#pojo-a11y-toolbar')?.classList.contains('pojo-a11y-toolbar-open'));
+      responsiveWidthState.accessibility_panel_open = await inspectAccessibilityDock();
+      await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
+      await page.waitForFunction(() => !document.querySelector('#pojo-a11y-toolbar')?.classList.contains('pojo-a11y-toolbar-open'));
       report.responsive[String(width)] = responsiveWidthState;
     }
 
@@ -546,27 +569,13 @@ async function run() {
     await page.mouse.move(200, 200);
     await page.locator('.thp-menu-toggle').focus();
     report.responsive.toggle_focus = await inspectMenuControl();
-    const inspectAccessibilityRail = () => page.evaluate(() => {
-      const toolbar = document.querySelector('#pojo-a11y-toolbar');
-      const toggle = toolbar?.querySelector('.pojo-a11y-toolbar-toggle-link');
-      if (!toolbar || !toggle) return null;
-      const toolbarRect = toolbar.getBoundingClientRect();
-      const toggleRect = toggle.getBoundingClientRect();
-      const toggleStyle = getComputedStyle(toggle);
-      const center = document.elementFromPoint(toggleRect.x + toggleRect.width / 2, toggleRect.y + toggleRect.height / 2);
-      return {
-        open: toolbar.classList.contains('pojo-a11y-toolbar-open'),
-        toolbar_rect: { x: toolbarRect.x, y: toolbarRect.y, right: toolbarRect.right, bottom: toolbarRect.bottom, width: toolbarRect.width, height: toolbarRect.height },
-        toggle_rect: { x: toggleRect.x, y: toggleRect.y, right: toggleRect.right, bottom: toggleRect.bottom, width: toggleRect.width, height: toggleRect.height },
-        toggle_visible: toggleStyle.visibility === 'visible' && toggleStyle.display !== 'none' && toggleStyle.opacity === '1',
-        toggle_topmost: center === toggle || toggle.contains(center),
-      };
-    });
+    const inspectAccessibilityRail = inspectAccessibilityDock;
     report.responsive.accessibility_rail_closed = await inspectAccessibilityRail();
     await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
     await page.waitForFunction(() => {
       const toolbar = document.querySelector('#pojo-a11y-toolbar');
-      return toolbar?.classList.contains('pojo-a11y-toolbar-open') && Math.abs(toolbar.getBoundingClientRect().x - 76) < 0.05;
+      const rect = toolbar?.getBoundingClientRect();
+      return toolbar?.classList.contains('pojo-a11y-toolbar-open') && Math.abs(rect.x - 12) < 0.05 && Math.abs(rect.y - 77) < 0.05;
     });
     report.responsive.accessibility_rail_open = await inspectAccessibilityRail();
     await page.screenshot({
@@ -592,6 +601,27 @@ async function run() {
     });
     await page.evaluate(() => scrollTo(0, 0));
     await page.waitForFunction(() => scrollY === 0);
+    await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
+    await page.waitForFunction(() => document.querySelector('#pojo-a11y-toolbar')?.classList.contains('pojo-a11y-toolbar-open'));
+    report.responsive.accessibility_open_before_menu = await inspectAccessibilityDock();
+    await page.locator('.thp-menu-toggle').click();
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === false && document.body.classList.contains('thp-content-menu-open'));
+    report.responsive.accessibility_open_during_menu = await page.evaluate(() => ({
+      toolbar_open: document.querySelector('#pojo-a11y-toolbar')?.classList.contains('pojo-a11y-toolbar-open') === true,
+      drawer_open: document.querySelector('#thp-mobile-nav')?.hidden === false,
+      controls: [...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')].map((element) => ({
+        id: element.id,
+        inert: element.inert,
+        aria_hidden: element.getAttribute('aria-hidden'),
+        visibility: getComputedStyle(element).visibility,
+        pointer_events: getComputedStyle(element).pointerEvents,
+      })),
+    }));
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => document.querySelector('#thp-mobile-nav')?.hidden === true && !document.body.classList.contains('thp-content-menu-open'));
+    report.responsive.accessibility_open_after_menu = await inspectAccessibilityDock();
+    await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
+    await page.waitForFunction(() => !document.querySelector('#pojo-a11y-toolbar')?.classList.contains('pojo-a11y-toolbar-open'));
     report.responsive.external_a11y_before = await page.evaluate(() => (
       [...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')].map((element) => ({
         id: element.id,
@@ -792,6 +822,28 @@ async function run() {
     await page.setViewportSize({ width: 844, height: 390 });
     await page.waitForFunction(() => document.documentElement.clientWidth === 844 && getComputedStyle(document.querySelector('.thp-menu-toggle')).display !== 'none');
     report.responsive.landscape_accessibility_dock = await inspectAccessibilityDock();
+    await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
+    await page.waitForFunction(() => document.querySelector('#pojo-a11y-toolbar')?.classList.contains('pojo-a11y-toolbar-open'));
+    report.responsive.landscape_accessibility_panel = await inspectAccessibilityDock();
+    report.responsive.landscape_accessibility_last_action = await page.evaluate(() => {
+      const overlay = document.querySelector('#pojo-a11y-toolbar .pojo-a11y-toolbar-overlay');
+      const lastAction = overlay?.querySelector('.pojo-a11y-toolbar-item:last-child .pojo-a11y-toolbar-link');
+      if (!overlay || !lastAction) return null;
+      overlay.scrollTop = overlay.scrollHeight;
+      const overlayRect = overlay.getBoundingClientRect();
+      const actionRect = lastAction.getBoundingClientRect();
+      const center = document.elementFromPoint(actionRect.x + actionRect.width / 2, actionRect.y + actionRect.height / 2);
+      return {
+        overlay_scroll_top: overlay.scrollTop,
+        overlay_max_scroll: overlay.scrollHeight - overlay.clientHeight,
+        overlay_rect: { x: overlayRect.x, y: overlayRect.y, right: overlayRect.right, bottom: overlayRect.bottom, width: overlayRect.width, height: overlayRect.height },
+        action_rect: { x: actionRect.x, y: actionRect.y, right: actionRect.right, bottom: actionRect.bottom, width: actionRect.width, height: actionRect.height },
+        action_visible: actionRect.top >= overlayRect.top && actionRect.bottom <= overlayRect.bottom,
+        action_topmost: center === lastAction || lastAction.contains(center),
+      };
+    });
+    await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
+    await page.waitForFunction(() => !document.querySelector('#pojo-a11y-toolbar')?.classList.contains('pojo-a11y-toolbar-open'));
     report.responsive.landscape_closed = await page.evaluate(() => {
       const toggleRect = document.querySelector('.thp-menu-toggle').getBoundingClientRect();
       const accessibilityToggle = document.querySelector('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link');
@@ -891,9 +943,11 @@ async function run() {
     add(`${width}px: mobile navigation and no overflow`, value.overflow_pixels === 0 && value.media_matches === false && value.menu_display !== 'none' && value.toggle_rect_count === 1 && value.toggle_width >= 44 && value.toggle_height >= 44 && value.desktop_nav_display === 'none' && value.search_display === 'none', value);
   }
   const accessibilityDockIsClear = (state) => state && state.open === false && state.header_position === 'sticky' && state.header_rect.y === 0 && state.header_rect.height >= 68 && sameColor(state.header_background, [255, 255, 255, 0.97]) && state.toggle_visible === true && state.toggle_topmost === true && state.toggle_inside_header === true && state.overlaps_menu === false && state.overlaps_brand === false && Math.abs(state.toolbar_rect.x + 180) <= 1 && Math.abs(state.toolbar_rect.right) <= 1 && Math.abs(state.toggle_rect.x - 100) <= 1 && Math.abs(state.toggle_rect.right - 144) <= 1 && Math.abs(state.toggle_rect.y - 12) <= 1 && Math.abs(state.toggle_rect.bottom - 56) <= 1 && state.toggle_rect.width === 44 && state.toggle_rect.height === 44;
+  const accessibilityPanelIsClear = (state) => state && state.open === true && state.header_position === 'sticky' && state.header_rect.y === 0 && state.toggle_visible === true && state.toggle_topmost === true && state.toggle_inside_header === true && state.overlaps_menu === false && state.overlaps_brand === false && Math.abs(state.toolbar_rect.x - 12) <= 1 && Math.abs(state.toolbar_rect.y - 77) <= 1 && Math.abs(state.toolbar_rect.right - 192) <= 1 && Math.abs(state.overlay_rect.x - 12) <= 1 && Math.abs(state.overlay_rect.y - 77) <= 1 && Math.abs(state.overlay_rect.right - 192) <= 1 && state.overlay_rect.width === 180 && state.overlay_inside_viewport === true && state.overlay_below_header === true && state.overlay_overlaps_header === false && state.overlay_overlaps_menu === false && state.overlay_overlaps_brand === false && state.overlay_topmost === true && state.overlay_overflow_y === 'auto' && Math.abs(state.toggle_rect.x - 100) <= 1 && Math.abs(state.toggle_rect.right - 144) <= 1 && Math.abs(state.toggle_rect.y - 12) <= 1 && Math.abs(state.toggle_rect.bottom - 56) <= 1 && state.toggle_rect.width === 44 && state.toggle_rect.height === 44;
   for (const width of ['320', '768', '1230']) {
     const value = report.responsive[width];
     add(`${width}px: accessibility control stays inside its collision-free header dock`, accessibilityDockIsClear(value.accessibility_dock_top) && accessibilityDockIsClear(value.accessibility_dock_bottom) && value.accessibility_dock_top.scroll_y === 0 && value.accessibility_dock_bottom.scroll_y > 0, { top: value.accessibility_dock_top, bottom: value.accessibility_dock_bottom });
+    add(`${width}px: open accessibility panel clears every header control and stays inside the viewport`, accessibilityPanelIsClear(value.accessibility_panel_open), value.accessibility_panel_open);
   }
   const before = report.responsive.external_a11y_before;
   const externalBefore = report.responsive.external_surfaces_before;
@@ -921,7 +975,9 @@ async function run() {
   const dock390Top = report.responsive.accessibility_dock_390_top;
   const dock390Bottom = report.responsive.accessibility_dock_390_bottom;
   add('390px accessibility control stays in its reserved header dock while scrolling', accessibilityDockIsClear(dock390Top) && accessibilityDockIsClear(dock390Bottom) && dock390Top.scroll_y === 0 && dock390Bottom.scroll_y > 0, { top: dock390Top, bottom: dock390Bottom });
-  add('mobile accessibility header dock opens and restores the complete panel', railClosed && railOpen && railRestored && railClosed.open === false && railClosed.toggle_visible === true && railClosed.toggle_topmost === true && Math.abs(railClosed.toolbar_rect.x + 180) <= 1 && Math.abs(railClosed.toolbar_rect.right) <= 1 && Math.abs(railClosed.toggle_rect.x - 100) <= 1 && Math.abs(railClosed.toggle_rect.right - 144) <= 1 && railClosed.toggle_rect.width === 44 && railClosed.toggle_rect.height === 44 && Math.abs(railClosed.toggle_rect.y - 12) <= 1 && Math.abs(railClosed.toggle_rect.bottom - 56) <= 1 && railOpen.open === true && Math.abs(railOpen.toolbar_rect.x - 76) <= 1 && Math.abs(railOpen.toolbar_rect.right - 256) <= 1 && Math.abs(railOpen.toggle_rect.x - 256) <= 1 && Math.abs(railOpen.toggle_rect.right - 300) <= 1 && railOpen.toggle_topmost === true && railRestored.open === false && Math.abs(railRestored.toolbar_rect.x + 180) <= 1 && Math.abs(railRestored.toggle_rect.x - 100) <= 1 && railRestored.toggle_topmost === true, { closed: railClosed, open: railOpen, restored: railRestored });
+  add('mobile accessibility header dock opens below the header without hiding navigation or brand', accessibilityDockIsClear(railClosed) && accessibilityPanelIsClear(railOpen) && accessibilityDockIsClear(railRestored), { closed: railClosed, open: railOpen, restored: railRestored });
+  const accessibilityOpenDuringMenu = report.responsive.accessibility_open_during_menu;
+  add('mobile drawer suppresses and exactly restores an already open accessibility panel', accessibilityPanelIsClear(report.responsive.accessibility_open_before_menu) && accessibilityOpenDuringMenu && accessibilityOpenDuringMenu.toolbar_open === true && accessibilityOpenDuringMenu.drawer_open === true && accessibilityOpenDuringMenu.controls.length === 2 && accessibilityOpenDuringMenu.controls.every((control) => control.inert === true && control.aria_hidden === 'true' && control.visibility === 'hidden' && control.pointer_events === 'none') && accessibilityPanelIsClear(report.responsive.accessibility_open_after_menu), { before: report.responsive.accessibility_open_before_menu, during: accessibilityOpenDuringMenu, after: report.responsive.accessibility_open_after_menu });
   const responsiveScreenshotEvidence = Object.values(report.responsive.screenshots || {}).map((filename) => {
     const screenshotPath = path.join(outputDir, filename);
     if (!fs.existsSync(screenshotPath)) return { filename, exists: false, width: 0, height: 0 };
@@ -941,7 +997,9 @@ async function run() {
   add('pointer backdrop closes and restores its opener', report.responsive.backdrop_close.was_backdrop === true && report.responsive.backdrop_close.drawer_hidden === true && report.responsive.backdrop_close.expanded === 'false' && report.responsive.backdrop_close.focused_toggle === true && report.responsive.backdrop_close.body_open === false && report.responsive.backdrop_close.body_overflow === '', report.responsive.backdrop_close);
   const landscapeClosed = report.responsive.landscape_closed;
   const landscapeOpen = report.responsive.landscape_open;
-  add('short landscape keeps navigation controls inside the viewport', accessibilityDockIsClear(report.responsive.landscape_accessibility_dock) && landscapeClosed.overflow_pixels === 0 && landscapeClosed.toggle_rect.x >= 0 && landscapeClosed.toggle_rect.y >= 0 && landscapeClosed.toggle_rect.right <= 844 && landscapeClosed.toggle_rect.bottom <= 390 && landscapeClosed.toggle_rect.width >= 44 && landscapeClosed.toggle_rect.height >= 44 && landscapeClosed.accessibility_toggle_rect.x >= 0 && landscapeClosed.accessibility_toggle_rect.y >= 0 && landscapeClosed.accessibility_toggle_rect.right <= 844 && landscapeClosed.accessibility_toggle_rect.bottom <= 390 && landscapeClosed.accessibility_toggle_rect.width === 44 && landscapeClosed.accessibility_toggle_rect.height === 44 && landscapeClosed.accessibility_toggle_topmost === true && landscapeOpen.panel_rect.y === 0 && landscapeOpen.panel_rect.right === 844 && landscapeOpen.panel_rect.bottom === 390 && landscapeOpen.panel_rect.height === 390 && landscapeOpen.panel_overflow_y === 'auto' && landscapeOpen.backdrop_rect.x === 0 && landscapeOpen.backdrop_rect.y === 0 && landscapeOpen.backdrop_rect.right === 844 && landscapeOpen.backdrop_rect.bottom === 390, { dock: report.responsive.landscape_accessibility_dock, closed: landscapeClosed, open: landscapeOpen });
+  const landscapeAccessibilityPanel = report.responsive.landscape_accessibility_panel;
+  const landscapeAccessibilityLastAction = report.responsive.landscape_accessibility_last_action;
+  add('short landscape keeps navigation and the complete scrollable accessibility panel inside the viewport', accessibilityDockIsClear(report.responsive.landscape_accessibility_dock) && accessibilityPanelIsClear(landscapeAccessibilityPanel) && landscapeAccessibilityPanel.overlay_scroll_height > landscapeAccessibilityPanel.overlay_client_height && landscapeAccessibilityPanel.overlay_rect.bottom === 390 && landscapeAccessibilityLastAction && Math.abs(landscapeAccessibilityLastAction.overlay_scroll_top - landscapeAccessibilityLastAction.overlay_max_scroll) <= 1 && landscapeAccessibilityLastAction.action_visible === true && landscapeAccessibilityLastAction.action_topmost === true && landscapeClosed.overflow_pixels === 0 && landscapeClosed.toggle_rect.x >= 0 && landscapeClosed.toggle_rect.y >= 0 && landscapeClosed.toggle_rect.right <= 844 && landscapeClosed.toggle_rect.bottom <= 390 && landscapeClosed.toggle_rect.width >= 44 && landscapeClosed.toggle_rect.height >= 44 && landscapeClosed.accessibility_toggle_rect.x >= 0 && landscapeClosed.accessibility_toggle_rect.y >= 0 && landscapeClosed.accessibility_toggle_rect.right <= 844 && landscapeClosed.accessibility_toggle_rect.bottom <= 390 && landscapeClosed.accessibility_toggle_rect.width === 44 && landscapeClosed.accessibility_toggle_rect.height === 44 && landscapeClosed.accessibility_toggle_topmost === true && landscapeOpen.panel_rect.y === 0 && landscapeOpen.panel_rect.right === 844 && landscapeOpen.panel_rect.bottom === 390 && landscapeOpen.panel_rect.height === 390 && landscapeOpen.panel_overflow_y === 'auto' && landscapeOpen.backdrop_rect.x === 0 && landscapeOpen.backdrop_rect.y === 0 && landscapeOpen.backdrop_rect.right === 844 && landscapeOpen.backdrop_rect.bottom === 390, { dock: report.responsive.landscape_accessibility_dock, accessibility_panel: landscapeAccessibilityPanel, accessibility_last_action: landscapeAccessibilityLastAction, closed: landscapeClosed, open: landscapeOpen });
   add('responsive network is clean', unexpectedConsoleErrors(report.responsive.network.console_errors).length === 0 && report.responsive.network.request_failures.length === 0 && report.responsive.network.bad_same_origin.length === 0, report.responsive.network);
 
   report.acceptance = {
