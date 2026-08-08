@@ -334,7 +334,7 @@ use Thailand_Platform\Homepage\FeatureFlag;
 use Thailand_Platform\Homepage\Renderer;
 use Thailand_Platform\Homepage\Seo;
 
-tl_test_assert( '0.2.3' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.2.4' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -600,6 +600,8 @@ tl_test_assert( false !== strpos( $js, 'tawkApi.onLoad = function (...args)' ), 
 tl_test_assert( false !== strpos( $js, 'api.isChatMinimized()' ), 'Homepage JavaScript does not verify that Tawk is compact.' );
 tl_test_assert( false !== strpos( $js, 'tawkRetryDelay = Math.min(tawkRetryDelay * 2, 4000)' ), 'Homepage JavaScript does not retry late Tawk readiness with bounded backoff.' );
 tl_test_assert( false !== strpos( $js, "window.addEventListener('pagehide'" ), 'Homepage JavaScript does not clear the Tawk readiness timer on page exit.' );
+tl_test_assert( false !== strpos( $js, "window.addEventListener('pageshow', settleTawkWidget)" ), 'Homepage JavaScript does not resume Tawk settling after history restoration.' );
+tl_test_assert( false !== strpos( $js, "window.clearTimeout(tawkRetryTimer);\n    tawkRetryTimer = 0;\n  });" ), 'Homepage JavaScript leaves a stale Tawk timer after pagehide.' );
 tl_test_assert( false === strpos( $js, 'tawkAttempts' ), 'Homepage JavaScript contains a fixed Tawk readiness attempt limit.' );
 tl_test_assert( false === strpos( $js, 'hideWidget()' ), 'Homepage JavaScript removes chat access on mobile.' );
 tl_test_assert( false !== strpos( $css, 'left: 0; right: 88px' ), 'Homepage mobile action bar does not reserve room for the right-side chat launcher.' );

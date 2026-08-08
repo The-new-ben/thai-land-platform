@@ -488,7 +488,9 @@
   settleTawkWidget();
   window.addEventListener('pagehide', () => {
     if (tawkRetryTimer) window.clearTimeout(tawkRetryTimer);
-  }, { once: true });
+    tawkRetryTimer = 0;
+  });
+  window.addEventListener('pageshow', settleTawkWidget);
 
   /* Back to top */
   doc.querySelector('[data-back-to-top]')?.addEventListener('click', () => {
