@@ -788,4 +788,4 @@ try {
 
 tl_test_assert( $activation_rejected, 'Unsupported WordPress activation was not rejected.' );
 
-fwrite( STDOUT, "PASS: Thailand Platform 0.2.0 bootstrap, homepage, canary, assets, SEO, and package contracts\n" );
+fwrite( STDOUT, "PASS: Thailand Platform release contract\n" );

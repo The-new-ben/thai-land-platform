@@ -141,7 +141,7 @@ def main() -> int:
     )
     require(qa["php_lint"] == "pass", "PHP lint did not pass")
     require(qa["contract_tests"] == "pass", "contract tests did not pass")
-    require(qa["contract_test_output"] == "PASS: Thailand Platform bootstrap contract", "contract test output mismatch")
+    require(qa["contract_test_output"] == "PASS: Thailand Platform release contract", "contract test output mismatch")
     require(type(qa["php_files_linted"]) is int and qa["php_files_linted"] > 0, "PHP lint count is invalid")
     require(isinstance(qa["php_runtime"], str) and qa["php_runtime"].startswith("PHP "), "PHP runtime is invalid")
     require(isinstance(qa["php_binary"], dict), "PHP binary evidence must be an object")
