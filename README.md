@@ -2,13 +2,16 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.3.1 boundary
+## Release 0.3.2 boundary
 
 The package keeps the live RTL homepage, country, seven-region, and 77-province
 geography spine intact. It adds the first national real-estate hub and connects
 seven existing articles through exact ID and path bindings, keyword-led metadata,
 visible breadcrumbs, contextual links, a shared header and footer, and responsive
 artwork. Existing WordPress bodies and public URLs remain intact.
+The responsive menu stays visible through pointer hover and keyboard focus,
+the search action keeps its intended contrast, and the accessibility control
+uses a compact bottom-left rail on smaller screens.
 
 The public healthcheck confirms that the compiled geography artifact can be
 loaded. Upgrade and activation still create no content, options, tables,

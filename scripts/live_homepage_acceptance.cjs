@@ -5,7 +5,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const rootDir = path.resolve(__dirname, '..');
-const release = process.env.THP_RELEASE || '0.3.1';
+const release = process.env.THP_RELEASE || '0.3.2';
 const baseUrl = process.env.THP_BASE_URL || 'https://thai-land.co.il/';
 const chromePath = process.env.THP_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const outputDir = path.join(rootDir, 'output', 'playwright');

@@ -61,10 +61,15 @@ body.thp-real-estate {
 .thp-primary-nav a:hover, .thp-primary-nav a.is-current { background: #edf5f2; color: var(--thp-forest); }
 .thp-header-search { width: 246px; height: 42px; display: flex; border: 1px solid var(--thp-line); border-radius: 12px; background: #f7faf8; overflow: hidden; }
 .thp-header-search input { min-width: 0; flex: 1; padding: 0 12px; border: 0; outline: 0; color: var(--thp-ink); background: transparent; font: inherit; font-size: 13px; }
-.thp-header-search button { padding: 0 14px; border: 0; color: #fff; background: var(--thp-forest); font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+.thp-content .thp-header-search button,
+.thp-content .thp-header-search button:hover,
+.thp-content .thp-header-search button:focus { padding: 0 14px; border: 0 !important; color: #fff !important; background: var(--thp-forest) !important; box-shadow: none !important; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer; }
+.thp-content .thp-header-search button:focus,
+.thp-content .thp-header-search button:focus-visible { outline: 3px solid #f3b54c !important; outline-offset: -4px !important; }
+.thp-content .thp-menu-toggle { display: none !important; }
 .thp-content .thp-menu-toggle,
 .thp-content .thp-menu-toggle:hover,
-.thp-content .thp-menu-toggle:focus { appearance: none; display: none !important; width: 44px; height: 44px; padding: 10px; border: 1px solid var(--thp-line) !important; border-radius: 12px; color: var(--thp-forest) !important; background: #fff !important; box-shadow: none !important; cursor: pointer; }
+.thp-content .thp-menu-toggle:focus { appearance: none; width: 44px; height: 44px; padding: 10px; border: 1px solid var(--thp-line) !important; border-radius: 12px; color: var(--thp-forest) !important; background: #fff !important; box-shadow: none !important; cursor: pointer; }
 .thp-content .thp-menu-toggle span { display: block !important; width: 100%; height: 2px; margin: 5px 0; border-radius: 2px; background: var(--thp-forest) !important; }
 .thp-content .thp-menu-toggle:focus,
 .thp-content .thp-menu-toggle:focus-visible { outline: 3px solid #f3b54c !important; outline-offset: 3px !important; }
@@ -208,6 +213,13 @@ body.thp-real-estate:not(.thp-content-menu-open) #pojo-a11y-toolbar { top: auto 
 .thp-footer-bottom a { color: #c7dad6; font-size: 12px; text-decoration: none; }
 
 @media (max-width: 1230px) {
+  body.thp-real-estate:not(.thp-content-menu-open) #pojo-a11y-toolbar { right: auto !important; bottom: max(16px, env(safe-area-inset-bottom)) !important; left: -180px !important; transition: left .2s ease !important; }
+  body.thp-real-estate:not(.thp-content-menu-open) #pojo-a11y-toolbar.pojo-a11y-toolbar-open { left: 0 !important; }
+  body.thp-real-estate #pojo-a11y-toolbar .pojo-a11y-toolbar-toggle { top: auto !important; right: auto !important; bottom: 0 !important; left: 180px !important; width: 44px !important; height: 44px !important; }
+  body.thp-real-estate #pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link { width: 44px !important; height: 44px !important; padding: 8px !important; }
+  body.thp-real-estate #pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link svg { width: 28px !important; height: 28px !important; }
+  body.thp-real-estate #pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link:focus,
+  body.thp-real-estate #pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link:focus-visible { outline: 3px solid #f3b54c !important; outline-offset: -3px !important; }
   .thp-primary-nav, .thp-header-search { display: none; }
   .thp-content .thp-menu-toggle { display: block !important; margin-right: auto; }
   .thp-hero-inner { grid-template-columns: 1fr; align-items: end; }
@@ -230,6 +242,8 @@ body.thp-real-estate:not(.thp-content-menu-open) #pojo-a11y-toolbar { top: auto 
   .thp-hero-inner { min-height: 620px; padding-block: 120px 46px; align-content: end; gap: 30px; }
   .thp-hero-facts { grid-template-columns: repeat(3, 1fr); }
   .thp-decision-grid, .thp-guide-grid, .thp-continuation-grid, .thp-source-panel, .thp-footer-grid { grid-template-columns: 1fr; }
+  .thp-guide-card { min-height: 0; }
+  .thp-guide-card a { margin-top: 24px; }
   .thp-article-layout { display: flex; flex-direction: column-reverse; gap: 30px; }
   .thp-article-aside { position: static; width: 100%; }
   .thp-toc { display: none; }

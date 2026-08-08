@@ -5,7 +5,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const rootDir = path.resolve(__dirname, '..');
-const release = process.env.THP_RELEASE || '0.3.1';
+const release = process.env.THP_RELEASE || '0.3.2';
 const baseUrl = new URL(process.env.THP_BASE_URL || 'https://thai-land.co.il/');
 const chromePath = process.env.THP_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const timeout = Number.parseInt(process.env.THP_LIVE_TIMEOUT_MS || '45000', 10);
@@ -143,14 +143,16 @@ async function capturePage(page, basename) {
   const segments = [];
   if (dimensions.height <= 7000) {
     const filename = `${basename}.png`;
+    const screenshotPath = path.join(outputDir, filename);
     await page.screenshot({
-      path: path.join(outputDir, filename),
+      path: screenshotPath,
       fullPage: true,
       animations: 'disabled',
       scale: 'css',
     });
+    const png = fs.readFileSync(screenshotPath);
     files.push(filename);
-    segments.push({ filename, top: 0, height: dimensions.height, bottom: dimensions.height });
+    segments.push({ filename, top: 0, height: dimensions.height, bottom: dimensions.height, overlap: 0, png_width: png.readUInt32BE(16), png_height: png.readUInt32BE(20) });
   } else {
     const segmentHeight = 6500;
     const overlap = 160;
@@ -159,26 +161,45 @@ async function capturePage(page, basename) {
     await page.setViewportSize({ width: dimensions.width, height: segmentHeight });
     await page.waitForFunction((expected) => innerWidth === expected.width && innerHeight === expected.height, { width: dimensions.width, height: segmentHeight });
     const captureHeight = await page.evaluate(() => Math.max(document.body.scrollHeight, document.documentElement.scrollHeight));
-    const maxScroll = Math.max(0, captureHeight - segmentHeight);
     const targets = [];
-    for (let top = 0; top < maxScroll; top += step) targets.push(top);
-    if (targets.at(-1) !== maxScroll) targets.push(maxScroll);
+    for (let top = 0; top < captureHeight; top += step) {
+      const height = Math.min(segmentHeight, captureHeight - top);
+      targets.push({ top, height });
+      if (top + height >= captureHeight) break;
+    }
     for (let index = 0; index < targets.length; index += 1) {
-      const targetTop = targets[index];
+      const targetTop = targets[index].top;
+      const targetHeight = targets[index].height;
+      await page.setViewportSize({ width: dimensions.width, height: targetHeight });
+      await page.waitForFunction((expected) => innerWidth === expected.width && innerHeight === expected.height, { width: dimensions.width, height: targetHeight });
       await page.evaluate(async (top) => {
         window.scrollTo(0, top);
         await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       }, targetTop);
       const actualTop = await page.evaluate(() => window.scrollY);
+      const actualHeight = await page.evaluate(() => innerHeight);
       const filename = `${basename}-part-${String(index + 1).padStart(2, '0')}.png`;
+      const screenshotPath = path.join(outputDir, filename);
       await page.screenshot({
-        path: path.join(outputDir, filename),
+        path: screenshotPath,
         fullPage: false,
         animations: 'disabled',
         scale: 'css',
       });
+      const png = fs.readFileSync(screenshotPath);
+      const previousBottom = segments.at(-1)?.bottom ?? actualTop;
       files.push(filename);
-      segments.push({ filename, target_top: targetTop, top: actualTop, height: segmentHeight, bottom: actualTop + segmentHeight });
+      segments.push({
+        filename,
+        target_top: targetTop,
+        target_height: targetHeight,
+        top: actualTop,
+        height: actualHeight,
+        bottom: actualTop + actualHeight,
+        overlap: index === 0 ? 0 : previousBottom - actualTop,
+        png_width: png.readUInt32BE(16),
+        png_height: png.readUInt32BE(20),
+      });
     }
     if (originalViewport) await page.setViewportSize(originalViewport);
   }
@@ -363,8 +384,12 @@ async function run() {
     if (!hub) throw new Error('The hub route is missing from the content contract.');
     const responsiveContext = await browser.newContext({
       viewport: { width: 320, height: 740 },
-      isMobile: true,
-      hasTouch: true,
+      // Route captures above exercise Chrome's touch-only mobile emulation.
+      // Keep this state matrix pointer-capable so hover, focus, keyboard, and
+      // pointer assertions test real interaction states instead of asking a
+      // touch-only context to synthesize an impossible hover capability.
+      isMobile: false,
+      hasTouch: false,
       locale: 'he-IL',
       colorScheme: 'light',
       reducedMotion: 'reduce',
@@ -374,6 +399,47 @@ async function run() {
     await page.goto(routeUrl(hub, 'responsive'), { waitUntil: 'domcontentloaded', timeout });
     await page.waitForSelector(`main[data-thp-owner-id="${hub.route_id}"]`, { timeout: 15000 });
     await page.waitForTimeout(600);
+
+    const inspectMenuControl = () => page.locator('.thp-menu-toggle').evaluate((element) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return {
+        color: style.color,
+        background_color: style.backgroundColor,
+        border_color: style.borderColor,
+        outline_color: style.outlineColor,
+        outline_width: style.outlineWidth,
+        outline_offset: style.outlineOffset,
+        display: style.display,
+        visibility: style.visibility,
+        opacity: style.opacity,
+        rect_count: element.getClientRects().length,
+        width: rect.width,
+        height: rect.height,
+        hovered: element.matches(':hover'),
+        focused: element.matches(':focus'),
+      };
+    });
+    const inspectHeaderSearchControl = () => page.locator('.thp-header-search button').evaluate((element) => {
+      const style = getComputedStyle(element);
+      const rect = element.getBoundingClientRect();
+      return {
+        color: style.color,
+        background_color: style.backgroundColor,
+        border_color: style.borderColor,
+        outline_color: style.outlineColor,
+        outline_width: style.outlineWidth,
+        outline_offset: style.outlineOffset,
+        display: style.display,
+        visibility: style.visibility,
+        opacity: style.opacity,
+        rect_count: element.getClientRects().length,
+        width: rect.width,
+        height: rect.height,
+        hovered: element.matches(':hover'),
+        focused: element.matches(':focus'),
+      };
+    });
 
     for (const width of [320, 768, 1230]) {
       await page.setViewportSize({ width, height: width === 320 ? 740 : 900 });
@@ -392,24 +458,52 @@ async function run() {
       }));
     }
 
+    report.responsive['1230'].toggle_rest = await inspectMenuControl();
+    await page.locator('.thp-menu-toggle').hover();
+    report.responsive['1230'].toggle_hover = await inspectMenuControl();
+    await page.mouse.move(200, 200);
+    await page.locator('.thp-menu-toggle').focus();
+    report.responsive['1230'].toggle_focus = await inspectMenuControl();
+    await page.locator('.thp-brand').focus();
+
     await page.setViewportSize({ width: 390, height: 844 });
     await page.waitForFunction(() => document.documentElement.clientWidth === 390);
-    const inspectMenuControl = () => page.locator('.thp-menu-toggle').evaluate((element) => {
-      const style = getComputedStyle(element);
-      return {
-        color: style.color,
-        background_color: style.backgroundColor,
-        border_color: style.borderColor,
-        outline_color: style.outlineColor,
-        outline_width: style.outlineWidth,
-        outline_offset: style.outlineOffset,
-      };
-    });
     report.responsive.toggle_rest = await inspectMenuControl();
     await page.locator('.thp-menu-toggle').hover();
     report.responsive.toggle_hover = await inspectMenuControl();
+    await page.mouse.move(200, 200);
     await page.locator('.thp-menu-toggle').focus();
     report.responsive.toggle_focus = await inspectMenuControl();
+    await page.waitForSelector('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link', { state: 'visible', timeout: 5000 });
+    const inspectAccessibilityRail = () => page.evaluate(() => {
+      const toolbar = document.querySelector('#pojo-a11y-toolbar');
+      const toggle = toolbar?.querySelector('.pojo-a11y-toolbar-toggle-link');
+      if (!toolbar || !toggle) return null;
+      const toolbarRect = toolbar.getBoundingClientRect();
+      const toggleRect = toggle.getBoundingClientRect();
+      const toggleStyle = getComputedStyle(toggle);
+      const center = document.elementFromPoint(toggleRect.x + toggleRect.width / 2, toggleRect.y + toggleRect.height / 2);
+      return {
+        open: toolbar.classList.contains('pojo-a11y-toolbar-open'),
+        toolbar_rect: { x: toolbarRect.x, y: toolbarRect.y, right: toolbarRect.right, bottom: toolbarRect.bottom, width: toolbarRect.width, height: toolbarRect.height },
+        toggle_rect: { x: toggleRect.x, y: toggleRect.y, right: toggleRect.right, bottom: toggleRect.bottom, width: toggleRect.width, height: toggleRect.height },
+        toggle_visible: toggleStyle.visibility === 'visible' && toggleStyle.display !== 'none' && toggleStyle.opacity === '1',
+        toggle_topmost: center === toggle || toggle.contains(center),
+      };
+    });
+    report.responsive.accessibility_rail_closed = await inspectAccessibilityRail();
+    await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
+    await page.waitForFunction(() => {
+      const toolbar = document.querySelector('#pojo-a11y-toolbar');
+      return toolbar?.classList.contains('pojo-a11y-toolbar-open') && Math.abs(toolbar.getBoundingClientRect().x) < 1;
+    });
+    report.responsive.accessibility_rail_open = await inspectAccessibilityRail();
+    await page.locator('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link').click();
+    await page.waitForFunction(() => {
+      const toolbar = document.querySelector('#pojo-a11y-toolbar');
+      return !toolbar?.classList.contains('pojo-a11y-toolbar-open') && Math.abs(toolbar.getBoundingClientRect().x + 180) < 1;
+    });
+    report.responsive.accessibility_rail_restored = await inspectAccessibilityRail();
     report.responsive.external_a11y_before = await page.evaluate(() => (
       [...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')].map((element) => ({
         id: element.id,
@@ -582,6 +676,14 @@ async function run() {
     });
     });
 
+    report.responsive.header_search_rest = await inspectHeaderSearchControl();
+    await page.locator('.thp-header-search button').hover();
+    report.responsive.header_search_hover = await inspectHeaderSearchControl();
+    await page.mouse.move(10, 300);
+    await page.locator('.thp-header-search button').focus();
+    report.responsive.header_search_focus = await inspectHeaderSearchControl();
+    await page.locator('.thp-brand').focus();
+
     await page.setViewportSize({ width: 390, height: 844 });
     await page.waitForFunction(() => !matchMedia('(min-width: 1231px)').matches && getComputedStyle(document.querySelector('.thp-menu-toggle')).display !== 'none');
     await page.locator('.thp-menu-toggle').click();
@@ -602,9 +704,13 @@ async function run() {
     await page.waitForFunction(() => document.documentElement.clientWidth === 844 && getComputedStyle(document.querySelector('.thp-menu-toggle')).display !== 'none');
     report.responsive.landscape_closed = await page.evaluate(() => {
       const toggleRect = document.querySelector('.thp-menu-toggle').getBoundingClientRect();
+      const accessibilityToggle = document.querySelector('#pojo-a11y-toolbar .pojo-a11y-toolbar-toggle-link');
+      const accessibilityToggleRect = accessibilityToggle.getBoundingClientRect();
       return {
         overflow_pixels: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         toggle_rect: { x: toggleRect.x, y: toggleRect.y, right: toggleRect.right, bottom: toggleRect.bottom, width: toggleRect.width, height: toggleRect.height },
+        accessibility_toggle_rect: { x: accessibilityToggleRect.x, y: accessibilityToggleRect.y, right: accessibilityToggleRect.right, bottom: accessibilityToggleRect.bottom, width: accessibilityToggleRect.width, height: accessibilityToggleRect.height },
+        accessibility_toggle_topmost: accessibilityToggle.contains(document.elementFromPoint(accessibilityToggleRect.x + accessibilityToggleRect.width / 2, accessibilityToggleRect.y + accessibilityToggleRect.height / 2)),
         toolbar_rects: [...document.querySelectorAll('#pojo-a11y-toolbar, #pojo-a11y-skip-content')].map((element) => {
           const rect = element.getBoundingClientRect();
           const style = getComputedStyle(element);
@@ -677,7 +783,7 @@ async function run() {
       add(`${prefix}: clean public surface`, value.admin_bar === false && value.long_dash_count === 0 && value.forbidden_hits.length === 0 && value.hello_pink_link_count === 0 && value.duplicate_ids.length === 0 && value.unnamed_buttons === 0 && value.unnamed_links === 0 && value.missing_alt_images === 0 && value.broken_images.length === 0);
       add(`${prefix}: no horizontal overflow`, value.overflow_pixels === 0, value.overflow_pixels);
       add(`${prefix}: network clean`, unexpectedConsoleErrors(result.network.console_errors).length === 0 && result.network.request_failures.length === 0 && result.network.bad_same_origin.length === 0, result.network);
-      add(`${prefix}: complete screenshot coverage`, result.screenshot_capture.coverage_complete === true && result.screenshot_capture.final_height === result.screenshot_capture.measured_height, result.screenshot_capture);
+      add(`${prefix}: complete screenshot coverage`, result.screenshot_capture.coverage_complete === true && result.screenshot_capture.final_height === result.screenshot_capture.measured_height && result.screenshot_capture.segments.every((segment, index) => segment.png_width === result.screenshot_capture.width && segment.png_height === segment.height && segment.top === (segment.target_top ?? 0) && (index === 0 ? segment.overlap === 0 : Math.abs(segment.overlap - 160) <= 1)), result.screenshot_capture);
       add(`${prefix}: visible footer action`, exactReadableAction(value.footer_action, deepForest, white), value.footer_action);
       if (route.kind === 'hub') {
         add(`${prefix}: hub decision and guide structure`, value.hub_decision_cards === 3 && value.hub_decision_links === 9 && value.hub_guide_groups === 3 && value.hub_guide_cards === 7 && JSON.stringify(value.hub_child_owners) === JSON.stringify(spokeIds));
@@ -706,8 +812,18 @@ async function run() {
     const restored = closed.external_surfaces.find((surface) => surface.identity === original.identity);
     return restored && restored.inert === original.inert && restored.aria_hidden === original.aria_hidden && restored.visibility === original.visibility && restored.pointer_events === original.pointer_events;
   });
-  const interactiveStateIsSealed = (state) => sameColor(state.color, forest) && sameColor(state.background_color, white) && !sameColor(state.background_color, [204, 51, 102, 1]);
-  add('mobile menu control resists theme hover and focus states', interactiveStateIsSealed(report.responsive.toggle_rest) && interactiveStateIsSealed(report.responsive.toggle_hover) && interactiveStateIsSealed(report.responsive.toggle_focus) && sameColor(report.responsive.toggle_focus.outline_color, [243, 181, 76, 1]) && report.responsive.toggle_focus.outline_width === '3px' && report.responsive.toggle_focus.outline_offset === '3px', { rest: report.responsive.toggle_rest, hover: report.responsive.toggle_hover, focus: report.responsive.toggle_focus });
+  const controlStateIsVisible = (state, minimumHeight = 44) => state.display !== 'none' && state.visibility === 'visible' && state.opacity === '1' && state.rect_count === 1 && state.width >= 44 && state.height >= minimumHeight;
+  const interactiveStateIsSealed = (state) => controlStateIsVisible(state) && sameColor(state.color, forest) && sameColor(state.background_color, white) && !sameColor(state.background_color, [204, 51, 102, 1]);
+  const mobileToggleStates = [report.responsive.toggle_rest, report.responsive.toggle_hover, report.responsive.toggle_focus];
+  const boundaryToggleStates = [report.responsive['1230'].toggle_rest, report.responsive['1230'].toggle_hover, report.responsive['1230'].toggle_focus];
+  add('mobile menu control remains visible through separate rest, hover, and focus states', mobileToggleStates.every(interactiveStateIsSealed) && report.responsive.toggle_rest.hovered === false && report.responsive.toggle_rest.focused === false && report.responsive.toggle_hover.hovered === true && report.responsive.toggle_hover.focused === false && report.responsive.toggle_focus.hovered === false && report.responsive.toggle_focus.focused === true && sameColor(report.responsive.toggle_focus.outline_color, [243, 181, 76, 1]) && report.responsive.toggle_focus.outline_width === '3px' && report.responsive.toggle_focus.outline_offset === '3px', { rest: report.responsive.toggle_rest, hover: report.responsive.toggle_hover, focus: report.responsive.toggle_focus });
+  add('1230px menu control remains visible through separate rest, hover, and focus states', boundaryToggleStates.every(interactiveStateIsSealed) && report.responsive['1230'].toggle_rest.hovered === false && report.responsive['1230'].toggle_rest.focused === false && report.responsive['1230'].toggle_hover.hovered === true && report.responsive['1230'].toggle_hover.focused === false && report.responsive['1230'].toggle_focus.hovered === false && report.responsive['1230'].toggle_focus.focused === true, report.responsive['1230']);
+  const searchStates = [report.responsive.header_search_rest, report.responsive.header_search_hover, report.responsive.header_search_focus];
+  add('desktop search action resists theme hover and focus states', searchStates.every((state) => controlStateIsVisible(state, 40) && sameColor(state.color, white) && sameColor(state.background_color, forest)) && report.responsive.header_search_rest.hovered === false && report.responsive.header_search_rest.focused === false && report.responsive.header_search_hover.hovered === true && report.responsive.header_search_hover.focused === false && report.responsive.header_search_focus.hovered === false && report.responsive.header_search_focus.focused === true && sameColor(report.responsive.header_search_focus.outline_color, [243, 181, 76, 1]) && report.responsive.header_search_focus.outline_width === '3px' && report.responsive.header_search_focus.outline_offset === '-4px', { rest: report.responsive.header_search_rest, hover: report.responsive.header_search_hover, focus: report.responsive.header_search_focus });
+  const railClosed = report.responsive.accessibility_rail_closed;
+  const railOpen = report.responsive.accessibility_rail_open;
+  const railRestored = report.responsive.accessibility_rail_restored;
+  add('mobile accessibility control uses a compact bottom-left rail and still opens', railClosed && railOpen && railRestored && railClosed.open === false && railClosed.toggle_visible === true && railClosed.toggle_topmost === true && railClosed.toolbar_rect.x === -180 && railClosed.toolbar_rect.right === 0 && railClosed.toggle_rect.x === 0 && railClosed.toggle_rect.right === 44 && railClosed.toggle_rect.width === 44 && railClosed.toggle_rect.height === 44 && railClosed.toggle_rect.y >= 68 && railClosed.toggle_rect.bottom <= 844 && railOpen.open === true && railOpen.toolbar_rect.x === 0 && railOpen.toolbar_rect.right === 180 && railOpen.toggle_rect.x === 180 && railOpen.toggle_rect.right === 224 && railOpen.toggle_topmost === true && railRestored.open === false && railRestored.toolbar_rect.x === -180 && railRestored.toggle_rect.x === 0 && railRestored.toggle_topmost === true, { closed: railClosed, open: railOpen, restored: railRestored });
   add('mobile drawer opens as an isolated dialog', open.expanded === 'true' && open.label === 'סגירת תפריט' && open.drawer_hidden === false && open.dialog_count === 1 && open.focused_inside === true && open.body_open === true && open.body_overflow === 'hidden' && open.page_isolated === true && open.heading === 'תפריט ראשי');
   add('mobile drawer has a complete pointer-only backdrop', open.backdrop_tag === 'DIV' && open.backdrop_aria_hidden === 'true' && sameColor(open.backdrop_background, [3, 24, 23, 0.72]) && open.backdrop_background_image === 'none' && open.backdrop_visibility === 'visible' && open.backdrop_pointer_events !== 'none' && open.backdrop_opacity === '1' && backdrop.x === 0 && backdrop.y === 0 && backdrop.width === 390 && backdrop.height === 844 && open.backdrop_is_top_left === true && panel.right === 390 && panel.width > 0 && panel.width < backdrop.width && panel.height === 844, { backdrop: open, panel });
   add('mobile drawer has three visible menu bars', open.toggle_bars.length === 3 && barsAreDistinct && open.toggle_bars.every((bar) => bar.display === 'block' && sameColor(bar.background_color, forest) && bar.opacity === '1' && bar.height >= 2 && bar.width >= 20 && contrastRatio(forest, white) >= 3), open.toggle_bars);
@@ -720,7 +836,7 @@ async function run() {
   add('pointer backdrop closes and restores its opener', report.responsive.backdrop_close.was_backdrop === true && report.responsive.backdrop_close.drawer_hidden === true && report.responsive.backdrop_close.expanded === 'false' && report.responsive.backdrop_close.focused_toggle === true && report.responsive.backdrop_close.body_open === false && report.responsive.backdrop_close.body_overflow === '', report.responsive.backdrop_close);
   const landscapeClosed = report.responsive.landscape_closed;
   const landscapeOpen = report.responsive.landscape_open;
-  add('short landscape keeps navigation controls inside the viewport', landscapeClosed.overflow_pixels === 0 && landscapeClosed.toggle_rect.x >= 0 && landscapeClosed.toggle_rect.y >= 0 && landscapeClosed.toggle_rect.right <= 844 && landscapeClosed.toggle_rect.bottom <= 390 && landscapeClosed.toggle_rect.width >= 44 && landscapeClosed.toggle_rect.height >= 44 && landscapeOpen.panel_rect.y === 0 && landscapeOpen.panel_rect.right === 844 && landscapeOpen.panel_rect.bottom === 390 && landscapeOpen.panel_rect.height === 390 && landscapeOpen.panel_overflow_y === 'auto' && landscapeOpen.backdrop_rect.x === 0 && landscapeOpen.backdrop_rect.y === 0 && landscapeOpen.backdrop_rect.right === 844 && landscapeOpen.backdrop_rect.bottom === 390, { closed: landscapeClosed, open: landscapeOpen });
+  add('short landscape keeps navigation controls inside the viewport', landscapeClosed.overflow_pixels === 0 && landscapeClosed.toggle_rect.x >= 0 && landscapeClosed.toggle_rect.y >= 0 && landscapeClosed.toggle_rect.right <= 844 && landscapeClosed.toggle_rect.bottom <= 390 && landscapeClosed.toggle_rect.width >= 44 && landscapeClosed.toggle_rect.height >= 44 && landscapeClosed.accessibility_toggle_rect.x >= 0 && landscapeClosed.accessibility_toggle_rect.y >= 0 && landscapeClosed.accessibility_toggle_rect.right <= 844 && landscapeClosed.accessibility_toggle_rect.bottom <= 390 && landscapeClosed.accessibility_toggle_rect.width === 44 && landscapeClosed.accessibility_toggle_rect.height === 44 && landscapeClosed.accessibility_toggle_topmost === true && landscapeOpen.panel_rect.y === 0 && landscapeOpen.panel_rect.right === 844 && landscapeOpen.panel_rect.bottom === 390 && landscapeOpen.panel_rect.height === 390 && landscapeOpen.panel_overflow_y === 'auto' && landscapeOpen.backdrop_rect.x === 0 && landscapeOpen.backdrop_rect.y === 0 && landscapeOpen.backdrop_rect.right === 844 && landscapeOpen.backdrop_rect.bottom === 390, { closed: landscapeClosed, open: landscapeOpen });
   add('responsive network is clean', unexpectedConsoleErrors(report.responsive.network.console_errors).length === 0 && report.responsive.network.request_failures.length === 0 && report.responsive.network.bad_same_origin.length === 0, report.responsive.network);
 
   report.acceptance = {

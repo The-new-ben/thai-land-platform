@@ -212,7 +212,12 @@ tl_test_assert( false !== strpos( $css, '.thp-content a { color: var(--thp-fores
 tl_test_assert( false !== strpos( $css, '.thp-content .thp-button-light:visited' ), 'Managed light actions do not preserve contrast after a visit.' );
 tl_test_assert( false !== strpos( $css, '.thp-content .thp-menu-toggle:hover' ) && false !== strpos( $css, '.thp-content .thp-menu-toggle:focus' ), 'Theme button states can override the menu control.' );
 tl_test_assert( false !== strpos( $css, '.thp-content .thp-menu-toggle' ), 'Menu control is not protected from theme specificity.' );
-tl_test_assert( false !== strpos( $css, '@media (min-width: 1231px)' ), 'Exact desktop menu breakpoint override is missing.' );
+tl_test_assert( false !== strpos( $css, '.thp-content .thp-menu-toggle { display: none !important; }' ), 'Menu control base hiding rule is missing.' );
+tl_test_assert( false !== strpos( $css, '.thp-content .thp-menu-toggle { display: block !important; margin-right: auto; }' ), 'Responsive menu visibility rule is missing.' );
+tl_test_assert( false !== strpos( $css, "@media (min-width: 1231px) {\n  .thp-content .thp-menu-toggle { display: none !important; }\n}" ), 'Exact desktop menu breakpoint override is missing.' );
+tl_test_assert( 0 === preg_match( '/\.thp-content\s+\.thp-menu-toggle:(?:hover|focus(?:-visible)?|active)[^{]*\{[^}]*\bdisplay\s*:/s', $css ), 'Menu control interaction state can hide the control.' );
+tl_test_assert( false !== strpos( $css, '.thp-content .thp-header-search button:hover' ) && false !== strpos( $css, '.thp-content .thp-header-search button:focus-visible' ), 'Header search interaction states can fall back to theme button colors.' );
+tl_test_assert( false !== strpos( $css, 'left: -180px !important' ) && false !== strpos( $css, 'bottom: max(16px, env(safe-area-inset-bottom)) !important' ), 'Responsive accessibility control is not anchored in its compact edge rail.' );
 tl_test_assert( false !== strpos( $css, 'body.thp-content-menu-open #pojo-a11y-toolbar' ), 'Open drawer does not hide the external accessibility control.' );
 tl_test_assert( false !== strpos( $css, 'body.thp-content-menu-open > :not(.thp-content)' ), 'Open drawer does not suppress top-level external widgets.' );
 tl_test_assert( false !== strpos( $js, "matchMedia('(min-width: 1231px)')" ), 'Managed menu breakpoint contract is missing.' );
