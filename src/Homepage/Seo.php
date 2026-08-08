@@ -9,7 +9,7 @@ namespace Thailand_Platform\Homepage;
 
 final class Seo {
 	const TITLE       = 'תאילנד: טיולים, מעבר, נדל״ן ועסקים | Thai-Land.co.il';
-	const DESCRIPTION = 'תאילנד בעברית: מדריכי טיול, מעבר, נדל״ן ועסקים, עם ניווט לפי אזור ונושא.';
+	const DESCRIPTION = 'תאילנד בעברית: יעדים, מסלולים, מגורים, נדל״ן ועסקים לישראלים בבנגקוק, פוקט, קוסמוי וצ׳יאנג מאי.';
 
 	/**
 	 * Register narrowly scoped filters without taking schema ownership.

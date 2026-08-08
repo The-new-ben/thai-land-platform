@@ -4,14 +4,14 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.2.4
+Stable tag: 0.2.5
 License: Proprietary
 
 The modular platform foundation for thai-land.co.il.
 
 == Description ==
 
-Version 0.2.4 adds the premium RTL homepage presentation behind an
+Version 0.2.5 adds the RTL homepage experience behind an
 administrator-controlled, fail-closed feature flag. Upgrade and activation do
 not change the configured front page, content, URLs, redirects, taxonomies,
 schema, or database structure. The default mode is Off; Canary is private and
@@ -23,6 +23,12 @@ The public healthcheck remains available and the vendored update UI fallback
 remains disabled.
 
 == Changelog ==
+
+= 0.2.5 =
+* Replace presentation-style homepage language with direct destination,
+  property, business, living, and reader language.
+* Keep unsolicited chat greetings compact without closing a visitor-initiated
+  chat.
 
 = 0.2.4 =
 * Resume chat settling when a visitor returns through browser history.

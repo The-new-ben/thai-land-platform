@@ -61,7 +61,8 @@ $releaseInputs = @(
     'scripts/read_release_version.py',
     'scripts/release.ps1',
     'scripts/verify_release_receipt.py',
-    'tests/run.php'
+    'tests/run.php',
+    'tests/tawk-state.test.js'
 )
 $releaseInputs += Get-Content -LiteralPath (Join-Path $repositoryRoot 'package-files.txt')
 $releaseInputs = $releaseInputs | Sort-Object -Unique

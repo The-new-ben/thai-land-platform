@@ -187,7 +187,11 @@
     { label: 'מסלול בבנגקוק', type: 'מסלול', icon: '⌖', keywords: 'יומיים שלושה ארבעה ימים טיול', href: '/טיול-בבנגקוק-ליומיים-3-ימים-או-4-ימים-מדר/' },
     { label: 'חיפוש טיסות לתאילנד', type: 'טיסות', icon: '✈', keywords: 'טיסה טיסות מחיר כרטיס', href: '/המדריך-האולטימטיבי-למציאת-טיסות-זולו/' },
     { label: 'תאילנדית שימושית', type: 'שפה', icon: '○', keywords: 'מילים ביטויים שפה תאילנדית', href: '/איך-אומרים-בתאילנדית/' },
-    { label: 'קישורים שימושיים לתאילנד', type: 'כלים', icon: '↗', keywords: 'אתרים קישורים תכנון', href: '/תאילנד-קישורים-שימושיים/' }
+    { label: 'קישורים שימושיים לתאילנד', type: 'קישורים', icon: '↗', keywords: 'אתרים קישורים תכנון', href: '/תאילנד-קישורים-שימושיים/' },
+    { label: 'מפת תאילנד', type: 'מפה', icon: '⌖', keywords: 'מפה אזורים בנגקוק ציאנג מאי פוקט קוסמוי', href: '#atlas' },
+    { label: 'חיים בתאילנד', type: 'נושא', icon: '⌂', keywords: 'מגורים עיר צפון איים יום־יום', href: '#living' },
+    { label: 'נדל״ן בתאילנד', type: 'נושא', icon: '◇', keywords: 'נכס בעלות חוזה מסים עלויות ניהול', href: '#real-estate' },
+    { label: 'עסקים בתאילנד', type: 'נושא', icon: '◫', keywords: 'חברה רישוי מס שוק עובדים תפעול', href: '#business' }
   ];
 
   const normalize = (value) => value.toLocaleLowerCase('he').replace(/[״׳'"\-]/g, '').trim();
@@ -222,7 +226,7 @@
     if (!matches.length) {
       const empty = doc.createElement('div');
       empty.className = 'search-empty';
-      empty.textContent = 'לא נמצאה התאמה מיידית. אפשר לחפש את הביטוי המלא.';
+      empty.textContent = 'לא נמצאה התאמה ברשימת המדריכים. חפשו באתר את הביטוי המלא.';
       empty.style.padding = '14px';
       suggestionBox.append(empty);
     } else {
@@ -280,7 +284,7 @@
     const term = searchInput?.value.trim();
     if (!term) {
       event.preventDefault();
-      announce('כתבו מקום, נושא או שירות לחיפוש');
+      announce('הקלידו יעד או נושא, למשל בנגקוק, עונות או טיסות');
       searchInput?.focus();
       return;
     }
@@ -309,16 +313,16 @@
   /* Atlas interaction: modes, map/list and location selection */
   const placeData = {
     bangkok: {
-      name: 'בנגקוק', region: 'מרכז תאילנד', description: 'עיר גדולה עם אזורים שונים, תחבורה עירונית, אוכל, עסקים וחיבורים לשאר המדינה.', topics: 'עיר, עסקים, אוכל ומעבר', start: 'מדריך העיר', href: '/בנגקוק-תאילנד/', linkLabel: 'למדריך בנגקוק'
+      name: 'בנגקוק', region: 'מרכז תאילנד', description: 'בנגקוק כוללת שכונות מגורים, מרכזי עסקים, שווקים, מסעדות, רכבות עירוניות וקישורים לשאר תאילנד.', topics: 'שכונות, תחבורה, אוכל ועסקים', start: 'בנגקוק: אזורים ותחבורה', href: '/בנגקוק-תאילנד/', linkLabel: 'בנגקוק: שכונות, תחבורה ומסלולים'
     },
     chiangmai: {
-      name: 'צ׳יאנג מאי', region: 'צפון תאילנד', description: 'עיר צפונית שמחברת בין העיר העתיקה, תרבות לאנה והרים בסביבה.', topics: 'תרבות, טבע ושהייה ארוכה', start: 'העיר העתיקה והסביבה', href: '#places', linkLabel: 'לכרטיס צ׳יאנג מאי'
+      name: 'צ׳יאנג מאי', region: 'צפון תאילנד', description: 'צ׳יאנג מאי משלבת את העיר העתיקה, שכונות מגורים, שווקים וגישה להרי צפון תאילנד.', topics: 'עיר עתיקה, שכונות, טבע ושהייה ארוכה', start: 'צ׳יאנג מאי והצפון', href: '#places', linkLabel: 'צ׳יאנג מאי: עיר, טבע ומגורים'
     },
     phuket: {
-      name: 'פוקט', region: 'חוף אנדמן', description: 'אי גדול בחוף אנדמן עם חופים ואזורים בעלי אופי שונה.', topics: 'חופים, טיול ושהייה ארוכה', start: 'פוקט או קוסמוי', href: '/פוקט-או-קו-סמוי/', linkLabel: 'להשוואת פוקט וקוסמוי'
+      name: 'פוקט', region: 'חוף אנדמן', description: 'פוקט כוללת אזורי חוף, את העיר פוקט, שדה תעופה וקישורי מעבורת לאיים סמוכים.', topics: 'חופים, אזורים, נכסים ותחבורה', start: 'פוקט מול קוסמוי', href: '/פוקט-או-קו-סמוי/', linkLabel: 'פוקט או קוסמוי: ההבדלים'
     },
     samui: {
-      name: 'קוסמוי', region: 'מפרץ תאילנד', description: 'אי במפרץ תאילנד עם חופים שונים וחיבור לפנגן ולטאו.', topics: 'איים, חופים ושהייה ארוכה', start: 'פוקט או קוסמוי', href: '/פוקט-או-קו-סמוי/', linkLabel: 'להשוואת פוקט וקוסמוי'
+      name: 'קוסמוי', region: 'מפרץ תאילנד', description: 'קוסמוי כוללת אזורי חוף ומגורים, שדה תעופה ומעבורות לקופנגן ולקו טאו.', topics: 'חופים, מגורים, עסקים ואיים', start: 'קוסמוי מול פוקט', href: '/פוקט-או-קו-סמוי/', linkLabel: 'קוסמוי או פוקט: ההבדלים'
     }
   };
 
@@ -390,7 +394,7 @@
     const symbol = button.querySelector('[aria-hidden="true"]');
     if (symbol) symbol.textContent = isSaved ? '♥' : '♡';
     const label = button.querySelector('.sr-only');
-    if (label) label.textContent = isSaved ? 'הסרה מהשמורים' : 'שמירה לפריטים שלי';
+    if (label) label.textContent = isSaved ? 'הסרה מהשמורים' : 'שמירת המקום';
   }
 
   const updateSavedUI = () => {
@@ -401,7 +405,7 @@
     if (!savedItems.length) {
       const empty = doc.createElement('span');
       empty.className = 'saved-list__empty';
-      empty.textContent = 'עדיין לא נשמר מקום.';
+      empty.textContent = 'המקומות שתשמרו במפה יופיעו כאן.';
       savedList.append(empty);
       return;
     }
@@ -420,7 +424,7 @@
     const key = button.dataset.save;
     if (savedItems.includes(key)) {
       savedItems = savedItems.filter((item) => item !== key);
-      announce('הפריט הוסר מהשמורים');
+      announce('המקום הוסר מהשמורים');
     } else {
       savedItems.push(key);
       announce('המקום נשמר במכשיר הזה');
@@ -444,26 +448,45 @@
   });
 
   /* Keep the existing Tawk chat compact while preserving its current callback. */
+  let tawkVisitorInteracted = false;
+  const tawkVisitorIsActive = (api) => {
+    if (tawkVisitorInteracted) return true;
+
+    try {
+      const visitorEngaged = typeof api.isVisitorEngaged === 'function' && api.isVisitorEngaged();
+      const chatOngoing = typeof api.isChatOngoing === 'function' && api.isChatOngoing();
+      return visitorEngaged || chatOngoing;
+    } catch {
+      return true;
+    }
+  };
+
   const minimizeTawkWidget = () => {
     const api = window.Tawk_API;
-    if (!api || typeof api.minimize !== 'function') return false;
+    if (!api || typeof api.minimize !== 'function') return 'retry';
+    if (tawkVisitorIsActive(api)) return 'preserve';
 
     try {
       api.minimize();
-      return typeof api.isChatMinimized === 'function'
+      const minimized = typeof api.isChatMinimized === 'function'
         ? api.isChatMinimized()
         : api.onLoaded === true;
+      return minimized ? 'settled' : 'retry';
     } catch {
-      return false;
+      return 'retry';
     }
   };
 
   let tawkRetryDelay = 250;
   let tawkRetryTimer = 0;
+  let tawkGreetingTimer = 0;
+  let tawkResumeAfterPageShow = false;
   const settleTawkWidget = () => {
-    if (minimizeTawkWidget()) {
+    const state = minimizeTawkWidget();
+    if (state !== 'retry') {
       if (tawkRetryTimer) window.clearTimeout(tawkRetryTimer);
       tawkRetryTimer = 0;
+      tawkRetryDelay = 250;
       return;
     }
     if (tawkRetryTimer) return;
@@ -485,12 +508,41 @@
       settleTawkWidget();
     }
   };
+
+  const queueTawkGreetingSettle = () => {
+    if (tawkGreetingTimer) window.clearTimeout(tawkGreetingTimer);
+    tawkGreetingTimer = window.setTimeout(() => {
+      tawkGreetingTimer = 0;
+      settleTawkWidget();
+    }, 250);
+  };
+
+  const wrapTawkCallback = (callbackName, afterCallback) => {
+    const previousCallback = tawkApi[callbackName];
+    tawkApi[callbackName] = function (...args) {
+      try {
+        if (typeof previousCallback === 'function') previousCallback.apply(this, args);
+      } finally {
+        afterCallback();
+      }
+    };
+  };
+  wrapTawkCallback('onChatMessageVisitor', () => { tawkVisitorInteracted = true; });
+  wrapTawkCallback('onChatMessageAgent', queueTawkGreetingSettle);
+  wrapTawkCallback('onChatMessageSystem', queueTawkGreetingSettle);
+
   settleTawkWidget();
   window.addEventListener('pagehide', () => {
+    tawkResumeAfterPageShow = Boolean(tawkRetryTimer || tawkGreetingTimer);
     if (tawkRetryTimer) window.clearTimeout(tawkRetryTimer);
+    if (tawkGreetingTimer) window.clearTimeout(tawkGreetingTimer);
     tawkRetryTimer = 0;
+    tawkGreetingTimer = 0;
   });
-  window.addEventListener('pageshow', settleTawkWidget);
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted || tawkResumeAfterPageShow) settleTawkWidget();
+    tawkResumeAfterPageShow = false;
+  });
 
   /* Back to top */
   doc.querySelector('[data-back-to-top]')?.addEventListener('click', () => {

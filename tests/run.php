@@ -334,7 +334,7 @@ use Thailand_Platform\Homepage\FeatureFlag;
 use Thailand_Platform\Homepage\Renderer;
 use Thailand_Platform\Homepage\Seo;
 
-tl_test_assert( '0.2.4' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.2.5' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -448,6 +448,30 @@ tl_test_assert( FeatureFlag::MODE_OFF === FeatureFlag::sanitize( array() ), 'Non
 
 /* Immutable homepage source and its release inventory. */
 $root           = dirname( __DIR__ );
+$node_binary    = getenv( 'THAILAND_PLATFORM_NODE_BINARY' );
+if ( false === $node_binary || '' === trim( $node_binary ) ) {
+	$node_binary = 'node';
+}
+$node_process = proc_open(
+	array( $node_binary, $root . '/tests/tawk-state.test.js' ),
+	array(
+		0 => array( 'pipe', 'r' ),
+		1 => array( 'pipe', 'w' ),
+		2 => array( 'pipe', 'w' ),
+	),
+	$node_pipes,
+	$root
+);
+tl_test_assert( is_resource( $node_process ), 'Could not start the Tawk behavior test.' );
+fclose( $node_pipes[0] );
+$node_stdout = stream_get_contents( $node_pipes[1] );
+$node_stderr = stream_get_contents( $node_pipes[2] );
+fclose( $node_pipes[1] );
+fclose( $node_pipes[2] );
+$node_status = proc_close( $node_process );
+tl_test_assert( 0 === $node_status, 'Tawk behavior test failed: ' . trim( $node_stderr ) );
+tl_test_assert( 'PASS: Tawk chat behavior' === trim( $node_stdout ), 'Unexpected Tawk behavior test output.' );
+
 $package_lines  = file( $root . '/package-files.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 $package_entries = array();
 foreach ( $package_lines as $line ) {
@@ -558,6 +582,43 @@ foreach ( array( 'em dash' => "\xE2\x80\x94", 'en dash' => "\xE2\x80\x93" ) as $
 	tl_test_assert( false === strpos( $js, $dash_bytes ), 'Homepage public JavaScript contains an ' . $dash_name . '.' );
 }
 
+$presentation_phrases = array(
+	'מדריכים וידע שימושי',
+	'איך המידע עובד',
+	'איך משתמשים באתר',
+	'איך מגיעים למידע',
+	'להיכרות ראשונית',
+	'יעדים נבחרים',
+	'לסקירת',
+	'סקירה עסקית',
+	'ממשיכים מכאן',
+	'ממשיכים לפי הנושא',
+	'לכרטיס',
+	'מפה סכמטית',
+	'מדריך מומלץ',
+	'מתחילים כאן',
+	'בדיקות ראשונות',
+	'נושאים קשורים',
+	'נושאים למעבר',
+	'למציאת מקום ראשון',
+	'נקודות בדיקה',
+);
+foreach ( array( 'homepage markup' => $markup, 'homepage JavaScript' => $js ) as $public_source_name => $public_source ) {
+	foreach ( $presentation_phrases as $presentation_phrase ) {
+		tl_test_assert(
+			false === strpos( $public_source, $presentation_phrase ),
+			$public_source_name . ' contains presentation language: ' . $presentation_phrase
+		);
+	}
+}
+foreach ( array( 'תאילנד לישראלים', 'ישראלים בתאילנד', 'בעלות, עלויות וחוזים', 'חברות, רישוי ומסים', 'קוסמוי וקופנגן', 'חפשו יעד, מדריך או נושא בתאילנד' ) as $authority_phrase ) {
+	tl_test_assert( false !== strpos( $markup, $authority_phrase ), 'Homepage public markup is missing established-site language: ' . $authority_phrase );
+}
+
+foreach ( array( 'שירותים', 'עסקים והאתר', 'כל המידע על בנגקוק', 'קהילה ושירותים', 'שירותים לפי אזור', 'מימון, שכירות, תשואה וניהול', 'MARKET<br>OPERATIONS', 'THAILAND<br>BUSINESS', 'חפשו יעד, שכונה, פרויקט, שירות או אטרקציה' ) as $unsupported_phrase ) {
+	tl_test_assert( false === strpos( $markup, $unsupported_phrase ), 'Homepage public markup contains an unsupported promise or presentation label: ' . $unsupported_phrase );
+}
+
 $gated_route_substrings = array(
 	'ויזת-תיירים',
 	'אישור-עבודה',
@@ -600,8 +661,21 @@ tl_test_assert( false !== strpos( $js, 'tawkApi.onLoad = function (...args)' ), 
 tl_test_assert( false !== strpos( $js, 'api.isChatMinimized()' ), 'Homepage JavaScript does not verify that Tawk is compact.' );
 tl_test_assert( false !== strpos( $js, 'tawkRetryDelay = Math.min(tawkRetryDelay * 2, 4000)' ), 'Homepage JavaScript does not retry late Tawk readiness with bounded backoff.' );
 tl_test_assert( false !== strpos( $js, "window.addEventListener('pagehide'" ), 'Homepage JavaScript does not clear the Tawk readiness timer on page exit.' );
-tl_test_assert( false !== strpos( $js, "window.addEventListener('pageshow', settleTawkWidget)" ), 'Homepage JavaScript does not resume Tawk settling after history restoration.' );
-tl_test_assert( false !== strpos( $js, "window.clearTimeout(tawkRetryTimer);\n    tawkRetryTimer = 0;\n  });" ), 'Homepage JavaScript leaves a stale Tawk timer after pagehide.' );
+tl_test_assert( false !== strpos( $js, "window.addEventListener('pageshow', (event) =>" ), 'Homepage JavaScript does not handle history restoration.' );
+tl_test_assert( false !== strpos( $js, '!event.persisted || tawkResumeAfterPageShow' ), 'Homepage JavaScript minimizes chat after every history restoration.' );
+tl_test_assert( false !== strpos( $js, 'tawkResumeAfterPageShow = Boolean(tawkRetryTimer || tawkGreetingTimer)' ), 'Homepage JavaScript does not remember interrupted Tawk settling.' );
+tl_test_assert( false !== strpos( $js, 'if (tawkGreetingTimer) window.clearTimeout(tawkGreetingTimer)' ), 'Homepage JavaScript leaves a Tawk greeting timer active on page exit.' );
+tl_test_assert( false !== strpos( $js, "wrapTawkCallback('onChatMessageVisitor'," ), 'Homepage JavaScript does not remember visitor chat interaction.' );
+tl_test_assert( false !== strpos( $js, "wrapTawkCallback('onChatMessageAgent', queueTawkGreetingSettle)" ), 'Homepage JavaScript does not handle unsolicited agent greetings.' );
+tl_test_assert( false !== strpos( $js, "wrapTawkCallback('onChatMessageSystem', queueTawkGreetingSettle)" ), 'Homepage JavaScript does not handle unsolicited system greetings.' );
+tl_test_assert( false === strpos( $js, "wrapTawkCallback('onChatMaximized'" ), 'Homepage JavaScript intercepts visitor chat maximization.' );
+tl_test_assert( false === strpos( $js, 'tawkPageTitle' ), 'Homepage JavaScript classifies visitor intent from title timing.' );
+tl_test_assert( false !== strpos( $js, 'api.isVisitorEngaged()' ), 'Homepage JavaScript does not preserve an engaged visitor chat.' );
+tl_test_assert( false !== strpos( $js, 'api.isChatOngoing()' ), 'Homepage JavaScript does not preserve an ongoing visitor chat.' );
+tl_test_assert( false !== strpos( $js, "if (tawkVisitorIsActive(api)) return 'preserve'" ), 'Homepage JavaScript does not guard every Tawk minimize attempt.' );
+tl_test_assert( false !== strpos( $js, "if (state !== 'retry')" ), 'Homepage JavaScript does not stop Tawk retries when visitor chat must be preserved.' );
+tl_test_assert( false !== strpos( $js, 'tawkVisitorInteracted = true' ), 'Homepage JavaScript does not preserve a visitor who has sent a chat message.' );
+tl_test_assert( false !== strpos( $js, 'previousCallback.apply(this, args)' ), 'Homepage JavaScript does not preserve existing Tawk message callbacks.' );
 tl_test_assert( false === strpos( $js, 'tawkAttempts' ), 'Homepage JavaScript contains a fixed Tawk readiness attempt limit.' );
 tl_test_assert( false === strpos( $js, 'hideWidget()' ), 'Homepage JavaScript removes chat access on mobile.' );
 tl_test_assert( false !== strpos( $css, 'left: 0; right: 88px' ), 'Homepage mobile action bar does not reserve room for the right-side chat launcher.' );

@@ -2,7 +2,7 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.2.4 boundary
+## Release 0.2.5 boundary
 
 The package preserves the minimal public healthcheck at
 `/wp-json/thailand-platform/v1/health` and adds a theme-independent RTL homepage
@@ -21,6 +21,7 @@ its launcher beside the fixed phone actions.
 Get-ChildItem -Recurse -Filter *.php | ForEach-Object { php -l $_.FullName }
 php tests/run.php
 node --check prototype/app.js
+node tests/tawk-state.test.js
 python scripts/build_homepage_assets.py
 ```
 

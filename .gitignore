@@ -10,6 +10,7 @@ playwright-report/
 prototype/screenshots/
 plugin-dist/**
 output/playwright/homepage-desktop-1440.png
+output/playwright/homepage-0.2.5-local-*.png
 *.log
 .env
 .env.*
