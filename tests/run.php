@@ -334,7 +334,7 @@ use Thailand_Platform\Homepage\FeatureFlag;
 use Thailand_Platform\Homepage\Renderer;
 use Thailand_Platform\Homepage\Seo;
 
-tl_test_assert( '0.2.1' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.2.2' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -598,7 +598,8 @@ tl_test_assert( false !== strpos( $js, 'const previousTawkOnLoad = tawkApi.onLoa
 tl_test_assert( false !== strpos( $js, 'previousTawkOnLoad.apply(this, args)' ), 'Homepage JavaScript does not run the preserved Tawk onLoad callback.' );
 tl_test_assert( false !== strpos( $js, 'tawkApi.onLoad = function (...args)' ), 'Homepage JavaScript does not register a Tawk readiness callback.' );
 tl_test_assert( false === strpos( $js, 'hideWidget()' ), 'Homepage JavaScript removes chat access on mobile.' );
-tl_test_assert( false !== strpos( $css, 'inset-inline-end: 88px' ), 'Homepage mobile action bar does not reserve room for the chat launcher.' );
+tl_test_assert( false !== strpos( $css, 'left: 0; right: 88px' ), 'Homepage mobile action bar does not reserve room for the right-side chat launcher.' );
+tl_test_assert( false !== strpos( $css, 'border-top-right-radius: 18px' ), 'Homepage mobile action bar does not round the edge beside the chat launcher.' );
 tl_test_assert( false !== strpos( $markup, 'יום־יום' ), 'Homepage public copy is missing the preferred יום־יום spelling.' );
 tl_test_assert( false === strpos( $markup, 'יום יום' ), 'Homepage public copy contains unhyphenated יום יום.' );
 tl_test_assert( false === strpos( $js, 'יום יום' ), 'Homepage JavaScript contains unhyphenated יום יום.' );

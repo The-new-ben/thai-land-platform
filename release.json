@@ -1,15 +1,15 @@
 {
   "name": "Thailand Platform",
   "slug": "thailand-platform",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "thai-land.co.il",
   "homepage": "https://thai-land.co.il/",
   "requires": "6.9",
   "tested": "7.0.3",
   "requires_php": "7.4",
-  "download_url": "https://raw.githubusercontent.com/The-new-ben/thai-land-platform/main/plugin-dist/0.2.1/thailand-platform-0.2.1.zip",
-  "last_updated": "2026-08-08 10:29:00",
+  "download_url": "https://raw.githubusercontent.com/The-new-ben/thai-land-platform/main/plugin-dist/0.2.2/thailand-platform-0.2.2.zip",
+  "last_updated": "2026-08-08 10:35:00",
   "sections": {
-    "changelog": "<h4>0.2.1</h4><ul><li>Keep the existing chat widget compact on larger screens and clear of homepage controls on phones.</li><li>Add release checks for the responsive chat behavior.</li></ul><h4>0.2.0</h4><ul><li>Add the RTL homepage presentation behind an administrator-controlled, fail-closed feature flag.</li><li>Add scoped dependency-free assets, responsive WebP artwork, private canary controls, SEO coexistence safeguards, and cache-safe rollback.</li></ul><h4>0.1.0</h4><ul><li>Add the bounded, no-write platform bootstrap and public release healthcheck.</li></ul>"
+    "changelog": "<h4>0.2.2</h4><ul><li>Reserve the correct side of the phone action bar for the existing chat launcher.</li></ul><h4>0.2.1</h4><ul><li>Keep the existing chat widget compact on larger screens and clear of homepage controls on phones.</li><li>Add release checks for the responsive chat behavior.</li></ul><h4>0.2.0</h4><ul><li>Add the RTL homepage presentation behind an administrator-controlled, fail-closed feature flag.</li><li>Add scoped dependency-free assets, responsive WebP artwork, private canary controls, SEO coexistence safeguards, and cache-safe rollback.</li></ul><h4>0.1.0</h4><ul><li>Add the bounded, no-write platform bootstrap and public release healthcheck.</li></ul>"
   }
 }
