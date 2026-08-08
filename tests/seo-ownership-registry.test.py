@@ -4,23 +4,40 @@ from __future__ import annotations
 
 import copy
 import csv
+import hashlib
 import json
 import math
 import re
+import subprocess
+import sys
+import unicodedata
 import unittest
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "data" / "seo" / "ownership-registry.json"
 SCHEMA_PATH = ROOT / "data" / "seo" / "ownership-registry.schema.json"
 README_PATH = ROOT / "data" / "seo" / "README.md"
+BUILDER_PATH = ROOT / "scripts" / "build_seo_registry.py"
+
+SNAPSHOT_BASELINES = {
+    "yoast-sitemaps-2026-08-08": {
+        "path": "data/seo/inventory/current-public-url-metadata.2026-08-08.csv",
+        "digest": "6e34e459d0772ecc227d848bc1dfe42260c2df6dcaefe65457bb6dcb8698816c",
+        "rows": 40,
+    },
+    "indexable-category-surfaces-2026-08-08": {
+        "path": "data/seo/inventory/indexable-category-surfaces.2026-08-08.csv",
+        "digest": "7844b78efc75533803496799099176cd7b8a31f57c915d5746d3ade8ed37cc65",
+        "rows": 3,
+    },
+}
 
 
 def reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
-    """Reject duplicate JSON keys instead of silently accepting the last value."""
     result: dict[str, Any] = {}
     for key, value in pairs:
         if key in result:
@@ -30,7 +47,6 @@ def reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
 
 
 def reject_non_finite(value: str) -> None:
-    """Reject NaN and infinity, which are not valid JSON data values."""
     raise ValueError(f"non-finite JSON number: {value}")
 
 
@@ -96,34 +112,45 @@ class SchemaValidator:
             return self.validate(value, self.resolve_ref(current["$ref"]), path)
 
         errors: list[str] = []
+        if "oneOf" in current:
+            branch_results = [
+                self.validate(value, branch, path) for branch in current["oneOf"]
+            ]
+            matches = sum(1 for result in branch_results if not result)
+            if matches != 1:
+                errors.append(f"{path}: expected exactly one oneOf branch, got {matches}")
+            return errors
+
         expected_type = current.get("type")
         if expected_type is not None:
             accepted_types = (
                 expected_type if isinstance(expected_type, list) else [expected_type]
             )
             if not any(json_type_matches(value, item) for item in accepted_types):
-                errors.append(
+                return [
                     f"{path}: expected type {accepted_types}, got {type(value).__name__}"
-                )
-                return errors
+                ]
 
         if "const" in current and value != current["const"]:
-            errors.append(f"{path}: value does not match const")
+            errors.append(f"{path}: expected constant {current['const']!r}")
         if "enum" in current and value not in current["enum"]:
-            errors.append(f"{path}: value is not in enum")
+            errors.append(f"{path}: value is outside enum")
 
         if isinstance(value, str):
             if len(value) < current.get("minLength", 0):
-                errors.append(f"{path}: string is shorter than minLength")
+                errors.append(f"{path}: string shorter than minLength")
             pattern = current.get("pattern")
             if pattern is not None and re.search(pattern, value) is None:
-                errors.append(f"{path}: string does not match pattern {pattern}")
+                errors.append(f"{path}: string does not match {pattern}")
+
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            minimum = current.get("minimum")
+            if minimum is not None and value < minimum:
+                errors.append(f"{path}: number is below minimum {minimum}")
 
         if isinstance(value, list):
             if len(value) < current.get("minItems", 0):
-                errors.append(f"{path}: array is shorter than minItems")
-            if "maxItems" in current and len(value) > current["maxItems"]:
-                errors.append(f"{path}: array is longer than maxItems")
+                errors.append(f"{path}: array shorter than minItems")
             if current.get("uniqueItems"):
                 serialized = [
                     json.dumps(item, ensure_ascii=False, sort_keys=True)
@@ -139,11 +166,10 @@ class SchemaValidator:
                     )
 
         if isinstance(value, dict):
-            required = current.get("required", [])
-            for key in required:
-                if key not in value:
-                    errors.append(f"{path}: missing required property {key}")
             properties = current.get("properties", {})
+            for required in current.get("required", []):
+                if required not in value:
+                    errors.append(f"{path}: missing required property {required}")
             for key, item in value.items():
                 if key in properties:
                     errors.extend(
@@ -155,74 +181,39 @@ class SchemaValidator:
         return errors
 
 
-def normalize_public_route(raw_value: str) -> str | None:
-    """Return an indexable route candidate or None for a fragment or asset."""
-    value = raw_value.strip()
-    if not value.startswith("/") or value.startswith("//"):
-        return None
-    if value.startswith("/#") or value.startswith("#"):
-        return None
-    value = value.split("#", 1)[0]
-    if re.search(r"\.(?:css|js|png|jpe?g|webp|gif|svg|woff2?)(?:\?|$)", value, re.I):
-        return None
-    return value
+def normalize_route(value: str) -> str:
+    """Normalize an absolute or site-relative URL into one route key."""
+    value = unicodedata.normalize("NFC", value.strip())
+    split = urlsplit(value)
+    if split.scheme or split.netloc:
+        if split.scheme != "https" or split.netloc not in {
+            "thai-land.co.il",
+            "www.thai-land.co.il",
+        }:
+            raise AssertionError(f"unexpected inventory origin: {value}")
+        path = unquote(split.path)
+        query = split.query
+    else:
+        path, _, query = value.partition("?")
+        path = unquote(path)
+    path = unicodedata.normalize("NFC", path or "/")
+    if not path.startswith("/"):
+        raise AssertionError(f"route is not site-relative: {value}")
+    if path != "/" and not path.endswith("/") and "." not in path.rsplit("/", 1)[-1]:
+        path += "/"
+    return path + (f"?{query}" if query else "")
 
 
-def discover_live_routes() -> set[str]:
-    """Rebuild the first-party route inventory from current source and tests."""
-    routes: set[str] = set()
+def sha256_lf(path: Path) -> str:
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
 
-    for relative in ("resources/homepage.html", "prototype/index.html"):
-        text = (ROOT / relative).read_text(encoding="utf-8")
-        for match in re.finditer(r'\b(?:href|action)="([^"]+)"', text):
-            route = normalize_public_route(match.group(1))
-            if route is not None:
-                routes.add(route)
-        if re.search(r'<form\b[^>]*\baction="/"[^>]*>', text) and re.search(
-            r'<input\b[^>]*\bname="s"', text
-        ):
-            routes.add("/?s={query}")
 
-    for relative in ("assets/homepage/homepage.js", "prototype/app.js"):
-        text = (ROOT / relative).read_text(encoding="utf-8")
-        for match in re.finditer(r"\bhref:\s*['\"]([^'\"]+)['\"]", text):
-            route = normalize_public_route(match.group(1))
-            if route is not None:
-                routes.add(route)
-
-    release = load_json(ROOT / "release.json")
-    homepage = urlsplit(release["homepage"])
-    if homepage.netloc == "thai-land.co.il":
-        routes.add(homepage.path or "/")
-
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    routes.update(re.findall(r"`(/wp-json/[^`]+)`", readme))
-
-    for relative in ("src/Geography/Route.php", "src/Health/Route.php"):
-        route_source = (ROOT / relative).read_text(encoding="utf-8")
-        namespace_match = re.search(
-            r"REST_NAMESPACE\s*=\s*'([^']+)'", route_source
-        )
-        route_match = re.search(r"REST_ROUTE\s*=\s*'([^']+)'", route_source)
-        if namespace_match and route_match:
-            routes.add(
-                "/wp-json/"
-                + namespace_match.group(1).strip("/")
-                + "/"
-                + route_match.group(1).strip("/")
-            )
-
-    test_source = (ROOT / "tests" / "run.php").read_text(encoding="utf-8")
-    for match in re.finditer(
-        r"\$route_key\s*=\s*'([^']+/health)'", test_source
-    ):
-        routes.add("/wp-json/" + match.group(1).strip("/"))
-
-    return routes
+def normalized_term(value: str) -> str:
+    return " ".join(unicodedata.normalize("NFKC", value).casefold().split())
 
 
 def collect_geo_ids(value: Any) -> set[str]:
-    """Collect canonical geography IDs from a compiled JSON value."""
     found: set[str] = set()
     if isinstance(value, dict):
         for item in value.values():
@@ -235,55 +226,28 @@ def collect_geo_ids(value: Any) -> set[str]:
     return found
 
 
-def source_geography_ids() -> set[str]:
-    """Derive every canonical public geography ID from reviewed source."""
+def authoritative_geography_ids() -> set[str]:
     regions = load_json(ROOT / "data" / "geography" / "regions.json")
-    if regions.get("country", {}).get("id") != "TH":
-        raise AssertionError("geography country source must be TH")
-
-    entity_ids = {"geo:th:country"}
-    region_model = regions.get("region_model", {})
-    region_model_id = region_model.get("id")
-    region_rows = region_model.get("regions")
-    if not isinstance(region_model_id, str) or not isinstance(region_rows, list):
-        raise AssertionError("geography region source is incomplete")
-    if len(region_rows) != 7:
-        raise AssertionError(f"expected 7 statistical regions, got {len(region_rows)}")
-    for region in region_rows:
-        region_id = region.get("id") if isinstance(region, dict) else None
-        if not isinstance(region_id, str) or not region_id:
-            raise AssertionError("geography region source has an invalid ID")
-        entity_ids.add(f"geo:th:region:{region_model_id}:{region_id}")
-
+    region_model = regions["region_model"]
+    result = {"geo:th:country"}
+    for region in region_model["regions"]:
+        result.add(
+            f"geo:th:region:{region_model['id']}:{region['id']}"
+        )
     with (ROOT / "data" / "geography" / "provinces.csv").open(
         "r", encoding="utf-8-sig", newline=""
     ) as handle:
-        rows = list(csv.DictReader(handle))
-    if len(rows) != 77:
-        raise AssertionError(f"expected 77 province rows, got {len(rows)}")
-    for row in rows:
-        code = row["code"]
-        if re.fullmatch(r"[0-9]{2}", code) is None:
-            raise AssertionError(f"invalid province code: {code}")
-        entity_ids.add(f"geo:th:province:{code}")
-    return entity_ids
+        provinces = list(csv.DictReader(handle))
+    if len(provinces) != 77:
+        raise AssertionError(f"expected 77 provinces, got {len(provinces)}")
+    result.update(f"geo:th:province:{row['code']}" for row in provinces)
 
-
-def authoritative_geography_ids() -> set[str]:
-    """Use compiled geography when present and prove it matches reviewed source."""
-    source_ids = source_geography_ids()
-    compiled_path = ROOT / "assets" / "geography" / "core.json"
-    if not compiled_path.is_file():
-        return source_ids
-    compiled_ids = collect_geo_ids(load_json(compiled_path))
-    if compiled_ids != source_ids:
-        missing = sorted(source_ids - compiled_ids)
-        unexpected = sorted(compiled_ids - source_ids)
-        raise AssertionError(
-            "compiled geography ID parity failed: "
-            f"missing={missing}, unexpected={unexpected}"
-        )
-    return compiled_ids
+    compiled = collect_geo_ids(
+        load_json(ROOT / "assets" / "geography" / "core.json")
+    )
+    if compiled != result:
+        raise AssertionError("compiled geography differs from reviewed source")
+    return result
 
 
 class SeoOwnershipRegistryTest(unittest.TestCase):
@@ -291,186 +255,534 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.registry = load_json(REGISTRY_PATH)
         cls.schema = load_json(SCHEMA_PATH)
-        cls.owners = cls.registry["owners"]
-        cls.by_url = {owner["url"]: owner for owner in cls.owners}
+        cls.validator = SchemaValidator(cls.schema)
+        cls.owners = cls.registry["intent_owners"]
+        cls.routes = cls.registry["routes"]
+        cls.snapshots = cls.registry["inventory_snapshots"]
+        cls.by_owner = {owner["owner_id"]: owner for owner in cls.owners}
+        cls.by_route = {route["url"]: route for route in cls.routes}
+        cls.by_snapshot = {
+            snapshot["snapshot_id"]: snapshot for snapshot in cls.snapshots
+        }
+
+    def inventory_rows(self) -> dict[str, list[dict[str, str]]]:
+        result: dict[str, list[dict[str, str]]] = {}
+        for snapshot_id, baseline in SNAPSHOT_BASELINES.items():
+            path = ROOT / baseline["path"]
+            with path.open("r", encoding="utf-8-sig", newline="") as handle:
+                result[snapshot_id] = list(csv.DictReader(handle))
+        return result
 
     def test_registry_validates_against_declared_schema(self) -> None:
-        errors = SchemaValidator(self.schema).validate(self.registry)
+        errors = self.validator.validate(self.registry)
         self.assertEqual([], errors, "\n".join(errors))
 
-    def test_schema_rejects_missing_required_field(self) -> None:
+    def test_schema_rejects_missing_required_owner_field(self) -> None:
         broken = copy.deepcopy(self.registry)
-        del broken["owners"][0]["primary_intent"]
-        errors = SchemaValidator(self.schema).validate(broken)
+        del broken["intent_owners"][0]["primary_keyword"]
+        errors = self.validator.validate(broken)
         self.assertTrue(
-            any("missing required property primary_intent" in item for item in errors),
+            any("missing required property primary_keyword" in item for item in errors),
             errors,
         )
 
-    def test_schema_rejects_unexpected_field(self) -> None:
+    def test_schema_rejects_invalid_assignment_branch(self) -> None:
         broken = copy.deepcopy(self.registry)
-        broken["owners"][0]["unreviewed_field"] = True
-        errors = SchemaValidator(self.schema).validate(broken)
-        self.assertTrue(
-            any("unexpected property unreviewed_field" in item for item in errors),
-            errors,
-        )
-
-    def test_all_discovered_live_routes_have_exactly_one_record(self) -> None:
-        discovered = discover_live_routes()
-        registered_live = {
-            owner["url"] for owner in self.owners if owner["lifecycle"] == "live"
+        broken["routes"][0]["assignment"] = {
+            "kind": "canonical_owner",
+            "owner_id": "home",
+            "state": "evidence_pending",
+            "release_blocked": True,
+            "candidate_owner_id": "home",
+            "required_evidence": ["ראיה"],
         }
-        self.assertEqual(discovered, registered_live)
-        self.assertEqual(14, len(registered_live))
+        errors = self.validator.validate(broken)
+        self.assertTrue(any("oneOf" in item for item in errors), errors)
 
-    def test_next_national_owners_are_reserved(self) -> None:
-        required = {
-            "/בריאות-בתאילנד/",
-            "/ויזות-לתאילנד/",
-            "/חוקים-ומסים-בתאילנד/",
-            "/חנות-לישראלים-בתאילנד/",
-            "/חיים-בתאילנד/",
-            "/ישראלים-בתאילנד/",
-            "/יעדים-בתאילנד/",
-            "/מפת-תאילנד/",
-            "/נדלן-בתאילנד/",
-            "/עסקים-בתאילנד/",
-            "/פרויקטים-נדלן-בתאילנד/",
-            "/שירותים-בתאילנד/",
-            "/תחבורה-בתאילנד/",
+    def test_schema_enforces_numeric_minimum(self) -> None:
+        broken = copy.deepcopy(self.registry)
+        broken["inventory_snapshots"][0]["row_count"] = 0
+        errors = self.validator.validate(broken)
+        self.assertTrue(any("below minimum" in item for item in errors), errors)
+
+    def test_builder_output_is_current(self) -> None:
+        completed = subprocess.run(
+            [sys.executable, str(BUILDER_PATH), "--check"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(0, completed.returncode, completed.stdout + completed.stderr)
+        self.assertIn("PASS: SEO ownership registry is current", completed.stdout)
+
+    def test_protected_inventory_snapshots_are_present_and_immutable(self) -> None:
+        self.assertEqual(set(SNAPSHOT_BASELINES), set(self.by_snapshot))
+        all_routes: set[str] = set()
+        total = 0
+        for snapshot_id, baseline in SNAPSHOT_BASELINES.items():
+            snapshot = self.by_snapshot[snapshot_id]
+            self.assertEqual(baseline["path"], snapshot["path"])
+            self.assertEqual(baseline["digest"], snapshot["content_sha256"])
+            self.assertEqual(baseline["rows"], snapshot["row_count"])
+            self.assertEqual(baseline["rows"], snapshot["protected_url_count"])
+
+            path = (ROOT / snapshot["path"]).resolve()
+            self.assertTrue(path.is_relative_to(ROOT.resolve()), path)
+            self.assertTrue(path.is_file(), path)
+            self.assertEqual(baseline["digest"], sha256_lf(path))
+
+            with path.open("r", encoding="utf-8-sig", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            self.assertEqual(baseline["rows"], len(rows))
+            required_headers = {
+                "Url",
+                "DecodedPath",
+                "Status",
+                "Canonical",
+                "SelfCanonical",
+                "Title",
+                "ContentSha256",
+            }
+            self.assertTrue(required_headers.issubset(rows[0]), rows[0].keys())
+
+            urls = [row["Url"] for row in rows]
+            decoded = [normalize_route(row["DecodedPath"]) for row in rows]
+            self.assertEqual(len(urls), len(set(urls)), snapshot_id)
+            self.assertEqual(len(decoded), len(set(decoded)), snapshot_id)
+            self.assertTrue(all(row["Status"] == "200" for row in rows))
+            self.assertTrue(
+                all(normalize_route(row["Canonical"]) == normalize_route(row["Url"]) for row in rows)
+            )
+            self.assertTrue(
+                all(row["SelfCanonical"].casefold() == "true" for row in rows)
+            )
+            self.assertTrue(all(route not in all_routes for route in decoded))
+            all_routes.update(decoded)
+            total += len(rows)
+
+        self.assertEqual(43, total)
+        self.assertEqual(43, len(all_routes))
+
+    def test_protected_urls_have_exactly_one_route_claim(self) -> None:
+        expected: dict[str, set[str]] = {}
+        for snapshot_id, rows in self.inventory_rows().items():
+            for row in rows:
+                route = normalize_route(row["DecodedPath"])
+                expected.setdefault(route, set()).add(snapshot_id)
+
+        route_groups: dict[str, list[dict[str, Any]]] = {}
+        for route in self.routes:
+            route_groups.setdefault(normalize_route(route["url"]), []).append(route)
+
+        self.assertEqual(set(expected), {
+            key
+            for key, group in route_groups.items()
+            if any(item["observed_in"] for item in group)
+        })
+        for url, snapshot_ids in expected.items():
+            self.assertEqual(1, len(route_groups[url]), url)
+            claim = route_groups[url][0]
+            self.assertEqual("live", claim["lifecycle"], url)
+            self.assertEqual("index", claim["indexing_policy"], url)
+            self.assertEqual(snapshot_ids, set(claim["observed_in"]), url)
+            assignment = claim["assignment"]
+            if assignment["kind"] == "canonical_owner":
+                self.assertIn(assignment["owner_id"], self.by_owner, url)
+            else:
+                self.assertTrue(assignment["release_blocked"], url)
+                self.assertGreaterEqual(len(assignment["required_evidence"]), 1, url)
+                current_owner = assignment["current_owner_id"]
+                self.assertIn(current_owner, self.by_owner, url)
+                if claim["indexing_policy"] == "index":
+                    self.assertEqual(
+                        url,
+                        normalize_route(self.by_owner[current_owner]["canonical_url"]),
+                    )
+                candidate = assignment["candidate_owner_id"]
+                if candidate is not None:
+                    self.assertIn(candidate, self.by_owner, url)
+
+    def test_planned_routes_do_not_shadow_observed_urls(self) -> None:
+        observed = {
+            normalize_route(row["DecodedPath"])
+            for rows in self.inventory_rows().values()
+            for row in rows
         }
         planned = {
-            owner["url"]
-            for owner in self.owners
-            if owner["lifecycle"] == "planned"
+            normalize_route(route["url"])
+            for route in self.routes
+            if route["lifecycle"] == "planned"
         }
-        self.assertEqual(required, planned)
+        self.assertTrue(observed.isdisjoint(planned), observed & planned)
 
-    def test_owner_ids_urls_and_primary_intents_are_unique(self) -> None:
-        for field in ("owner_id", "url", "primary_intent"):
-            values = [owner[field] for owner in self.owners]
-            self.assertEqual(
-                len(values),
-                len(set(values)),
-                f"duplicate SEO ownership field: {field}",
+    def test_route_and_owner_identifiers_are_unique(self) -> None:
+        for records, fields in (
+            (self.owners, ("owner_id", "canonical_url", "intent_id")),
+            (self.routes, ("route_id", "url")),
+            (self.snapshots, ("snapshot_id", "path")),
+        ):
+            for field in fields:
+                values = [record[field] for record in records]
+                self.assertEqual(
+                    len(values),
+                    len(set(values)),
+                    f"duplicate {field}",
+                )
+        self.assertEqual(59, len(self.owners))
+        self.assertEqual(60, len(self.routes))
+
+    def test_canonical_assignments_resolve_and_match_routes(self) -> None:
+        for route in self.routes:
+            assignment = route["assignment"]
+            if assignment["kind"] == "migration_gate":
+                current = self.by_owner[assignment["current_owner_id"]]
+                if route["indexing_policy"] == "redirect":
+                    self.assertEqual(route["redirect_target"], current["canonical_url"])
+                else:
+                    self.assertEqual(route["url"], current["canonical_url"])
+                continue
+            owner = self.by_owner[assignment["owner_id"]]
+            self.assertEqual(route["url"], owner["canonical_url"], route["url"])
+            self.assertEqual(route["lifecycle"], owner["lifecycle"], route["url"])
+
+        gate_routes = [
+            route
+            for route in self.routes
+            if route["assignment"]["kind"] == "migration_gate"
+        ]
+        self.assertEqual(2, len(gate_routes))
+        for route in gate_routes:
+            self.assertTrue(route["assignment"]["release_blocked"])
+            self.assertIn(route["assignment"]["current_owner_id"], self.by_owner)
+            self.assertGreaterEqual(
+                len(route["assignment"]["required_evidence"]), 1, route["url"]
             )
 
-    def test_canonical_parent_and_breadcrumb_references_are_valid(self) -> None:
-        registered = set(self.by_url)
-        for owner in self.owners:
-            url = owner["url"]
-            self.assertIn(owner["canonical_owner"], registered, url)
-            if owner["parent_hub"] is None:
-                self.assertEqual("/", url)
-                self.assertEqual(1, len(owner["breadcrumb_chain"]))
-            else:
-                self.assertIn(owner["parent_hub"], registered, url)
-                self.assertGreaterEqual(len(owner["breadcrumb_chain"]), 2, url)
-                self.assertEqual(
-                    owner["parent_hub"], owner["breadcrumb_chain"][-2]["url"], url
-                )
+    def test_business_owner_uses_existing_url_and_short_route_stays_redirect(self) -> None:
+        business = self.by_owner["business-in-thailand"]
+        self.assertEqual(
+            "/עסקים-בתאילנד-סקירה-כללית/",
+            business["canonical_url"],
+        )
+        short = self.by_route["/עסקים-בתאילנד/"]
+        self.assertEqual("redirect", short["indexing_policy"])
+        self.assertEqual(
+            business["canonical_url"],
+            short["redirect_target"],
+        )
+        self.assertEqual("migration_gate", short["assignment"]["kind"])
+        self.assertEqual(
+            "business-in-thailand",
+            short["assignment"]["candidate_owner_id"],
+        )
+        self.assertEqual(
+            "business-in-thailand",
+            short["assignment"]["current_owner_id"],
+        )
 
-            chain_urls = [crumb["url"] for crumb in owner["breadcrumb_chain"]]
-            self.assertEqual("/", chain_urls[0], url)
-            self.assertEqual(url, chain_urls[-1], url)
-            self.assertEqual(len(chain_urls), len(set(chain_urls)), url)
-            for index, chain_url in enumerate(chain_urls):
-                self.assertIn(chain_url, registered, url)
-                if index:
+    def test_intent_terms_have_one_owner(self) -> None:
+        term_owner: dict[str, str] = {}
+        for owner in self.owners:
+            terms = [owner["primary_keyword"], *owner["intent_synonyms"]]
+            local: set[str] = set()
+            for raw in terms:
+                term = normalized_term(raw)
+                self.assertNotIn(term, local, owner["owner_id"])
+                local.add(term)
+                if term in term_owner:
                     self.assertEqual(
-                        chain_urls[index - 1],
-                        self.by_url[chain_url]["parent_hub"],
-                        url,
+                        term_owner[term],
+                        owner["owner_id"],
+                        f"intent term claimed by two owners: {raw}",
                     )
+                term_owner[term] = owner["owner_id"]
+
+    def test_breadcrumbs_match_owner_hierarchy(self) -> None:
+        for owner in self.owners:
+            owner_id = owner["owner_id"]
+            chain = owner["breadcrumb_chain"]
+            hierarchy: list[str] = []
+            current: str | None = owner_id
+            while current is not None:
+                hierarchy.append(current)
+                current = self.by_owner[current]["parent_owner_id"]
+            hierarchy.reverse()
+            expected = (
+                [
+                    item
+                    for item in hierarchy
+                    if self.by_owner[item]["lifecycle"] == "live"
+                ]
+                if owner["lifecycle"] == "live"
+                else hierarchy
+            )
+            self.assertEqual(expected, [item["owner_id"] for item in chain], owner_id)
+            self.assertEqual("home", chain[0]["owner_id"], owner_id)
+            self.assertEqual(owner_id, chain[-1]["owner_id"], owner_id)
+            self.assertEqual(len(chain), len({item["owner_id"] for item in chain}))
+            for item in chain:
+                target = self.by_owner[item["owner_id"]]
+                self.assertEqual(target["name"], item["name"], owner_id)
+                self.assertEqual(target["canonical_url"], item["url"], owner_id)
+                if owner["lifecycle"] == "live":
+                    self.assertEqual("live", target["lifecycle"], owner_id)
+            if owner_id == "home":
+                self.assertIsNone(owner["parent_owner_id"])
+                self.assertEqual(1, len(chain))
+            else:
+                parent = owner["parent_owner_id"]
+                self.assertIn(parent, self.by_owner, owner_id)
+                if owner["lifecycle"] == "planned" or self.by_owner[parent]["lifecycle"] == "live":
+                    self.assertEqual(parent, chain[-2]["owner_id"], owner_id)
+                else:
+                    self.assertNotIn(parent, [item["owner_id"] for item in chain], owner_id)
 
     def test_hierarchy_has_no_parent_cycles(self) -> None:
         for owner in self.owners:
             seen: set[str] = set()
-            current: str | None = owner["url"]
+            current: str | None = owner["owner_id"]
             while current is not None:
-                self.assertNotIn(current, seen, owner["url"])
+                self.assertNotIn(current, seen, owner["owner_id"])
                 seen.add(current)
-                current = self.by_url[current]["parent_hub"]
+                current = self.by_owner[current]["parent_owner_id"]
 
-    def test_cannibalization_exclusions_delegate_to_other_owners(self) -> None:
-        registered = set(self.by_url)
+    def test_internal_link_graph_is_resolved_and_reciprocal(self) -> None:
+        technical = {"api_endpoint", "sitemap"}
         for owner in self.owners:
-            intents: set[str] = set()
-            for exclusion in owner["cannibalization_exclusions"]:
-                self.assertNotIn(exclusion["intent"], intents, owner["url"])
-                intents.add(exclusion["intent"])
-                self.assertIn(exclusion["owner_url"], registered, owner["url"])
-                self.assertNotEqual(
-                    owner["url"], exclusion["owner_url"], owner["url"]
+            owner_id = owner["owner_id"]
+            edges: set[tuple[str, str, str]] = set()
+            for edge in owner["internal_link_requirements"]:
+                target = edge["target_owner_id"]
+                self.assertIn(target, self.by_owner, owner_id)
+                self.assertNotEqual(owner_id, target, owner_id)
+                self.assertEqual("live", owner["lifecycle"], owner_id)
+                self.assertEqual("live", self.by_owner[target]["lifecycle"], owner_id)
+                key = (target, edge["relationship"], edge["placement"])
+                self.assertNotIn(key, edges, owner_id)
+                edges.add(key)
+                self.assertGreaterEqual(edge["minimum_occurrences"], 1)
+                self.assertGreaterEqual(len(edge["anchor_terms"]), 1)
+
+            planned_edges: set[tuple[str, str, str]] = set()
+            for edge in owner["planned_internal_link_requirements"]:
+                target = edge["target_owner_id"]
+                self.assertIn(target, self.by_owner, owner_id)
+                self.assertNotEqual(owner_id, target, owner_id)
+                self.assertTrue(
+                    owner["lifecycle"] == "planned"
+                    or self.by_owner[target]["lifecycle"] == "planned",
+                    owner_id,
+                )
+                key = (target, edge["relationship"], edge["placement"])
+                self.assertNotIn(key, planned_edges, owner_id)
+                self.assertNotIn(key, edges, owner_id)
+                planned_edges.add(key)
+                self.assertGreaterEqual(edge["minimum_occurrences"], 1)
+                self.assertGreaterEqual(len(edge["anchor_terms"]), 1)
+
+            parent = owner["parent_owner_id"]
+            if (
+                owner_id != "home"
+                and owner["entity_type"] not in technical
+                and parent is not None
+            ):
+                bucket_name = (
+                    "internal_link_requirements"
+                    if owner["lifecycle"] == "live"
+                    and self.by_owner[parent]["lifecycle"] == "live"
+                    else "planned_internal_link_requirements"
+                )
+                self.assertTrue(
+                    any(
+                        edge["target_owner_id"] == parent
+                        and edge["relationship"] == "parent_hub"
+                        and edge["placement"] == "contextual_body"
+                        for edge in owner[bucket_name]
+                    ),
+                    owner_id,
+                )
+                self.assertTrue(
+                    any(
+                        edge["target_owner_id"] == owner_id
+                        and edge["relationship"] == "child_spoke"
+                        for edge in self.by_owner[parent][bucket_name]
+                    ),
+                    owner_id,
                 )
 
-    def test_route_kind_and_canonical_policy_are_explicit(self) -> None:
-        patterns = [owner for owner in self.owners if owner["route_kind"] == "pattern"]
-        self.assertEqual(["/?s={query}"], [owner["url"] for owner in patterns])
+            if (
+                owner["lifecycle"] == "live"
+                and owner_id != "home"
+                and owner["entity_type"] not in technical
+            ):
+                live_parent = owner["breadcrumb_chain"][-2]["owner_id"]
+                self.assertTrue(
+                    any(
+                        edge["target_owner_id"] == live_parent
+                        and edge["relationship"] == "parent_hub"
+                        for edge in owner["internal_link_requirements"]
+                    ),
+                    owner_id,
+                )
+                self.assertTrue(
+                    any(
+                        edge["target_owner_id"] == owner_id
+                        and edge["relationship"] == "child_spoke"
+                        for edge in self.by_owner[live_parent]["internal_link_requirements"]
+                    ),
+                    owner_id,
+                )
+
+    def test_every_observed_public_owner_is_reachable_from_home(self) -> None:
+        public_owner_ids: set[str] = set()
+        for route in self.routes:
+            if not route["observed_in"] or route["indexing_policy"] != "index":
+                continue
+            assignment = route["assignment"]
+            public_owner_ids.add(
+                assignment["owner_id"]
+                if assignment["kind"] == "canonical_owner"
+                else assignment["current_owner_id"]
+            )
+
+        reachable = {"home"}
+        pending = ["home"]
+        while pending:
+            source = pending.pop()
+            for edge in self.by_owner[source]["internal_link_requirements"]:
+                target = edge["target_owner_id"]
+                if target not in reachable:
+                    reachable.add(target)
+                    pending.append(target)
+
+        self.assertEqual(43, len(public_owner_ids))
+        self.assertTrue(public_owner_ids.issubset(reachable), public_owner_ids - reachable)
+
+    def test_real_estate_spokes_have_hub_and_two_contextual_continuations(self) -> None:
+        spokes = {
+            "buy-property-thailand",
+            "thailand-property-prices",
+            "thailand-property-financing",
+            "foreign-condo-ownership-thailand",
+            "thailand-property-due-diligence-mistakes",
+            "property-management-thailand",
+            "bangkok-apartment-rental-guide",
+        }
+        hub = self.by_owner["thailand-real-estate"]
+        for spoke_id in spokes:
+            spoke = self.by_owner[spoke_id]
+            contextual = [
+                edge
+                for edge in spoke["internal_link_requirements"]
+                if edge["placement"] == "contextual_body"
+            ]
+            targets = {edge["target_owner_id"] for edge in contextual}
+            self.assertNotIn("thailand-real-estate", targets, spoke_id)
+            self.assertGreaterEqual(len(targets), 2, spoke_id)
+            self.assertTrue(
+                any(
+                    edge["target_owner_id"] == "thailand-real-estate"
+                    and edge["relationship"] == "parent_hub"
+                    for edge in spoke["planned_internal_link_requirements"]
+                ),
+                spoke_id,
+            )
+            self.assertTrue(
+                any(
+                    edge["target_owner_id"] == spoke_id
+                    and edge["relationship"] == "child_spoke"
+                    for edge in hub["planned_internal_link_requirements"]
+                ),
+                spoke_id,
+            )
+
+    def test_baseline_html_gaps_cannot_be_marked_ready(self) -> None:
+        rows = {
+            normalize_route(row["DecodedPath"]): row
+            for snapshot_rows in self.inventory_rows().values()
+            for row in snapshot_rows
+        }
         for owner in self.owners:
-            if owner["route_kind"] == "exact":
-                self.assertNotIn("{", owner["url"])
-                self.assertNotIn("?", owner["url"])
-            if owner["url"] == "/?s={query}":
-                self.assertEqual("/", owner["canonical_owner"])
-                self.assertEqual("noindex", owner["indexing_policy"])
-            else:
-                self.assertEqual(owner["url"], owner["canonical_owner"])
+            if owner["lifecycle"] != "live":
+                continue
+            row = rows.get(normalize_route(owner["canonical_url"]))
+            if row is None:
+                continue
+            lacks_baseline_implementation = (
+                int(row["MetaDescriptionLength"] or 0) == 0
+                or int(row["MainH1Count"] or 0) != 1
+                or int(row["MainUniqueInternalDestinations"] or 0) == 0
+            )
+            if lacks_baseline_implementation:
+                self.assertNotEqual("ready", owner["review_state"], owner["owner_id"])
+
+    def test_cannibalization_exclusions_use_stable_owner_and_intent_ids(self) -> None:
+        for owner in self.owners:
+            seen: set[str] = set()
+            for exclusion in owner["cannibalization_exclusions"]:
+                target_id = exclusion["owner_id"]
+                self.assertNotEqual(owner["owner_id"], target_id)
+                self.assertNotIn(target_id, seen, owner["owner_id"])
+                seen.add(target_id)
+                self.assertIn(target_id, self.by_owner)
+                self.assertEqual(
+                    self.by_owner[target_id]["intent_id"],
+                    exclusion["intent_id"],
+                )
 
     def test_subject_entities_are_valid_geography_foreign_keys(self) -> None:
         allowed = authoritative_geography_ids()
         for owner in self.owners:
             for entity_id in owner["subject_entity_ids"]:
-                self.assertIn(entity_id, allowed, owner["url"])
-
+                self.assertIn(entity_id, allowed, owner["owner_id"])
         self.assertEqual(
             ["geo:th:province:10"],
-            self.by_url["/בנגקוק-תאילנד/"]["subject_entity_ids"],
-        )
-        self.assertEqual(
-            ["geo:th:province:10"],
-            self.by_url[
-                "/טיול-בבנגקוק-ליומיים-3-ימים-או-4-ימים-מדר/"
-            ]["subject_entity_ids"],
+            self.by_owner["bangkok"]["subject_entity_ids"],
         )
         self.assertEqual(
             ["geo:th:province:83", "geo:th:province:84"],
-            self.by_url["/פוקט-או-קו-סמוי/"]["subject_entity_ids"],
+            self.by_owner["phuket-or-samui"]["subject_entity_ids"],
         )
-        self.assertEqual(
-            ["geo:th:country"],
-            self.by_url["/wp-json/thailand-platform/v1/geography"]["subject_entity_ids"],
-        )
-        for url in (
-            "/?s={query}",
-            "/אודות/",
-            "/sitemap_index.xml",
-            "/wp-json/thailand-platform/v1/health",
-        ):
-            self.assertEqual([], self.by_url[url]["subject_entity_ids"], url)
 
-    def test_source_inventory_is_sorted_and_exists(self) -> None:
-        source_files = self.registry["discovery"]["source_files"]
-        self.assertEqual(sorted(source_files), source_files)
-        for relative in source_files:
-            self.assertTrue((ROOT / relative).is_file(), relative)
+    def test_source_evidence_paths_exist(self) -> None:
         for owner in self.owners:
-            if owner["lifecycle"] != "live":
-                continue
             for evidence in owner["source_evidence"]:
-                relative = evidence.split(":", 1)[0]
-                self.assertTrue((ROOT / relative).is_file(), evidence)
+                if evidence.startswith(("https://", "http://")):
+                    continue
+                self.assertTrue((ROOT / evidence).is_file(), evidence)
+        for route in self.routes:
+            for evidence in route["source_evidence"]:
+                if evidence.startswith(("https://", "http://")):
+                    continue
+                self.assertTrue((ROOT / evidence).is_file(), evidence)
+
+    def test_research_evidence_is_current_and_explicit(self) -> None:
+        evidence = {
+            item["evidence_id"]: item
+            for item in self.registry["research_evidence"]
+        }
+        required = {
+            "google-ai-search-2026-07",
+            "google-title-links",
+            "google-link-practices",
+            "google-breadcrumbs",
+            "google-sitemaps",
+            "google-commerce-structure",
+            "hebrew-thailand-serp-2026-08-08",
+        }
+        self.assertEqual(required, set(evidence))
+        for item in evidence.values():
+            self.assertEqual("2026-08-08", item["checked_on"])
+            self.assertGreater(len(item["purpose"]), 10)
 
     def test_human_fields_are_hebrew_first(self) -> None:
         hebrew = re.compile(r"[\u0590-\u05ff]")
         for owner in self.owners:
-            for field in ("name", "primary_intent", "audience"):
-                self.assertRegex(owner[field], hebrew, f"{owner['url']} {field}")
-            for exclusion in owner["cannibalization_exclusions"]:
-                self.assertRegex(exclusion["intent"], hebrew, owner["url"])
+            for field in ("name", "primary_intent", "unique_contribution"):
+                self.assertRegex(owner[field], hebrew, f"{owner['owner_id']} {field}")
 
-    def test_forbidden_dash_characters_are_absent(self) -> None:
+    def test_forbidden_dash_characters_are_absent_from_authored_contracts(self) -> None:
         forbidden_characters = (chr(0x2013), chr(0x2014))
         forbidden_encodings = (
             "\\" + "u" + "2013",
@@ -478,7 +790,14 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
             "&#" + "8211;",
             "&#" + "8212;",
         )
-        for path in (REGISTRY_PATH, SCHEMA_PATH, README_PATH, Path(__file__)):
+        paths = (
+            REGISTRY_PATH,
+            SCHEMA_PATH,
+            README_PATH,
+            BUILDER_PATH,
+            Path(__file__),
+        )
+        for path in paths:
             text = path.read_text(encoding="utf-8")
             for character in forbidden_characters:
                 self.assertNotIn(character, text, str(path))

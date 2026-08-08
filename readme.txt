@@ -4,21 +4,35 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.2.7
+Stable tag: 0.3.0
 License: Proprietary
 
-Geography, search, and homepage runtime for thai-land.co.il.
+Geography, search, homepage, and content runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.2.7 keeps the canonical country, seven-region, and 77-province data
-spine intact. It aligns Open Graph and X descriptions and artwork with the live
-homepage, keeps both external accessibility controls out of the open mobile
-navigation drawer, and closes that drawer safely when the desktop breakpoint is
-crossed. Upgrade and activation do not change content, URLs, redirects,
-taxonomies, schema, or database structure.
+Version 0.3.0 adds the first complete real-estate hub and spoke experience while
+keeping every existing article URL and stored body intact. The exact page and
+post bindings receive a dedicated RTL document, keyword-led metadata, visible
+breadcrumbs, contextual continuations, source links, responsive artwork, and a
+shared navigation and footer. The homepage now connects readers directly to the
+real-estate and business owners. Upgrade and activation do not change content,
+URLs, redirects, taxonomies, schema, or database structure.
 
 == Changelog ==
+
+= 0.3.0 =
+* Add a national Thailand real-estate hub connected to seven existing guides.
+* Add exact ID and path binding so near matches, drafts, previews, and alternate
+  URLs keep their current rendering.
+* Add keyword-led titles and descriptions, self-canonicals, visible breadcrumbs,
+  parent and sibling links, source panels, and responsive real-estate artwork.
+* Add a shared RTL header, mobile drawer, search, footer, article table of
+  contents, and preserved WordPress bodies.
+* Connect the homepage menu, search, decision shortcuts, content sections, and
+  footer to the released real-estate and business owners.
+* Add deterministic content and SEO migration contracts plus anonymous live
+  acceptance checks.
 
 = 0.2.7 =
 * Use the current homepage description and artwork for Open Graph and X shares.

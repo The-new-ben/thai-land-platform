@@ -48,6 +48,10 @@ if ($version -notmatch '^[0-9]+(?:\.[0-9]+)+$') {
 }
 
 $releaseInputs = @(
+    'data/content/real-estate.json',
+    'data/content/real-estate.schema.json',
+    'data/content/inventory/draft-content-disposition.2026-08-08.csv',
+    'data/content/inventory/draft-content-metadata.2026-08-08.csv',
     'data/geography/aliases.csv',
     'data/geography/geometry.json',
     'data/geography/normalization-vectors.json',
@@ -57,6 +61,8 @@ $releaseInputs = @(
     'data/geography/registry.schema.json',
     'data/geography/relations.json',
     'data/seo/README.md',
+    'data/seo/inventory/current-public-url-metadata.2026-08-08.csv',
+    'data/seo/inventory/indexable-category-surfaces.2026-08-08.csv',
     'data/seo/ownership-registry.json',
     'data/seo/ownership-registry.schema.json',
     'package-files.txt',
@@ -64,19 +70,31 @@ $releaseInputs = @(
     'prototype/assets/homepage-hero-thailand-system-v1-1024.webp',
     'prototype/assets/homepage-hero-thailand-system-v1-1713.webp',
     'prototype/assets/homepage-hero-thailand-system-v1-640.webp',
+    'prototype/assets/real-estate-thailand-atlas-v1.png',
     'prototype/index.html',
     'prototype/styles.css',
     'release.json',
+    'research/serp/2026-08-08-hebrew-thailand-serp.md',
+    'scripts/build_content_registry.py',
     'scripts/build_homepage_assets.py',
     'scripts/build_geography_registry.py',
+    'scripts/build_seo_registry.py',
+    'scripts/build_seo_runtime.py',
     'scripts/build_plugin_zip.py',
+    'scripts/live_homepage_acceptance.cjs',
+    'scripts/live_real_estate_acceptance.cjs',
+    'scripts/live_seo_migration_acceptance.cjs',
     'scripts/read_release_version.py',
     'scripts/release.ps1',
     'scripts/verify_release_receipt.py',
     'tests/geography-builder.test.py',
+    'tests/draft-content-inventory.test.py',
     'tests/geography-resolver.test.php',
+    'tests/real-estate-content.test.py',
+    'tests/real-estate-runtime.test.php',
     'tests/run.php',
     'tests/seo-ownership-registry.test.py',
+    'tests/seo-runtime-gates.test.py',
     'tests/tawk-state.test.js'
 )
 $releaseInputs += Get-Content -LiteralPath (Join-Path $repositoryRoot 'package-files.txt')
@@ -137,9 +155,16 @@ try {
 
     $builder = Join-Path $frozenSource 'scripts\build_plugin_zip.py'
     $assetBuilder = Join-Path $frozenSource 'scripts\build_homepage_assets.py'
+    $contentBuilder = Join-Path $frozenSource 'scripts\build_content_registry.py'
     $geographyBuilder = Join-Path $frozenSource 'scripts\build_geography_registry.py'
+    $seoRegistryBuilder = Join-Path $frozenSource 'scripts\build_seo_registry.py'
+    $seoRuntimeBuilder = Join-Path $frozenSource 'scripts\build_seo_runtime.py'
+    $contentRegistryTest = Join-Path $frozenSource 'tests\real-estate-content.test.py'
+    $contentRuntimeTest = Join-Path $frozenSource 'tests\real-estate-runtime.test.php'
+    $draftContentInventoryTest = Join-Path $frozenSource 'tests\draft-content-inventory.test.py'
     $geographyBuilderTest = Join-Path $frozenSource 'tests\geography-builder.test.py'
     $seoRegistryTest = Join-Path $frozenSource 'tests\seo-ownership-registry.test.py'
+    $seoRuntimeTest = Join-Path $frozenSource 'tests\seo-runtime-gates.test.py'
     $validator = Join-Path $frozenSource 'scripts\verify_release_receipt.py'
     $candidateA = Join-Path $resolvedTemporaryRoot 'candidate-a.zip'
     $candidateB = Join-Path $resolvedTemporaryRoot 'candidate-b.zip'
@@ -154,14 +179,49 @@ try {
         throw "Generated geography registry verification failed.`n$geographyCheckOutput"
     }
 
+    $contentCheckOutput = & $pythonExecutable $contentBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated content registry verification failed.`n$contentCheckOutput"
+    }
+
+    $seoRegistryCheckOutput = & $pythonExecutable $seoRegistryBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated SEO ownership registry verification failed.`n$seoRegistryCheckOutput"
+    }
+
+    $seoRuntimeCheckOutput = & $pythonExecutable $seoRuntimeBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated SEO runtime verification failed.`n$seoRuntimeCheckOutput"
+    }
+
     $geographyTestOutput = & $pythonExecutable $geographyBuilderTest
     if ($LASTEXITCODE -ne 0) {
         throw "Geography builder tests failed.`n$geographyTestOutput"
     }
 
+    $contentRegistryTestOutput = & $pythonExecutable $contentRegistryTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Real-estate content registry tests failed.`n$contentRegistryTestOutput"
+    }
+
+    $contentRuntimeTestOutput = & $phpExecutable $contentRuntimeTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Real-estate runtime tests failed.`n$contentRuntimeTestOutput"
+    }
+
+    $draftContentInventoryTestOutput = & $pythonExecutable $draftContentInventoryTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Draft-content inventory tests failed.`n$draftContentInventoryTestOutput"
+    }
+
     $seoTestOutput = & $pythonExecutable $seoRegistryTest
     if ($LASTEXITCODE -ne 0) {
         throw "SEO ownership registry tests failed.`n$seoTestOutput"
+    }
+
+    $seoRuntimeTestOutput = & $pythonExecutable $seoRuntimeTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "SEO runtime gate tests failed.`n$seoRuntimeTestOutput"
     }
 
     $buildAOutput = & $pythonExecutable $builder --root $frozenSource --out $candidateA --php-bin $phpExecutable --source-commit $sourceCommit

@@ -1,0 +1,818 @@
+{
+  "schema_version": 1,
+  "contract_id": "thailand-real-estate-v1",
+  "site": {
+    "origin": "https://thai-land.co.il",
+    "locale": "he-IL",
+    "direction": "rtl"
+  },
+  "hub_route_id": "thailand-real-estate",
+  "body_contract": {
+    "mode": "preserve_wordpress_body",
+    "mutation_allowed": false,
+    "source_field": "post_content",
+    "wordpress_filter": "the_content",
+    "public_punctuation_policy": "replace_long_dashes_with_hyphen",
+    "prefix_components": [
+      "breadcrumb",
+      "route_intro"
+    ],
+    "suffix_components": [
+      "continuations",
+      "freshness",
+      "sources"
+    ]
+  },
+  "rendering_owners": {
+    "h1": "content_template",
+    "metadata": "yoast_filters",
+    "breadcrumb": "content_template_once",
+    "schema": "none_in_v1"
+  },
+  "public_labels": {
+    "breadcrumbs_aria": "פירורי לחם",
+    "hub_return": "לכל מדריכי הנדל״ן בתאילנד",
+    "continuations_heading": "עוד מדריכים בנושא",
+    "freshness_heading": "פרטים שמשתנים",
+    "sources_heading": "מקורות שימושיים",
+    "card_action": "למדריך המלא"
+  },
+  "freshness_catalog": [
+    {
+      "freshness_id": "market-monthly",
+      "label": "מחירים ומימון",
+      "detail": "ריבית, שערי מטבע, עמלות ומחירי שוק משתנים לאורך הזמן"
+    },
+    {
+      "freshness_id": "rules-monthly",
+      "label": "בעלות ורישום",
+      "detail": "חוקים, נהלים, מסמכים ואגרות יכולים להשתנות"
+    },
+    {
+      "freshness_id": "service-quarterly",
+      "label": "ניהול ושכירות",
+      "detail": "זמינות שירותים, דמי ניהול, תחזוקה ועלויות תפעול משתנים"
+    }
+  ],
+  "source_catalog": [
+    {
+      "source_id": "bank-of-thailand",
+      "label": "הבנק המרכזי של תאילנד",
+      "url": "https://www.bot.or.th/en/home.html",
+      "scope_label": "ריבית, אשראי, מטבע ונתוני שוק"
+    },
+    {
+      "source_id": "bangkok-metropolitan-administration",
+      "label": "עיריית בנגקוק",
+      "url": "https://main.bangkok.go.th/",
+      "scope_label": "שירותים עירוניים ומידע מקומי בבנגקוק"
+    },
+    {
+      "source_id": "consumer-protection-board",
+      "label": "המשרד להגנת הצרכן בתאילנד",
+      "url": "https://www.ocpb.go.th/",
+      "scope_label": "זכויות צרכניות, חוזים ופניות ציבור"
+    },
+    {
+      "source_id": "royal-gazette",
+      "label": "הרשומות הרשמיות של תאילנד",
+      "url": "https://ratchakitcha.soc.go.th/",
+      "scope_label": "חוקים, תקנות והודעות רשמיות"
+    },
+    {
+      "source_id": "thai-land-department",
+      "label": "מחלקת הקרקעות של תאילנד",
+      "url": "https://www.dol.go.th/",
+      "scope_label": "רישום מקרקעין, בתים משותפים והעברת זכויות"
+    },
+    {
+      "source_id": "thai-revenue-department",
+      "label": "רשות המסים של תאילנד",
+      "url": "https://www.rd.go.th/english/",
+      "scope_label": "מסים, אגרות וחובות דיווח"
+    }
+  ],
+  "routes": [
+    {
+      "route_id": "thailand-real-estate",
+      "kind": "hub",
+      "path": "/נדלן-בתאילנד/",
+      "parent_route_id": null,
+      "wordpress": {
+        "post_id": 841,
+        "post_type": "page",
+        "identity_policy": "id_and_path_exact",
+        "body_mode": "preserve"
+      },
+      "ownership": {
+        "primary_keyword": "נדל״ן בתאילנד",
+        "synonyms": [
+          "נכסים בתאילנד",
+          "שוק הנדל״ן בתאילנד",
+          "Thailand real estate"
+        ],
+        "intent": "לקבל תמונה מלאה ולבחור מסלול מתאים לקנייה, שכירות, מימון או ניהול נכס בתאילנד"
+      },
+      "public": {
+        "h1": "נדל״ן בתאילנד: קנייה, שכירות, מחירים וניהול נכסים",
+        "seo_title": "נדל״ן בתאילנד: מדריך לקנייה, שכירות והשקעה",
+        "meta_description": "נדל״ן בתאילנד במקום אחד: תהליך קנייה, כללי בעלות לזרים, מחירים, מימון, שכירות בבנגקוק וניהול נכסים, עם מסלול ברור לכל צורך.",
+        "summary": "מתחילים מהמטרה שלכם ומתקדמים אל המדריך המדויק, מהיכרות עם השוק ועד חוזה, מימון, רישום וניהול שוטף."
+      },
+      "breadcrumbs": [
+        {
+          "label": "ראשי",
+          "path": "/",
+          "route_id": null
+        },
+        {
+          "label": "נדל״ן בתאילנד",
+          "path": "/נדלן-בתאילנד/",
+          "route_id": "thailand-real-estate"
+        }
+      ],
+      "parent_link": null,
+      "continuations": [
+        {
+          "target_route_id": "thailand-property-financing",
+          "label": "משכנתא ומימון נכס בתאילנד",
+          "context": "בדקו אילו מסלולי מימון עשויים להתאים וכיצד לחשב הון עצמי ועלויות אשראי."
+        },
+        {
+          "target_route_id": "thailand-property-buying-mistakes",
+          "label": "טעויות נפוצות בקניית נכס",
+          "context": "עברו על הבדיקות שכדאי להשלים לפני מקדמה, חתימה והעברת זכויות."
+        },
+        {
+          "target_route_id": "bangkok-apartment-rental",
+          "label": "השכרת דירה בבנגקוק",
+          "context": "השוו שכונות, תנאי חוזה והוצאות שוטפות לפני בחירת דירה בבנגקוק."
+        },
+        {
+          "target_route_id": "buy-property-thailand",
+          "label": "קניית נכס בתאילנד",
+          "context": "הכירו את שלבי הקנייה מהגדרת התקציב ועד רישום הזכויות וקבלת הנכס."
+        },
+        {
+          "target_route_id": "foreign-condo-ownership-thailand",
+          "label": "בעלות זרים על דירה בתאילנד",
+          "context": "הבינו כיצד פועלת בעלות בבית משותף ואילו מסמכים חשוב לבדוק."
+        },
+        {
+          "target_route_id": "thailand-property-management",
+          "label": "ניהול נכסים בתאילנד",
+          "context": "תכננו טיפול בשוכרים, תחזוקה, גבייה ודיווח כאשר הנכס כבר בבעלותכם."
+        },
+        {
+          "target_route_id": "thailand-property-prices",
+          "label": "מחירי נדל״ן בתאילנד",
+          "context": "בנו מסגרת תקציב לפי סוג נכס והוסיפו את עלויות העסקה וההחזקה."
+        }
+      ],
+      "freshness_id": "market-monthly",
+      "source_ids": [
+        "bank-of-thailand",
+        "royal-gazette",
+        "thai-land-department",
+        "thai-revenue-department"
+      ]
+    },
+    {
+      "route_id": "thailand-property-financing",
+      "kind": "spoke",
+      "path": "/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/",
+      "parent_route_id": "thailand-real-estate",
+      "wordpress": {
+        "post_id": 65,
+        "post_type": "post",
+        "identity_policy": "id_and_path_exact",
+        "body_mode": "preserve"
+      },
+      "ownership": {
+        "primary_keyword": "משכנתא בתאילנד לזרים",
+        "synonyms": [
+          "מימון נכס בתאילנד לזרים",
+          "הלוואה לקניית דירה בתאילנד",
+          "property finance Thailand"
+        ],
+        "intent": "להבין אפשרויות מימון, דרישות הון עצמי ועלויות אשראי לפני רכישת נכס בתאילנד"
+      },
+      "public": {
+        "h1": "משכנתא בתאילנד לזרים: מימון לקניית נכס",
+        "seo_title": "משכנתא בתאילנד לזרים: מסלולי מימון ועלויות",
+        "meta_description": "משכנתא בתאילנד לזרים: הכירו מסלולי מימון אפשריים, דרישות הון עצמי, מסמכים, עלויות אשראי וחלופות לתכנון רכישת נכס.",
+        "summary": "מפת אפשרויות למימון העסקה, עם השאלות שצריך לשאול על זכאות, בטוחות, מטבע, ריבית והחזר חודשי."
+      },
+      "breadcrumbs": [
+        {
+          "label": "ראשי",
+          "path": "/",
+          "route_id": null
+        },
+        {
+          "label": "נדל״ן בתאילנד",
+          "path": "/נדלן-בתאילנד/",
+          "route_id": "thailand-real-estate"
+        },
+        {
+          "label": "משכנתא ומימון",
+          "path": "/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/",
+          "route_id": "thailand-property-financing"
+        }
+      ],
+      "parent_link": {
+        "target_route_id": "thailand-real-estate",
+        "label": "לכל מדריכי הנדל״ן בתאילנד",
+        "context": "חזרו למפת הדרכים המלאה כדי לחבר בין מימון, בחירת נכס, זכויות ועלויות עסקה."
+      },
+      "continuations": [
+        {
+          "target_route_id": "buy-property-thailand",
+          "label": "תהליך קניית נכס בתאילנד",
+          "context": "חברו את בחירת המימון לשלבי הקנייה, הבדיקות, החוזה ורישום הזכויות."
+        },
+        {
+          "target_route_id": "thailand-property-prices",
+          "label": "מחירי נכסים ועלויות עסקה",
+          "context": "העריכו את מחיר הנכס ואת ההוצאות הנלוות לפני קביעת סכום המימון."
+        }
+      ],
+      "freshness_id": "market-monthly",
+      "source_ids": [
+        "bank-of-thailand",
+        "thai-land-department",
+        "thai-revenue-department"
+      ]
+    },
+    {
+      "route_id": "thailand-property-buying-mistakes",
+      "kind": "spoke",
+      "path": "/5-הטעויות-המובילות-שיש-להימנע-מהן-בעת/",
+      "parent_route_id": "thailand-real-estate",
+      "wordpress": {
+        "post_id": 69,
+        "post_type": "post",
+        "identity_policy": "id_and_path_exact",
+        "body_mode": "preserve"
+      },
+      "ownership": {
+        "primary_keyword": "טעויות בקניית נכס בתאילנד",
+        "synonyms": [
+          "בדיקת נאותות לנכס בתאילנד",
+          "סיכונים ברכישת נכס בתאילנד",
+          "Thailand property due diligence"
+        ],
+        "intent": "לזהות סיכונים ולבצע בדיקות לפני מקדמה, חוזה, העברת כסף ורישום נכס בתאילנד"
+      },
+      "public": {
+        "h1": "טעויות בקניית נכס בתאילנד: 5 בדיקות לפני חתימה",
+        "seo_title": "טעויות בקניית נכס בתאילנד: מה לבדוק לפני חוזה",
+        "meta_description": "טעויות בקניית נכס בתאילנד עלולות להתחיל עוד לפני החוזה. הנה הבדיקות החשובות לבעלות, מסמכים, תשלומים, מסירה ורישום הזכויות.",
+        "summary": "רשימת בדיקות ממוקדת שמסדרת את נקודות הסיכון לפני שמתחייבים לעסקה או מעבירים כסף."
+      },
+      "breadcrumbs": [
+        {
+          "label": "ראשי",
+          "path": "/",
+          "route_id": null
+        },
+        {
+          "label": "נדל״ן בתאילנד",
+          "path": "/נדלן-בתאילנד/",
+          "route_id": "thailand-real-estate"
+        },
+        {
+          "label": "טעויות בקניית נכס",
+          "path": "/5-הטעויות-המובילות-שיש-להימנע-מהן-בעת/",
+          "route_id": "thailand-property-buying-mistakes"
+        }
+      ],
+      "parent_link": {
+        "target_route_id": "thailand-real-estate",
+        "label": "לכל מדריכי הנדל״ן בתאילנד",
+        "context": "חזרו למפת הדרכים המלאה כדי לראות כיצד הבדיקות משתלבות בבחירת נכס, מימון וניהול."
+      },
+      "continuations": [
+        {
+          "target_route_id": "buy-property-thailand",
+          "label": "שלבי קניית נכס בתאילנד",
+          "context": "מקמו כל בדיקה בנקודה הנכונה לאורך תהליך הקנייה, מהצעה ועד רישום."
+        },
+        {
+          "target_route_id": "foreign-condo-ownership-thailand",
+          "label": "זכויות בעלות בבית משותף",
+          "context": "העמיקו בכללי הבעלות לזרים ובמסמכים שחשוב לבדוק בדירה בבית משותף."
+        }
+      ],
+      "freshness_id": "rules-monthly",
+      "source_ids": [
+        "consumer-protection-board",
+        "royal-gazette",
+        "thai-land-department"
+      ]
+    },
+    {
+      "route_id": "bangkok-apartment-rental",
+      "kind": "spoke",
+      "path": "/מדריך-להשכרת-דירה-בבנגקוק/",
+      "parent_route_id": "thailand-real-estate",
+      "wordpress": {
+        "post_id": 118,
+        "post_type": "post",
+        "identity_policy": "id_and_path_exact",
+        "body_mode": "preserve"
+      },
+      "ownership": {
+        "primary_keyword": "השכרת דירה בבנגקוק",
+        "synonyms": [
+          "דירות להשכרה בבנגקוק לטווח ארוך",
+          "חוזה שכירות בבנגקוק",
+          "Bangkok apartment rent"
+        ],
+        "intent": "לבחור שכונה ודירה בבנגקוק ולהבין חוזה, פיקדון, חשבונות ועלויות שכירות"
+      },
+      "public": {
+        "h1": "השכרת דירה בבנגקוק: שכונות, חוזה ועלויות",
+        "seo_title": "השכרת דירה בבנגקוק: מדריך לשכונות ולחוזה",
+        "meta_description": "השכרת דירה בבנגקוק מתחילה בבחירת שכונה ותקציב. השוו תנאי חוזה, פיקדון, חשבונות, תחבורה ובדיקות שכדאי לבצע לפני כניסה.",
+        "summary": "מדריך מעשי לבחירת אזור ודירה, קריאת החוזה, חישוב העלות החודשית ובדיקת הנכס לפני קבלת מפתח."
+      },
+      "breadcrumbs": [
+        {
+          "label": "ראשי",
+          "path": "/",
+          "route_id": null
+        },
+        {
+          "label": "נדל״ן בתאילנד",
+          "path": "/נדלן-בתאילנד/",
+          "route_id": "thailand-real-estate"
+        },
+        {
+          "label": "השכרת דירה בבנגקוק",
+          "path": "/מדריך-להשכרת-דירה-בבנגקוק/",
+          "route_id": "bangkok-apartment-rental"
+        }
+      ],
+      "parent_link": {
+        "target_route_id": "thailand-real-estate",
+        "label": "לכל מדריכי הנדל״ן בתאילנד",
+        "context": "חזרו למפת הדרכים המלאה כדי להשוות בין שכירות, קנייה וניהול נכס בתאילנד."
+      },
+      "continuations": [
+        {
+          "target_route_id": "thailand-property-management",
+          "label": "ניהול דירה ושוכרים בתאילנד",
+          "context": "ראו כיצד מטפלים בחוזה, גבייה, תחזוקה ותקשורת שוטפת בין בעל נכס לשוכר."
+        },
+        {
+          "target_route_id": "buy-property-thailand",
+          "label": "מתי עוברים משכירות לקנייה",
+          "context": "השוו את מסלול השכירות לשלבי הרכישה ולעלויות שמתווספות לבעלות על נכס."
+        }
+      ],
+      "freshness_id": "market-monthly",
+      "source_ids": [
+        "bangkok-metropolitan-administration",
+        "consumer-protection-board",
+        "thai-revenue-department"
+      ]
+    },
+    {
+      "route_id": "buy-property-thailand",
+      "kind": "spoke",
+      "path": "/קניית-נכס-בתאילנד/",
+      "parent_route_id": "thailand-real-estate",
+      "wordpress": {
+        "post_id": 336,
+        "post_type": "post",
+        "identity_policy": "id_and_path_exact",
+        "body_mode": "preserve"
+      },
+      "ownership": {
+        "primary_keyword": "קניית נכס בתאילנד",
+        "synonyms": [
+          "רכישת נכס בתאילנד",
+          "איך לקנות נכס בתאילנד",
+          "buy property Thailand"
+        ],
+        "intent": "להבין את תהליך רכישת הנכס בתאילנד משלב התקציב והבדיקות ועד חוזה ורישום"
+      },
+      "public": {
+        "h1": "קניית נכס בתאילנד: תהליך, בעלות ועלויות",
+        "seo_title": "קניית נכס בתאילנד: מדריך לתהליך ולעלויות",
+        "meta_description": "קניית נכס בתאילנד צעד אחר צעד: בחירת סוג נכס, בדיקות, מבנה בעלות, חוזה, תשלומים, מסים, רישום ומסירה מסודרת של הנכס.",
+        "summary": "מסלול קנייה מסודר שמחבר בין החלטת התקציב, בדיקת הנכס, מסמכי העסקה, העברת הכסף ורישום הזכויות."
+      },
+      "breadcrumbs": [
+        {
+          "label": "ראשי",
+          "path": "/",
+          "route_id": null
+        },
+        {
+          "label": "נדל״ן בתאילנד",
+          "path": "/נדלן-בתאילנד/",
+          "route_id": "thailand-real-estate"
+        },
+        {
+          "label": "קניית נכס בתאילנד",
+          "path": "/קניית-נכס-בתאילנד/",
+          "route_id": "buy-property-thailand"
+        }
+      ],
+      "parent_link": {
+        "target_route_id": "thailand-real-estate",
+        "label": "לכל מדריכי הנדל״ן בתאילנד",
+        "context": "חזרו למפת הדרכים המלאה כדי לבחור את המדריך הבא לפי סוג העסקה והשלב שבו אתם נמצאים."
+      },
+      "continuations": [
+        {
+          "target_route_id": "thailand-property-financing",
+          "label": "אפשרויות משכנתא ומימון",
+          "context": "התאימו את מבנה העסקה להון העצמי, למטבע, לריבית ולחלופות המימון הזמינות."
+        },
+        {
+          "target_route_id": "thailand-property-buying-mistakes",
+          "label": "בדיקות שמונעות טעויות ברכישה",
+          "context": "עברו על נקודות הסיכון החשובות לפני מקדמה, חתימה והעברת זכויות."
+        },
+        {
+          "target_route_id": "bangkok-apartment-rental",
+          "label": "השכרה בבנגקוק לפני קנייה",
+          "context": "השוו שכירות ארוכת טווח לרכישה כאשר עדיין בוחנים אזור ואורח חיים."
+        },
+        {
+          "target_route_id": "foreign-condo-ownership-thailand",
+          "label": "כללי בעלות זרים בדירה",
+          "context": "בדקו כיצד נרשמות זכויות בבית משותף ומה צריך להופיע במסמכי העסקה."
+        },
+        {
+          "target_route_id": "thailand-property-management",
+          "label": "ניהול הנכס אחרי המסירה",
+          "context": "הכניסו לתקציב גם שוכרים, תחזוקה, גבייה ודיווח לאחר השלמת הקנייה."
+        },
+        {
+          "target_route_id": "thailand-property-prices",
+          "label": "מחירי נכסים ועלויות נלוות",
+          "context": "בנו תקציב שכולל את מחיר הנכס, מסים, אגרות והוצאות ההחזקה."
+        }
+      ],
+      "freshness_id": "rules-monthly",
+      "source_ids": [
+        "royal-gazette",
+        "thai-land-department",
+        "thai-revenue-department"
+      ]
+    },
+    {
+      "route_id": "foreign-condo-ownership-thailand",
+      "kind": "spoke",
+      "path": "/זכויות-בית-משותף-נכס-בתאילנד/",
+      "parent_route_id": "thailand-real-estate",
+      "wordpress": {
+        "post_id": 474,
+        "post_type": "post",
+        "identity_policy": "id_and_path_exact",
+        "body_mode": "preserve"
+      },
+      "ownership": {
+        "primary_keyword": "בעלות זרים על דירה בתאילנד",
+        "synonyms": [
+          "זכויות זרים בבית משותף בתאילנד",
+          "רישום קונדומיניום על שם זר",
+          "foreign condo ownership Thailand"
+        ],
+        "intent": "להבין כיצד זרים מחזיקים זכויות בדירה בבית משותף ואילו מסמכים נדרשים לרישום"
+      },
+      "public": {
+        "h1": "בעלות זרים על דירה בתאילנד: זכויות בבית משותף",
+        "seo_title": "בעלות זרים על דירה בתאילנד: כללי רישום וזכויות",
+        "meta_description": "בעלות זרים על דירה בתאילנד: הבינו את כללי הבית המשותף, מסמכי הבעלות, רישום הזכויות, מכסות הבעלות והבדיקות לפני רכישה.",
+        "summary": "הסבר ממוקד על מבנה הזכויות בדירה בבית משותף ועל המסמכים שצריכים להתחבר לעסקה ולרישום."
+      },
+      "breadcrumbs": [
+        {
+          "label": "ראשי",
+          "path": "/",
+          "route_id": null
+        },
+        {
+          "label": "נדל״ן בתאילנד",
+          "path": "/נדלן-בתאילנד/",
+          "route_id": "thailand-real-estate"
+        },
+        {
+          "label": "בעלות זרים על דירה",
+          "path": "/זכויות-בית-משותף-נכס-בתאילנד/",
+          "route_id": "foreign-condo-ownership-thailand"
+        }
+      ],
+      "parent_link": {
+        "target_route_id": "thailand-real-estate",
+        "label": "לכל מדריכי הנדל״ן בתאילנד",
+        "context": "חזרו למפת הדרכים המלאה כדי לחבר את כללי הבעלות לתהליך הקנייה, המימון והניהול."
+      },
+      "continuations": [
+        {
+          "target_route_id": "thailand-property-buying-mistakes",
+          "label": "בדיקות נאותות לפני חתימה",
+          "context": "הפכו את כללי הבעלות לרשימת מסמכים ובדיקות שצריך להשלים לפני העסקה."
+        },
+        {
+          "target_route_id": "buy-property-thailand",
+          "label": "תהליך רכישת דירה בתאילנד",
+          "context": "ראו היכן בדיקת הזכויות והרישום משתלבים במסלול הקנייה המלא."
+        }
+      ],
+      "freshness_id": "rules-monthly",
+      "source_ids": [
+        "royal-gazette",
+        "thai-land-department"
+      ]
+    },
+    {
+      "route_id": "thailand-property-management",
+      "kind": "spoke",
+      "path": "/property-management/",
+      "parent_route_id": "thailand-real-estate",
+      "wordpress": {
+        "post_id": 609,
+        "post_type": "post",
+        "identity_policy": "id_and_path_exact",
+        "body_mode": "preserve"
+      },
+      "ownership": {
+        "primary_keyword": "ניהול נכסים בתאילנד",
+        "synonyms": [
+          "ניהול דירה בתאילנד",
+          "חברת ניהול נכסים בתאילנד",
+          "property management Thailand"
+        ],
+        "intent": "לתכנן ניהול שוכרים, גבייה, תחזוקה, דיווח ובקרה על נכס שנמצא בתאילנד"
+      },
+      "public": {
+        "h1": "ניהול נכסים בתאילנד: תחזוקה, שוכרים ועלויות",
+        "seo_title": "ניהול נכסים בתאילנד: שוכרים, תחזוקה וגבייה",
+        "meta_description": "ניהול נכסים בתאילנד כולל איתור שוכרים, חוזים, גבייה, תחזוקה, ביקורות ודיווח. כך בונים שגרת ניהול ברורה גם כשנמצאים מחוץ למדינה.",
+        "summary": "מסגרת עבודה לבחירת שירותי ניהול, חלוקת אחריות, מעקב אחר הכנסות וטיפול בתקלות לאורך חיי הנכס."
+      },
+      "breadcrumbs": [
+        {
+          "label": "ראשי",
+          "path": "/",
+          "route_id": null
+        },
+        {
+          "label": "נדל״ן בתאילנד",
+          "path": "/נדלן-בתאילנד/",
+          "route_id": "thailand-real-estate"
+        },
+        {
+          "label": "ניהול נכסים בתאילנד",
+          "path": "/property-management/",
+          "route_id": "thailand-property-management"
+        }
+      ],
+      "parent_link": {
+        "target_route_id": "thailand-real-estate",
+        "label": "לכל מדריכי הנדל״ן בתאילנד",
+        "context": "חזרו למפת הדרכים המלאה כדי לחבר את הניהול השוטף להחלטות הקנייה, השכירות והתקציב."
+      },
+      "continuations": [
+        {
+          "target_route_id": "bangkok-apartment-rental",
+          "label": "חוזי שכירות ודירות בבנגקוק",
+          "context": "הכירו את ציפיות השוכרים, תנאי החוזה והעלויות שמנהל הנכס צריך להביא בחשבון."
+        },
+        {
+          "target_route_id": "buy-property-thailand",
+          "label": "תכנון הניהול כבר בשלב הקנייה",
+          "context": "שלבו תחזוקה, ביקוש לשכירות ועלויות ניהול בבחירת הנכס ובתקציב העסקה."
+        }
+      ],
+      "freshness_id": "service-quarterly",
+      "source_ids": [
+        "consumer-protection-board",
+        "thai-land-department",
+        "thai-revenue-department"
+      ]
+    },
+    {
+      "route_id": "thailand-property-prices",
+      "kind": "spoke",
+      "path": "/price/",
+      "parent_route_id": "thailand-real-estate",
+      "wordpress": {
+        "post_id": 810,
+        "post_type": "post",
+        "identity_policy": "id_and_path_exact",
+        "body_mode": "preserve"
+      },
+      "ownership": {
+        "primary_keyword": "מחירי נדל״ן בתאילנד",
+        "synonyms": [
+          "מחירי דירות בתאילנד",
+          "כמה עולה נכס בתאילנד",
+          "Thailand property prices"
+        ],
+        "intent": "להעריך טווחי מחיר ועלויות עסקה והחזקה לפני קביעת תקציב לרכישה בתאילנד"
+      },
+      "public": {
+        "h1": "מחירי נדל״ן בתאילנד: דירות, בתים ועלויות עסקה",
+        "seo_title": "מחירי נדל״ן בתאילנד: מדריך לתקציב ועלויות",
+        "meta_description": "מחירי נדל״ן בתאילנד לפי סוג נכס והקשר מקומי, יחד עם מסים, אגרות, מימון והוצאות החזקה שכדאי להוסיף לתקציב הרכישה.",
+        "summary": "דרך מסודרת לבנות תקציב מלא, להפריד בין מחיר הנכס להוצאות העסקה ולהבין מה משפיע על הפערים בין אזורים."
+      },
+      "breadcrumbs": [
+        {
+          "label": "ראשי",
+          "path": "/",
+          "route_id": null
+        },
+        {
+          "label": "נדל״ן בתאילנד",
+          "path": "/נדלן-בתאילנד/",
+          "route_id": "thailand-real-estate"
+        },
+        {
+          "label": "מחירי נדל״ן בתאילנד",
+          "path": "/price/",
+          "route_id": "thailand-property-prices"
+        }
+      ],
+      "parent_link": {
+        "target_route_id": "thailand-real-estate",
+        "label": "לכל מדריכי הנדל״ן בתאילנד",
+        "context": "חזרו למפת הדרכים המלאה כדי להפוך את מסגרת התקציב למסלול קנייה, מימון או שכירות."
+      },
+      "continuations": [
+        {
+          "target_route_id": "thailand-property-financing",
+          "label": "מימון והון עצמי לרכישה",
+          "context": "תרגמו את מחיר היעד לסכום הון עצמי, עלות אשראי והחזר חודשי אפשרי."
+        },
+        {
+          "target_route_id": "buy-property-thailand",
+          "label": "תהליך קנייה לפי תקציב",
+          "context": "חברו בין התקציב לשלבי הבדיקה, החוזה, התשלומים, הרישום והמסירה."
+        }
+      ],
+      "freshness_id": "market-monthly",
+      "source_ids": [
+        "bank-of-thailand",
+        "thai-land-department",
+        "thai-revenue-department"
+      ]
+    }
+  ],
+  "hub_experience": {
+    "section_heading": "בחרו את השלב שמתאים לכם",
+    "sections": [
+      {
+        "section_id": "buy-safely",
+        "title": "קונים בצורה מסודרת",
+        "description": "מתחילים בתהליך הקנייה, ממשיכים לבדיקות ומבינים כיצד נרשמות זכויות בדירה.",
+        "route_ids": [
+          "buy-property-thailand",
+          "thailand-property-buying-mistakes",
+          "foreign-condo-ownership-thailand"
+        ]
+      },
+      {
+        "section_id": "budget-and-finance",
+        "title": "בונים תקציב ומימון",
+        "description": "מחברים בין מחיר הנכס, ההוצאות הנלוות, ההון העצמי ועלות האשראי.",
+        "route_ids": [
+          "thailand-property-prices",
+          "thailand-property-financing"
+        ]
+      },
+      {
+        "section_id": "rent-and-manage",
+        "title": "שוכרים או מנהלים נכס",
+        "description": "בוחרים דירה בבנגקוק או מתכננים שוכרים, תחזוקה וגבייה לנכס קיים.",
+        "route_ids": [
+          "bangkok-apartment-rental",
+          "thailand-property-management"
+        ]
+      }
+    ],
+    "cards": [
+      {
+        "route_id": "buy-property-thailand",
+        "eyebrow": "מסלול רכישה",
+        "title": "קניית נכס בתאילנד",
+        "summary": "כל השלבים מהגדרת התקציב ועד רישום ומסירה.",
+        "action_label": "להבין את תהליך הקנייה"
+      },
+      {
+        "route_id": "thailand-property-buying-mistakes",
+        "eyebrow": "בדיקות לפני חתימה",
+        "title": "טעויות שכדאי למנוע",
+        "summary": "נקודות הסיכון שצריך לבדוק לפני התחייבות ותשלום.",
+        "action_label": "לעבור על הבדיקות"
+      },
+      {
+        "route_id": "foreign-condo-ownership-thailand",
+        "eyebrow": "בעלות ורישום",
+        "title": "זכויות זרים בדירה",
+        "summary": "כללי בית משותף, מסמכי בעלות ורישום הזכויות.",
+        "action_label": "להכיר את כללי הבעלות"
+      },
+      {
+        "route_id": "thailand-property-prices",
+        "eyebrow": "תקציב מלא",
+        "title": "מחירים ועלויות עסקה",
+        "summary": "מחיר הנכס לצד מסים, אגרות והוצאות החזקה.",
+        "action_label": "לבנות מסגרת תקציב"
+      },
+      {
+        "route_id": "thailand-property-financing",
+        "eyebrow": "הון ואשראי",
+        "title": "משכנתא ומימון",
+        "summary": "אפשרויות מימון, מסמכים, ריבית והחזר חודשי.",
+        "action_label": "להשוות אפשרויות מימון"
+      },
+      {
+        "route_id": "bangkok-apartment-rental",
+        "eyebrow": "חיים בבנגקוק",
+        "title": "השכרת דירה בבנגקוק",
+        "summary": "שכונות, חוזה, פיקדון, חשבונות ובדיקת הדירה.",
+        "action_label": "לבחור דירה ושכונה"
+      },
+      {
+        "route_id": "thailand-property-management",
+        "eyebrow": "אחרי המסירה",
+        "title": "ניהול נכס ושוכרים",
+        "summary": "תחזוקה, גבייה, דיווח ובקרה גם מרחוק.",
+        "action_label": "לתכנן ניהול שוטף"
+      }
+    ],
+    "decision_paths": [
+      {
+        "decision_id": "choose-goal",
+        "prompt": "מה אתם רוצים לעשות עכשיו?",
+        "choices": [
+          {
+            "label": "לקנות נכס",
+            "detail": "להכיר את המסלול המלא לפני שמתחילים לחפש עסקה",
+            "target_route_id": "buy-property-thailand"
+          },
+          {
+            "label": "לשכור בבנגקוק",
+            "detail": "לבחור שכונה, להבין חוזה ולחשב עלות חודשית",
+            "target_route_id": "bangkok-apartment-rental"
+          },
+          {
+            "label": "לנהל נכס קיים",
+            "detail": "לבנות שגרה לשוכרים, גבייה, תחזוקה ודיווח",
+            "target_route_id": "thailand-property-management"
+          }
+        ]
+      },
+      {
+        "decision_id": "reduce-risk",
+        "prompt": "מה חשוב לבדוק לפני עסקה?",
+        "choices": [
+          {
+            "label": "בדיקות וסיכונים",
+            "detail": "לסדר מסמכים ובדיקות לפני מקדמה או חתימה",
+            "target_route_id": "thailand-property-buying-mistakes"
+          },
+          {
+            "label": "בעלות ורישום",
+            "detail": "להבין זכויות זרים בדירה בבית משותף",
+            "target_route_id": "foreign-condo-ownership-thailand"
+          },
+          {
+            "label": "מימון והון עצמי",
+            "detail": "לבדוק כיצד מבנה המימון משפיע על העסקה",
+            "target_route_id": "thailand-property-financing"
+          }
+        ]
+      },
+      {
+        "decision_id": "build-budget",
+        "prompt": "איך בונים תקציב אמיתי?",
+        "choices": [
+          {
+            "label": "מתחילים במחירי השוק",
+            "detail": "להעריך מחיר נכס ולהוסיף מסים והוצאות נלוות",
+            "target_route_id": "thailand-property-prices"
+          },
+          {
+            "label": "מחשבים את המימון",
+            "detail": "לחבר הון עצמי, ריבית ועלות אשראי לתקציב",
+            "target_route_id": "thailand-property-financing"
+          },
+          {
+            "label": "מחברים את כל שלבי הקנייה",
+            "detail": "להכניס לתקציב בדיקות, תשלומים, רישום ומסירה",
+            "target_route_id": "buy-property-thailand"
+          }
+        ]
+      }
+    ]
+  }
+}

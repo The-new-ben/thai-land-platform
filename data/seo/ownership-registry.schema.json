@@ -9,15 +9,17 @@
     "registry_version",
     "site",
     "discovery",
-    "owners"
+    "research_evidence",
+    "inventory_snapshots",
+    "intent_owners",
+    "routes"
   ],
   "properties": {
     "$schema": {
       "const": "./ownership-registry.schema.json"
     },
     "registry_version": {
-      "type": "string",
-      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+      "const": "2.0.0"
     },
     "site": {
       "$ref": "#/$defs/site"
@@ -25,11 +27,34 @@
     "discovery": {
       "$ref": "#/$defs/discovery"
     },
-    "owners": {
+    "research_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/research_evidence"
+      }
+    },
+    "inventory_snapshots": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/inventory_snapshot"
+      }
+    },
+    "intent_owners": {
       "type": "array",
       "minItems": 1,
       "items": {
-        "$ref": "#/$defs/owner"
+        "$ref": "#/$defs/intent_owner"
+      }
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/route"
       }
     }
   },
@@ -59,20 +84,10 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "source_files",
         "route_policy",
         "excluded_surfaces"
       ],
       "properties": {
-        "source_files": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
-        },
         "route_policy": {
           "type": "string",
           "minLength": 1
@@ -88,14 +103,122 @@
         }
       }
     },
+    "research_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "url",
+        "checked_on",
+        "purpose",
+        "authority"
+      ],
+      "properties": {
+        "evidence_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checked_on": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "type": "boolean"
+        }
+      }
+    },
+    "inventory_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_id",
+        "path",
+        "captured_at",
+        "origin",
+        "digest_algorithm",
+        "content_sha256",
+        "row_count",
+        "protected_url_count",
+        "url_column",
+        "decoded_path_column",
+        "scope"
+      ],
+      "properties": {
+        "snapshot_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^data/seo/inventory/[^/]+\\.csv$"
+        },
+        "captured_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin": {
+          "const": "https://thai-land.co.il"
+        },
+        "digest_algorithm": {
+          "const": "sha256-lf-v1"
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "row_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "protected_url_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "url_column": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decoded_path_column": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "stable_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "intent_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9|_-]*$"
+    },
+    "internal_url": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^/[^#]*$"
+    },
     "breadcrumb": {
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "owner_id",
         "name",
         "url"
       ],
       "properties": {
+        "owner_id": {
+          "$ref": "#/$defs/stable_id"
+        },
         "name": {
           "type": "string",
           "minLength": 1
@@ -105,54 +228,96 @@
         }
       }
     },
-    "exclusion": {
+    "link_requirement": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "intent",
-        "owner_url"
+        "target_owner_id",
+        "relationship",
+        "placement",
+        "minimum_occurrences",
+        "anchor_terms"
       ],
       "properties": {
-        "intent": {
-          "type": "string",
-          "minLength": 1
+        "target_owner_id": {
+          "$ref": "#/$defs/stable_id"
         },
-        "owner_url": {
-          "$ref": "#/$defs/internal_url"
+        "relationship": {
+          "enum": [
+            "parent_hub",
+            "child_spoke",
+            "sibling",
+            "support",
+            "conversion"
+          ]
+        },
+        "placement": {
+          "enum": [
+            "contextual_body",
+            "related",
+            "navigation"
+          ]
+        },
+        "minimum_occurrences": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "anchor_terms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         }
       }
     },
-    "internal_url": {
-      "type": "string",
-      "minLength": 1,
-      "pattern": "^/[^#]*$"
+    "cannibalization_exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner_id",
+        "intent_id"
+      ],
+      "properties": {
+        "owner_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "intent_id": {
+          "$ref": "#/$defs/intent_id"
+        }
+      }
     },
-    "owner": {
+    "intent_owner": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "owner_id",
         "lifecycle",
-        "route_kind",
-        "url",
+        "canonical_url",
+        "intent_id",
         "name",
         "primary_intent",
-        "canonical_owner",
-        "subject_entity_ids",
-        "parent_hub",
-        "breadcrumb_chain",
+        "primary_keyword",
+        "intent_synonyms",
+        "intent_class",
         "entity_type",
-        "audience",
-        "funnel_role",
+        "subject_entity_ids",
+        "parent_owner_id",
+        "breadcrumb_chain",
+        "internal_link_requirements",
+        "planned_internal_link_requirements",
         "freshness_class",
-        "indexing_policy",
-        "cannibalization_exclusions",
-        "source_evidence"
+        "migration_action",
+        "review_state",
+        "unique_contribution",
+        "source_evidence",
+        "cannibalization_exclusions"
       ],
       "properties": {
         "owner_id": {
-          "type": "string",
-          "pattern": "^[a-z0-9][a-z0-9-]*$"
+          "$ref": "#/$defs/stable_id"
         },
         "lifecycle": {
           "enum": [
@@ -160,14 +325,11 @@
             "planned"
           ]
         },
-        "route_kind": {
-          "enum": [
-            "exact",
-            "pattern"
-          ]
-        },
-        "url": {
+        "canonical_url": {
           "$ref": "#/$defs/internal_url"
+        },
+        "intent_id": {
+          "$ref": "#/$defs/intent_id"
         },
         "name": {
           "type": "string",
@@ -177,8 +339,65 @@
           "type": "string",
           "minLength": 1
         },
-        "canonical_owner": {
-          "$ref": "#/$defs/internal_url"
+        "primary_keyword": {
+          "type": "string",
+          "minLength": 1
+        },
+        "intent_synonyms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "intent_class": {
+          "enum": [
+            "orientation",
+            "planning",
+            "evaluation",
+            "comparison",
+            "learning",
+            "navigation",
+            "transaction",
+            "risk_reduction",
+            "historical",
+            "current_status",
+            "calculation",
+            "local_service",
+            "support",
+            "discovery",
+            "trust",
+            "technical"
+          ]
+        },
+        "entity_type": {
+          "enum": [
+            "homepage",
+            "site_search",
+            "national_hub",
+            "destination_hub",
+            "destination_guide",
+            "article_guide",
+            "comparison_guide",
+            "itinerary_guide",
+            "seasonal_guide",
+            "booking_guide",
+            "language_guide",
+            "historical_update",
+            "resource_directory",
+            "property_guide",
+            "property_directory",
+            "service_directory",
+            "community_hub",
+            "storefront",
+            "organization_page",
+            "archive",
+            "tool",
+            "sitemap",
+            "api_endpoint"
+          ]
         },
         "subject_entity_ids": {
           "type": "array",
@@ -188,12 +407,12 @@
             "pattern": "^geo:th:[a-z0-9:_-]+$"
           }
         },
-        "parent_hub": {
+        "parent_owner_id": {
           "type": [
             "string",
             "null"
           ],
-          "pattern": "^/[^#]*$"
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
         },
         "breadcrumb_chain": {
           "type": "array",
@@ -203,42 +422,19 @@
             "$ref": "#/$defs/breadcrumb"
           }
         },
-        "entity_type": {
-          "enum": [
-            "homepage",
-            "site_search",
-            "national_hub",
-            "destination_guide",
-            "comparison_guide",
-            "itinerary_guide",
-            "seasonal_guide",
-            "booking_guide",
-            "language_guide",
-            "resource_directory",
-            "property_directory",
-            "service_directory",
-            "community_hub",
-            "storefront",
-            "organization_page",
-            "sitemap",
-            "api_endpoint"
-          ]
+        "internal_link_requirements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/link_requirement"
+          }
         },
-        "audience": {
-          "type": "string",
-          "minLength": 1
-        },
-        "funnel_role": {
-          "enum": [
-            "discovery",
-            "planning",
-            "evaluation",
-            "action",
-            "transaction",
-            "support",
-            "trust",
-            "technical"
-          ]
+        "planned_internal_link_requirements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/link_requirement"
+          }
         },
         "freshness_class": {
           "enum": [
@@ -252,19 +448,156 @@
             "release_bound"
           ]
         },
-        "indexing_policy": {
+        "migration_action": {
           "enum": [
-            "index",
-            "noindex",
+            "keep",
+            "keep_rewrite",
+            "preserve_historical",
+            "conditional_merge",
+            "extract_then_review",
+            "create",
             "technical"
           ]
         },
-        "cannibalization_exclusions": {
+        "review_state": {
+          "enum": [
+            "ready",
+            "upgrade_required",
+            "evidence_pending",
+            "planned",
+            "technical"
+          ]
+        },
+        "unique_contribution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_evidence": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
           "items": {
-            "$ref": "#/$defs/exclusion"
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "cannibalization_exclusions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/cannibalization_exclusion"
+          }
+        }
+      }
+    },
+    "canonical_assignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "owner_id"
+      ],
+      "properties": {
+        "kind": {
+          "const": "canonical_owner"
+        },
+        "owner_id": {
+          "$ref": "#/$defs/stable_id"
+        }
+      }
+    },
+    "migration_gate_assignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "state",
+        "release_blocked",
+        "current_owner_id",
+        "candidate_owner_id",
+        "required_evidence"
+      ],
+      "properties": {
+        "kind": {
+          "const": "migration_gate"
+        },
+        "state": {
+          "enum": [
+            "evidence_pending",
+            "intent_review_pending",
+            "target_review_pending",
+            "retirement_review_pending"
+          ]
+        },
+        "release_blocked": {
+          "const": true
+        },
+        "current_owner_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "candidate_owner_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "required_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "url",
+        "route_kind",
+        "lifecycle",
+        "indexing_policy",
+        "observed_in",
+        "source_evidence",
+        "assignment"
+      ],
+      "properties": {
+        "route_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "url": {
+          "$ref": "#/$defs/internal_url"
+        },
+        "route_kind": {
+          "enum": [
+            "exact",
+            "pattern"
+          ]
+        },
+        "lifecycle": {
+          "enum": [
+            "live",
+            "planned"
+          ]
+        },
+        "indexing_policy": {
+          "enum": [
+            "index",
+            "noindex",
+            "technical",
+            "redirect"
+          ]
+        },
+        "observed_in": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/stable_id"
           }
         },
         "source_evidence": {
@@ -275,6 +608,19 @@
             "type": "string",
             "minLength": 1
           }
+        },
+        "assignment": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/canonical_assignment"
+            },
+            {
+              "$ref": "#/$defs/migration_gate_assignment"
+            }
+          ]
+        },
+        "redirect_target": {
+          "$ref": "#/$defs/internal_url"
         }
       }
     }

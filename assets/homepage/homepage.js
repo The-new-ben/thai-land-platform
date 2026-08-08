@@ -210,8 +210,8 @@
     { label: 'קישורים שימושיים לתאילנד', type: 'קישורים', icon: '↗', keywords: 'אתרים קישורים תכנון', href: '/תאילנד-קישורים-שימושיים/' },
     { label: 'מפת תאילנד', type: 'מפה', icon: '⌖', keywords: 'מפה אזורים בנגקוק ציאנג מאי פוקט קוסמוי', href: '#atlas' },
     { label: 'חיים בתאילנד', type: 'נושא', icon: '⌂', keywords: 'מגורים עיר צפון איים יום־יום', href: '#living' },
-    { label: 'נדל״ן בתאילנד', type: 'נושא', icon: '◇', keywords: 'נכס בעלות חוזה מסים עלויות ניהול', href: '#real-estate' },
-    { label: 'עסקים בתאילנד', type: 'נושא', icon: '◫', keywords: 'חברה רישוי מס שוק עובדים תפעול', href: '#business' }
+    { label: 'נדל״ן בתאילנד', type: 'נושא', icon: '◇', keywords: 'נכס בעלות חוזה מסים עלויות ניהול', href: '/נדלן-בתאילנד/' },
+    { label: 'עסקים בתאילנד', type: 'נושא', icon: '◫', keywords: 'חברה רישוי מס שוק עובדים תפעול', href: '/עסקים-בתאילנד-סקירה-כללית/' }
   ];
 
   const normalize = (value) => value.toLocaleLowerCase('he').replace(/[״׳'"\-]/g, '').trim();

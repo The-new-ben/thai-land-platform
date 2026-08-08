@@ -354,8 +354,9 @@ use Thailand_Platform\Homepage\FeatureFlag;
 use Thailand_Platform\Homepage\Renderer;
 use Thailand_Platform\Homepage\Seo;
 use Thailand_Platform\Geography\Repository as Geography_Repository;
+use Thailand_Platform\Content\FeatureFlag as Content_FeatureFlag;
 
-tl_test_assert( '0.2.7' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.3.0' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -372,32 +373,36 @@ tl_test_do_action( 'plugins_loaded' );
 tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'rest_api_init' ), 'REST hook registration count mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'init' ), 'Duplicate update hook registered.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'template_redirect' ), 'Canary protection hook mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'wp_enqueue_scripts' ), 'Homepage enqueue hook mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'wp_head' ), 'Homepage preload hook mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'admin_init' ), 'Homepage setting hook mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'admin_menu' ), 'Homepage settings page hook mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'wp_enqueue_scripts' ), 'Presentation enqueue hook count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'wp_head' ), 'Presentation preload hook count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'admin_init' ), 'Presentation setting hook count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'admin_menu' ), 'Presentation settings page hook count mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'add_option_thailand_platform_homepage_mode' ), 'Homepage add-option cache hook mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'update_option_thailand_platform_homepage_mode' ), 'Homepage update-option cache hook mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'template_include' ), 'Homepage template filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'body_class' ), 'Homepage body-class filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wp_robots' ), 'Homepage robots filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_robots' ), 'Yoast robots filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'pre_get_document_title' ), 'Core homepage title filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_title' ), 'Yoast homepage title filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_metadesc' ), 'Yoast description filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_title' ), 'Open Graph title filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_desc' ), 'Open Graph description filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image' ), 'Open Graph image filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image_width' ), 'Open Graph image width filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image_height' ), 'Open Graph image height filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_title' ), 'Twitter title filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_description' ), 'Twitter description filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_image' ), 'Twitter image filter mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'template_include' ), 'Presentation template filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'body_class' ), 'Presentation body-class filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wp_robots' ), 'Presentation robots filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_robots' ), 'Yoast robots filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'pre_get_document_title' ), 'Core title filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_title' ), 'Yoast title filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_metadesc' ), 'Yoast description filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_title' ), 'Open Graph title filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_desc' ), 'Open Graph description filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image' ), 'Open Graph image filter count mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_canonical' ), 'Managed canonical filter missing.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_url' ), 'Managed Open Graph URL filter missing.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image_width' ), 'Open Graph image width filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image_height' ), 'Open Graph image height filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_title' ), 'Twitter title filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_description' ), 'Twitter description filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_image' ), 'Twitter image filter count mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wp_headers' ), 'Homepage header filter mismatch.' );
 tl_test_assert( 5 === $GLOBALS['tl_test_actions']['init'][0]['priority'], 'Update checker priority mismatch.' );
 tl_test_assert( 99 === $GLOBALS['tl_test_filters']['template_include'][0]['priority'], 'Template filter priority mismatch.' );
 tl_test_assert( 2 === $GLOBALS['tl_test_actions']['add_option_thailand_platform_homepage_mode'][0]['accepted_args'], 'Add-option cache hook argument count mismatch.' );
 tl_test_assert( 3 === $GLOBALS['tl_test_actions']['update_option_thailand_platform_homepage_mode'][0]['accepted_args'], 'Update-option cache hook argument count mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'add_option_thailand_platform_real_estate_mode' ), 'Content add-option cache hook mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'update_option_thailand_platform_real_estate_mode' ), 'Content update-option cache hook mismatch.' );
 
 tl_test_do_action( 'init' );
 tl_test_assert( false === THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER, 'Canary update checker must remain disabled.' );
@@ -495,6 +500,17 @@ tl_test_assert( isset( $GLOBALS['tl_test_options_pages']['thailand-platform'] ),
 tl_test_assert(
 	'manage_options' === $GLOBALS['tl_test_options_pages']['thailand-platform']['capability'],
 	'Homepage settings page capability mismatch.'
+);
+tl_test_assert( isset( $GLOBALS['tl_test_registered_settings'][ Content_FeatureFlag::OPTION ] ), 'Content mode setting missing.' );
+$content_setting = $GLOBALS['tl_test_registered_settings'][ Content_FeatureFlag::OPTION ];
+tl_test_assert( 'thailand_platform_content' === $content_setting['group'], 'Content setting group mismatch.' );
+tl_test_assert( 'string' === $content_setting['arguments']['type'], 'Content setting type mismatch.' );
+tl_test_assert( Content_FeatureFlag::MODE_OFF === $content_setting['arguments']['default'], 'Content setting default is not Off.' );
+tl_test_assert( is_callable( $content_setting['arguments']['sanitize_callback'] ), 'Content mode sanitizer missing.' );
+tl_test_assert( isset( $GLOBALS['tl_test_options_pages']['thailand-platform-content'] ), 'Content settings page missing.' );
+tl_test_assert(
+	'manage_options' === $GLOBALS['tl_test_options_pages']['thailand-platform-content']['capability'],
+	'Content settings page capability mismatch.'
 );
 
 $GLOBALS['tl_test_cache_flush_calls'] = 0;
@@ -622,6 +638,40 @@ foreach ( $geography_runtime_files as $runtime_file ) {
 	tl_test_assert( is_file( $root . '/' . $runtime_file ), 'Geography runtime file is missing: ' . $runtime_file );
 }
 
+$content_runtime_files = array(
+	'assets/content/content.css',
+	'assets/content/content.js',
+	'assets/content/images/real-estate-thailand-atlas-v1-1200.webp',
+	'assets/content/images/real-estate-thailand-atlas-v1-1717.webp',
+	'assets/content/images/real-estate-thailand-atlas-v1-720.webp',
+	'resources/content/real-estate.php',
+	'src/Content/Assets.php',
+	'src/Content/Breadcrumbs.php',
+	'src/Content/Context.php',
+	'src/Content/ContextualLinks.php',
+	'src/Content/FeatureFlag.php',
+	'src/Content/Module.php',
+	'src/Content/Renderer.php',
+	'src/Content/Repository.php',
+	'src/Content/Seo.php',
+	'src/Content/Settings.php',
+	'templates/content-document.php',
+	'templates/partials/content-footer.php',
+	'templates/partials/content-header.php',
+);
+foreach ( $content_runtime_files as $runtime_file ) {
+	tl_test_assert( in_array( $runtime_file, $package_entries, true ), 'Content runtime file is not packaged: ' . $runtime_file );
+	tl_test_assert( is_file( $root . '/' . $runtime_file ), 'Content runtime file is missing: ' . $runtime_file );
+}
+
+$seo_runtime_files = array(
+	'resources/seo/migration-gates.php',
+);
+foreach ( $seo_runtime_files as $runtime_file ) {
+	tl_test_assert( in_array( $runtime_file, $package_entries, true ), 'SEO runtime file is not packaged: ' . $runtime_file );
+	tl_test_assert( is_file( $root . '/' . $runtime_file ), 'SEO runtime file is missing: ' . $runtime_file );
+}
+
 foreach ( $package_entries as $entry ) {
 	foreach ( array( 'data/', 'output/', 'prototype/', 'scripts/', 'tests/' ) as $excluded_prefix ) {
 		tl_test_assert( 0 !== strpos( $entry, $excluded_prefix ), 'Non-runtime tree entered package: ' . $entry );
@@ -689,6 +739,13 @@ tl_test_assert(
 	array() === $media_scope_violations,
 	'Homepage media query contains an unscoped selector: ' . implode( ', ', $media_scope_violations )
 );
+
+$content_css = file_get_contents( $root . '/assets/content/content.css' );
+$content_js  = file_get_contents( $root . '/assets/content/content.js' );
+tl_test_assert( false !== $content_css && strlen( $content_css ) <= 30000, 'Content CSS is missing or exceeds the raw release budget.' );
+tl_test_assert( false !== $content_js && strlen( $content_js ) <= 10000, 'Content JavaScript is missing or exceeds the raw release budget.' );
+tl_test_assert( false !== strpos( $content_css, '.thp-content' ), 'Content CSS is not scoped to the managed document.' );
+tl_test_assert( 0 === preg_match( '/(?:fetch\s*\(|XMLHttpRequest|https?:\\/\\/)/i', $content_js ), 'Content JavaScript contains a network runtime.' );
 tl_test_assert( false !== strpos( $css, '@keyframes thp-home-fade-in' ), 'Scoped homepage fade keyframe missing.' );
 tl_test_assert( false !== strpos( $css, '@keyframes thp-home-slide-in-rtl' ), 'Scoped homepage drawer keyframe missing.' );
 tl_test_assert( 0 === preg_match( '/@keyframes\s+(?:fade-in|slide-in-rtl)\b/', $css ), 'Generic homepage keyframe name leaked globally.' );
@@ -783,25 +840,17 @@ foreach ( array( 'עסקים והאתר', 'כל המידע על בנגקוק', '
 	tl_test_assert( false === strpos( $markup, $unsupported_phrase ), 'Homepage public markup contains an unsupported promise or presentation label: ' . $unsupported_phrase );
 }
 
-$gated_route_substrings = array(
-	'ויזת-תיירים',
-	'אישור-עבודה',
-	'permanent-residence',
-	'ביטוח-נסיעות',
-	'מעבר-לתאילנד',
-	'קניית-נכס',
-	'אפשרויות-משכנתא',
-	'מדריך-להשכרת',
-	'property-management',
-	'עסקים-בתאילנד-סקירה',
-	'כלכלת-תאילנד',
-	'מחשבון-תכנון',
-);
+$seo_migration_contract = require $root . '/resources/seo/migration-gates.php';
+tl_test_assert( is_array( $seo_migration_contract ), 'SEO migration gate contract is not an array.' );
+tl_test_assert( '1.0.0' === ( $seo_migration_contract['contract_version'] ?? '' ), 'SEO migration gate contract version mismatch.' );
+$gated_routes = $seo_migration_contract['migration_gates'] ?? array();
+tl_test_assert( 2 === count( $gated_routes ), 'SEO migration gate count mismatch.' );
 foreach ( array( 'homepage markup' => $markup, 'homepage JavaScript' => $js ) as $public_source_name => $public_source ) {
-	foreach ( $gated_route_substrings as $gated_route_substring ) {
+	foreach ( $gated_routes as $gated_route_path => $migration_gate ) {
+		tl_test_assert( true === ( $migration_gate['release_blocked'] ?? false ), 'SEO migration route is not release blocked: ' . $gated_route_path );
 		tl_test_assert(
-			false === strpos( $public_source, $gated_route_substring ),
-			$public_source_name . ' promotes gated route substring: ' . $gated_route_substring
+			false === strpos( $public_source, $gated_route_path ),
+			$public_source_name . ' promotes a gated route: ' . $gated_route_path
 		);
 	}
 }
@@ -852,6 +901,14 @@ foreach ( glob( $root . '/assets/homepage/images/*.webp' ) as $image_path ) {
 	$image_payload = file_get_contents( $image_path );
 	tl_test_assert( false !== $image_payload && strlen( $image_payload ) <= 220000, 'Homepage image exceeds the release budget.' );
 	tl_test_assert( 'RIFF' === substr( $image_payload, 0, 4 ) && 'WEBP' === substr( $image_payload, 8, 4 ), 'Homepage image is not a valid WebP container.' );
+}
+
+$content_image_paths = glob( $root . '/assets/content/images/*.webp' );
+tl_test_assert( 3 === count( $content_image_paths ), 'Content hero image variant count mismatch.' );
+foreach ( $content_image_paths as $image_path ) {
+	$image_payload = file_get_contents( $image_path );
+	tl_test_assert( false !== $image_payload && strlen( $image_payload ) <= 130000, 'Content image exceeds the release budget.' );
+	tl_test_assert( 'RIFF' === substr( $image_payload, 0, 4 ) && 'WEBP' === substr( $image_payload, 8, 4 ), 'Content image is not a valid WebP container.' );
 }
 
 /* Off mode is inert on every request. */

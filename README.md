@@ -2,18 +2,18 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.2.7 boundary
+## Release 0.3.0 boundary
 
 The package keeps the live RTL homepage, country, seven-region, and 77-province
-geography spine intact. It also makes the current homepage description and hero
-artwork the explicit Open Graph and X sharing values, replacing legacy homepage
-social metadata without changing the canonical SEO description owner. While the
-mobile navigation drawer is open, the external accessibility controls are hidden
-and inert so they cannot cover the drawer heading or receive background focus.
+geography spine intact. It adds the first national real-estate hub and connects
+seven existing articles through exact ID and path bindings, keyword-led metadata,
+visible breadcrumbs, contextual links, a shared header and footer, and responsive
+artwork. Existing WordPress bodies and public URLs remain intact.
 
-The public healthcheck now confirms that the compiled geography artifact can be
+The public healthcheck confirms that the compiled geography artifact can be
 loaded. Upgrade and activation still create no content, options, tables,
-taxonomies, or persistent rewrite rules.
+taxonomies, or persistent rewrite rules. The real-estate presentation remains
+Off until its exact live bindings pass acceptance and an administrator enables it.
 
 ## Local verification
 
@@ -24,9 +24,17 @@ node --check prototype/app.js
 node tests/tawk-state.test.js
 python scripts/build_homepage_assets.py
 python scripts/build_geography_registry.py --check
+python scripts/build_content_registry.py --check
+python scripts/build_seo_registry.py --check
+python scripts/build_seo_runtime.py --check
 python tests/geography-builder.test.py
+python tests/real-estate-content.test.py
+python tests/draft-content-inventory.test.py
+python tests/seo-runtime-gates.test.py
 python tests/seo-ownership-registry.test.py
 php -n tests/geography-resolver.test.php
+php tests/real-estate-runtime.test.php
+node --check scripts/live_real_estate_acceptance.cjs
 ```
 
 The deterministic builder includes only the exact sorted inventory in

@@ -130,3 +130,83 @@ main regions from cities and local recommendations. The useful pattern is not
 their visual style. It is the ability to reach a place through geography and
 reach the same place through a task without creating two canonical owners for
 the same intent.
+
+## Current search-system rules applied
+
+- [Google's SEO starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide)
+  supports logical organization, descriptive URLs, useful unique pages, and
+  maintenance of outdated content.
+- [Google's crawlable-link guidance](https://developers.google.com/search/docs/crawling-indexing/links-crawlable)
+  says every important page should receive an internal link and recommends
+  descriptive anchor text that explains the destination.
+- [Google's title-link guidance](https://developers.google.com/search/docs/appearance/title-link)
+  calls for unique, descriptive, concise titles. Google can also use the H1,
+  prominent text, and link anchors, so those elements need one consistent page
+  promise.
+- [Google's current AI search guidance](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)
+  says the search system understands related meanings and synonyms. It does not
+  support creating a separate page for every query variation or using page
+  volume as a substitute for unique value.
+- [Google's canonical guidance](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)
+  supports one preferred URL reinforced by canonical tags, internal links, and
+  sitemap inclusion.
+- [Google's breadcrumb guidance](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb)
+  recommends representing a typical user path rather than mechanically copying
+  the URL shape.
+- [Google's ecommerce hierarchy guidance](https://developers.google.com/search/docs/specialty/ecommerce/help-google-understand-your-ecommerce-site-structure)
+  requires crawlable paths from menus to categories, subcategories, and product
+  pages. Search forms alone are not a discovery system.
+- [Google's faceted-navigation guidance](https://developers.google.com/crawling/docs/faceted-navigation)
+  warns that filter combinations can create an effectively infinite URL space.
+  Only selected combinations with independent demand and unique value become
+  indexable owners.
+- [Google's product documentation](https://developers.google.com/search/docs/appearance/structured-data/product)
+  identifies visible price, currency, availability, shipping, returns, and
+  variants as important product information.
+- [Google's site-move guidance](https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes)
+  requires an old-to-new URL map, updated internal links, canonicals, sitemaps,
+  and permanent redirects when a URL truly must change.
+
+Decision: cannibalization is resolved by intent ownership, not cosmetic wording
+changes. One owner holds the primary term and its synonyms. A second page exists
+only when it completes a different task, at a different decision stage, or for
+a distinct place or entity.
+
+## Additional product patterns checked
+
+| Reference | Observed strength | Requirement carried into Thai-Land |
+| --- | --- | --- |
+| [New Zealand map](https://www.newzealand.com/int/new-zealand-map/) | Map connects regions, attractions, routes, and distance planning | Every map point opens a crawlable canonical entity page, and map and list state stay synchronized |
+| [DDproperty Thailand](https://www.ddproperty.com/en/property-for-sale/p/Thailand) | Property discovery combines location, map, property type, images, and agents | Property records join project, unit, developer, place, price, status, and provider entities |
+| [Rightmove sold prices](https://www.rightmove.co.uk/house-prices.html) | Separates asking context, transaction evidence, and market change | Thai-Land separates asking price, recorded transaction, estimate, and dated market summary |
+| [Klook Thailand](https://www.klook.com/destination/co1004-thailand/1-things-to-do/) | Cards expose decision details before the click | Offer cards show price, next availability, language, pickup, cancellation, and location when those facts exist |
+| [Etsy search help](https://help.etsy.com/hc/en-us/articles/115015627947-How-to-Search-for-Items-and-Shops-on-Etsy?segment=shopping) | Filters include delivery time, seller location, destination, and customization | Marketplace filters use fulfillment reality, not only product taxonomy |
+| [BuyInThai](https://buyinthai.com/he/) | Hebrew purchasing and shipping path between Thailand and Israel | Products and services carry service area, delivery area, pickup, language, availability, and fulfillment method |
+| [Chabad Thailand restaurants](https://chabadthailand.co.il/restaurants/) | Israeli and Jewish services are organized by location and type | Community records attach to exact branches and service locations, with one organization allowed to serve many places |
+
+## Above-standard build requirements
+
+1. Give every province, city, district, island, beach, project, property,
+   business, service, attraction, branch, offer, and product a stable entity ID.
+2. Give every indexable page one intent owner, one canonical URL, one primary
+   term, one synonym family, and explicit exclusions against nearby owners.
+3. Allow a reader to navigate by place or by task while both paths resolve to
+   the same canonical entities.
+4. Make the map an action layer for discovery, comparison, saving, routing, and
+   local service availability, with an equivalent HTML list.
+5. Model a property project with developer, status, coordinates, tenure, unit
+   types, sizes, asking price, price history, fees, operating costs, assumptions,
+   source dates, available units, and nearby comparisons.
+6. Give laws, visas, taxes, licensing, foreign ownership, prices, events, and
+   inventory an explicit review date and cadence. Public wording stays direct,
+   such as "עודכן באוגוסט 2026".
+7. Give every product and service a service area, language, delivery or pickup
+   method, availability, hours, contact path, and location relationship.
+8. Keep saved places, itineraries, property comparisons, provider shortlists,
+   and shopping state in one continuous user journey.
+9. Generate upward hub links, sideways contextual links, and downward entity
+   links from typed relationships, while menus and the footer expose only the
+   major owners.
+10. Release an indexable URL only after ownership, canonical, title, H1,
+    breadcrumb, internal links, schema, imagery, performance, and mobile checks
+    pass. Empty, duplicate, and arbitrary filter states remain nonindexable.
