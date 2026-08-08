@@ -3,11 +3,14 @@
 *.py text eol=lf
 *.ps1 text eol=crlf
 *.json text eol=lf
+*.csv text eol=lf
 *.md text eol=lf
 *.txt text eol=lf
 *.html text eol=lf
 *.css text eol=lf
 *.js text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
 *.png binary
 *.zip binary
 *.mo binary
