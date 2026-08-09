@@ -342,24 +342,69 @@ def resolve_php_binary(requested: str | None) -> Path:
     return resolved
 
 
-def run_checked(command: list[str], cwd: Path) -> str:
-    completed = subprocess.run(command, cwd=cwd, capture_output=True, text=True, check=False)
+def resolve_node_binary(requested: str | None) -> Path:
+    candidate = requested or shutil.which("node")
+    if not candidate:
+        raise ValueError("Node executable was not found")
+    resolved = Path(candidate).resolve()
+    if not resolved.is_file():
+        raise ValueError(f"Node executable is not a file: {resolved}")
+    return resolved
+
+
+def run_checked(command: list[str], cwd: Path, environment: dict[str, str] | None = None) -> str:
+    completed = subprocess.run(
+        command,
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        check=False,
+        env=environment,
+    )
     output = (completed.stdout + completed.stderr).strip()
     if completed.returncode != 0:
         raise ValueError(f"QA command failed ({completed.returncode}): {' '.join(command)}\n{output}")
     return output
 
 
-def run_qa(root: Path, entries: list[str], php_bin: Path) -> dict[str, Any]:
+def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dict[str, Any]:
     php_files = [entry for entry in entries if entry.lower().endswith(".php")]
     for entry in php_files:
         run_checked([str(php_bin), "-l", str(root / Path(*PurePosixPath(entry).parts))], root)
 
+    javascript_files = sorted(
+        [entry for entry in entries if entry.lower().endswith(".js")]
+        + [
+            "scripts/live_homepage_acceptance.cjs",
+            "scripts/live_real_estate_acceptance.cjs",
+            "scripts/live_seo_migration_acceptance.cjs",
+        ]
+    )
+    for entry in javascript_files:
+        source = root / Path(*PurePosixPath(entry).parts)
+        if not source.is_file() or source.is_symlink():
+            raise ValueError(f"JavaScript QA input is missing or unsafe: {entry}")
+        run_checked([str(node_bin), "--check", str(source)], root)
+
+    tawk_output = run_checked([str(node_bin), str(root / "tests" / "tawk-state.test.js")], root)
+    if tawk_output != "PASS: Tawk chat behavior":
+        raise ValueError(f"Unexpected Tawk behavior test output: {tawk_output}")
+
+    run_checked([sys.executable, str(root / "scripts" / "build_bangkok_rental_assets.py"), "--check"], root)
+    run_checked([sys.executable, str(root / "scripts" / "build_bangkok_rental_registry.py"), "--check"], root)
+    run_checked([sys.executable, str(root / "tests" / "bangkok-rental-data.test.py")], root)
     run_checked([sys.executable, str(root / "scripts" / "build_geography_registry.py"), "--check"], root)
     run_checked([sys.executable, str(root / "tests" / "geography-builder.test.py")], root)
     run_checked([sys.executable, str(root / "tests" / "seo-ownership-registry.test.py")], root)
-    test_output = run_checked([str(php_bin), str(root / "tests" / "run.php")], root)
+    contract_environment = os.environ.copy()
+    contract_environment["THAILAND_PLATFORM_NODE_BINARY"] = str(node_bin)
+    test_output = run_checked(
+        [str(php_bin), str(root / "tests" / "run.php")],
+        root,
+        contract_environment,
+    )
     php_version = run_checked([str(php_bin), "--version"], root).splitlines()[0]
+    node_version = run_checked([str(node_bin), "--version"], root).splitlines()[0]
 
     return {
         "php_binary": {
@@ -369,8 +414,20 @@ def run_qa(root: Path, entries: list[str], php_bin: Path) -> dict[str, Any]:
         "php_runtime": php_version,
         "php_lint": "pass",
         "php_files_linted": len(php_files),
+        "node_binary": {
+            "name": node_bin.name,
+            "sha256": sha256_bytes(node_bin.read_bytes()),
+        },
+        "node_runtime": node_version,
+        "javascript_syntax": "pass",
+        "javascript_files_checked": javascript_files,
+        "tawk_state_tests": "pass",
+        "tawk_state_test_output": tawk_output,
         "contract_tests": "pass",
         "contract_test_output": test_output,
+        "bangkok_asset_compiler": "pass",
+        "bangkok_registry_compiler": "pass",
+        "bangkok_data_tests": "pass",
         "geography_compiler": "pass",
         "geography_builder_tests": "pass",
         "seo_registry_tests": "pass",
@@ -437,6 +494,7 @@ def main() -> int:
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--out", type=Path)
     parser.add_argument("--php-bin")
+    parser.add_argument("--node-bin")
     parser.add_argument("--receipt-artifact-path")
     parser.add_argument("--source-commit", default=os.environ.get("THAILAND_SOURCE_COMMIT"))
     args = parser.parse_args()
@@ -453,7 +511,8 @@ def main() -> int:
     entries = read_inventory(root)
     vendor = validate_vendor_tree(root)
     php_bin = resolve_php_binary(args.php_bin)
-    qa = run_qa(root, entries, php_bin)
+    node_bin = resolve_node_binary(args.node_bin)
+    qa = run_qa(root, entries, php_bin, node_bin)
     geography = geography_evidence(root)
     output = (args.out or root / "plugin-dist" / f"{PLUGIN_SLUG}-{contract['version']}.zip").resolve()
     output.parent.mkdir(parents=True, exist_ok=True)

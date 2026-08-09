@@ -10,6 +10,7 @@ import json
 import unicodedata
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,6 +29,69 @@ CATEGORY_INVENTORY = (
     / "inventory"
     / "indexable-category-surfaces.2026-08-08.csv"
 )
+MANAGED_LIVE_EVIDENCE_RELATIVE = (
+    "data/seo/evidence/managed-live-routes.0.3.5.json"
+)
+MANAGED_LIVE_EVIDENCE = ROOT / MANAGED_LIVE_EVIDENCE_RELATIVE
+
+EXPECTED_MANAGED_ROUTES = [
+    {
+        "route_id": "thailand-real-estate",
+        "seo_owner_id": "thailand-real-estate",
+        "canonical_url": "/נדלן-בתאילנד/",
+        "post_id": 841,
+        "post_type": "page",
+    },
+    {
+        "route_id": "thailand-property-financing",
+        "seo_owner_id": "thailand-property-financing",
+        "canonical_url": "/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/",
+        "post_id": 65,
+        "post_type": "post",
+    },
+    {
+        "route_id": "thailand-property-buying-mistakes",
+        "seo_owner_id": "thailand-property-due-diligence-mistakes",
+        "canonical_url": "/5-הטעויות-המובילות-שיש-להימנע-מהן-בעת/",
+        "post_id": 69,
+        "post_type": "post",
+    },
+    {
+        "route_id": "bangkok-apartment-rental",
+        "seo_owner_id": "bangkok-apartment-rental-guide",
+        "canonical_url": "/מדריך-להשכרת-דירה-בבנגקוק/",
+        "post_id": 118,
+        "post_type": "post",
+    },
+    {
+        "route_id": "buy-property-thailand",
+        "seo_owner_id": "buy-property-thailand",
+        "canonical_url": "/קניית-נכס-בתאילנד/",
+        "post_id": 336,
+        "post_type": "post",
+    },
+    {
+        "route_id": "foreign-condo-ownership-thailand",
+        "seo_owner_id": "foreign-condo-ownership-thailand",
+        "canonical_url": "/זכויות-בית-משותף-נכס-בתאילנד/",
+        "post_id": 474,
+        "post_type": "post",
+    },
+    {
+        "route_id": "thailand-property-management",
+        "seo_owner_id": "property-management-thailand",
+        "canonical_url": "/property-management/",
+        "post_id": 609,
+        "post_type": "post",
+    },
+    {
+        "route_id": "thailand-property-prices",
+        "seo_owner_id": "thailand-property-prices",
+        "canonical_url": "/price/",
+        "post_id": 810,
+        "post_type": "post",
+    },
+]
 
 SNAPSHOTS = (
     {
@@ -809,6 +873,15 @@ PLANNED = {
 }
 
 
+MANAGED_LIVE_PATH = "/נדלן-בתאילנד/"
+MANAGED_LIVE = {MANAGED_LIVE_PATH: PLANNED[MANAGED_LIVE_PATH]}
+PLANNED = {
+    url: definition
+    for url, definition in PLANNED.items()
+    if url not in MANAGED_LIVE
+}
+
+
 TECHNICAL = {
     "/?s={query}": public(
         "site-search",
@@ -920,6 +993,146 @@ def lf_digest(path: Path) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def read_json(path: Path) -> dict[str, Any]:
+    """Read one local evidence object without network access."""
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ValueError(f"cannot read JSON evidence {path}: {error}") from error
+    if not isinstance(value, dict):
+        raise ValueError(f"JSON evidence root must be an object: {path}")
+    return value
+
+
+def validate_file_claim(
+    claim: dict[str, Any], path_key: str, bytes_key: str, sha_key: str
+) -> Path:
+    """Validate one already captured local artifact claim."""
+    relative = claim.get(path_key)
+    if not isinstance(relative, str) or not relative:
+        raise ValueError(f"managed-live evidence lacks {path_key}")
+    path = (ROOT / relative).resolve()
+    try:
+        path.relative_to(ROOT.resolve())
+    except ValueError as error:
+        raise ValueError(f"managed-live evidence escapes repository: {relative}") from error
+    if not path.is_file():
+        raise ValueError(f"managed-live evidence file is missing: {relative}")
+    if path.stat().st_size != claim.get(bytes_key):
+        raise ValueError(f"managed-live evidence byte count changed: {relative}")
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    if digest != claim.get(sha_key):
+        raise ValueError(f"managed-live evidence digest changed: {relative}")
+    return path
+
+
+def validate_managed_live_evidence() -> dict[str, Any]:
+    """Validate the frozen release, health, and acceptance evidence bundle."""
+    evidence = read_json(MANAGED_LIVE_EVIDENCE)
+    if evidence.get("schema_version") != 1:
+        raise ValueError("managed-live evidence schema mismatch")
+    if evidence.get("evidence_id") != "thailand-platform-real-estate-0.3.5-managed-live":
+        raise ValueError("managed-live evidence ID mismatch")
+    if evidence.get("origin") != "https://thai-land.co.il":
+        raise ValueError("managed-live evidence origin mismatch")
+
+    expected_release = {
+        "version": "0.3.5",
+        "receipt_path": "plugin-dist/0.3.5/thailand-platform-0.3.5.receipt.json",
+        "receipt_bytes": 17061,
+        "receipt_sha256": "1ff19beb7378d9f0bc56a487d4656bf07b0ae96b45b7c9440a7e9d9c534b4ada",
+        "artifact_path": "plugin-dist/0.3.5/thailand-platform-0.3.5.zip",
+        "artifact_bytes": 677753,
+        "artifact_sha256": "765f000e17656d513cd53e530207a656827261ef77559b036e2a7ae68cb1d070",
+        "source_commit": "b71a77f243bbeb8d5e17a96c08c5742e48d5ddce",
+    }
+    release = evidence.get("release")
+    if release != expected_release:
+        raise ValueError("managed-live release claim mismatch")
+    receipt_path = validate_file_claim(
+        release, "receipt_path", "receipt_bytes", "receipt_sha256"
+    )
+    validate_file_claim(release, "artifact_path", "artifact_bytes", "artifact_sha256")
+    receipt = read_json(receipt_path)
+    for key, expected in (
+        ("version", release["version"]),
+        ("source_commit", release["source_commit"]),
+        ("bytes", release["artifact_bytes"]),
+        ("sha256", release["artifact_sha256"]),
+        ("deterministic_zip", True),
+    ):
+        if receipt.get(key) != expected:
+            raise ValueError(f"managed-live receipt field mismatch: {key}")
+
+    expected_health = {
+        "url": "https://thai-land.co.il/wp-json/thailand-platform/v1/health",
+        "observed_at": "2026-08-08T19:32:22.941Z",
+        "http_status": 200,
+        "response": {
+            "name": "thailand-platform",
+            "version": "0.3.5",
+            "status": "ok",
+        },
+    }
+    if evidence.get("health") != expected_health:
+        raise ValueError("managed-live health claim mismatch")
+
+    expected_acceptance = {
+        "path": "output/playwright/real-estate-live-0.3.5-acceptance.json",
+        "bytes": 403730,
+        "sha256": "b6932b273175505f4e8f86a6b6c11aeac2a43891901c88c2c367da5ffbe2681a",
+        "contract_id": "thailand-real-estate-v1",
+        "route_count": 8,
+        "passed": True,
+        "passed_count": 374,
+        "failed_count": 0,
+    }
+    acceptance_claim = evidence.get("acceptance")
+    if acceptance_claim != expected_acceptance:
+        raise ValueError("managed-live acceptance claim mismatch")
+    acceptance_path = validate_file_claim(
+        acceptance_claim, "path", "bytes", "sha256"
+    )
+    acceptance = read_json(acceptance_path)
+    acceptance_result = acceptance.get("acceptance", {})
+    for key, expected in (
+        ("release", release["version"]),
+        ("contract_id", acceptance_claim["contract_id"]),
+        ("route_count", acceptance_claim["route_count"]),
+    ):
+        if acceptance.get(key) != expected:
+            raise ValueError(f"managed-live acceptance field mismatch: {key}")
+    for key in ("passed", "passed_count", "failed_count"):
+        if acceptance_result.get(key) != acceptance_claim[key]:
+            raise ValueError(f"managed-live acceptance result mismatch: {key}")
+
+    managed_routes = evidence.get("managed_routes")
+    if managed_routes != EXPECTED_MANAGED_ROUTES:
+        raise ValueError("managed-live route bindings changed")
+    acceptance_routes = acceptance.get("routes")
+    if not isinstance(acceptance_routes, dict) or set(acceptance_routes) != {
+        route["route_id"] for route in EXPECTED_MANAGED_ROUTES
+    }:
+        raise ValueError("managed-live acceptance route set mismatch")
+    for route in EXPECTED_MANAGED_ROUTES:
+        route_result = acceptance_routes[route["route_id"]]
+        for viewport in ("desktop", "mobile"):
+            result = route_result.get(viewport, {})
+            if result.get("http_status") != 200:
+                raise ValueError(
+                    f"managed-live acceptance HTTP mismatch: {route['route_id']} {viewport}"
+                )
+            canonical = result.get("inspection", {}).get("canonical", "")
+            canonical_path = unicodedata.normalize(
+                "NFC", unquote(urlsplit(canonical).path)
+            )
+            if normalize_route(canonical_path) != route["canonical_url"]:
+                raise ValueError(
+                    f"managed-live acceptance canonical mismatch: {route['route_id']} {viewport}"
+                )
+    return evidence
+
+
 def review_state(action: str, lifecycle: str) -> str:
     if lifecycle == "planned":
         return "planned"
@@ -947,6 +1160,7 @@ def source_for_path(path: str, snapshot_paths: dict[str, set[str]]) -> tuple[lis
 
 
 def build_registry() -> dict[str, Any]:
+    validate_managed_live_evidence()
     snapshot_files = {
         "yoast-sitemaps-2026-08-08": SITEMAP_INVENTORY,
         "indexable-category-surfaces-2026-08-08": CATEGORY_INVENTORY,
@@ -977,6 +1191,14 @@ def build_registry() -> dict[str, Any]:
 
     for url, definition in PUBLIC.items():
         owner_id = definition["owner_id"]
+        definitions[owner_id] = dict(definition)
+        canonical_urls[owner_id] = url
+        lifecycle_by_owner[owner_id] = "live"
+
+    for url, definition in MANAGED_LIVE.items():
+        owner_id = definition["owner_id"]
+        if owner_id in definitions:
+            raise ValueError(f"duplicate owner definition: {owner_id}")
         definitions[owner_id] = dict(definition)
         canonical_urls[owner_id] = url
         lifecycle_by_owner[owner_id] = "live"
@@ -1133,6 +1355,8 @@ def build_registry() -> dict[str, Any]:
             source_evidence = ["research/serp/2026-08-08-hebrew-thailand-serp.md"]
         elif canonical_url in PUBLIC:
             _, source_evidence = source_for_path(canonical_url, snapshot_paths)
+        elif canonical_url in MANAGED_LIVE:
+            source_evidence = [MANAGED_LIVE_EVIDENCE_RELATIVE]
         else:
             source_evidence = ["README.md"]
 
@@ -1232,6 +1456,23 @@ def build_registry() -> dict[str, Any]:
                 "observed_in": observed,
                 "source_evidence": evidence,
                 "assignment": assignment,
+            }
+        )
+
+    for url, definition in sorted(MANAGED_LIVE.items()):
+        routes.append(
+            {
+                "route_id": f"route-{definition['owner_id']}",
+                "url": url,
+                "route_kind": "exact",
+                "lifecycle": "live",
+                "indexing_policy": "index",
+                "observed_in": [],
+                "source_evidence": [MANAGED_LIVE_EVIDENCE_RELATIVE],
+                "assignment": {
+                    "kind": "canonical_owner",
+                    "owner_id": definition["owner_id"],
+                },
             }
         )
 

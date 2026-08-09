@@ -6,6 +6,7 @@
  */
 
 use Thailand_Platform\Content\Assets;
+use Thailand_Platform\Content\BangkokRentalExplorer;
 use Thailand_Platform\Content\Breadcrumbs;
 use Thailand_Platform\Content\Context;
 use Thailand_Platform\Content\ContextualLinks;
@@ -23,6 +24,11 @@ if ( ! is_array( $route ) || ! Renderer::ready( $route ) ) {
 
 $body   = Renderer::post_body( $route );
 $is_hub = 'hub' === $route['kind'];
+$is_bangkok_rental = 'bangkok-apartment-rental' === $route['route_id'];
+$parent_route = is_array( $route['parent_link'] ?? null )
+	? Repository::route_by_id( $route['parent_link']['target_route_id'] )
+	: null;
+$hub_route = Repository::route_by_id( Repository::all()['hub_route_id'] ?? '' );
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?> class="thp-content-document">
@@ -36,7 +42,7 @@ $is_hub = 'hub' === $route['kind'];
 	<?php if ( function_exists( 'wp_body_open' ) ) { wp_body_open(); } ?>
 	<div class="thp-content">
 		<?php require THAILAND_PLATFORM_DIR . 'templates/partials/content-header.php'; ?>
-		<main id="main-content" data-thp-owner-id="<?php echo esc_attr( $route['route_id'] ); ?>">
+		<main id="main-content" data-thp-route-id="<?php echo esc_attr( $route['route_id'] ); ?>" data-thp-owner-id="<?php echo esc_attr( $route['seo_owner_id'] ); ?>">
 			<div class="thp-shell thp-breadcrumb-wrap"><?php Breadcrumbs::render( $route ); ?></div>
 			<section class="thp-content-hero<?php echo $is_hub ? ' is-hub' : ' is-spoke'; ?>" aria-labelledby="thp-page-title">
 				<picture class="thp-hero-art" aria-hidden="true">
@@ -47,11 +53,11 @@ $is_hub = 'hub' === $route['kind'];
 				<div class="thp-hero-shade"></div>
 				<div class="thp-shell thp-hero-inner">
 					<div class="thp-hero-copy">
-						<p class="thp-kicker"><?php echo $is_hub ? 'נדל״ן בתאילנד' : 'מדריך נדל״ן ממוקד'; ?></p>
+						<p class="thp-kicker"><?php echo esc_html( $is_hub ? 'נדל״ן בתאילנד' : ( $is_bangkok_rental ? 'מגורים ושכירות בבנגקוק' : 'מדריך נדל״ן ממוקד' ) ); ?></p>
 						<h1 id="thp-page-title"><?php echo esc_html( $route['public']['h1'] ); ?></h1>
 						<p class="thp-hero-summary"><?php echo esc_html( $route['public']['summary'] ); ?></p>
-						<?php if ( ! $is_hub && is_array( $route['parent_link'] ?? null ) ) : ?>
-							<a class="thp-button thp-button-light" href="<?php echo esc_url( home_url( Repository::route_by_id( $route['parent_link']['target_route_id'] )['path'] ) ); ?>" data-thp-target-owner="thailand-real-estate" data-thp-relationship="parent_hub"><?php echo esc_html( $route['parent_link']['label'] ); ?></a>
+						<?php if ( ! $is_hub && is_array( $parent_route ) ) : ?>
+							<a class="thp-button thp-button-light" href="<?php echo esc_url( home_url( $parent_route['path'] ) ); ?>" data-thp-target-route="<?php echo esc_attr( $parent_route['route_id'] ); ?>" data-thp-target-owner="<?php echo esc_attr( $parent_route['seo_owner_id'] ); ?>" data-thp-relationship="parent_hub"><?php echo esc_html( $route['parent_link']['label'] ); ?></a>
 						<?php endif; ?>
 					</div>
 					<?php if ( $is_hub ) : ?>
@@ -71,13 +77,16 @@ $is_hub = 'hub' === $route['kind'];
 						<?php echo $body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</article>
 				<?php else : ?>
+					<?php BangkokRentalExplorer::render( $route ); ?>
 					<div class="thp-article-layout">
 						<article class="thp-prose" data-thp-preserved-body>
 							<?php echo $body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</article>
 						<aside class="thp-article-aside">
 							<nav class="thp-toc" aria-label="תוכן העמוד"><strong>בעמוד הזה</strong><ol data-thp-toc></ol></nav>
-							<a class="thp-aside-hub-link" href="<?php echo esc_url( home_url( '/נדלן-בתאילנד/' ) ); ?>" data-thp-target-owner="thailand-real-estate" data-thp-relationship="parent_hub">לכל מדריכי הנדל״ן בתאילנד <span aria-hidden="true">←</span></a>
+							<?php if ( is_array( $hub_route ) ) : ?>
+								<a class="thp-aside-hub-link" href="<?php echo esc_url( home_url( $hub_route['path'] ) ); ?>" data-thp-target-route="<?php echo esc_attr( $hub_route['route_id'] ); ?>" data-thp-target-owner="<?php echo esc_attr( $hub_route['seo_owner_id'] ); ?>" data-thp-relationship="parent_hub">לכל מדריכי הנדל״ן בתאילנד <span aria-hidden="true">←</span></a>
+							<?php endif; ?>
 						</aside>
 					</div>
 					<?php ContextualLinks::render_continuations( $route ); ?>

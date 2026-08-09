@@ -241,6 +241,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-real-estate",
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        },
+        {
           "owner_id": "bangkok-apartment-rental-guide",
           "name": "השכרת דירה בבנגקוק",
           "url": "/מדריך-להשכרת-דירה-בבנגקוק/"
@@ -248,12 +253,12 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
+          "target_owner_id": "thailand-real-estate",
           "relationship": "parent_hub",
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "תאילנד"
+            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -284,17 +289,7 @@
           ]
         }
       ],
-      "planned_internal_link_requirements": [
-        {
-          "target_owner_id": "thailand-real-estate",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "נדל״ן בתאילנד"
-          ]
-        }
-      ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "price_sensitive_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -523,6 +518,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-real-estate",
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        },
+        {
           "owner_id": "buy-property-thailand",
           "name": "קניית נכס בתאילנד",
           "url": "/קניית-נכס-בתאילנד/"
@@ -530,12 +530,12 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
+          "target_owner_id": "thailand-real-estate",
           "relationship": "parent_hub",
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "תאילנד"
+            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -557,17 +557,7 @@
           ]
         }
       ],
-      "planned_internal_link_requirements": [
-        {
-          "target_owner_id": "thailand-real-estate",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "נדל״ן בתאילנד"
-          ]
-        }
-      ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -750,6 +740,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-real-estate",
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        },
+        {
           "owner_id": "foreign-condo-ownership-thailand",
           "name": "בעלות זרים בקונדומיניום בתאילנד",
           "url": "/זכויות-בית-משותף-נכס-בתאילנד/"
@@ -757,12 +752,12 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
+          "target_owner_id": "thailand-real-estate",
           "relationship": "parent_hub",
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "תאילנד"
+            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -784,17 +779,7 @@
           ]
         }
       ],
-      "planned_internal_link_requirements": [
-        {
-          "target_owner_id": "thailand-real-estate",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "נדל״ן בתאילנד"
-          ]
-        }
-      ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -918,39 +903,12 @@
           ]
         },
         {
-          "target_owner_id": "bangkok-apartment-rental-guide",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "השכרת דירה בבנגקוק"
-          ]
-        },
-        {
           "target_owner_id": "business-in-thailand",
           "relationship": "child_spoke",
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
             "עסקים בתאילנד"
-          ]
-        },
-        {
-          "target_owner_id": "buy-property-thailand",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "קניית נכס בתאילנד"
-          ]
-        },
-        {
-          "target_owner_id": "foreign-condo-ownership-thailand",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "בעלות זרים בדירה בתאילנד"
           ]
         },
         {
@@ -969,15 +927,6 @@
           "minimum_occurrences": 1,
           "anchor_terms": [
             "פוקט"
-          ]
-        },
-        {
-          "target_owner_id": "property-management-thailand",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "ניהול נכסים בתאילנד"
           ]
         },
         {
@@ -1080,30 +1029,12 @@
           ]
         },
         {
-          "target_owner_id": "thailand-property-due-diligence-mistakes",
+          "target_owner_id": "thailand-real-estate",
           "relationship": "child_spoke",
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "טעויות בקניית נכס בתאילנד"
-          ]
-        },
-        {
-          "target_owner_id": "thailand-property-financing",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "משכנתא בתאילנד לזרים"
-          ]
-        },
-        {
-          "target_owner_id": "thailand-property-prices",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "מחירי נדל״ן בתאילנד"
+            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -1214,15 +1145,6 @@
           "minimum_occurrences": 1,
           "anchor_terms": [
             "מפת תאילנד"
-          ]
-        },
-        {
-          "target_owner_id": "thailand-real-estate",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -1890,6 +1812,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-real-estate",
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        },
+        {
           "owner_id": "property-management-thailand",
           "name": "ניהול נכסים בתאילנד",
           "url": "/property-management/"
@@ -1897,12 +1824,12 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
+          "target_owner_id": "thailand-real-estate",
           "relationship": "parent_hub",
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "תאילנד"
+            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -1924,17 +1851,7 @@
           ]
         }
       ],
-      "planned_internal_link_requirements": [
-        {
-          "target_owner_id": "thailand-real-estate",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "נדל״ן בתאילנד"
-          ]
-        }
-      ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "price_sensitive_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -3274,6 +3191,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-real-estate",
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        },
+        {
           "owner_id": "thailand-property-due-diligence-mistakes",
           "name": "בדיקת נאותות וטעויות בקניית נכס בתאילנד",
           "url": "/5-הטעויות-המובילות-שיש-להימנע-מהן-בעת/"
@@ -3281,12 +3203,12 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
+          "target_owner_id": "thailand-real-estate",
           "relationship": "parent_hub",
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "תאילנד"
+            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -3308,17 +3230,7 @@
           ]
         }
       ],
-      "planned_internal_link_requirements": [
-        {
-          "target_owner_id": "thailand-real-estate",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "נדל״ן בתאילנד"
-          ]
-        }
-      ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -3353,6 +3265,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-real-estate",
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        },
+        {
           "owner_id": "thailand-property-financing",
           "name": "משכנתא ומימון נכס בתאילנד לזרים",
           "url": "/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/"
@@ -3360,12 +3277,12 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
+          "target_owner_id": "thailand-real-estate",
           "relationship": "parent_hub",
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "תאילנד"
+            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -3387,17 +3304,7 @@
           ]
         }
       ],
-      "planned_internal_link_requirements": [
-        {
-          "target_owner_id": "thailand-real-estate",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "נדל״ן בתאילנד"
-          ]
-        }
-      ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "price_sensitive_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -3441,6 +3348,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-real-estate",
+          "name": "נדל״ן בתאילנד",
+          "url": "/נדלן-בתאילנד/"
+        },
+        {
           "owner_id": "thailand-property-prices",
           "name": "מחירי נדל״ן בתאילנד",
           "url": "/price/"
@@ -3448,12 +3360,12 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
+          "target_owner_id": "thailand-real-estate",
           "relationship": "parent_hub",
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "תאילנד"
+            "נדל״ן בתאילנד"
           ]
         },
         {
@@ -3475,17 +3387,7 @@
           ]
         }
       ],
-      "planned_internal_link_requirements": [
-        {
-          "target_owner_id": "thailand-real-estate",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "נדל״ן בתאילנד"
-          ]
-        }
-      ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "price_sensitive_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -3618,7 +3520,7 @@
     },
     {
       "owner_id": "thailand-real-estate",
-      "lifecycle": "planned",
+      "lifecycle": "live",
       "canonical_url": "/נדלן-בתאילנד/",
       "intent_id": "he|real-estate|thailand|market-orient|evaluate",
       "name": "נדל״ן בתאילנד",
@@ -3646,8 +3548,7 @@
           "url": "/נדלן-בתאילנד/"
         }
       ],
-      "internal_link_requirements": [],
-      "planned_internal_link_requirements": [
+      "internal_link_requirements": [
         {
           "target_owner_id": "bangkok-apartment-rental-guide",
           "relationship": "child_spoke",
@@ -3712,15 +3613,6 @@
           ]
         },
         {
-          "target_owner_id": "thailand-property-projects",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "פרויקטים נדל״ן בתאילנד"
-          ]
-        },
-        {
           "target_owner_id": "home",
           "relationship": "parent_hub",
           "placement": "contextual_body",
@@ -3730,12 +3622,23 @@
           ]
         }
       ],
+      "planned_internal_link_requirements": [
+        {
+          "target_owner_id": "thailand-property-projects",
+          "relationship": "child_spoke",
+          "placement": "navigation",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "פרויקטים נדל״ן בתאילנד"
+          ]
+        }
+      ],
       "freshness_class": "price_sensitive_monthly",
       "migration_action": "create",
-      "review_state": "planned",
+      "review_state": "upgrade_required",
       "unique_contribution": "מפת החלטה ארצית שמחברת שוק, מקום, סוג נכס, תהליך, עלות וסיכון",
       "source_evidence": [
-        "research/serp/2026-08-08-hebrew-thailand-serp.md"
+        "data/seo/evidence/managed-live-routes.0.3.5.json"
       ],
       "cannibalization_exclusions": [
         {
@@ -5201,11 +5104,11 @@
       "route_id": "route-thailand-real-estate",
       "url": "/נדלן-בתאילנד/",
       "route_kind": "exact",
-      "lifecycle": "planned",
+      "lifecycle": "live",
       "indexing_policy": "index",
       "observed_in": [],
       "source_evidence": [
-        "research/serp/2026-08-08-hebrew-thailand-serp.md"
+        "data/seo/evidence/managed-live-routes.0.3.5.json"
       ],
       "assignment": {
         "kind": "canonical_owner",

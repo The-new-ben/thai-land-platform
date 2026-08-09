@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="thp-shell thp-footer-lead">
 		<div>
 			<p class="thp-kicker">Thai-Land.co.il</p>
-			<h2>כל מה שצריך לדעת על תאילנד, במקום אחד</h2>
+			<h2>מה אתם מתכננים בתאילנד?</h2>
 			<p>טיולים, מגורים, נדל״ן, עסקים ושירותים לישראלים בתאילנד.</p>
 		</div>
 		<a class="thp-button thp-button-light" href="<?php echo esc_url( home_url( '/' ) ); ?>">חזרה לעמוד הבית</a>

@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [string]$PhpBinary = 'php',
-    [string]$PythonBinary = 'python'
+    [string]$PythonBinary = 'python',
+    [string]$NodeBinary = 'node'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -19,8 +20,10 @@ foreach ($trustedTool in @($trustedGit, $trustedTar)) {
 
 $pythonCommand = @(Get-Command $PythonBinary -CommandType Application -All -ErrorAction Stop)[0]
 $phpCommand = @(Get-Command $PhpBinary -CommandType Application -All -ErrorAction Stop)[0]
+$nodeCommand = @(Get-Command $NodeBinary -CommandType Application -All -ErrorAction Stop)[0]
 $pythonExecutable = $pythonCommand.Source
 $phpExecutable = $phpCommand.Source
+$nodeExecutable = $nodeCommand.Source
 
 $detectedRoot = (& $trustedGit -C $repositoryRoot rev-parse --show-toplevel).Trim()
 if ([IO.Path]::GetFullPath($detectedRoot) -ne [IO.Path]::GetFullPath($repositoryRoot)) {
@@ -48,6 +51,8 @@ if ($version -notmatch '^[0-9]+(?:\.[0-9]+)+$') {
 }
 
 $releaseInputs = @(
+    'data/content/bangkok-rental-areas.json',
+    'data/content/bangkok-rental-areas.schema.json',
     'data/content/real-estate.json',
     'data/content/real-estate.schema.json',
     'data/content/inventory/draft-content-disposition.2026-08-08.csv',
@@ -61,6 +66,7 @@ $releaseInputs = @(
     'data/geography/registry.schema.json',
     'data/geography/relations.json',
     'data/seo/README.md',
+    'data/seo/evidence/managed-live-routes.0.3.5.json',
     'data/seo/inventory/current-public-url-metadata.2026-08-08.csv',
     'data/seo/inventory/indexable-category-surfaces.2026-08-08.csv',
     'data/seo/ownership-registry.json',
@@ -70,11 +76,14 @@ $releaseInputs = @(
     'prototype/assets/homepage-hero-thailand-system-v1-1024.webp',
     'prototype/assets/homepage-hero-thailand-system-v1-1713.webp',
     'prototype/assets/homepage-hero-thailand-system-v1-640.webp',
+    'prototype/assets/bangkok-rental-atlas-v1.png',
     'prototype/assets/real-estate-thailand-atlas-v1.png',
     'prototype/index.html',
     'prototype/styles.css',
     'release.json',
     'research/serp/2026-08-08-hebrew-thailand-serp.md',
+    'scripts/build_bangkok_rental_assets.py',
+    'scripts/build_bangkok_rental_registry.py',
     'scripts/build_content_registry.py',
     'scripts/build_homepage_assets.py',
     'scripts/build_geography_registry.py',
@@ -87,6 +96,7 @@ $releaseInputs = @(
     'scripts/read_release_version.py',
     'scripts/release.ps1',
     'scripts/verify_release_receipt.py',
+    'tests/bangkok-rental-data.test.py',
     'tests/geography-builder.test.py',
     'tests/draft-content-inventory.test.py',
     'tests/geography-resolver.test.php',
@@ -155,12 +165,15 @@ try {
 
     $builder = Join-Path $frozenSource 'scripts\build_plugin_zip.py'
     $assetBuilder = Join-Path $frozenSource 'scripts\build_homepage_assets.py'
+    $bangkokAssetBuilder = Join-Path $frozenSource 'scripts\build_bangkok_rental_assets.py'
+    $bangkokRegistryBuilder = Join-Path $frozenSource 'scripts\build_bangkok_rental_registry.py'
     $contentBuilder = Join-Path $frozenSource 'scripts\build_content_registry.py'
     $geographyBuilder = Join-Path $frozenSource 'scripts\build_geography_registry.py'
     $seoRegistryBuilder = Join-Path $frozenSource 'scripts\build_seo_registry.py'
     $seoRuntimeBuilder = Join-Path $frozenSource 'scripts\build_seo_runtime.py'
     $contentRegistryTest = Join-Path $frozenSource 'tests\real-estate-content.test.py'
     $contentRuntimeTest = Join-Path $frozenSource 'tests\real-estate-runtime.test.php'
+    $bangkokDataTest = Join-Path $frozenSource 'tests\bangkok-rental-data.test.py'
     $draftContentInventoryTest = Join-Path $frozenSource 'tests\draft-content-inventory.test.py'
     $geographyBuilderTest = Join-Path $frozenSource 'tests\geography-builder.test.py'
     $seoRegistryTest = Join-Path $frozenSource 'tests\seo-ownership-registry.test.py'
@@ -172,6 +185,16 @@ try {
     $assetCheckOutput = & $pythonExecutable $assetBuilder --check
     if ($LASTEXITCODE -ne 0) {
         throw "Generated homepage asset verification failed.`n$assetCheckOutput"
+    }
+
+    $bangkokAssetCheckOutput = & $pythonExecutable $bangkokAssetBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated Bangkok rental asset verification failed.`n$bangkokAssetCheckOutput"
+    }
+
+    $bangkokRegistryCheckOutput = & $pythonExecutable $bangkokRegistryBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated Bangkok rental registry verification failed.`n$bangkokRegistryCheckOutput"
     }
 
     $geographyCheckOutput = & $pythonExecutable $geographyBuilder --check
@@ -209,6 +232,11 @@ try {
         throw "Real-estate runtime tests failed.`n$contentRuntimeTestOutput"
     }
 
+    $bangkokDataTestOutput = & $pythonExecutable $bangkokDataTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Bangkok rental data tests failed.`n$bangkokDataTestOutput"
+    }
+
     $draftContentInventoryTestOutput = & $pythonExecutable $draftContentInventoryTest
     if ($LASTEXITCODE -ne 0) {
         throw "Draft-content inventory tests failed.`n$draftContentInventoryTestOutput"
@@ -224,11 +252,11 @@ try {
         throw "SEO runtime gate tests failed.`n$seoRuntimeTestOutput"
     }
 
-    $buildAOutput = & $pythonExecutable $builder --root $frozenSource --out $candidateA --php-bin $phpExecutable --source-commit $sourceCommit
+    $buildAOutput = & $pythonExecutable $builder --root $frozenSource --out $candidateA --php-bin $phpExecutable --node-bin $nodeExecutable --source-commit $sourceCommit
     if ($LASTEXITCODE -ne 0) {
         throw "First deterministic build failed.`n$buildAOutput"
     }
-    $buildBOutput = & $pythonExecutable $builder --root $frozenSource --out $candidateB --php-bin $phpExecutable --source-commit $sourceCommit --receipt-artifact-path $expectedRelativePath
+    $buildBOutput = & $pythonExecutable $builder --root $frozenSource --out $candidateB --php-bin $phpExecutable --node-bin $nodeExecutable --source-commit $sourceCommit --receipt-artifact-path $expectedRelativePath
     if ($LASTEXITCODE -ne 0) {
         throw "Second deterministic build failed.`n$buildBOutput"
     }
@@ -240,7 +268,7 @@ try {
     }
 
     $candidateBReceipt = [IO.Path]::ChangeExtension($candidateB, '.receipt.json')
-    & $pythonExecutable $validator --receipt $candidateBReceipt --artifact $candidateB --source-root $frozenSource --source-commit $sourceCommit --version $version --expected-path $expectedRelativePath --python-bin $pythonExecutable --php-bin $phpExecutable
+    & $pythonExecutable $validator --receipt $candidateBReceipt --artifact $candidateB --source-root $frozenSource --source-commit $sourceCommit --version $version --expected-path $expectedRelativePath --python-bin $pythonExecutable --php-bin $phpExecutable --node-bin $nodeExecutable
     if ($LASTEXITCODE -ne 0) {
         throw 'Strict candidate receipt verification failed.'
     }
@@ -258,7 +286,7 @@ try {
     [IO.File]::Copy($candidateB, $publishedCandidateZip, $false)
     [IO.File]::Copy($candidateBReceipt, $publishedCandidateReceipt, $false)
 
-    & $pythonExecutable $validator --receipt $publishedCandidateReceipt --artifact $publishedCandidateZip --source-root $frozenSource --source-commit $sourceCommit --version $version --expected-path $expectedRelativePath --python-bin $pythonExecutable --php-bin $phpExecutable
+    & $pythonExecutable $validator --receipt $publishedCandidateReceipt --artifact $publishedCandidateZip --source-root $frozenSource --source-commit $sourceCommit --version $version --expected-path $expectedRelativePath --python-bin $pythonExecutable --php-bin $phpExecutable --node-bin $nodeExecutable
     if ($LASTEXITCODE -ne 0) {
         throw 'Strict publish-candidate verification failed.'
     }
@@ -270,6 +298,7 @@ try {
     [PSCustomObject]@{
         artifact = $expectedRelativePath
         bytes = (Get-Item -LiteralPath $finalZip).Length
+        node = [IO.Path]::GetFileName($nodeExecutable)
         python = [IO.Path]::GetFileName($pythonExecutable)
         php = [IO.Path]::GetFileName($phpExecutable)
         receipt = $expectedRelativeReceipt

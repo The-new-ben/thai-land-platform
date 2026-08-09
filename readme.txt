@@ -4,22 +4,34 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.3.5
+Stable tag: 0.3.6
 License: Proprietary
 
 Geography, search, homepage, and content runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.3.5 polishes the real-estate hub and spoke experience while
-keeping every existing article URL and stored body intact. The exact page and
-post bindings receive a dedicated RTL document, keyword-led metadata, visible
-breadcrumbs, contextual continuations, source links, responsive artwork, and a
-shared navigation and footer. The homepage now connects readers directly to the
-real-estate and business owners. Upgrade and activation do not change content,
-URLs, redirects, taxonomies, schema, or database structure.
+Version 0.3.6 adds a detailed Bangkok long-term rental guide while keeping every
+existing public URL and stored WordPress body intact. Readers can compare ten
+living areas, all 50 official districts, 19 rail stations, current rent bands,
+upfront cash, and tenant rules through an accessible RTL decision map. The
+release also aligns content routes with canonical SEO owners. Upgrade and
+activation do not change content, URLs, redirects, taxonomies, or database
+structure.
 
 == Changelog ==
+
+= 0.3.6 =
+* Add ten Bangkok living areas with current one-bedroom and two-bedroom asking
+  ranges, budget and lifestyle filters, a rail-aware decision map, and all 50
+  official districts.
+* Add an upfront cash calculator and current lease, deposit, utility, TM30, and
+  stamp-duty facts from official sources.
+* Add route-specific responsive Bangkok artwork under the existing image budget.
+* Connect stable content route IDs to canonical SEO owner IDs and make the live
+  national real-estate hub the parent of all seven released guides.
+* Replace the old district dump and obsolete tenant-law sentence in rendered
+  output while preserving the stored article and canonical URL.
 
 = 0.3.5 =
 * Open the responsive accessibility panel below the sticky header without

@@ -1,0 +1,1473 @@
+{
+  "schema_version": 1,
+  "contract_id": "bangkok-rental-areas-v1",
+  "site": {
+    "origin": "https://thai-land.co.il",
+    "locale": "he-IL",
+    "direction": "rtl",
+    "parent_route_id": "bangkok-apartment-rental",
+    "parent_path": "/מדריך-להשכרת-דירה-בבנגקוק/"
+  },
+  "checked_on": "2026-08-10",
+  "entity_policy": {
+    "official_district_kind": "official_district",
+    "market_area_kind": "market_area",
+    "indexing_policy": "non_indexable_structured_entity",
+    "relationship": "אזורי השוק מתארים חיפוש מגורים יומיומי ויכולים לחצות גבולות של מחוז רשמי אחד או יותר."
+  },
+  "public_labels": {
+    "area_map_heading": "מפת אזורי המגורים בבנגקוק",
+    "area_comparison_heading": "איפה כדאי לגור בבנגקוק לפי תקציב וסגנון חיים",
+    "estimated_band_heading": "טווח שכירות חודשי משוער",
+    "fit_heading": "למי האזור מתאים",
+    "tradeoff_heading": "מה כדאי לקחת בחשבון",
+    "micro_area_heading": "איפה להתמקד בתוך האזור",
+    "daily_life_heading": "איך נראים חיי היום יום"
+  },
+  "pricing_method": {
+    "pricing_method_id": "method:bangkok:rental-asking-bands",
+    "public_label": "טווח שכירות חודשי משוער לקונדו מרוהט בחוזה טיפוסי של 12 חודשים, לפי מחירי פרסום שנבדקו ב-10 באוגוסט 2026",
+    "currency": "THB",
+    "unit": "month",
+    "home_type": "condominium",
+    "lease_basis": "typical_12_month_asking_price",
+    "furnishing_basis": "furnished",
+    "rounding_thb": 1000,
+    "checked_on": "2026-08-10",
+    "source_ids": [
+      "source:propertyscout:bangkok-condos",
+      "source:ddproperty:bangkok-condos",
+      "source:propertyhub:bangkok-condos"
+    ]
+  },
+  "source_catalog": [
+    {
+      "source_id": "source:bma:districts",
+      "kind": "official_government",
+      "name": "50 administrative districts of Bangkok",
+      "publisher": "Bangkok Metropolitan Administration Open Government Data",
+      "url": "https://data.bangkok.go.th/dataset/e537025b-1cf6-4c5b-8e46-c2e976f13283/resource/0f40f9b4-617b-46a9-8806-f590da610954/download/district.kml",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "official district count",
+        "official district names",
+        "administrative district boundaries"
+      ]
+    },
+    {
+      "source_id": "source:bma:district-vocabulary",
+      "kind": "official_government",
+      "name": "Bangkok district Thai and English vocabulary",
+      "publisher": "Bangkok Metropolitan Administration International Affairs Office",
+      "url": "https://iao.bangkok.go.th/content-list/157",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "official Thai district names",
+        "official English district names",
+        "district identity normalization"
+      ]
+    },
+    {
+      "source_id": "source:bma:district-overview",
+      "kind": "official_government",
+      "name": "Bangkok 50 district map overview",
+      "publisher": "Bangkok Metropolitan Administration",
+      "url": "https://district.bangkok.go.th/SEDPortal/50-map-overview/",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "official district organization",
+        "district map context"
+      ]
+    },
+    {
+      "source_id": "source:bts:route-map",
+      "kind": "official_operator",
+      "name": "BTS route map",
+      "publisher": "Bangkok Mass Transit System Public Company Limited",
+      "url": "https://www.bts.co.th/btsroutes/btsroutes.pdf",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "BTS lines",
+        "BTS station sequence",
+        "BTS interchange context"
+      ]
+    },
+    {
+      "source_id": "source:bts:timetable",
+      "kind": "official_operator",
+      "name": "BTS station timetable and codes",
+      "publisher": "Bangkok Mass Transit System Public Company Limited",
+      "url": "https://www.bts.co.th/pdf/timetable.pdf",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "BTS station codes",
+        "BTS station names"
+      ]
+    },
+    {
+      "source_id": "source:bem:blue-line",
+      "kind": "official_operator",
+      "name": "MRT Blue Line station map",
+      "publisher": "Bangkok Expressway and Metro Public Company Limited",
+      "url": "https://metro.bemplc.co.th/Line-Maps?Line=1&lang=en",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "MRT Blue Line station codes",
+        "MRT Blue Line station names",
+        "MRT station sequence"
+      ]
+    },
+    {
+      "source_id": "source:mrta:blue-line",
+      "kind": "official_government",
+      "name": "MRT Chaloem Ratchamongkhon Line",
+      "publisher": "Mass Rapid Transit Authority of Thailand",
+      "url": "https://www.mrta.co.th/en/mrt-chaloem-ratchamongkhon",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "MRT Blue Line authority",
+        "current line scope"
+      ]
+    },
+    {
+      "source_id": "source:ocpb:residential-lease-2025",
+      "kind": "official_government",
+      "name": "Residential accommodation lease controlled-contract update",
+      "publisher": "Office of the Consumer Protection Board",
+      "url": "https://www.ocpb.go.th/news_view.php?nid=17943",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "2025 controlled-contract effective date and scope",
+        "fair residential lease terms",
+        "utility charge treatment"
+      ]
+    },
+    {
+      "source_id": "source:ocpb:standard-lease-2026",
+      "kind": "official_government",
+      "name": "OCPB standard residential lease example",
+      "publisher": "Office of the Consumer Protection Board",
+      "url": "https://www.ocpb.go.th/article_attach/articlefile_2026060814431516244.pdf",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "security-deposit return timing",
+        "tenant-caused damage treatment",
+        "ordinary wear treatment"
+      ]
+    },
+    {
+      "source_id": "source:immigration:tm30",
+      "kind": "official_government",
+      "name": "TM30 notification of residence for foreign nationals",
+      "publisher": "Immigration Bureau of Thailand",
+      "url": "https://tm30.immigration.go.th/TM30/Foreigner/TM30EN/index.html",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "TM30 responsible party",
+        "TM30 notification deadline",
+        "official online notification channel"
+      ]
+    },
+    {
+      "source_id": "source:revenue:lease-stamp-duty",
+      "kind": "official_government",
+      "name": "Thailand stamp duty schedule",
+      "publisher": "Revenue Department of Thailand",
+      "url": "https://www.rd.go.th/english/21986.html",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "lease stamp-duty rate",
+        "stamp-duty calculation basis"
+      ]
+    },
+    {
+      "source_id": "source:propertyscout:bangkok-condos",
+      "kind": "market_listings",
+      "name": "Bangkok condominium rentals",
+      "publisher": "PropertyScout",
+      "url": "https://propertyscout.co.th/en/bangkok/rentals/condo/",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "current asking-price sample",
+        "bedroom-level rental listings",
+        "area-level rental listings"
+      ]
+    },
+    {
+      "source_id": "source:ddproperty:bangkok-condos",
+      "kind": "market_listings",
+      "name": "Bangkok condominium rental listings",
+      "publisher": "DDproperty",
+      "url": "https://www.ddproperty.com/en/condo-for-rent/in-bangkok-th10",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "current asking-price sample",
+        "bedroom-level rental listings",
+        "location comparison"
+      ]
+    },
+    {
+      "source_id": "source:propertyhub:bangkok-condos",
+      "kind": "market_listings",
+      "name": "Condominiums for rent",
+      "publisher": "PropertyHub",
+      "url": "https://propertyhub.in.th/en/condo-for-rent",
+      "checked_on": "2026-08-10",
+      "supports": [
+        "current asking-price sample",
+        "building-level rental listings",
+        "area-level rental listings"
+      ]
+    }
+  ],
+  "current_facts": [
+    {
+      "fact_id": "fact:thailand:tm30-notification",
+      "public_label": "הודעת מגורים TM30",
+      "public_value": "בעל הבית, המחזיק בנכס או מנהל מקום האירוח שמארח אזרח זר באופן זמני צריך למסור הודעת TM30 להגירה בתוך 24 שעות מההגעה.",
+      "effective_on": null,
+      "checked_on": "2026-08-10",
+      "source_ids": [
+        "source:immigration:tm30"
+      ]
+    },
+    {
+      "fact_id": "fact:thailand:lease-controlled-contract",
+      "public_label": "כללי חוזה שכירות מעודכנים",
+      "public_value": "הודעת OCPB לעסקי השכרת מגורים מבוקרי חוזים נכנסה לתוקף ב-4 בספטמבר 2025, עם דרישה לחוזה ברור ולמסירת עותק לשוכר.",
+      "effective_on": "2025-09-04",
+      "checked_on": "2026-08-10",
+      "source_ids": [
+        "source:ocpb:residential-lease-2025"
+      ]
+    },
+    {
+      "fact_id": "fact:thailand:lease-controlled-scope",
+      "public_label": "על אילו משכירים חלים הכללים",
+      "public_value": "הודעת OCPB חלה על מפעיל שמשכיר שלוש יחידות מגורים או יותר, בבניין אחד או בכמה בניינים. בתי מלון ומעונות הכפופים לחוקים ייעודיים אינם נכללים.",
+      "effective_on": "2025-09-04",
+      "checked_on": "2026-08-10",
+      "source_ids": [
+        "source:ocpb:residential-lease-2025"
+      ]
+    },
+    {
+      "fact_id": "fact:thailand:lease-upfront-limit",
+      "public_label": "שכר דירה מראש ופיקדון",
+      "public_value": "בעסק שכירות שנכלל בהודעת OCPB, הסכום המצטבר של שכר דירה מראש ופיקדון אינו יכול לעלות על שלושה חודשי שכירות.",
+      "effective_on": "2025-09-04",
+      "checked_on": "2026-08-10",
+      "source_ids": [
+        "source:ocpb:residential-lease-2025"
+      ]
+    },
+    {
+      "fact_id": "fact:thailand:lease-utility-charges",
+      "public_label": "חיובי מים וחשמל בחוזה",
+      "public_value": "בעסק שכירות שנכלל בהודעת OCPB, חיובי מים וחשמל צריכים להיות שקופים ולא לעלות על התעריפים שגובים ספקי השירות הרלוונטיים.",
+      "effective_on": "2025-09-04",
+      "checked_on": "2026-08-10",
+      "source_ids": [
+        "source:ocpb:residential-lease-2025"
+      ]
+    },
+    {
+      "fact_id": "fact:thailand:lease-stamp-duty",
+      "public_label": "מס בולים על חוזה שכירות",
+      "public_value": "מס הבולים על שכירות מקרקעין הוא 1 באט לכל 1,000 באט, או חלק מהם, מסך דמי השכירות ודמי המפתח לאורך תקופת החוזה.",
+      "effective_on": null,
+      "checked_on": "2026-08-10",
+      "source_ids": [
+        "source:revenue:lease-stamp-duty"
+      ]
+    },
+    {
+      "fact_id": "fact:thailand:lease-deposit-return",
+      "public_label": "מועד החזרת הפיקדון",
+      "public_value": "לפי חוזה המגורים התקני של OCPB, כאשר אין נזק באשמת השוכר הפיקדון מוחזר מיד. אם נדרשת בדיקה, ההחזרה היא בתוך שבעה ימים מסיום החוזה והחזרת הנכס, ובלאי רגיל אינו נזק לחיוב.",
+      "effective_on": null,
+      "checked_on": "2026-08-10",
+      "source_ids": [
+        "source:ocpb:standard-lease-2026"
+      ]
+    }
+  ],
+  "official_districts": [
+    {
+      "district_id": "geo:th:bma:1001",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1001",
+      "names": { "he": "פרה נאקון", "en": "Phra Nakhon", "th": "พระนคร" },
+      "aliases": { "he": [], "en": ["Phra Nakorn"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1002",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1002",
+      "names": { "he": "דוסיט", "en": "Dusit", "th": "ดุสิต" },
+      "aliases": { "he": [], "en": [], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1003",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1003",
+      "names": { "he": "נונג צ׳וק", "en": "Nong Chok", "th": "หนองจอก" },
+      "aliases": { "he": [], "en": [], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1004",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1004",
+      "names": { "he": "באנג ראק", "en": "Bang Rak", "th": "บางรัก" },
+      "aliases": { "he": [], "en": ["Bangrak"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1005",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1005",
+      "names": { "he": "באנג קן", "en": "Bang Khen", "th": "บางเขน" },
+      "aliases": { "he": [], "en": ["Bangkhen"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1006",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1006",
+      "names": { "he": "באנג קאפי", "en": "Bang Kapi", "th": "บางกะปิ" },
+      "aliases": { "he": [], "en": ["Bangkapi"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1007",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1007",
+      "names": { "he": "פאתום וואן", "en": "Pathum Wan", "th": "ปทุมวัน" },
+      "aliases": { "he": [], "en": ["Pathumwan"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1008",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1008",
+      "names": { "he": "פום פראפ סאטרו פאי", "en": "Pom Prap Sattru Phai", "th": "ป้อมปราบศัตรูพ่าย" },
+      "aliases": { "he": [], "en": ["Pom Prap"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1009",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1009",
+      "names": { "he": "פרה קנונג", "en": "Phra Khanong", "th": "พระโขนง" },
+      "aliases": { "he": ["פרא קנונג"], "en": ["Prakanong"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1010",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1010",
+      "names": { "he": "מין בורי", "en": "Min Buri", "th": "มีนบุรี" },
+      "aliases": { "he": [], "en": ["Minburi"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1011",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1011",
+      "names": { "he": "לאט קראבאנג", "en": "Lat Krabang", "th": "ลาดกระบัง" },
+      "aliases": { "he": [], "en": ["Lad Krabang"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1012",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1012",
+      "names": { "he": "יאן נאווה", "en": "Yan Nawa", "th": "ยานนาวา" },
+      "aliases": { "he": [], "en": ["Yannawa"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1013",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1013",
+      "names": { "he": "סמפנתאוונג", "en": "Samphanthawong", "th": "สัมพันธวงศ์" },
+      "aliases": { "he": [], "en": ["Samphan Thawong"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1014",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1014",
+      "names": { "he": "פאיה תאי", "en": "Phaya Thai", "th": "พญาไท" },
+      "aliases": { "he": ["פייה תאי"], "en": ["Phyathai"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1015",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1015",
+      "names": { "he": "תון בורי", "en": "Thon Buri", "th": "ธนบุรี" },
+      "aliases": { "he": [], "en": ["Thonburi"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1016",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1016",
+      "names": { "he": "בנגקוק יאי", "en": "Bangkok Yai", "th": "บางกอกใหญ่" },
+      "aliases": { "he": [], "en": [], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1017",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1017",
+      "names": { "he": "הואי קוואנג", "en": "Huai Khwang", "th": "ห้วยขวาง" },
+      "aliases": { "he": ["הווי קוואנג"], "en": ["Huay Khwang"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1018",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1018",
+      "names": { "he": "קלונג סאן", "en": "Khlong San", "th": "คลองสาน" },
+      "aliases": { "he": [], "en": ["Klong San"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1019",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1019",
+      "names": { "he": "טאלינג צ׳אן", "en": "Taling Chan", "th": "ตลิ่งชัน" },
+      "aliases": { "he": [], "en": [], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1020",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1020",
+      "names": { "he": "בנגקוק נוי", "en": "Bangkok Noi", "th": "บางกอกน้อย" },
+      "aliases": { "he": [], "en": [], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1021",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1021",
+      "names": { "he": "באנג קון תיאן", "en": "Bang Khun Thian", "th": "บางขุนเทียน" },
+      "aliases": { "he": [], "en": ["Bang Khun Thien"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1022",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1022",
+      "names": { "he": "פאסי צ׳רואן", "en": "Phasi Charoen", "th": "ภาษีเจริญ" },
+      "aliases": { "he": [], "en": [], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1023",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1023",
+      "names": { "he": "נונג קאם", "en": "Nong Khaem", "th": "หนองแขม" },
+      "aliases": { "he": [], "en": ["Nong Khem"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1024",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1024",
+      "names": { "he": "ראט בוראנה", "en": "Rat Burana", "th": "ราษฎร์บูรณะ" },
+      "aliases": { "he": [], "en": ["Rath Burana"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1025",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1025",
+      "names": { "he": "באנג פלאט", "en": "Bang Phlat", "th": "บางพลัด" },
+      "aliases": { "he": [], "en": ["Bang Plat"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1026",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1026",
+      "names": { "he": "דין דאנג", "en": "Din Daeng", "th": "ดินแดง" },
+      "aliases": { "he": [], "en": ["Dindaeng"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1027",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1027",
+      "names": { "he": "בואנג קום", "en": "Bueng Kum", "th": "บึงกุ่ม" },
+      "aliases": { "he": [], "en": ["Bung Kum"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1028",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1028",
+      "names": { "he": "סאתורן", "en": "Sathon", "th": "สาทร" },
+      "aliases": { "he": ["סאטון"], "en": ["Sathorn"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1029",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1029",
+      "names": { "he": "באנג סו", "en": "Bang Sue", "th": "บางซื่อ" },
+      "aliases": { "he": [], "en": ["Bangsue"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1030",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1030",
+      "names": { "he": "צ׳אטוצ׳אק", "en": "Chatuchak", "th": "จตุจักร" },
+      "aliases": { "he": ["ג׳אטוג׳אק"], "en": ["Jatujak"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1031",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1031",
+      "names": { "he": "באנג קו לאם", "en": "Bang Kho Laem", "th": "บางคอแหลม" },
+      "aliases": { "he": [], "en": ["Bangkholaem"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1032",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1032",
+      "names": { "he": "פראווט", "en": "Prawet", "th": "ประเวศ" },
+      "aliases": { "he": [], "en": ["Pravet"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1033",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1033",
+      "names": { "he": "קלונג טואי", "en": "Khlong Toei", "th": "คลองเตย" },
+      "aliases": { "he": ["קלונג טוי"], "en": ["Klong Toey"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1034",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1034",
+      "names": { "he": "סואן לואנג", "en": "Suan Luang", "th": "สวนหลวง" },
+      "aliases": { "he": [], "en": [], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1035",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1035",
+      "names": { "he": "צ׳ום תונג", "en": "Chom Thong", "th": "จอมทอง" },
+      "aliases": { "he": [], "en": ["Jom Thong"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1036",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1036",
+      "names": { "he": "דון מואנג", "en": "Donmueang", "th": "ดอนเมือง" },
+      "aliases": { "he": ["דון מואנגג"], "en": ["Don Mueang", "Don Muang"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1037",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1037",
+      "names": { "he": "ראצ׳אתווי", "en": "Ratchathewi", "th": "ราชเทวี" },
+      "aliases": { "he": [], "en": ["Rajthevee"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1038",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1038",
+      "names": { "he": "לאט פראו", "en": "Lat Phrao", "th": "ลาดพร้าว" },
+      "aliases": { "he": ["לאד פראו"], "en": ["Lad Prao"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1039",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1039",
+      "names": { "he": "ואטאנה", "en": "Vadhana", "th": "วัฒนา" },
+      "aliases": { "he": ["וואטאנה"], "en": ["Watthana"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1040",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1040",
+      "names": { "he": "באנג קאה", "en": "Bang Khae", "th": "บางแค" },
+      "aliases": { "he": [], "en": ["Bangkae"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1041",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1041",
+      "names": { "he": "לאק סי", "en": "Lak Si", "th": "หลักสี่" },
+      "aliases": { "he": [], "en": ["Laksi"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1042",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1042",
+      "names": { "he": "סאי מאי", "en": "Sai Mai", "th": "สายไหม" },
+      "aliases": { "he": [], "en": ["Saimai"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1043",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1043",
+      "names": { "he": "קאן נא יאו", "en": "Khan Na Yao", "th": "คันนายาว" },
+      "aliases": { "he": [], "en": ["Kannayao"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1044",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1044",
+      "names": { "he": "סאפאן סונג", "en": "Saphan Sung", "th": "สะพานสูง" },
+      "aliases": { "he": [], "en": [], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1045",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1045",
+      "names": { "he": "וואנג תונגלנג", "en": "Wang Thonglang", "th": "วังทองหลาง" },
+      "aliases": { "he": [], "en": ["Wangthonglang"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1046",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1046",
+      "names": { "he": "קלונג סאם ווא", "en": "Khlong Sam Wa", "th": "คลองสามวา" },
+      "aliases": { "he": [], "en": ["Klong Sam Wa"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1047",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1047",
+      "names": { "he": "באנג נא", "en": "Bang Na", "th": "บางนา" },
+      "aliases": { "he": [], "en": ["Bangna"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1048",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1048",
+      "names": { "he": "תאווי ואטאנה", "en": "Thawi Watthana", "th": "ทวีวัฒนา" },
+      "aliases": { "he": [], "en": ["Tawi Wattana"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1049",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1049",
+      "names": { "he": "תונג קרו", "en": "Thung Khru", "th": "ทุ่งครุ" },
+      "aliases": { "he": [], "en": ["Tung Kru"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    },
+    {
+      "district_id": "geo:th:bma:1050",
+      "kind": "official_district",
+      "indexing_policy": "non_indexable",
+      "bma_code": "1050",
+      "names": { "he": "באנג בון", "en": "Bang Bon", "th": "บางบอน" },
+      "aliases": { "he": [], "en": ["Bangbon"], "th": [] },
+      "source_ids": ["source:bma:districts"]
+    }
+  ],
+  "stations": [
+    {
+      "station_id": "transit:bts:n5",
+      "mode": "bts",
+      "line_id": "transit:bts:sukhumvit",
+      "code": "N5",
+      "names": { "he": "ארי", "en": "Ari", "th": "อารีย์" },
+      "coordinates": { "lat": 13.7797, "lng": 100.5447, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:e4",
+      "mode": "bts",
+      "line_id": "transit:bts:sukhumvit",
+      "code": "E4",
+      "names": { "he": "אסוק", "en": "Asok", "th": "อโศก" },
+      "coordinates": { "lat": 13.7369, "lng": 100.5604, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:e5",
+      "mode": "bts",
+      "line_id": "transit:bts:sukhumvit",
+      "code": "E5",
+      "names": { "he": "פרום פונג", "en": "Phrom Phong", "th": "พร้อมพงษ์" },
+      "coordinates": { "lat": 13.7303, "lng": 100.5696, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:e6",
+      "mode": "bts",
+      "line_id": "transit:bts:sukhumvit",
+      "code": "E6",
+      "names": { "he": "טונג לו", "en": "Thong Lo", "th": "ทองหล่อ" },
+      "coordinates": { "lat": 13.7242, "lng": 100.5785, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:e7",
+      "mode": "bts",
+      "line_id": "transit:bts:sukhumvit",
+      "code": "E7",
+      "names": { "he": "אקאמאיי", "en": "Ekkamai", "th": "เอกมัย" },
+      "coordinates": { "lat": 13.7195, "lng": 100.585, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:e8",
+      "mode": "bts",
+      "line_id": "transit:bts:sukhumvit",
+      "code": "E8",
+      "names": { "he": "פרה קנונג", "en": "Phra Khanong", "th": "พระโขนง" },
+      "coordinates": { "lat": 13.7151, "lng": 100.5914, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:e9",
+      "mode": "bts",
+      "line_id": "transit:bts:sukhumvit",
+      "code": "E9",
+      "names": { "he": "און נוט", "en": "On Nut", "th": "อ่อนนุช" },
+      "coordinates": { "lat": 13.7056, "lng": 100.601, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:s2",
+      "mode": "bts",
+      "line_id": "transit:bts:silom",
+      "code": "S2",
+      "names": { "he": "סאלה דאנג", "en": "Sala Daeng", "th": "ศาลาแดง" },
+      "coordinates": { "lat": 13.7285, "lng": 100.534, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:s3",
+      "mode": "bts",
+      "line_id": "transit:bts:silom",
+      "code": "S3",
+      "names": { "he": "צ׳ונג נונסי", "en": "Chong Nonsi", "th": "ช่องนนทรี" },
+      "coordinates": { "lat": 13.7237, "lng": 100.5293, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:s4",
+      "mode": "bts",
+      "line_id": "transit:bts:silom",
+      "code": "S4",
+      "names": { "he": "סנט לואיס", "en": "Saint Louis", "th": "เซนต์หลุยส์" },
+      "coordinates": { "lat": 13.7210655983, "lng": 100.5269959967, "basis": "operator station point" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:bts:s5",
+      "mode": "bts",
+      "line_id": "transit:bts:silom",
+      "code": "S5",
+      "names": { "he": "סוראסאק", "en": "Surasak", "th": "สุรศักดิ์" },
+      "coordinates": { "lat": 13.7191, "lng": 100.5214, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bts:route-map", "source:bts:timetable"]
+    },
+    {
+      "station_id": "transit:mrt:bl17",
+      "mode": "mrt",
+      "line_id": "transit:mrt:blue",
+      "code": "BL17",
+      "names": { "he": "סוטיסאן", "en": "Sutthisan", "th": "สุทธิสาร" },
+      "coordinates": { "lat": 13.7895, "lng": 100.5742, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bem:blue-line", "source:mrta:blue-line"]
+    },
+    {
+      "station_id": "transit:mrt:bl18",
+      "mode": "mrt",
+      "line_id": "transit:mrt:blue",
+      "code": "BL18",
+      "names": { "he": "הואי קוואנג", "en": "Huai Khwang", "th": "ห้วยขวาง" },
+      "coordinates": { "lat": 13.7786, "lng": 100.5737, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bem:blue-line", "source:mrta:blue-line"]
+    },
+    {
+      "station_id": "transit:mrt:bl19",
+      "mode": "mrt",
+      "line_id": "transit:mrt:blue",
+      "code": "BL19",
+      "names": { "he": "מרכז התרבות של תאילנד", "en": "Thailand Cultural Centre", "th": "ศูนย์วัฒนธรรมแห่งประเทศไทย" },
+      "coordinates": { "lat": 13.7662, "lng": 100.5702, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bem:blue-line", "source:mrta:blue-line"]
+    },
+    {
+      "station_id": "transit:mrt:bl20",
+      "mode": "mrt",
+      "line_id": "transit:mrt:blue",
+      "code": "BL20",
+      "names": { "he": "פרה ראם 9", "en": "Phra Ram 9", "th": "พระราม 9" },
+      "coordinates": { "lat": 13.757, "lng": 100.5659, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bem:blue-line", "source:mrta:blue-line"]
+    },
+    {
+      "station_id": "transit:mrt:bl22",
+      "mode": "mrt",
+      "line_id": "transit:mrt:blue",
+      "code": "BL22",
+      "names": { "he": "סוקומוויט", "en": "Sukhumvit", "th": "สุขุมวิท" },
+      "coordinates": { "lat": 13.7385, "lng": 100.5615, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bem:blue-line", "source:mrta:blue-line"]
+    },
+    {
+      "station_id": "transit:mrt:bl25",
+      "mode": "mrt",
+      "line_id": "transit:mrt:blue",
+      "code": "BL25",
+      "names": { "he": "לומפיני", "en": "Lumphini", "th": "ลุมพินี" },
+      "coordinates": { "lat": 13.7257, "lng": 100.545, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bem:blue-line", "source:mrta:blue-line"]
+    },
+    {
+      "station_id": "transit:mrt:bl26",
+      "mode": "mrt",
+      "line_id": "transit:mrt:blue",
+      "code": "BL26",
+      "names": { "he": "סי לום", "en": "Si Lom", "th": "สีลม" },
+      "coordinates": { "lat": 13.7292, "lng": 100.5365, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bem:blue-line", "source:mrta:blue-line"]
+    },
+    {
+      "station_id": "transit:mrt:bl27",
+      "mode": "mrt",
+      "line_id": "transit:mrt:blue",
+      "code": "BL27",
+      "names": { "he": "סאם יאן", "en": "Sam Yan", "th": "สามย่าน" },
+      "coordinates": { "lat": 13.7323, "lng": 100.5298, "basis": "editorial point aligned to the operator map" },
+      "source_ids": ["source:bem:blue-line", "source:mrta:blue-line"]
+    }
+  ],
+  "corridors": [
+    {
+      "corridor_id": "corridor:bangkok:central-sukhumvit",
+      "kind": "editorial_corridor",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "סוקומוויט המרכזית", "en": "Central Sukhumvit", "th": "สุขุมวิทตอนกลาง" },
+      "summary": "רצף עירוני צפוף סביב קו BTS, עם שילוב של משרדים, קניות, מסעדות ובנייני מגורים במרחקים קצרים.",
+      "area_ids": [
+        "market:bangkok:asok",
+        "market:bangkok:phrom-phong",
+        "market:bangkok:thong-lo",
+        "market:bangkok:ekkamai"
+      ],
+      "station_ids": [
+        "transit:bts:e4",
+        "transit:mrt:bl22",
+        "transit:bts:e5",
+        "transit:bts:e6",
+        "transit:bts:e7"
+      ],
+      "map_color": "#B97835"
+    },
+    {
+      "corridor_id": "corridor:bangkok:east-sukhumvit",
+      "kind": "editorial_corridor",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "סוקומוויט המזרחית", "en": "East Sukhumvit", "th": "สุขุมวิทฝั่งตะวันออก" },
+      "summary": "המשך מזרחי של קו BTS שמציע יותר דירות בתקציב בינוני, מרכזים שכונתיים וגישה נוחה למרכז העיר.",
+      "area_ids": [
+        "market:bangkok:on-nut"
+      ],
+      "station_ids": [
+        "transit:bts:e8",
+        "transit:bts:e9"
+      ],
+      "map_color": "#4E866A"
+    },
+    {
+      "corridor_id": "corridor:bangkok:ari-phaya-thai",
+      "kind": "editorial_corridor",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "ארי ופאיה תאי", "en": "Ari and Phaya Thai", "th": "อารีย์และพญาไท" },
+      "summary": "מסדרון מגורים צפוני ונעים יותר סביב קו BTS, עם רחובות צדדיים, בתי קפה וגישה ישירה למרכז.",
+      "area_ids": [
+        "market:bangkok:ari"
+      ],
+      "station_ids": [
+        "transit:bts:n5"
+      ],
+      "map_color": "#7B6BA8"
+    },
+    {
+      "corridor_id": "corridor:bangkok:silom-sathon",
+      "kind": "editorial_corridor",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "סילום וסאתורן", "en": "Silom and Sathon", "th": "สีลมและสาทร" },
+      "summary": "ליבת העסקים הדרומית של בנגקוק, עם BTS, MRT, מסעדות, פארקים ורחובות מגורים שקטים לצד מגדלי משרדים.",
+      "area_ids": [
+        "market:bangkok:silom",
+        "market:bangkok:sathon"
+      ],
+      "station_ids": [
+        "transit:bts:s2",
+        "transit:bts:s3",
+        "transit:bts:s4",
+        "transit:bts:s5",
+        "transit:mrt:bl25",
+        "transit:mrt:bl26",
+        "transit:mrt:bl27"
+      ],
+      "map_color": "#315D71"
+    },
+    {
+      "corridor_id": "corridor:bangkok:rama9-ratchada",
+      "kind": "editorial_corridor",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "פרה ראם 9 וראצ׳דה", "en": "Phra Ram 9 and Ratchada", "th": "พระราม 9 และรัชดา" },
+      "summary": "ציר MRT מתפתח עם משרדים, מרכזי קניות, שווקי ערב ומבחר גדול של בנייני קונדו חדשים יחסית.",
+      "area_ids": [
+        "market:bangkok:phra-ram-9",
+        "market:bangkok:huai-khwang"
+      ],
+      "station_ids": [
+        "transit:mrt:bl17",
+        "transit:mrt:bl18",
+        "transit:mrt:bl19",
+        "transit:mrt:bl20"
+      ],
+      "map_color": "#9A554A"
+    }
+  ],
+  "featured_areas": [
+    {
+      "area_id": "market:bangkok:asok",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "אסוק", "en": "Asok", "th": "อโศก" },
+      "aliases": {
+        "he": ["אסוקה", "צומת אסוק"],
+        "en": ["Asoke", "Asok Montri"],
+        "th": ["อโศกมนตรี"]
+      },
+      "coordinates": { "lat": 13.7367, "lng": 100.5608, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 45.3, "y_percent": 59.2 },
+      "official_district_ids": ["geo:th:bma:1039", "geo:th:bma:1033"],
+      "station_ids": ["transit:bts:e4", "transit:mrt:bl22"],
+      "corridor_id": "corridor:bangkok:central-sukhumvit",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 22000, "max_thb": 45000 },
+        "two_bedroom": { "min_thb": 45000, "max_thb": 90000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["central", "business", "rail", "green"],
+      "fit_summary": "בחירה חזקה למי שרוצה לעבור בין BTS ל-MRT, להגיע במהירות לאזורי משרדים ולנהל יום שלם כמעט בלי רכב.",
+      "tradeoff": "הצומת עמוס ורועש בשעות השיא, ודירות שקטות באמת נמצאות בדרך כלל עמוק יותר בתוך הסמטאות.",
+      "micro_area_notes": [
+        { "label": "סביב צומת אסוק", "detail": "הכי קצר לרכבות, לקניות ולמשרדים, עם תנועה צפופה כמעט לאורך כל היום." },
+        { "label": "סוקומוויט 16 עד 23", "detail": "סמטאות מגורים שמאפשרות לבחור בין קרבה לצומת לבין רחוב רגוע יותר." },
+        { "label": "צפון אסוק מונטרי", "detail": "מתאים יותר למי שנוסע לכיוון פטצ׳בורי ופרה ראם 9 דרך MRT או כביש." }
+      ],
+      "daily_life_cues": [
+        "מעבר ישיר בין BTS ל-MRT",
+        "גישה נוחה לפארק בנג׳קיטי",
+        "קניונים וסופרמרקטים במרחק הליכה",
+        "מבחר רחב של מרפאות ומסעדות"
+      ],
+      "public_copy": {
+        "eyebrow": "הצומת שמחבר את העיר",
+        "title": "אסוק למי שרוצה להיות מחובר לכל כיוון",
+        "summary": "אסוק מציבה אתכם בנקודת המפגש של BTS ו-MRT, קרוב למשרדים, פארק, קניות ושירותים. הבחירה המדויקת היא בין דירה ליד הצומת לבין שקט עמוק יותר בסמטה.",
+        "action_label": "לבדיקת המיקרו אזורים באסוק"
+      }
+    },
+    {
+      "area_id": "market:bangkok:phrom-phong",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "פרום פונג", "en": "Phrom Phong", "th": "พร้อมพงษ์" },
+      "aliases": {
+        "he": ["פרומפונג", "פרום פונג סוקומוויט"],
+        "en": ["Prom Phong", "Phromphong"],
+        "th": ["พร้อมพงษ์สุขุมวิท"]
+      },
+      "coordinates": { "lat": 13.7304, "lng": 100.5696, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 55.1, "y_percent": 66.2 },
+      "official_district_ids": ["geo:th:bma:1039", "geo:th:bma:1033"],
+      "station_ids": ["transit:bts:e5"],
+      "corridor_id": "corridor:bangkok:central-sukhumvit",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 28000, "max_thb": 60000 },
+        "two_bedroom": { "min_thb": 55000, "max_thb": 120000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["upscale", "family", "green", "food"],
+      "fit_summary": "מתאים למשפחות ולאנשי מקצוע שמעדיפים סביבת מגורים מטופחת, פארק, קניות איכותיות ושירותים בינלאומיים קרובים.",
+      "tradeoff": "המחירים גבוהים ביחס לרוב בנגקוק, והמרחק מהתחנה בתוך סוי 39 או סוי 49 משנה מאוד את הנוחות היומית.",
+      "micro_area_notes": [
+        { "label": "סוקומוויט 24", "detail": "קרוב לתחנה, לפארק ולקניונים, עם מגדלים חדשים יותר ותנועה ערה." },
+        { "label": "סוקומוויט 39", "detail": "רשת רחובות מגורים עם מסעדות, מרפאות ושירותים הפונים לקהילה הבינלאומית." },
+        { "label": "סוקומוויט 49", "detail": "אווירה שכונתית יותר, בתי חולים ושירותי משפחה, אך חלק מהכתובות דורשות נסיעה קצרה לתחנה." }
+      ],
+      "daily_life_cues": [
+        "פארק בנג׳סירי ליד התחנה",
+        "סופרמרקטים יפניים ובינלאומיים",
+        "בתי חולים ומרפאות קרובים",
+        "מסעדות וקניות ברמה גבוהה"
+      ],
+      "public_copy": {
+        "eyebrow": "נוחות יומיומית ברמה גבוהה",
+        "title": "פרום פונג למשפחה ולחיים עירוניים מלוטשים",
+        "summary": "פרום פונג מחברת פארק, רכבת, קניות, בריאות ואוכל בתוך אזור מגורים מבוקש במיוחד. כדאי למדוד את הדרך האמיתית מהבניין לתחנה, ולא להסתפק בשם השכונה.",
+        "action_label": "להשוואת הרחובות בפרום פונג"
+      }
+    },
+    {
+      "area_id": "market:bangkok:thong-lo",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "טונג לו", "en": "Thong Lo", "th": "ทองหล่อ" },
+      "aliases": {
+        "he": ["טונגלור", "תונג לו"],
+        "en": ["Thonglor", "Thong Lor"],
+        "th": ["ทองหล่อสุขุมวิท 55"]
+      },
+      "coordinates": { "lat": 13.7242, "lng": 100.5786, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 65.1, "y_percent": 73.1 },
+      "official_district_ids": ["geo:th:bma:1039", "geo:th:bma:1033"],
+      "station_ids": ["transit:bts:e6"],
+      "corridor_id": "corridor:bangkok:central-sukhumvit",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 28000, "max_thb": 65000 },
+        "two_bedroom": { "min_thb": 60000, "max_thb": 140000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["nightlife", "upscale", "food", "central"],
+      "fit_summary": "מתאים למי שמעדיף מסעדות, בתי קפה וחיי ערב כחלק מהשגרה ורוצה כתובת בעלת אופי ברור במרכז סוקומוויט.",
+      "tradeoff": "הרחוב ארוך והפקקים מורגשים, לכן כתובת בשם טונג לו יכולה להיות קרובה ל-BTS או רחוקה ממנו משמעותית.",
+      "micro_area_notes": [
+        { "label": "החלק התחתון ליד BTS", "detail": "הבחירה הנוחה ביותר לנסיעות יומיות ברכבת, עם פחות תלות במונית או שאטל." },
+        { "label": "טונג לו 10 והרחובות הסמוכים", "detail": "מרכז חיי האוכל והערב, עם פעילות עד שעות מאוחרות ומחירים גבוהים יותר." },
+        { "label": "החלק הצפוני לכיוון פטצ׳בורי", "detail": "בניינים גדולים ושירותים רבים, אך זמן ההגעה לתחנת BTS תלוי בתנועה." }
+      ],
+      "daily_life_cues": [
+        "מסעדות ובתי קפה בכל טווח מחיר",
+        "חיי ערב פעילים לאורך סוי 55",
+        "סופרמרקטים ושירותים יפניים",
+        "מוניות ושאטלים נפוצים בתוך הרחוב"
+      ],
+      "public_copy": {
+        "eyebrow": "האזור שחי גם אחרי העבודה",
+        "title": "טונג לו למי שבוחר סגנון חיים לפני הכול",
+        "summary": "טונג לו מציעה את אחת מסצנות האוכל והבילוי הבולטות בעיר לצד בנייני מגורים ברמה גבוהה. המרחק מה-BTS הוא המשתנה החשוב ביותר בבחירת הבניין הנכון.",
+        "action_label": "למציאת החלק הנכון בטונג לו"
+      }
+    },
+    {
+      "area_id": "market:bangkok:ekkamai",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "אקאמאיי", "en": "Ekkamai", "th": "เอกมัย" },
+      "aliases": {
+        "he": ["אקמאי", "אקאמי"],
+        "en": ["Ekamai", "Ekkamai Road"],
+        "th": ["สุขุมวิท 63"]
+      },
+      "coordinates": { "lat": 13.7195, "lng": 100.585, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 72.2, "y_percent": 78.3 },
+      "official_district_ids": ["geo:th:bma:1039", "geo:th:bma:1033"],
+      "station_ids": ["transit:bts:e7"],
+      "corridor_id": "corridor:bangkok:central-sukhumvit",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 20000, "max_thb": 42000 },
+        "two_bedroom": { "min_thb": 40000, "max_thb": 85000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["central", "food", "quiet", "local"],
+      "fit_summary": "מתאים לזוגות ולאנשי מקצוע שרוצים להישאר במרכז סוקומוויט, לקבל מבחר אוכל ושירותים ולשלם פחות מטונג לו בחלק מהבניינים.",
+      "tradeoff": "גם כאן הרחוב מתארך הרחק מהתחנה, והאווירה משתנה בין אזור ה-BTS לבין החלק הצפוני העמוס יותר.",
+      "micro_area_notes": [
+        { "label": "ליד BTS אקאמאיי", "detail": "נוח לרכבת, לקניון השכונתי ולמסוף האוטובוסים למזרח תאילנד." },
+        { "label": "אקאמאיי 10 עד 12", "detail": "רחובות מגורים עם מסעדות ובתי קפה, באיזון טוב בין שקט לפעילות." },
+        { "label": "צפון אקאמאיי", "detail": "מבחר גדול יותר של בניינים ושירותים, לצד נסיעה ארוכה יותר לתחנת BTS בשעות עומס." }
+      ],
+      "daily_life_cues": [
+        "גישה ישירה לקו BTS",
+        "מסוף אוטובוסים למזרח תאילנד",
+        "בתי קפה ומסעדות שכונתיות",
+        "מרכזי קניות קטנים ושירותים יומיומיים"
+      ],
+      "public_copy": {
+        "eyebrow": "מרכזי, אבל מעט רגוע יותר",
+        "title": "אקאמאיי לאיזון בין חיבור לעיר לחיים שכונתיים",
+        "summary": "אקאמאיי שומרת על הגישה של סוקומוויט ומוסיפה רחובות מגורים, אוכל מקומי ותחושה מעט פחות ראוותנית מטונג לו. מיקום הבניין לאורך סוי 63 קובע את קצב היום.",
+        "action_label": "להשוואת האפשרויות באקאמאיי"
+      }
+    },
+    {
+      "area_id": "market:bangkok:on-nut",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "און נוט", "en": "On Nut", "th": "อ่อนนุช" },
+      "aliases": {
+        "he": ["אונוט", "און נאט"],
+        "en": ["Onnut", "On-Nut"],
+        "th": ["อ่อนนุชสุขุมวิท 77"]
+      },
+      "coordinates": { "lat": 13.7056, "lng": 100.601, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 90, "y_percent": 93.8 },
+      "official_district_ids": ["geo:th:bma:1009", "geo:th:bma:1034"],
+      "station_ids": ["transit:bts:e8", "transit:bts:e9"],
+      "corridor_id": "corridor:bangkok:east-sukhumvit",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 12000, "max_thb": 25000 },
+        "two_bedroom": { "min_thb": 24000, "max_thb": 50000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["value", "rail", "local"],
+      "fit_summary": "מתאים למי שרוצה קו BTS, קניות יומיומיות ומבחר דירות גדול בתקציב נגיש יותר מהאזורים המרכזיים של סוקומוויט.",
+      "tradeoff": "הנסיעה למרכז ארוכה יותר, ובניינים עמוק בתוך סוי 77 יכולים להוסיף תלות במונית, אופנוע או שאטל.",
+      "micro_area_notes": [
+        { "label": "סביב BTS און נוט", "detail": "האפשרות הנוחה ביותר לרכבת ולסופרמרקטים, עם ביקוש גבוה לבניינים במרחק הליכה." },
+        { "label": "סוקומוויט 77", "detail": "מבחר רחב של בניינים ומחירים, אך חשוב למדוד את הדרך מהבניין לרחוב הראשי." },
+        { "label": "הקצה לכיוון פרה קנונג", "detail": "חיבור נוח יותר למרכז ותחושה עירונית, לעיתים במחיר מעט גבוה יותר מאון נוט העמוקה." }
+      ],
+      "daily_life_cues": [
+        "סופרמרקטים גדולים ליד התחנה",
+        "דוכני אוכל ושווקים מקומיים",
+        "מבחר קונדו חדש וישן",
+        "נסיעה ישירה ב-BTS למרכז סוקומוויט"
+      ],
+      "public_copy": {
+        "eyebrow": "יותר דירה באותו תקציב",
+        "title": "און נוט לנקודת פתיחה נוחה במזרח סוקומוויט",
+        "summary": "און נוט משלבת רכבת ישירה, קניות ואוכל מקומי עם טווח מחירים נגיש יחסית. היא מתאימה במיוחד למי שמוכן להוסיף זמן נסיעה כדי לקבל דירה גדולה או חדשה יותר.",
+        "action_label": "לבדיקת דירות ואזורי משנה באון נוט"
+      }
+    },
+    {
+      "area_id": "market:bangkok:ari",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "ארי", "en": "Ari", "th": "อารีย์" },
+      "aliases": {
+        "he": ["ארי בנגקוק", "סוי ארי"],
+        "en": ["Aree", "Ari Bangkok"],
+        "th": ["ซอยอารีย์"]
+      },
+      "coordinates": { "lat": 13.7798, "lng": 100.5446, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 27.3, "y_percent": 11.3 },
+      "official_district_ids": ["geo:th:bma:1014"],
+      "station_ids": ["transit:bts:n5"],
+      "corridor_id": "corridor:bangkok:ari-phaya-thai",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 18000, "max_thb": 35000 },
+        "two_bedroom": { "min_thb": 35000, "max_thb": 70000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["quiet", "food", "local", "green"],
+      "fit_summary": "מתאים למי שמחפש רחובות צדדיים נעימים, בתי קפה, אוכל מקומי ו-BTS ישיר בלי לחיות בתוך מרכז התיירות של סוקומוויט.",
+      "tradeoff": "מלאי הדירות קטן יותר מאשר בצירים הגדולים, וחלק מהאפשרויות הטובות נמצאות במרחק הליכה ארוך יחסית מהתחנה.",
+      "micro_area_notes": [
+        { "label": "פהון יותין 7", "detail": "הלב הפעיל של ארי, עם אוכל, בתי קפה וגישה קצרה יחסית לתחנת BTS." },
+        { "label": "ארי סמפאן", "detail": "רחובות מגורים עמוקים ושקטים יותר, עם בתים נמוכים ובנייני בוטיק." },
+        { "label": "הקצה לכיוון סאנאם פאו", "detail": "אפשרות מעשית למי שרוצה שתי תחנות קרובות יותר ומחפש בניינים חדשים יחסית." }
+      ],
+      "daily_life_cues": [
+        "בתי קפה ומסעדות בתוך הרחובות",
+        "גישה ישירה ב-BTS לסיאם",
+        "אווירה שכונתית בשעות הערב",
+        "שילוב של בנייני בוטיק ומגדלים"
+      ],
+      "public_copy": {
+        "eyebrow": "שכונה עם קצב משלה",
+        "title": "ארי למי שרוצה בנגקוק מקומית, ירוקה ומחוברת",
+        "summary": "ארי מרגישה כמו שכונה בתוך העיר הגדולה, עם רחובות שקטים, אוכל טוב ותחנת BTS אחת שמחברת למרכז. החיפוש הטוב מתחיל בהחלטה בין קרבה לתחנה לבין עומק ושקט.",
+        "action_label": "לגילוי הרחובות של ארי"
+      }
+    },
+    {
+      "area_id": "market:bangkok:silom",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "סילום", "en": "Silom", "th": "สีลม" },
+      "aliases": {
+        "he": ["סי לום", "סילום בנגקוק"],
+        "en": ["Si Lom", "Silom Road"],
+        "th": ["ถนนสีลม"]
+      },
+      "coordinates": { "lat": 13.7287, "lng": 100.534, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 15.6, "y_percent": 68.1 },
+      "official_district_ids": ["geo:th:bma:1004", "geo:th:bma:1007"],
+      "station_ids": ["transit:bts:s2", "transit:mrt:bl26", "transit:mrt:bl27"],
+      "corridor_id": "corridor:bangkok:silom-sathon",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 22000, "max_thb": 48000 },
+        "two_bedroom": { "min_thb": 45000, "max_thb": 100000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["business", "rail", "nightlife", "green"],
+      "fit_summary": "מתאים למי שעובד במרכז העסקים, רוצה בחירה בין BTS ל-MRT ומעדיף מסעדות, קניות ופארק בתוך שגרת ההליכה.",
+      "tradeoff": "הרחובות הראשיים עמוסים ורועשים, וחיי הערב בחלקים מסוימים אינם מתאימים למי שמחפש סביבה שקטה לחלוטין.",
+      "micro_area_notes": [
+        { "label": "סאלה דאנג", "detail": "נקודת החיבור הנוחה ביותר ל-BTS, ל-MRT, לפארק לומפיני ולגשר הירוק לכיוון פארק בנג׳קיטי." },
+        { "label": "סוראוונג", "detail": "אזור עירוני צפוף עם מלונות, מסעדות וחיי ערב, במרחק משתנה מהרכבת." },
+        { "label": "הקצה לכיוון סאם יאן", "detail": "קרוב לאוניברסיטה, לקניות ולאוכל, עם אפשרויות נוספות לאורך קו MRT." }
+      ],
+      "daily_life_cues": [
+        "שתי מערכות רכבת במרחק קצר",
+        "גישה לפארק לומפיני",
+        "מסעדות פעילות ביום ובלילה",
+        "הליכה קצרה למגדלי משרדים"
+      ],
+      "public_copy": {
+        "eyebrow": "עבודה, רכבת ופארק במקום אחד",
+        "title": "סילום לחיים במרכז העסקים בלי לוותר על העיר",
+        "summary": "סילום מחברת משרדים, BTS, MRT, פארק וחיי ערב באזור קומפקטי מאוד. כדאי לבחור את הרחוב לפי שעות השגרה שלכם, כי המרחקים קצרים אבל האופי משתנה במהירות.",
+        "action_label": "להשוואת הרחובות בסילום"
+      }
+    },
+    {
+      "area_id": "market:bangkok:sathon",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "סאתורן", "en": "Sathon", "th": "สาทร" },
+      "aliases": {
+        "he": ["סאטון", "סאתון"],
+        "en": ["Sathorn", "Sathon Road"],
+        "th": ["ถนนสาทร"]
+      },
+      "coordinates": { "lat": 13.7195, "lng": 100.527, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 7.8, "y_percent": 78.3 },
+      "official_district_ids": ["geo:th:bma:1028", "geo:th:bma:1004"],
+      "station_ids": ["transit:bts:s3", "transit:bts:s4", "transit:bts:s5", "transit:mrt:bl25"],
+      "corridor_id": "corridor:bangkok:silom-sathon",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 22000, "max_thb": 50000 },
+        "two_bedroom": { "min_thb": 45000, "max_thb": 110000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["business", "family", "quiet", "upscale"],
+      "fit_summary": "מתאים לאנשי מקצוע ולמשפחות שמבקשים קרבה למרכז העסקים, בניינים איכותיים ואפשרות לבחור בין מגדל עירוני לרחוב מגורים שקט.",
+      "tradeoff": "סאתורן רחבה ומפוצלת, ולכן כתובת באזור יכולה להיות ליד BTS או רחוקה מכל רכבת ולדרוש נסיעה יומית בכביש עמוס.",
+      "micro_area_notes": [
+        { "label": "צ׳ונג נונסי", "detail": "החלק הנוח ביותר למגדלי המשרדים ול-BTS, עם קצב עירוני מהיר לאורך היום." },
+        { "label": "סוראסאק", "detail": "גישה טובה לרכבת ולנהר, עם שילוב של בתי מלון, בתי ספר ובנייני מגורים." },
+        { "label": "יין אקאט והרחובות הפנימיים", "detail": "אזור מגורים שקט וירוק יותר, אך תלוי יותר במונית או ברכב להגעה לרכבת." }
+      ],
+      "daily_life_cues": [
+        "קרבה למגדלי המשרדים הגדולים",
+        "מסעדות בינלאומיות ובתי ספר",
+        "רחובות פנימיים שקטים יחסית",
+        "גישה ל-BTS בחלקים המערביים"
+      ],
+      "public_copy": {
+        "eyebrow": "מרכז עסקים עם כיסי מגורים",
+        "title": "סאתורן למי שרוצה לעבוד במרכז ולחזור לרחוב שקט",
+        "summary": "סאתורן מציעה מגדלי מגורים ליד המשרדים וגם רחובות ירוקים ושקטים יותר מדרום לציר הראשי. לפני שבוחרים בניין, צריך לקבע תחנה או דרך יומית ולא רק שם אזור.",
+        "action_label": "למציאת החלק המתאים בסאתורן"
+      }
+    },
+    {
+      "area_id": "market:bangkok:phra-ram-9",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "פרה ראם 9", "en": "Phra Ram 9", "th": "พระราม 9" },
+      "aliases": {
+        "he": ["ראמה 9", "רמה 9"],
+        "en": ["Rama 9", "Rama IX"],
+        "th": ["พระรามเก้า"]
+      },
+      "coordinates": { "lat": 13.757, "lng": 100.5658, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 50.9, "y_percent": 36.7 },
+      "official_district_ids": ["geo:th:bma:1017", "geo:th:bma:1026"],
+      "station_ids": ["transit:mrt:bl20", "transit:mrt:bl19"],
+      "corridor_id": "corridor:bangkok:rama9-ratchada",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 15000, "max_thb": 30000 },
+        "two_bedroom": { "min_thb": 28000, "max_thb": 60000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["business", "rail", "value", "central"],
+      "fit_summary": "מתאים למי שעובד בציר ראצ׳דה או אסוק, מעדיף בניין חדש יחסית ורוצה MRT, קניות ומשרדים בטווח תקציב בינוני.",
+      "tradeoff": "המרחב סביב הצומת בנוי לכבישים רחבים ולקניונים, ולכן חוויית ההליכה פחות נעימה ברחובות מסוימים מאשר בשכונות קטנות.",
+      "micro_area_notes": [
+        { "label": "סביב MRT פרה ראם 9", "detail": "הכי נוח לרכבת, לקניונים ולמשרדים, עם תנועה ערה ומגדלים צפופים." },
+        { "label": "צומת ראצ׳דאפיסק", "detail": "מבחר גדול של קונדו ושירותים, אך חשוב לבדוק חציית כבישים וכניסה לבניין." },
+        { "label": "לכיוון מרכז התרבות", "detail": "גישה טובה לבילוי, מופעים ומרכזי קניות נוספים לאורך תחנה אחת של MRT." }
+      ],
+      "daily_life_cues": [
+        "קניונים וסופרמרקטים ליד התחנה",
+        "מגדלי משרדים חדשים יחסית",
+        "קו MRT ישיר לאסוק ולסילום",
+        "מבחר גדול של בנייני קונדו"
+      ],
+      "public_copy": {
+        "eyebrow": "מרכז עירוני חדש על קו MRT",
+        "title": "פרה ראם 9 לבניין חדש, רכבת ותקציב מאוזן",
+        "summary": "פרה ראם 9 מרכזת קונדו, משרדים וקניות סביב תחנת MRT אחת חזקה. היא מתאימה למי שמעדיף נוחות מודרנית ומוכן לחיות בסביבה של צירים רחבים ומגדלים.",
+        "action_label": "להשוואת בניינים סביב פרה ראם 9"
+      }
+    },
+    {
+      "area_id": "market:bangkok:huai-khwang",
+      "kind": "market_area",
+      "indexing_policy": "non_indexable",
+      "names": { "he": "הואי קוואנג", "en": "Huai Khwang", "th": "ห้วยขวาง" },
+      "aliases": {
+        "he": ["הווי קוואנג", "חואי קוואנג"],
+        "en": ["Huay Khwang", "Huai Kwang"],
+        "th": ["ห้วยขวางรัชดา"]
+      },
+      "coordinates": { "lat": 13.7786, "lng": 100.5737, "basis": "market-area centroid" },
+      "map_position": { "x_percent": 59.7, "y_percent": 12.7 },
+      "official_district_ids": ["geo:th:bma:1017"],
+      "station_ids": ["transit:mrt:bl17", "transit:mrt:bl18", "transit:mrt:bl19"],
+      "corridor_id": "corridor:bangkok:rama9-ratchada",
+      "monthly_asking_bands": {
+        "currency": "THB",
+        "unit": "month",
+        "one_bedroom": { "min_thb": 13000, "max_thb": 25000 },
+        "two_bedroom": { "min_thb": 25000, "max_thb": 50000 },
+        "checked_on": "2026-08-10",
+        "basis_label": "קונדו מרוהט בחוזה טיפוסי של 12 חודשים",
+        "pricing_method_id": "method:bangkok:rental-asking-bands",
+        "source_ids": ["source:propertyscout:bangkok-condos", "source:ddproperty:bangkok-condos", "source:propertyhub:bangkok-condos"]
+      },
+      "persona_tags": ["nightlife", "rail", "value", "local"],
+      "fit_summary": "מתאים למי שרוצה MRT, אוכל ושירותים עד שעות מאוחרות ומבחר דירות רחב במחיר נגיש יותר מאזורי סוקומוויט המרכזיים.",
+      "tradeoff": "האזור פעיל ורועש סביב השוק והרחובות הראשיים, והאופי המקומי הצפוף אינו מתאים לכל מי שמחפש סביבת מגורים רגועה.",
+      "micro_area_notes": [
+        { "label": "סביב MRT הואי קוואנג", "detail": "נוח מאוד לרכבת, לשוק ולשירותים שפועלים עד מאוחר, עם תנועה אנושית גבוהה." },
+        { "label": "פראצ׳ה ראט באמפן", "detail": "רחוב עמוס באוכל מקומי, חנויות ודירות, עם תחושה שכונתית חזקה יותר." },
+        { "label": "הקצה לכיוון סוטיסאן", "detail": "לעיתים מציע בניינים שקטים יותר וטווח מחירים גמיש, ועדיין נשאר על קו MRT." }
+      ],
+      "daily_life_cues": [
+        "שוק ואוכל רחוב עד שעות מאוחרות",
+        "MRT ישיר לפרה ראם 9 ולאסוק",
+        "חנויות ושירותים מקומיים רבים",
+        "מבחר דירות בתקציב בינוני ונגיש"
+      ],
+      "public_copy": {
+        "eyebrow": "חיי רחוב אמיתיים על קו MRT",
+        "title": "הואי קוואנג למי שרוצה עיר פעילה ומחיר נגיש",
+        "summary": "הואי קוואנג מחברת MRT, שוק לילה, אוכל מקומי ומלאי דירות גדול. היא בחירה מעשית למי שמעדיף אנרגיה עירונית ותקציב נוח על פני שקט של רחוב מגורים קטן.",
+        "action_label": "לבדיקת הרחובות בהואי קוואנג"
+      }
+    }
+  ]
+}

@@ -44,15 +44,24 @@ final class Renderer {
 			THAILAND_PLATFORM_DIR . 'templates/partials/content-footer.php',
 			THAILAND_PLATFORM_DIR . 'assets/content/content.css',
 			THAILAND_PLATFORM_DIR . 'assets/content/content.js',
-			THAILAND_PLATFORM_DIR . 'assets/content/images/real-estate-thailand-atlas-v1-720.webp',
-			THAILAND_PLATFORM_DIR . 'assets/content/images/real-estate-thailand-atlas-v1-1200.webp',
-			THAILAND_PLATFORM_DIR . 'assets/content/images/real-estate-thailand-atlas-v1-1717.webp',
 		);
+		$required = array_merge( $required, Assets::hero_paths( $route['route_id'] ?? '' ) );
+		if ( 'bangkok-apartment-rental' === ( $route['route_id'] ?? '' ) ) {
+			$required[] = THAILAND_PLATFORM_DIR . 'assets/content/bangkok-rental.css';
+			$required[] = THAILAND_PLATFORM_DIR . 'assets/content/bangkok-rental.js';
+			$required[] = THAILAND_PLATFORM_DIR . 'resources/content/bangkok-rental-areas.php';
+		}
 
 		foreach ( $required as $path ) {
 			if ( ! is_readable( $path ) || 0 === filesize( $path ) ) {
 				return false;
 			}
+		}
+		if (
+			'bangkok-apartment-rental' === ( $route['route_id'] ?? '' )
+			&& ! BangkokRentalRepository::ready()
+		) {
+			return false;
 		}
 
 		$body = self::post_body( $route );
@@ -78,8 +87,8 @@ final class Renderer {
 			return '';
 		}
 
-		$filtered = (string) apply_filters( 'the_content', $body );
-		self::$bodies[ $route_id ] = str_ireplace(
+		$filtered   = (string) apply_filters( 'the_content', $body );
+		$normalized = str_ireplace(
 			array(
 				"\xE2\x80\x93",
 				"\xE2\x80\x94",
@@ -93,7 +102,31 @@ final class Renderer {
 			'-',
 			$filtered
 		);
+		if ( 'bangkok-apartment-rental' === $route_id ) {
+			$normalized = self::upgrade_bangkok_rental_body( $normalized );
+		}
+		self::$bodies[ $route_id ] = $normalized;
 		return self::$bodies[ $route_id ];
+	}
+
+	/**
+	 * Replace the old district dump with the structured area explorer and remove
+	 * one obsolete tenant-law claim from rendered output. Stored WordPress content
+	 * remains unchanged and every other useful section continues through the
+	 * standard content filter.
+	 *
+	 * @param string $body Filtered WordPress body.
+	 * @return string
+	 */
+	private static function upgrade_bangkok_rental_body( $body ) {
+		$patterns = array(
+			'~<p\b[^>]*>\s*<strong>\s*דירות\s+להשכרה\s+בב(?:נגק|נק)וק\s+לפי\s+מחוזות\s*</strong>\s*</p>.*?<p\b[^>]*>\s*<strong>\s*דירות\s+מומלצות\s*</strong>\s*</p>~isu',
+			'~<p\b[^>]*>(?:(?!</p>).)*?בתאילנד\s+אין\s+חוק\s+שוכרי\s+בית(?:(?!</p>).)*?</p>~isu',
+			'~<p\b[^>]*>\s*122\s*דירות\s+מומלצות\s*</p>~isu',
+		);
+		$upgraded = preg_replace( $patterns, '', $body );
+
+		return is_string( $upgraded ) ? $upgraded : $body;
 	}
 
 	/**

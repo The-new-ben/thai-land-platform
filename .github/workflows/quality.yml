@@ -44,19 +44,42 @@ jobs:
       - name: Verify generated homepage assets
         run: python scripts/build_homepage_assets.py --check
 
+      - name: Install deterministic image dependency
+        run: python -m pip install --disable-pip-version-check Pillow==10.4.0
+
+      - name: Verify generated Bangkok assets
+        run: python scripts/build_bangkok_rental_assets.py --check
+
       - name: Verify generated geography artifacts
         run: python scripts/build_geography_registry.py --check
+
+      - name: Verify generated content and SEO artifacts
+        run: |
+          python scripts/build_content_registry.py --check
+          python scripts/build_bangkok_rental_registry.py --check
+          python scripts/build_seo_registry.py --check
+          python scripts/build_seo_runtime.py --check
 
       - name: Test geography compiler
         run: python tests/geography-builder.test.py
 
       - name: Test SEO ownership registry
-        run: python tests/seo-ownership-registry.test.py
+        run: |
+          python tests/seo-ownership-registry.test.py
+          python tests/seo-runtime-gates.test.py
+
+      - name: Test content data and compilation
+        run: |
+          python tests/real-estate-content.test.py
+          python tests/bangkok-rental-data.test.py
+          python tests/draft-content-inventory.test.py
 
       - name: Check JavaScript syntax and chat behavior
         run: |
           node --check prototype/app.js
           node --check assets/homepage/homepage.js
+          node --check assets/content/bangkok-rental.js
+          node --check scripts/live_real_estate_acceptance.cjs
           node tests/tawk-state.test.js
 
       - name: Lint PHP
@@ -66,6 +89,7 @@ jobs:
         run: |
           php tests/run.php
           php -n tests/geography-resolver.test.php
+          php tests/real-estate-runtime.test.php
 
       - name: Build release candidate on minimum PHP
         if: matrix.php == '7.4'

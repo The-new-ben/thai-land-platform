@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "evidence_id": "thailand-platform-real-estate-0.3.5-managed-live",
+  "origin": "https://thai-land.co.il",
+  "recorded_at": "2026-08-08T19:32:22.941Z",
+  "release": {
+    "version": "0.3.5",
+    "receipt_path": "plugin-dist/0.3.5/thailand-platform-0.3.5.receipt.json",
+    "receipt_bytes": 17061,
+    "receipt_sha256": "1ff19beb7378d9f0bc56a487d4656bf07b0ae96b45b7c9440a7e9d9c534b4ada",
+    "artifact_path": "plugin-dist/0.3.5/thailand-platform-0.3.5.zip",
+    "artifact_bytes": 677753,
+    "artifact_sha256": "765f000e17656d513cd53e530207a656827261ef77559b036e2a7ae68cb1d070",
+    "source_commit": "b71a77f243bbeb8d5e17a96c08c5742e48d5ddce"
+  },
+  "health": {
+    "url": "https://thai-land.co.il/wp-json/thailand-platform/v1/health",
+    "observed_at": "2026-08-08T19:32:22.941Z",
+    "http_status": 200,
+    "response": {
+      "name": "thailand-platform",
+      "version": "0.3.5",
+      "status": "ok"
+    }
+  },
+  "acceptance": {
+    "path": "output/playwright/real-estate-live-0.3.5-acceptance.json",
+    "bytes": 403730,
+    "sha256": "b6932b273175505f4e8f86a6b6c11aeac2a43891901c88c2c367da5ffbe2681a",
+    "contract_id": "thailand-real-estate-v1",
+    "route_count": 8,
+    "passed": true,
+    "passed_count": 374,
+    "failed_count": 0
+  },
+  "managed_routes": [
+    {
+      "route_id": "thailand-real-estate",
+      "seo_owner_id": "thailand-real-estate",
+      "canonical_url": "/נדלן-בתאילנד/",
+      "post_id": 841,
+      "post_type": "page"
+    },
+    {
+      "route_id": "thailand-property-financing",
+      "seo_owner_id": "thailand-property-financing",
+      "canonical_url": "/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/",
+      "post_id": 65,
+      "post_type": "post"
+    },
+    {
+      "route_id": "thailand-property-buying-mistakes",
+      "seo_owner_id": "thailand-property-due-diligence-mistakes",
+      "canonical_url": "/5-הטעויות-המובילות-שיש-להימנע-מהן-בעת/",
+      "post_id": 69,
+      "post_type": "post"
+    },
+    {
+      "route_id": "bangkok-apartment-rental",
+      "seo_owner_id": "bangkok-apartment-rental-guide",
+      "canonical_url": "/מדריך-להשכרת-דירה-בבנגקוק/",
+      "post_id": 118,
+      "post_type": "post"
+    },
+    {
+      "route_id": "buy-property-thailand",
+      "seo_owner_id": "buy-property-thailand",
+      "canonical_url": "/קניית-נכס-בתאילנד/",
+      "post_id": 336,
+      "post_type": "post"
+    },
+    {
+      "route_id": "foreign-condo-ownership-thailand",
+      "seo_owner_id": "foreign-condo-ownership-thailand",
+      "canonical_url": "/זכויות-בית-משותף-נכס-בתאילנד/",
+      "post_id": 474,
+      "post_type": "post"
+    },
+    {
+      "route_id": "thailand-property-management",
+      "seo_owner_id": "property-management-thailand",
+      "canonical_url": "/property-management/",
+      "post_id": 609,
+      "post_type": "post"
+    },
+    {
+      "route_id": "thailand-property-prices",
+      "seo_owner_id": "thailand-property-prices",
+      "canonical_url": "/price/",
+      "post_id": 810,
+      "post_type": "post"
+    }
+  ]
+}

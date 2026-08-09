@@ -356,7 +356,7 @@ use Thailand_Platform\Homepage\Seo;
 use Thailand_Platform\Geography\Repository as Geography_Repository;
 use Thailand_Platform\Content\FeatureFlag as Content_FeatureFlag;
 
-tl_test_assert( '0.3.5' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.3.6' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -639,13 +639,21 @@ foreach ( $geography_runtime_files as $runtime_file ) {
 }
 
 $content_runtime_files = array(
+	'assets/content/bangkok-rental.css',
+	'assets/content/bangkok-rental.js',
 	'assets/content/content.css',
 	'assets/content/content.js',
+	'assets/content/images/bangkok-rental-atlas-v1-1200.webp',
+	'assets/content/images/bangkok-rental-atlas-v1-1717.webp',
+	'assets/content/images/bangkok-rental-atlas-v1-720.webp',
 	'assets/content/images/real-estate-thailand-atlas-v1-1200.webp',
 	'assets/content/images/real-estate-thailand-atlas-v1-1717.webp',
 	'assets/content/images/real-estate-thailand-atlas-v1-720.webp',
+	'resources/content/bangkok-rental-areas.php',
 	'resources/content/real-estate.php',
 	'src/Content/Assets.php',
+	'src/Content/BangkokRentalExplorer.php',
+	'src/Content/BangkokRentalRepository.php',
 	'src/Content/Breadcrumbs.php',
 	'src/Content/Context.php',
 	'src/Content/ContextualLinks.php',
@@ -904,7 +912,7 @@ foreach ( glob( $root . '/assets/homepage/images/*.webp' ) as $image_path ) {
 }
 
 $content_image_paths = glob( $root . '/assets/content/images/*.webp' );
-tl_test_assert( 3 === count( $content_image_paths ), 'Content hero image variant count mismatch.' );
+tl_test_assert( 6 === count( $content_image_paths ), 'Content hero image variant count mismatch.' );
 foreach ( $content_image_paths as $image_path ) {
 	$image_payload = file_get_contents( $image_path );
 	tl_test_assert( false !== $image_payload && strlen( $image_payload ) <= 130000, 'Content image exceeds the release budget.' );

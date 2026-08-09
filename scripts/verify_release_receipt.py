@@ -67,6 +67,7 @@ def main() -> int:
     parser.add_argument("--expected-path", required=True)
     parser.add_argument("--python-bin", type=Path, required=True)
     parser.add_argument("--php-bin", type=Path, required=True)
+    parser.add_argument("--node-bin", type=Path, required=True)
     parser.add_argument("--max-age-minutes", type=int, default=15)
     args = parser.parse_args()
 
@@ -75,6 +76,7 @@ def main() -> int:
     source_root = args.source_root.resolve()
     python_bin = args.python_bin.resolve()
     php_bin = args.php_bin.resolve()
+    node_bin = args.node_bin.resolve()
 
     exact_keys(
         receipt,
@@ -251,23 +253,47 @@ def main() -> int:
     exact_keys(
         qa,
         {
+            "bangkok_asset_compiler",
+            "bangkok_data_tests",
+            "bangkok_registry_compiler",
             "contract_test_output",
             "contract_tests",
             "geography_builder_tests",
             "geography_compiler",
+            "javascript_files_checked",
+            "javascript_syntax",
+            "node_binary",
+            "node_runtime",
             "php_binary",
             "php_files_linted",
             "php_lint",
             "php_runtime",
             "seo_registry_tests",
+            "tawk_state_test_output",
+            "tawk_state_tests",
         },
         "QA evidence",
     )
     require(qa["php_lint"] == "pass", "PHP lint did not pass")
     require(qa["contract_tests"] == "pass", "contract tests did not pass")
+    require(qa["bangkok_asset_compiler"] == "pass", "Bangkok asset compiler parity did not pass")
+    require(qa["bangkok_registry_compiler"] == "pass", "Bangkok registry compiler parity did not pass")
+    require(qa["bangkok_data_tests"] == "pass", "Bangkok data tests did not pass")
     require(qa["geography_compiler"] == "pass", "geography compiler parity did not pass")
     require(qa["geography_builder_tests"] == "pass", "geography builder tests did not pass")
     require(qa["seo_registry_tests"] == "pass", "SEO ownership registry tests did not pass")
+    require(qa["javascript_syntax"] == "pass", "JavaScript syntax checks did not pass")
+    require(qa["tawk_state_tests"] == "pass", "Tawk behavior tests did not pass")
+    require(qa["tawk_state_test_output"] == "PASS: Tawk chat behavior", "Tawk behavior test output mismatch")
+    expected_javascript_files = sorted(
+        [entry for entry in inventory_entries if entry.lower().endswith(".js")]
+        + [
+            "scripts/live_homepage_acceptance.cjs",
+            "scripts/live_real_estate_acceptance.cjs",
+            "scripts/live_seo_migration_acceptance.cjs",
+        ]
+    )
+    require(qa["javascript_files_checked"] == expected_javascript_files, "JavaScript syntax inventory mismatch")
     require(qa["contract_test_output"] == "PASS: Thailand Platform release contract", "contract test output mismatch")
     require(type(qa["php_files_linted"]) is int and qa["php_files_linted"] > 0, "PHP lint count is invalid")
     require(isinstance(qa["php_runtime"], str) and qa["php_runtime"].startswith("PHP "), "PHP runtime is invalid")
@@ -275,6 +301,11 @@ def main() -> int:
     exact_keys(qa["php_binary"], {"name", "sha256"}, "PHP binary evidence")
     require(qa["php_binary"]["name"] == php_bin.name, "PHP binary name mismatch")
     require(qa["php_binary"]["sha256"] == sha256(php_bin), "PHP binary hash mismatch")
+    require(isinstance(qa["node_runtime"], str) and re.fullmatch(r"v[0-9]+\.[0-9]+\.[0-9]+(?:[-+].*)?", qa["node_runtime"]) is not None, "Node runtime is invalid")
+    require(isinstance(qa["node_binary"], dict), "Node binary evidence must be an object")
+    exact_keys(qa["node_binary"], {"name", "sha256"}, "Node binary evidence")
+    require(qa["node_binary"]["name"] == node_bin.name, "Node binary name mismatch")
+    require(qa["node_binary"]["sha256"] == sha256(node_bin), "Node binary hash mismatch")
 
     builder = receipt["builder"]
     require(isinstance(builder, dict), "builder evidence must be an object")

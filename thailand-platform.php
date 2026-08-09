@@ -3,7 +3,7 @@
  * Plugin Name: Thailand Platform
  * Plugin URI: https://thai-land.co.il/
  * Description: Geography, search, homepage, and content runtime for thai-land.co.il.
- * Version: 0.3.5
+ * Version: 0.3.6
  * Requires at least: 6.9
  * Requires PHP: 7.4
  * Author: thai-land.co.il
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THAILAND_PLATFORM_VERSION', '0.3.5' );
+define( 'THAILAND_PLATFORM_VERSION', '0.3.6' );
 define( 'THAILAND_PLATFORM_FILE', __FILE__ );
 define( 'THAILAND_PLATFORM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );
@@ -35,6 +35,8 @@ require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Renderer.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Settings.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Homepage/Module.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Content/Repository.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Content/BangkokRentalRepository.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Content/BangkokRentalExplorer.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Content/FeatureFlag.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Content/Context.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Content/Assets.php';

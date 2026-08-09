@@ -260,6 +260,7 @@
       "additionalProperties": false,
       "required": [
         "route_id",
+        "seo_owner_id",
         "kind",
         "path",
         "parent_route_id",
@@ -276,6 +277,10 @@
         "route_id": {
           "type": "string",
           "pattern": "^[a-z0-9-]+$"
+        },
+        "seo_owner_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
         },
         "kind": {
           "enum": [

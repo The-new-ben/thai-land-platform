@@ -1,0 +1,783 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thai-land.co.il/schemas/content/bangkok-rental-areas-v1.schema.json",
+  "title": "Bangkok rental area authored data contract",
+  "description": "Structured, non-indexable geography and market-area data for the Bangkok rental guide.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_id",
+    "site",
+    "checked_on",
+    "entity_policy",
+    "public_labels",
+    "pricing_method",
+    "source_catalog",
+    "current_facts",
+    "official_districts",
+    "stations",
+    "corridors",
+    "featured_areas"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "contract_id": {
+      "const": "bangkok-rental-areas-v1"
+    },
+    "site": {
+      "$ref": "#/$defs/site"
+    },
+    "checked_on": {
+      "$ref": "#/$defs/date"
+    },
+    "entity_policy": {
+      "$ref": "#/$defs/entity_policy"
+    },
+    "public_labels": {
+      "$ref": "#/$defs/public_labels"
+    },
+    "pricing_method": {
+      "$ref": "#/$defs/pricing_method"
+    },
+    "source_catalog": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "current_facts": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/current_fact"
+      }
+    },
+    "official_districts": {
+      "type": "array",
+      "minItems": 50,
+      "maxItems": 50,
+      "items": {
+        "$ref": "#/$defs/official_district"
+      }
+    },
+    "stations": {
+      "type": "array",
+      "minItems": 15,
+      "items": {
+        "$ref": "#/$defs/station"
+      }
+    },
+    "corridors": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/corridor"
+      }
+    },
+    "featured_areas": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "$ref": "#/$defs/featured_area"
+      }
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "stable_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?::[a-z0-9-]+)+$"
+    },
+    "internal_path": {
+      "type": "string",
+      "pattern": "^/[^?#]*/$"
+    },
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin",
+        "locale",
+        "direction",
+        "parent_route_id",
+        "parent_path"
+      ],
+      "properties": {
+        "origin": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "locale": {
+          "const": "he-IL"
+        },
+        "direction": {
+          "const": "rtl"
+        },
+        "parent_route_id": {
+          "const": "bangkok-apartment-rental"
+        },
+        "parent_path": {
+          "const": "/מדריך-להשכרת-דירה-בבנגקוק/"
+        }
+      }
+    },
+    "entity_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "official_district_kind",
+        "market_area_kind",
+        "indexing_policy",
+        "relationship"
+      ],
+      "properties": {
+        "official_district_kind": {
+          "const": "official_district"
+        },
+        "market_area_kind": {
+          "const": "market_area"
+        },
+        "indexing_policy": {
+          "const": "non_indexable_structured_entity"
+        },
+        "relationship": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "public_labels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "area_map_heading",
+        "area_comparison_heading",
+        "estimated_band_heading",
+        "fit_heading",
+        "tradeoff_heading",
+        "micro_area_heading",
+        "daily_life_heading"
+      ],
+      "properties": {
+        "area_map_heading": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "area_comparison_heading": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "estimated_band_heading": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "fit_heading": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "tradeoff_heading": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "micro_area_heading": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "daily_life_heading": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
+    "pricing_method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pricing_method_id",
+        "public_label",
+        "currency",
+        "unit",
+        "home_type",
+        "lease_basis",
+        "furnishing_basis",
+        "rounding_thb",
+        "checked_on",
+        "source_ids"
+      ],
+      "properties": {
+        "pricing_method_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "public_label": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "currency": {
+          "const": "THB"
+        },
+        "unit": {
+          "const": "month"
+        },
+        "home_type": {
+          "const": "condominium"
+        },
+        "lease_basis": {
+          "const": "typical_12_month_asking_price"
+        },
+        "furnishing_basis": {
+          "const": "furnished"
+        },
+        "rounding_thb": {
+          "type": "integer",
+          "minimum": 1000
+        },
+        "checked_on": {
+          "$ref": "#/$defs/date"
+        },
+        "source_ids": {
+          "$ref": "#/$defs/source_ids"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "kind",
+        "name",
+        "publisher",
+        "url",
+        "checked_on",
+        "supports"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "kind": {
+          "enum": [
+            "official_government",
+            "official_operator",
+            "market_listings"
+          ]
+        },
+        "name": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "publisher": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "checked_on": {
+          "$ref": "#/$defs/date"
+        },
+        "supports": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/non_empty_string"
+          }
+        }
+      }
+    },
+    "current_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fact_id",
+        "public_label",
+        "public_value",
+        "checked_on",
+        "source_ids"
+      ],
+      "properties": {
+        "fact_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "public_label": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "public_value": {
+          "type": "string",
+          "minLength": 20
+        },
+        "effective_on": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "checked_on": {
+          "$ref": "#/$defs/date"
+        },
+        "source_ids": {
+          "$ref": "#/$defs/source_ids"
+        }
+      }
+    },
+    "names": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "he",
+        "en",
+        "th"
+      ],
+      "properties": {
+        "he": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "en": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "th": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
+    "aliases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "he",
+        "en",
+        "th"
+      ],
+      "properties": {
+        "he": {
+          "$ref": "#/$defs/string_list"
+        },
+        "en": {
+          "$ref": "#/$defs/string_list"
+        },
+        "th": {
+          "$ref": "#/$defs/string_list"
+        }
+      }
+    },
+    "string_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "source_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/stable_id"
+      }
+    },
+    "coordinates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lat",
+        "lng",
+        "basis"
+      ],
+      "properties": {
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lng": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "basis": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
+    "map_position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "x_percent",
+        "y_percent"
+      ],
+      "properties": {
+        "x_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "y_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "official_district": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "district_id",
+        "kind",
+        "indexing_policy",
+        "bma_code",
+        "names",
+        "aliases",
+        "source_ids"
+      ],
+      "properties": {
+        "district_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "kind": {
+          "const": "official_district"
+        },
+        "indexing_policy": {
+          "const": "non_indexable"
+        },
+        "bma_code": {
+          "type": "string",
+          "pattern": "^10[0-4][0-9]$|^1050$"
+        },
+        "names": {
+          "$ref": "#/$defs/names"
+        },
+        "aliases": {
+          "$ref": "#/$defs/aliases"
+        },
+        "source_ids": {
+          "$ref": "#/$defs/source_ids"
+        }
+      }
+    },
+    "station": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "station_id",
+        "mode",
+        "line_id",
+        "code",
+        "names",
+        "coordinates",
+        "source_ids"
+      ],
+      "properties": {
+        "station_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "mode": {
+          "enum": [
+            "bts",
+            "mrt"
+          ]
+        },
+        "line_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^(N|E|S)[0-9]+$|^BL[0-9]+$"
+        },
+        "names": {
+          "$ref": "#/$defs/names"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/coordinates"
+        },
+        "source_ids": {
+          "$ref": "#/$defs/source_ids"
+        }
+      }
+    },
+    "corridor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "corridor_id",
+        "kind",
+        "indexing_policy",
+        "names",
+        "summary",
+        "area_ids",
+        "station_ids",
+        "map_color"
+      ],
+      "properties": {
+        "corridor_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "kind": {
+          "const": "editorial_corridor"
+        },
+        "indexing_policy": {
+          "const": "non_indexable"
+        },
+        "names": {
+          "$ref": "#/$defs/names"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 20
+        },
+        "area_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/stable_id"
+          }
+        },
+        "station_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/stable_id"
+          }
+        },
+        "map_color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        }
+      }
+    },
+    "asking_band": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min_thb",
+        "max_thb"
+      ],
+      "properties": {
+        "min_thb": {
+          "type": "integer",
+          "minimum": 1000
+        },
+        "max_thb": {
+          "type": "integer",
+          "minimum": 1000
+        }
+      }
+    },
+    "monthly_asking_bands": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "currency",
+        "unit",
+        "one_bedroom",
+        "two_bedroom",
+        "checked_on",
+        "basis_label",
+        "pricing_method_id",
+        "source_ids"
+      ],
+      "properties": {
+        "currency": {
+          "const": "THB"
+        },
+        "unit": {
+          "const": "month"
+        },
+        "one_bedroom": {
+          "$ref": "#/$defs/asking_band"
+        },
+        "two_bedroom": {
+          "$ref": "#/$defs/asking_band"
+        },
+        "checked_on": {
+          "$ref": "#/$defs/date"
+        },
+        "basis_label": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "pricing_method_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "source_ids": {
+          "$ref": "#/$defs/source_ids"
+        }
+      }
+    },
+    "micro_area_note": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "detail"
+      ],
+      "properties": {
+        "label": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "detail": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "public_copy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eyebrow",
+        "title",
+        "summary",
+        "action_label"
+      ],
+      "properties": {
+        "eyebrow": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "title": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 40
+        },
+        "action_label": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
+    "featured_area": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "area_id",
+        "kind",
+        "indexing_policy",
+        "names",
+        "aliases",
+        "coordinates",
+        "map_position",
+        "official_district_ids",
+        "station_ids",
+        "corridor_id",
+        "monthly_asking_bands",
+        "persona_tags",
+        "fit_summary",
+        "tradeoff",
+        "micro_area_notes",
+        "daily_life_cues",
+        "public_copy"
+      ],
+      "properties": {
+        "area_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "kind": {
+          "const": "market_area"
+        },
+        "indexing_policy": {
+          "const": "non_indexable"
+        },
+        "names": {
+          "$ref": "#/$defs/names"
+        },
+        "aliases": {
+          "$ref": "#/$defs/aliases"
+        },
+        "coordinates": {
+          "$ref": "#/$defs/coordinates"
+        },
+        "map_position": {
+          "$ref": "#/$defs/map_position"
+        },
+        "official_district_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/stable_id"
+          }
+        },
+        "station_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/stable_id"
+          }
+        },
+        "corridor_id": {
+          "$ref": "#/$defs/stable_id"
+        },
+        "monthly_asking_bands": {
+          "$ref": "#/$defs/monthly_asking_bands"
+        },
+        "persona_tags": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "central",
+              "value",
+              "nightlife",
+              "quiet",
+              "family",
+              "business",
+              "food",
+              "rail",
+              "green",
+              "upscale",
+              "local"
+            ]
+          }
+        },
+        "fit_summary": {
+          "type": "string",
+          "minLength": 40
+        },
+        "tradeoff": {
+          "type": "string",
+          "minLength": 30
+        },
+        "micro_area_notes": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/micro_area_note"
+          }
+        },
+        "daily_life_cues": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 12
+          }
+        },
+        "public_copy": {
+          "$ref": "#/$defs/public_copy"
+        }
+      }
+    }
+  }
+}

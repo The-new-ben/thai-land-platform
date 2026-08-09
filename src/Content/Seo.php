@@ -114,6 +114,9 @@ final class Seo {
 		if ( is_array( $route ) ) {
 			$classes[] = 'thp-real-estate';
 			$classes[] = 'hub' === $route['kind'] ? 'thp-real-estate-hub' : 'thp-real-estate-spoke';
+			if ( 'bangkok-apartment-rental' === ( $route['route_id'] ?? '' ) ) {
+				$classes[] = 'thp-bangkok-rental';
+			}
 		}
 		return $classes;
 	}

@@ -46,6 +46,11 @@ return json_decode(
       "freshness_id": "market-monthly",
       "label": "מחירים ומימון"
     },
+    "rental-monthly": {
+      "detail": "מחירי פרסום, מלאי דירות, תנאי חוזה, פיקדונות וחיובים יכולים להשתנות",
+      "freshness_id": "rental-monthly",
+      "label": "מחירי שכירות וכללי חוזה"
+    },
     "rules-monthly": {
       "detail": "חוקים, נהלים, מסמכים ואגרות יכולים להשתנות",
       "freshness_id": "rules-monthly",
@@ -215,7 +220,7 @@ return json_decode(
     "hub_return": "לכל מדריכי הנדל״ן בתאילנד",
     "sources_heading": "מקורות שימושיים"
   },
-  "registry_sha256": "3d78238f2872b2725996ff76c1143182f69909a1854651b9b918758adc924e51",
+  "registry_sha256": "e344c053f81ce996ebbb3b6fa86ee4138076332f0bfaa8a038a1f4f073f57051",
   "rendering_owners": {
     "breadcrumb": "content_template_once",
     "h1": "content_template",
@@ -241,6 +246,16 @@ return json_decode(
     "69": "thailand-property-buying-mistakes",
     "810": "thailand-property-prices",
     "841": "thailand-real-estate"
+  },
+  "route_id_by_seo_owner_id": {
+    "bangkok-apartment-rental-guide": "bangkok-apartment-rental",
+    "buy-property-thailand": "buy-property-thailand",
+    "foreign-condo-ownership-thailand": "foreign-condo-ownership-thailand",
+    "property-management-thailand": "thailand-property-management",
+    "thailand-property-due-diligence-mistakes": "thailand-property-buying-mistakes",
+    "thailand-property-financing": "thailand-property-financing",
+    "thailand-property-prices": "thailand-property-prices",
+    "thailand-real-estate": "thailand-real-estate"
   },
   "routes_by_id": {
     "bangkok-apartment-rental": {
@@ -269,14 +284,14 @@ return json_decode(
         },
         {
           "context": "השוו את מסלול השכירות לשלבי הרכישה ולעלויות שמתווספות לבעלות על נכס.",
-          "label": "מתי עוברים משכירות לקנייה",
+          "label": "קניית נכס בתאילנד",
           "target_route_id": "buy-property-thailand"
         }
       ],
-      "freshness_id": "market-monthly",
+      "freshness_id": "rental-monthly",
       "kind": "spoke",
       "ownership": {
-        "intent": "לבחור שכונה ודירה בבנגקוק ולהבין חוזה, פיקדון, חשבונות ועלויות שכירות",
+        "intent": "לבחור אזור ודירה בבנגקוק ולהבין מחירים, חוזה, פיקדון, חשבונות ועלויות שכירות",
         "primary_keyword": "השכרת דירה בבנגקוק",
         "synonyms": [
           "דירות להשכרה בבנגקוק לטווח ארוך",
@@ -292,12 +307,13 @@ return json_decode(
       "parent_route_id": "thailand-real-estate",
       "path": "/מדריך-להשכרת-דירה-בבנגקוק/",
       "public": {
-        "h1": "השכרת דירה בבנגקוק: שכונות, חוזה ועלויות",
-        "meta_description": "השכרת דירה בבנגקוק מתחילה בבחירת שכונה ותקציב. השוו תנאי חוזה, פיקדון, חשבונות, תחבורה ובדיקות שכדאי לבצע לפני כניסה.",
-        "seo_title": "השכרת דירה בבנגקוק: מדריך לשכונות ולחוזה",
-        "summary": "מדריך מעשי לבחירת אזור ודירה, קריאת החוזה, חישוב העלות החודשית ובדיקת הנכס לפני קבלת מפתח."
+        "h1": "השכרת דירה בבנגקוק: מחירים, אזורים וחוזה",
+        "meta_description": "השכרת דירה בבנגקוק עם טווחי מחיר ב-10 אזורים, השוואת BTS ו-MRT, פיקדון, חשבונות וכללי חוזה שכדאי להכיר לפני כניסה.",
+        "seo_title": "השכרת דירה בבנגקוק: מחירים, אזורים וחוזה",
+        "summary": "השוו 10 אזורי מגורים לפי תקציב ורכבת, חשבו את הכסף הדרוש לחתימה והכירו את כללי החוזה לפני שבוחרים דירה."
       },
       "route_id": "bangkok-apartment-rental",
+      "seo_owner_id": "bangkok-apartment-rental-guide",
       "source_ids": [
         "bangkok-metropolitan-administration",
         "consumer-protection-board",
@@ -385,6 +401,7 @@ return json_decode(
         "summary": "מסלול קנייה מסודר שמחבר בין החלטת התקציב, בדיקת הנכס, מסמכי העסקה, העברת הכסף ורישום הזכויות."
       },
       "route_id": "buy-property-thailand",
+      "seo_owner_id": "buy-property-thailand",
       "source_ids": [
         "royal-gazette",
         "thai-land-department",
@@ -452,6 +469,7 @@ return json_decode(
         "summary": "הסבר ממוקד על מבנה הזכויות בדירה בבית משותף ועל המסמכים שצריכים להתחבר לעסקה ולרישום."
       },
       "route_id": "foreign-condo-ownership-thailand",
+      "seo_owner_id": "foreign-condo-ownership-thailand",
       "source_ids": [
         "royal-gazette",
         "thai-land-department"
@@ -518,6 +536,7 @@ return json_decode(
         "summary": "רשימת בדיקות ממוקדת שמסדרת את נקודות הסיכון לפני שמתחייבים לעסקה או מעבירים כסף."
       },
       "route_id": "thailand-property-buying-mistakes",
+      "seo_owner_id": "thailand-property-due-diligence-mistakes",
       "source_ids": [
         "consumer-protection-board",
         "royal-gazette",
@@ -585,6 +604,7 @@ return json_decode(
         "summary": "מפת אפשרויות למימון העסקה, עם השאלות שצריך לשאול על זכאות, בטוחות, מטבע, ריבית והחזר חודשי."
       },
       "route_id": "thailand-property-financing",
+      "seo_owner_id": "thailand-property-financing",
       "source_ids": [
         "bank-of-thailand",
         "thai-land-department",
@@ -652,6 +672,7 @@ return json_decode(
         "summary": "מסגרת עבודה לבחירת שירותי ניהול, חלוקת אחריות, מעקב אחר הכנסות וטיפול בתקלות לאורך חיי הנכס."
       },
       "route_id": "thailand-property-management",
+      "seo_owner_id": "property-management-thailand",
       "source_ids": [
         "consumer-protection-board",
         "thai-land-department",
@@ -719,6 +740,7 @@ return json_decode(
         "summary": "דרך מסודרת לבנות תקציב מלא, להפריד בין מחיר הנכס להוצאות העסקה ולהבין מה משפיע על הפערים בין אזורים."
       },
       "route_id": "thailand-property-prices",
+      "seo_owner_id": "thailand-property-prices",
       "source_ids": [
         "bank-of-thailand",
         "thai-land-department",
@@ -802,6 +824,7 @@ return json_decode(
         "summary": "מתחילים מהמטרה שלכם ומתקדמים אל המדריך המדויק, מהיכרות עם השוק ועד חוזה, מימון, רישום וניהול שוטף."
       },
       "route_id": "thailand-real-estate",
+      "seo_owner_id": "thailand-real-estate",
       "source_ids": [
         "bank-of-thailand",
         "royal-gazette",
@@ -816,14 +839,15 @@ return json_decode(
       }
     }
   },
-  "schema_sha256": "aab1c04b4c47a826f5656412e99ef21458c9395eeb737d54311ec3062cf85d1d",
+  "schema_sha256": "47ff52e08576c17e9849889120a77238ba833e8fe5abf715088f76d52a70fa60",
   "schema_version": 1,
+  "seo_registry_sha256": "d362fe1af89fe72c850f9db68736ad8b4587c2d4bc15ffe7f9324b827e032936",
   "site": {
     "direction": "rtl",
     "locale": "he-IL",
     "origin": "https://thai-land.co.il"
   },
-  "source_sha256": "e08edd9ce40706d97e819f50dacc41844e7b111283d7860381cdc6307cdfb914",
+  "source_sha256": "32ed049f1f8725a09c14a3fada20af03ac612db73d782e6771e41ce8fba4d96b",
   "sources_by_id": {
     "bangkok-metropolitan-administration": {
       "label": "עיריית בנגקוק",

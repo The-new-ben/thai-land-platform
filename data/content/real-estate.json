@@ -44,6 +44,11 @@
       "detail": "ריבית, שערי מטבע, עמלות ומחירי שוק משתנים לאורך הזמן"
     },
     {
+      "freshness_id": "rental-monthly",
+      "label": "מחירי שכירות וכללי חוזה",
+      "detail": "מחירי פרסום, מלאי דירות, תנאי חוזה, פיקדונות וחיובים יכולים להשתנות"
+    },
+    {
       "freshness_id": "rules-monthly",
       "label": "בעלות ורישום",
       "detail": "חוקים, נהלים, מסמכים ואגרות יכולים להשתנות"
@@ -95,6 +100,7 @@
   "routes": [
     {
       "route_id": "thailand-real-estate",
+      "seo_owner_id": "thailand-real-estate",
       "kind": "hub",
       "path": "/נדלן-בתאילנד/",
       "parent_route_id": null,
@@ -179,6 +185,7 @@
     },
     {
       "route_id": "thailand-property-financing",
+      "seo_owner_id": "thailand-property-financing",
       "kind": "spoke",
       "path": "/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/",
       "parent_route_id": "thailand-real-estate",
@@ -246,6 +253,7 @@
     },
     {
       "route_id": "thailand-property-buying-mistakes",
+      "seo_owner_id": "thailand-property-due-diligence-mistakes",
       "kind": "spoke",
       "path": "/5-הטעויות-המובילות-שיש-להימנע-מהן-בעת/",
       "parent_route_id": "thailand-real-estate",
@@ -313,6 +321,7 @@
     },
     {
       "route_id": "bangkok-apartment-rental",
+      "seo_owner_id": "bangkok-apartment-rental-guide",
       "kind": "spoke",
       "path": "/מדריך-להשכרת-דירה-בבנגקוק/",
       "parent_route_id": "thailand-real-estate",
@@ -329,13 +338,13 @@
           "חוזה שכירות בבנגקוק",
           "Bangkok apartment rent"
         ],
-        "intent": "לבחור שכונה ודירה בבנגקוק ולהבין חוזה, פיקדון, חשבונות ועלויות שכירות"
+        "intent": "לבחור אזור ודירה בבנגקוק ולהבין מחירים, חוזה, פיקדון, חשבונות ועלויות שכירות"
       },
       "public": {
-        "h1": "השכרת דירה בבנגקוק: שכונות, חוזה ועלויות",
-        "seo_title": "השכרת דירה בבנגקוק: מדריך לשכונות ולחוזה",
-        "meta_description": "השכרת דירה בבנגקוק מתחילה בבחירת שכונה ותקציב. השוו תנאי חוזה, פיקדון, חשבונות, תחבורה ובדיקות שכדאי לבצע לפני כניסה.",
-        "summary": "מדריך מעשי לבחירת אזור ודירה, קריאת החוזה, חישוב העלות החודשית ובדיקת הנכס לפני קבלת מפתח."
+        "h1": "השכרת דירה בבנגקוק: מחירים, אזורים וחוזה",
+        "seo_title": "השכרת דירה בבנגקוק: מחירים, אזורים וחוזה",
+        "meta_description": "השכרת דירה בבנגקוק עם טווחי מחיר ב-10 אזורים, השוואת BTS ו-MRT, פיקדון, חשבונות וכללי חוזה שכדאי להכיר לפני כניסה.",
+        "summary": "השוו 10 אזורי מגורים לפי תקציב ורכבת, חשבו את הכסף הדרוש לחתימה והכירו את כללי החוזה לפני שבוחרים דירה."
       },
       "breadcrumbs": [
         {
@@ -367,11 +376,11 @@
         },
         {
           "target_route_id": "buy-property-thailand",
-          "label": "מתי עוברים משכירות לקנייה",
+          "label": "קניית נכס בתאילנד",
           "context": "השוו את מסלול השכירות לשלבי הרכישה ולעלויות שמתווספות לבעלות על נכס."
         }
       ],
-      "freshness_id": "market-monthly",
+      "freshness_id": "rental-monthly",
       "source_ids": [
         "bangkok-metropolitan-administration",
         "consumer-protection-board",
@@ -380,6 +389,7 @@
     },
     {
       "route_id": "buy-property-thailand",
+      "seo_owner_id": "buy-property-thailand",
       "kind": "spoke",
       "path": "/קניית-נכס-בתאילנד/",
       "parent_route_id": "thailand-real-estate",
@@ -467,6 +477,7 @@
     },
     {
       "route_id": "foreign-condo-ownership-thailand",
+      "seo_owner_id": "foreign-condo-ownership-thailand",
       "kind": "spoke",
       "path": "/זכויות-בית-משותף-נכס-בתאילנד/",
       "parent_route_id": "thailand-real-estate",
@@ -533,6 +544,7 @@
     },
     {
       "route_id": "thailand-property-management",
+      "seo_owner_id": "property-management-thailand",
       "kind": "spoke",
       "path": "/property-management/",
       "parent_route_id": "thailand-real-estate",
@@ -600,6 +612,7 @@
     },
     {
       "route_id": "thailand-property-prices",
+      "seo_owner_id": "thailand-property-prices",
       "kind": "spoke",
       "path": "/price/",
       "parent_route_id": "thailand-real-estate",

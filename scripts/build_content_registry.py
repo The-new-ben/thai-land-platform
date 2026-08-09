@@ -18,33 +18,53 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = ROOT / "data" / "content" / "real-estate.json"
 DEFAULT_SCHEMA = ROOT / "data" / "content" / "real-estate.schema.json"
 DEFAULT_OUTPUT = ROOT / "resources" / "content" / "real-estate.php"
+DEFAULT_SEO_REGISTRY = ROOT / "data" / "seo" / "ownership-registry.json"
 
 EXPECTED_SCHEMA_ID = (
     "https://thai-land.co.il/schemas/content/real-estate-v1.schema.json"
 )
 EXPECTED_SCHEMA_SHA256 = (
-	"aab1c04b4c47a826f5656412e99ef21458c9395eeb737d54311ec3062cf85d1d"
+	"47ff52e08576c17e9849889120a77238ba833e8fe5abf715088f76d52a70fa60"
 )
 EXPECTED_CONTRACT_ID = "thailand-real-estate-v1"
 EXPECTED_HUB_ROUTE_ID = "thailand-real-estate"
-EXPECTED_BINDINGS: dict[str, tuple[int | None, str]] = {
-    "thailand-real-estate": (841, "/נדלן-בתאילנד/"),
+EXPECTED_BINDINGS: dict[str, tuple[int | None, str, str]] = {
+    "thailand-real-estate": (841, "/נדלן-בתאילנד/", "thailand-real-estate"),
     "thailand-property-financing": (
         65,
         "/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/",
+        "thailand-property-financing",
     ),
     "thailand-property-buying-mistakes": (
         69,
         "/5-הטעויות-המובילות-שיש-להימנע-מהן-בעת/",
+        "thailand-property-due-diligence-mistakes",
     ),
-    "bangkok-apartment-rental": (118, "/מדריך-להשכרת-דירה-בבנגקוק/"),
-    "buy-property-thailand": (336, "/קניית-נכס-בתאילנד/"),
+    "bangkok-apartment-rental": (
+        118,
+        "/מדריך-להשכרת-דירה-בבנגקוק/",
+        "bangkok-apartment-rental-guide",
+    ),
+    "buy-property-thailand": (
+        336,
+        "/קניית-נכס-בתאילנד/",
+        "buy-property-thailand",
+    ),
     "foreign-condo-ownership-thailand": (
         474,
         "/זכויות-בית-משותף-נכס-בתאילנד/",
+        "foreign-condo-ownership-thailand",
     ),
-    "thailand-property-management": (609, "/property-management/"),
-    "thailand-property-prices": (810, "/price/"),
+    "thailand-property-management": (
+        609,
+        "/property-management/",
+        "property-management-thailand",
+    ),
+    "thailand-property-prices": (
+        810,
+        "/price/",
+        "thailand-property-prices",
+    ),
 }
 FORBIDDEN_CODEPOINTS = {
     "\u200b": "zero width space",
@@ -365,6 +385,7 @@ def validate_routes(
 
     routes_by_id: dict[str, dict[str, Any]] = {}
     routes_by_path: dict[str, str] = {}
+    routes_by_seo_owner_id: dict[str, str] = {}
     post_ids: dict[int, str] = {}
     for route in routes:
         route_id = route["route_id"]
@@ -377,6 +398,14 @@ def validate_routes(
             )
         routes_by_id[route_id] = route
         routes_by_path[path] = route_id
+
+        seo_owner_id = route["seo_owner_id"]
+        if seo_owner_id in routes_by_seo_owner_id:
+            raise RegistryError(
+                "duplicate SEO owner ID: "
+                f"{seo_owner_id} for {routes_by_seo_owner_id[seo_owner_id]} and {route_id}"
+            )
+        routes_by_seo_owner_id[seo_owner_id] = route_id
 
         post_id = route["wordpress"]["post_id"]
         if post_id is not None:
@@ -391,10 +420,18 @@ def validate_routes(
         extra = sorted(set(routes_by_id) - set(EXPECTED_BINDINGS))
         raise RegistryError(f"route set mismatch: missing={missing}, extra={extra}")
 
-    for route_id, (expected_post_id, expected_path) in EXPECTED_BINDINGS.items():
+    for route_id, (
+        expected_post_id,
+        expected_path,
+        expected_seo_owner_id,
+    ) in EXPECTED_BINDINGS.items():
         route = routes_by_id[route_id]
-        actual = (route["wordpress"]["post_id"], route["path"])
-        expected = (expected_post_id, expected_path)
+        actual = (
+            route["wordpress"]["post_id"],
+            route["path"],
+            route["seo_owner_id"],
+        )
+        expected = (expected_post_id, expected_path, expected_seo_owner_id)
         if actual != expected:
             raise RegistryError(
                 f"ID/path mismatch for {route_id}: expected {expected!r}, got {actual!r}"
@@ -610,6 +647,83 @@ def validate_hub_experience(
         raise RegistryError("decision paths must offer every spoke")
 
 
+def validate_seo_alignment(
+    routes_by_id: dict[str, dict[str, Any]],
+    seo_registry_path: Path = DEFAULT_SEO_REGISTRY,
+) -> str:
+    """Require every managed content route to resolve to one live SEO owner."""
+    seo_registry = load_json(seo_registry_path)
+    owners = seo_registry.get("intent_owners")
+    route_claims = seo_registry.get("routes")
+    if not isinstance(owners, list) or not isinstance(route_claims, list):
+        raise RegistryError("SEO ownership registry shape mismatch")
+
+    owners_by_id: dict[str, dict[str, Any]] = {}
+    for owner in owners:
+        if not isinstance(owner, dict) or not isinstance(owner.get("owner_id"), str):
+            raise RegistryError("SEO ownership registry contains an invalid owner")
+        owner_id = owner["owner_id"]
+        if owner_id in owners_by_id:
+            raise RegistryError(f"duplicate SEO registry owner: {owner_id}")
+        owners_by_id[owner_id] = owner
+
+    for route_id, route in routes_by_id.items():
+        seo_owner_id = route["seo_owner_id"]
+        owner = owners_by_id.get(seo_owner_id)
+        if owner is None:
+            raise RegistryError(
+                f"content route has no SEO owner: {route_id} -> {seo_owner_id}"
+            )
+        if owner.get("lifecycle") != "live":
+            raise RegistryError(f"content SEO owner is not live: {seo_owner_id}")
+        if owner.get("canonical_url") != route["path"]:
+            raise RegistryError(f"content and SEO canonical differ: {route_id}")
+
+        claims = [
+            claim
+            for claim in route_claims
+            if isinstance(claim, dict)
+            and claim.get("url") == route["path"]
+            and claim.get("lifecycle") == "live"
+            and claim.get("indexing_policy") == "index"
+            and claim.get("assignment", {}).get("kind") == "canonical_owner"
+            and claim.get("assignment", {}).get("owner_id") == seo_owner_id
+        ]
+        if len(claims) != 1:
+            raise RegistryError(
+                f"content route requires one live SEO route claim: {route_id}"
+            )
+
+        parent_route_id = route["parent_route_id"]
+        expected_parent_owner_id = (
+            "home"
+            if parent_route_id is None
+            else routes_by_id[parent_route_id]["seo_owner_id"]
+        )
+        if owner.get("parent_owner_id") != expected_parent_owner_id:
+            raise RegistryError(f"content and SEO parents differ: {route_id}")
+
+        content_breadcrumb_owner_ids = [
+            "home"
+            if crumb["route_id"] is None
+            else routes_by_id[crumb["route_id"]]["seo_owner_id"]
+            for crumb in route["breadcrumbs"]
+        ]
+        seo_breadcrumbs = owner.get("breadcrumb_chain")
+        if not isinstance(seo_breadcrumbs, list):
+            raise RegistryError(f"SEO breadcrumb chain is invalid: {seo_owner_id}")
+        if content_breadcrumb_owner_ids != [
+            crumb.get("owner_id") for crumb in seo_breadcrumbs
+        ]:
+            raise RegistryError(f"content and SEO breadcrumbs differ: {route_id}")
+        if [crumb["path"] for crumb in route["breadcrumbs"]] != [
+            crumb.get("url") for crumb in seo_breadcrumbs
+        ]:
+            raise RegistryError(f"content and SEO breadcrumb URLs differ: {route_id}")
+
+    return sha256_lf(seo_registry_path)
+
+
 def validate_source(
     source: dict[str, Any], schema: dict[str, Any], schema_path: Path
 ) -> dict[str, dict[str, Any]]:
@@ -643,6 +757,7 @@ def build_runtime_registry(
     routes_by_id: dict[str, dict[str, Any]],
     source_digest: str,
     schema_digest: str,
+    seo_registry_digest: str,
 ) -> dict[str, Any]:
     """Build indexes without changing authored editorial ordering."""
     ordered_routes = {
@@ -664,6 +779,12 @@ def build_runtime_registry(
             ),
         )
         if route["wordpress"]["post_id"] is not None
+    }
+    route_id_by_seo_owner_id = {
+        route["seo_owner_id"]: route_id
+        for route_id, route in sorted(
+            routes_by_id.items(), key=lambda item: item[1]["seo_owner_id"]
+        )
     }
     hub_route_id = source["hub_route_id"]
     children_by_parent = {
@@ -691,6 +812,7 @@ def build_runtime_registry(
         "contract_id": source["contract_id"],
         "source_sha256": source_digest,
         "schema_sha256": schema_digest,
+        "seo_registry_sha256": seo_registry_digest,
         "site": source["site"],
         "hub_route_id": hub_route_id,
         "body_contract": source["body_contract"],
@@ -701,6 +823,7 @@ def build_runtime_registry(
         "routes_by_id": ordered_routes,
         "route_id_by_path": route_id_by_path,
         "route_id_by_post_id": route_id_by_post_id,
+        "route_id_by_seo_owner_id": route_id_by_seo_owner_id,
         "children_by_parent": children_by_parent,
         "hub_experience": source["hub_experience"],
     }
@@ -750,11 +873,13 @@ def compile_registry(
     source = load_json(source_path)
     schema = load_json(schema_path)
     routes_by_id = validate_source(source, schema, schema_path)
+    seo_registry_digest = validate_seo_alignment(routes_by_id)
     registry = build_runtime_registry(
         source,
         routes_by_id,
         sha256_lf(source_path),
         sha256_lf(schema_path),
+        seo_registry_digest,
     )
     artifact = render_php(registry)
     return CompileResult(registry=registry, artifact=artifact)

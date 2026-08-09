@@ -1,5 +1,10 @@
+assets/content/bangkok-rental.css
+assets/content/bangkok-rental.js
 assets/content/content.css
 assets/content/content.js
+assets/content/images/bangkok-rental-atlas-v1-1200.webp
+assets/content/images/bangkok-rental-atlas-v1-1717.webp
+assets/content/images/bangkok-rental-atlas-v1-720.webp
 assets/content/images/real-estate-thailand-atlas-v1-1200.webp
 assets/content/images/real-estate-thailand-atlas-v1-1717.webp
 assets/content/images/real-estate-thailand-atlas-v1-720.webp
@@ -128,12 +133,15 @@ lib/plugin-update-checker/vendor/Parsedown.php
 lib/plugin-update-checker/vendor/ParsedownModern.php
 lib/plugin-update-checker/vendor/PucReadmeParser.php
 readme.txt
+resources/content/bangkok-rental-areas.php
 resources/content/real-estate.php
 resources/geography/manifest.json
 resources/geography/registry.php
 resources/homepage.html
 resources/seo/migration-gates.php
 src/Content/Assets.php
+src/Content/BangkokRentalExplorer.php
+src/Content/BangkokRentalRepository.php
 src/Content/Breadcrumbs.php
 src/Content/Context.php
 src/Content/ContextualLinks.php

@@ -33,7 +33,7 @@ final class ContextualLinks {
 								<?php $target = Repository::route_by_id( $choice['target_route_id'] ); ?>
 								<?php if ( is_array( $target ) ) : ?>
 									<li>
-										<a href="<?php echo esc_url( home_url( $target['path'] ) ); ?>" data-thp-target-owner="<?php echo esc_attr( $target['route_id'] ); ?>" data-thp-relationship="decision">
+										<a href="<?php echo esc_url( home_url( $target['path'] ) ); ?>" data-thp-target-route="<?php echo esc_attr( $target['route_id'] ); ?>" data-thp-target-owner="<?php echo esc_attr( $target['seo_owner_id'] ); ?>" data-thp-relationship="decision">
 											<strong><?php echo esc_html( $choice['label'] ); ?></strong>
 											<span><?php echo esc_html( $choice['detail'] ); ?></span>
 										</a>
@@ -70,7 +70,7 @@ final class ContextualLinks {
 								<p class="thp-kicker"><?php echo esc_html( $card['eyebrow'] ); ?></p>
 								<h4><?php echo esc_html( $card['title'] ); ?></h4>
 								<p><?php echo esc_html( $card['summary'] ); ?></p>
-								<a href="<?php echo esc_url( home_url( $target['path'] ) ); ?>" data-thp-target-owner="<?php echo esc_attr( $route_id ); ?>" data-thp-relationship="child_spoke"><?php echo esc_html( $card['action_label'] ); ?> <span aria-hidden="true">←</span></a>
+								<a href="<?php echo esc_url( home_url( $target['path'] ) ); ?>" data-thp-target-route="<?php echo esc_attr( $target['route_id'] ); ?>" data-thp-target-owner="<?php echo esc_attr( $target['seo_owner_id'] ); ?>" data-thp-relationship="child_spoke"><?php echo esc_html( $card['action_label'] ); ?> <span aria-hidden="true">←</span></a>
 							</article>
 						<?php endforeach; ?>
 					</div>
@@ -100,7 +100,7 @@ final class ContextualLinks {
 				<?php foreach ( $links as $link ) : ?>
 					<?php $target = Repository::route_by_id( $link['target_route_id'] ); ?>
 					<?php if ( is_array( $target ) ) : ?>
-						<a class="thp-continuation-card" href="<?php echo esc_url( home_url( $target['path'] ) ); ?>" data-thp-target-owner="<?php echo esc_attr( $target['route_id'] ); ?>" data-thp-relationship="sibling">
+						<a class="thp-continuation-card" href="<?php echo esc_url( home_url( $target['path'] ) ); ?>" data-thp-target-route="<?php echo esc_attr( $target['route_id'] ); ?>" data-thp-target-owner="<?php echo esc_attr( $target['seo_owner_id'] ); ?>" data-thp-relationship="sibling">
 							<strong><?php echo esc_html( $link['label'] ); ?></strong>
 							<span><?php echo esc_html( $link['context'] ); ?></span>
 							<small>למדריך <span aria-hidden="true">←</span></small>

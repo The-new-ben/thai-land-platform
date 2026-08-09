@@ -22,6 +22,10 @@ REGISTRY_PATH = ROOT / "data" / "seo" / "ownership-registry.json"
 SCHEMA_PATH = ROOT / "data" / "seo" / "ownership-registry.schema.json"
 README_PATH = ROOT / "data" / "seo" / "README.md"
 BUILDER_PATH = ROOT / "scripts" / "build_seo_registry.py"
+MANAGED_LIVE_EVIDENCE_PATH = (
+    ROOT / "data" / "seo" / "evidence" / "managed-live-routes.0.3.5.json"
+)
+CONTENT_PATH = ROOT / "data" / "content" / "real-estate.json"
 
 SNAPSHOT_BASELINES = {
     "yoast-sitemaps-2026-08-08": {
@@ -364,6 +368,66 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
         self.assertEqual(43, total)
         self.assertEqual(43, len(all_routes))
 
+    def test_managed_live_evidence_is_local_complete_and_hash_bound(self) -> None:
+        evidence = load_json(MANAGED_LIVE_EVIDENCE_PATH)
+        self.assertEqual(1, evidence["schema_version"])
+        self.assertEqual("https://thai-land.co.il", evidence["origin"])
+        self.assertEqual(
+            {
+                "url": "https://thai-land.co.il/wp-json/thailand-platform/v1/health",
+                "observed_at": "2026-08-08T19:32:22.941Z",
+                "http_status": 200,
+                "response": {
+                    "name": "thailand-platform",
+                    "version": "0.3.5",
+                    "status": "ok",
+                },
+            },
+            evidence["health"],
+        )
+
+        release = evidence["release"]
+        acceptance_claim = evidence["acceptance"]
+        for claim, path_key, bytes_key, digest_key in (
+            (release, "receipt_path", "receipt_bytes", "receipt_sha256"),
+            (release, "artifact_path", "artifact_bytes", "artifact_sha256"),
+            (acceptance_claim, "path", "bytes", "sha256"),
+        ):
+            path = ROOT / claim[path_key]
+            self.assertTrue(path.is_file(), path)
+            self.assertEqual(claim[bytes_key], path.stat().st_size, path)
+            self.assertEqual(
+                claim[digest_key], hashlib.sha256(path.read_bytes()).hexdigest(), path
+            )
+
+        acceptance = load_json(ROOT / acceptance_claim["path"])
+        self.assertEqual("0.3.5", acceptance["release"])
+        self.assertEqual(8, acceptance["route_count"])
+        self.assertEqual(
+            {
+                "passed": True,
+                "total": 374,
+                "passed_count": 374,
+                "failed_count": 0,
+            },
+            {
+                key: acceptance["acceptance"][key]
+                for key in ("passed", "total", "passed_count", "failed_count")
+            },
+        )
+        self.assertEqual(
+            {route["route_id"] for route in evidence["managed_routes"]},
+            set(acceptance["routes"]),
+        )
+
+        hub_route = self.by_route["/נדלן-בתאילנד/"]
+        self.assertEqual("live", hub_route["lifecycle"])
+        self.assertEqual([], hub_route["observed_in"])
+        self.assertEqual(
+            ["data/seo/evidence/managed-live-routes.0.3.5.json"],
+            hub_route["source_evidence"],
+        )
+
     def test_protected_urls_have_exactly_one_route_claim(self) -> None:
         expected: dict[str, set[str]] = {}
         for snapshot_id, rows in self.inventory_rows().items():
@@ -634,10 +698,13 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                     owner_id,
                 )
 
-    def test_every_observed_public_owner_is_reachable_from_home(self) -> None:
+    def test_every_live_index_owner_is_reachable_from_home(self) -> None:
         public_owner_ids: set[str] = set()
         for route in self.routes:
-            if not route["observed_in"] or route["indexing_policy"] != "index":
+            if (
+                route["lifecycle"] != "live"
+                or route["indexing_policy"] != "index"
+            ):
                 continue
             assignment = route["assignment"]
             public_owner_ids.add(
@@ -656,7 +723,7 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                     reachable.add(target)
                     pending.append(target)
 
-        self.assertEqual(43, len(public_owner_ids))
+        self.assertEqual(44, len(public_owner_ids))
         self.assertTrue(public_owner_ids.issubset(reachable), public_owner_ids - reachable)
 
     def test_real_estate_spokes_have_hub_and_two_contextual_continuations(self) -> None:
@@ -670,6 +737,11 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
             "bangkok-apartment-rental-guide",
         }
         hub = self.by_owner["thailand-real-estate"]
+        self.assertEqual("live", hub["lifecycle"])
+        self.assertEqual(
+            ["home", "thailand-real-estate"],
+            [crumb["owner_id"] for crumb in hub["breadcrumb_chain"]],
+        )
         for spoke_id in spokes:
             spoke = self.by_owner[spoke_id]
             contextual = [
@@ -678,13 +750,13 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                 if edge["placement"] == "contextual_body"
             ]
             targets = {edge["target_owner_id"] for edge in contextual}
-            self.assertNotIn("thailand-real-estate", targets, spoke_id)
+            self.assertIn("thailand-real-estate", targets, spoke_id)
             self.assertGreaterEqual(len(targets), 2, spoke_id)
             self.assertTrue(
                 any(
                     edge["target_owner_id"] == "thailand-real-estate"
                     and edge["relationship"] == "parent_hub"
-                    for edge in spoke["planned_internal_link_requirements"]
+                    for edge in spoke["internal_link_requirements"]
                 ),
                 spoke_id,
             )
@@ -692,9 +764,61 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                 any(
                     edge["target_owner_id"] == spoke_id
                     and edge["relationship"] == "child_spoke"
-                    for edge in hub["planned_internal_link_requirements"]
+                    for edge in hub["internal_link_requirements"]
                 ),
                 spoke_id,
+            )
+            self.assertEqual(
+                ["home", "thailand-real-estate", spoke_id],
+                [crumb["owner_id"] for crumb in spoke["breadcrumb_chain"]],
+                spoke_id,
+            )
+            self.assertFalse(
+                any(
+                    edge["target_owner_id"] == "thailand-real-estate"
+                    for edge in spoke["planned_internal_link_requirements"]
+                ),
+                spoke_id,
+            )
+
+    def test_managed_content_routes_use_canonical_seo_owner_foreign_keys(self) -> None:
+        content = load_json(CONTENT_PATH)
+        content_by_id = {route["route_id"]: route for route in content["routes"]}
+        expected_divergences = {
+            "thailand-property-buying-mistakes": "thailand-property-due-diligence-mistakes",
+            "bangkok-apartment-rental": "bangkok-apartment-rental-guide",
+            "thailand-property-management": "property-management-thailand",
+        }
+        self.assertEqual(
+            expected_divergences,
+            {
+                route_id: route["seo_owner_id"]
+                for route_id, route in content_by_id.items()
+                if route_id != route["seo_owner_id"]
+            },
+        )
+
+        for route_id, route in content_by_id.items():
+            owner = self.by_owner[route["seo_owner_id"]]
+            self.assertEqual("live", owner["lifecycle"], route_id)
+            self.assertEqual(route["path"], owner["canonical_url"], route_id)
+            parent_route_id = route["parent_route_id"]
+            expected_parent = (
+                "home"
+                if parent_route_id is None
+                else content_by_id[parent_route_id]["seo_owner_id"]
+            )
+            self.assertEqual(expected_parent, owner["parent_owner_id"], route_id)
+            expected_chain = [
+                "home"
+                if crumb["route_id"] is None
+                else content_by_id[crumb["route_id"]]["seo_owner_id"]
+                for crumb in route["breadcrumbs"]
+            ]
+            self.assertEqual(
+                expected_chain,
+                [crumb["owner_id"] for crumb in owner["breadcrumb_chain"]],
+                route_id,
             )
 
     def test_baseline_html_gaps_cannot_be_marked_ready(self) -> None:

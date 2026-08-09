@@ -21,6 +21,7 @@ SOURCE_PATH = ROOT / "data" / "content" / "real-estate.json"
 SCHEMA_PATH = ROOT / "data" / "content" / "real-estate.schema.json"
 BUILDER_PATH = ROOT / "scripts" / "build_content_registry.py"
 OUTPUT_PATH = ROOT / "resources" / "content" / "real-estate.php"
+SEO_REGISTRY_PATH = ROOT / "data" / "seo" / "ownership-registry.json"
 
 SPEC = importlib.util.spec_from_file_location("build_content_registry", BUILDER_PATH)
 if SPEC is None or SPEC.loader is None:
@@ -100,6 +101,36 @@ class RealEstateContentTest(unittest.TestCase):
                 "810": "thailand-property-prices",
             },
             registry["route_id_by_post_id"],
+        )
+        expected_owner_routes = {
+            "thailand-real-estate": "thailand-real-estate",
+            "thailand-property-financing": "thailand-property-financing",
+            "thailand-property-due-diligence-mistakes": "thailand-property-buying-mistakes",
+            "bangkok-apartment-rental-guide": "bangkok-apartment-rental",
+            "buy-property-thailand": "buy-property-thailand",
+            "foreign-condo-ownership-thailand": "foreign-condo-ownership-thailand",
+            "property-management-thailand": "thailand-property-management",
+            "thailand-property-prices": "thailand-property-prices",
+        }
+        self.assertEqual(
+            expected_owner_routes,
+            registry["route_id_by_seo_owner_id"],
+        )
+        self.assertEqual(
+            COMPILER.sha256_lf(SEO_REGISTRY_PATH),
+            registry["seo_registry_sha256"],
+        )
+        self.assertEqual(
+            {
+                "thailand-property-buying-mistakes": "thailand-property-due-diligence-mistakes",
+                "bangkok-apartment-rental": "bangkok-apartment-rental-guide",
+                "thailand-property-management": "property-management-thailand",
+            },
+            {
+                route_id: route["seo_owner_id"]
+                for route_id, route in registry["routes_by_id"].items()
+                if route_id != route["seo_owner_id"]
+            },
         )
         self.assertEqual(
             {
@@ -261,10 +292,17 @@ class RealEstateContentTest(unittest.TestCase):
         def wrong_path(source: dict[str, Any]) -> None:
             route_by_id(source, "buy-property-thailand")["path"] = "/new-path/"
 
+        def wrong_seo_owner(source: dict[str, Any]) -> None:
+            route_by_id(source, "bangkok-apartment-rental")[
+                "seo_owner_id"
+            ] = "bangkok-apartment-rental"
+
         with self.subTest("post ID"):
             self.assert_source_rejected(wrong_id, "ID/path mismatch")
         with self.subTest("route path"):
             self.assert_source_rejected(wrong_path, "ID/path mismatch")
+        with self.subTest("SEO owner"):
+            self.assert_source_rejected(wrong_seo_owner, "ID/path mismatch")
 
     def test_invalid_link_target_fails_closed(self) -> None:
         def mutate(source: dict[str, Any]) -> None:

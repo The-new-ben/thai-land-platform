@@ -5,14 +5,22 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const rootDir = path.resolve(__dirname, '..');
-const release = process.env.THP_RELEASE || '0.3.5';
+const release = process.env.THP_RELEASE || '0.3.6';
 const baseUrl = new URL(process.env.THP_BASE_URL || 'https://thai-land.co.il/');
 const chromePath = process.env.THP_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const timeout = Number.parseInt(process.env.THP_LIVE_TIMEOUT_MS || '45000', 10);
 const outputDir = path.join(rootDir, 'output', 'playwright');
 const outputPrefix = `real-estate-live-${release}`;
 const contract = JSON.parse(fs.readFileSync(path.join(rootDir, 'data', 'content', 'real-estate.json'), 'utf8'));
-const socialImagePath = '/assets/content/images/real-estate-thailand-atlas-v1-1717.webp';
+const bangkokContract = JSON.parse(fs.readFileSync(path.join(rootDir, 'data', 'content', 'bangkok-rental-areas.json'), 'utf8'));
+const defaultSocialImagePath = '/assets/content/images/real-estate-thailand-atlas-v1-1717.webp';
+const bangkokSocialImagePath = '/assets/content/images/bangkok-rental-atlas-v1-1717.webp';
+
+function socialImagePathFor(route) {
+  return route.route_id === 'bangkok-apartment-rental'
+    ? bangkokSocialImagePath
+    : defaultSocialImagePath;
+}
 
 function presentationPhrases() {
   const source = fs.readFileSync(path.join(rootDir, 'tests', 'run.php'), 'utf8');
@@ -222,7 +230,10 @@ async function capturePage(page, basename) {
 }
 
 async function inspectRoute(page, route, forbidden) {
-  return page.evaluate(({ expected, phrases, version }) => {
+  const ownerByRouteId = Object.fromEntries(
+    contract.routes.map((item) => [item.route_id, item.seo_owner_id]),
+  );
+  return page.evaluate(({ expected, phrases, version, ownerIds }) => {
     const bodyText = document.body.innerText;
     const ids = [...document.querySelectorAll('[id]')].map((element) => element.id);
     const robots = document.querySelector('meta[name="robots"]')?.content || '';
@@ -232,9 +243,13 @@ async function inspectRoute(page, route, forbidden) {
     const contentH2s = document.querySelectorAll('[data-thp-preserved-body] h2').length;
     const toc = document.querySelector('.thp-toc');
     const externalLinks = [...document.querySelectorAll('.thp-source-panel a[href]')];
-    const expectedContinuationOwners = expected.continuations.map((item) => item.target_route_id).sort();
-    const renderedContinuationOwners = [...document.querySelectorAll('[data-thp-relationship="sibling"]')]
+    const expectedContinuationOwners = expected.continuations.map((item) => ownerIds[item.target_route_id]).sort();
+    const renderedContinuationOwners = [...document.querySelectorAll('.thp-continuations [data-thp-relationship="sibling"]')]
       .map((element) => element.getAttribute('data-thp-target-owner'))
+      .sort();
+    const expectedContinuationRoutes = expected.continuations.map((item) => item.target_route_id).sort();
+    const renderedContinuationRoutes = [...document.querySelectorAll('.thp-continuations [data-thp-relationship="sibling"]')]
+      .map((element) => element.getAttribute('data-thp-target-route'))
       .sort();
     const inspectAction = (selector, childSelector = null) => {
       const element = document.querySelector(selector);
@@ -283,7 +298,8 @@ async function inspectRoute(page, route, forbidden) {
       body_class: document.body.className,
       admin_bar: Boolean(document.querySelector('#wpadminbar')),
       main_count: document.querySelectorAll('main').length,
-      owner_main_count: document.querySelectorAll(`main[data-thp-owner-id="${expected.route_id}"]`).length,
+      route_main_count: document.querySelectorAll(`main[data-thp-route-id="${expected.route_id}"]`).length,
+      owner_main_count: document.querySelectorAll(`main[data-thp-owner-id="${expected.seo_owner_id}"]`).length,
       h1_count: document.querySelectorAll('h1').length,
       h1: document.querySelector('h1')?.innerText.trim() || null,
       preserved_body_count: document.querySelectorAll('[data-thp-preserved-body]').length,
@@ -316,17 +332,31 @@ async function inspectRoute(page, route, forbidden) {
       parent_link_count: document.querySelectorAll('[data-thp-relationship="parent_hub"]').length,
       rendered_continuation_owners: renderedContinuationOwners,
       expected_continuation_owners: expectedContinuationOwners,
+      rendered_continuation_routes: renderedContinuationRoutes,
+      expected_continuation_routes: expectedContinuationRoutes,
       hub_decision_cards: document.querySelectorAll('.thp-decision-card').length,
       hub_decision_links: document.querySelectorAll('[data-thp-relationship="decision"]').length,
       hub_guide_groups: document.querySelectorAll('.thp-guide-group').length,
       hub_guide_cards: document.querySelectorAll('.thp-guide-card').length,
       hub_child_owners: [...document.querySelectorAll('[data-thp-relationship="child_spoke"]')].map((element) => element.getAttribute('data-thp-target-owner')).sort(),
+      hub_child_routes: [...document.querySelectorAll('[data-thp-relationship="child_spoke"]')].map((element) => element.getAttribute('data-thp-target-route')).sort(),
+      bangkok_explorer_count: document.querySelectorAll('[data-thp-bkk-explorer]').length,
+      bangkok_area_count: document.querySelectorAll('[data-thp-bkk-area]').length,
+      bangkok_marker_count: document.querySelectorAll('[data-thp-bkk-marker]').length,
+      bangkok_district_count: document.querySelectorAll('.thp-bkk-district-list li').length,
+      bangkok_fact_count: document.querySelectorAll('.thp-bkk-legal-list li').length,
+      bangkok_atlas_source_count: document.querySelectorAll('.thp-bkk-atlas-sources a[href]').length,
+      bangkok_heading: document.querySelector('#thp-bkk-atlas-title')?.innerText.trim() || null,
+      bangkok_style_count: document.querySelectorAll(`link[href*="assets/content/bangkok-rental.css"][href*="ver=${version}"]`).length,
+      bangkok_script_count: document.querySelectorAll(`script[src*="assets/content/bangkok-rental.js"][src*="ver=${version}"]`).length,
+      bangkok_hero_src: document.querySelector('.thp-hero-art img')?.currentSrc || null,
+      bangkok_obsolete_copy_count: ['אין חוק שוכרי בית', '122 דירות מומלצות'].filter((phrase) => bodyText.includes(phrase)).length,
       hero_action: inspectAction('.thp-content-hero .thp-button-light'),
       aside_hub_action: inspectAction('.thp-aside-hub-link'),
-      continuation_action: inspectAction('.thp-continuation-card', 'strong'),
+      continuation_action: inspectAction('.thp-continuations .thp-continuation-card', 'strong'),
       footer_action: inspectAction('.thp-site-footer .thp-button-light'),
     };
-  }, { expected: route, phrases: forbidden, version: release });
+  }, { expected: route, phrases: forbidden, version: release, ownerIds: ownerByRouteId });
 }
 
 async function run() {
@@ -344,6 +374,9 @@ async function run() {
     route_count: contract.routes.length,
     forbidden_phrase_count: forbidden.length,
     routes: {},
+    bangkok_interactions: {},
+    bangkok_no_js: {},
+    bangkok_tablet: {},
     responsive: {},
   };
 
@@ -368,7 +401,7 @@ async function run() {
           waitUntil: 'domcontentloaded',
           timeout,
         });
-        await page.waitForSelector(`main[data-thp-owner-id="${route.route_id}"]`, { timeout: 15000 });
+        await page.waitForSelector(`main[data-thp-owner-id="${route.seo_owner_id}"]`, { timeout: 15000 });
         await page.waitForTimeout(900);
         const inspection = await inspectRoute(page, route, forbidden);
         const screenshotCapture = await capturePage(
@@ -387,6 +420,358 @@ async function run() {
       }
     }
 
+    const bangkokRoute = contract.routes.find((route) => route.route_id === 'bangkok-apartment-rental');
+    if (!bangkokRoute) throw new Error('The Bangkok rental route is missing from the content contract.');
+    for (const profile of [
+      { name: 'desktop', viewport: { width: 1440, height: 1000 }, isMobile: false },
+      { name: 'mobile', viewport: { width: 390, height: 844 }, isMobile: true },
+    ]) {
+      const context = await browser.newContext({
+        viewport: profile.viewport,
+        isMobile: profile.isMobile,
+        hasTouch: profile.isMobile,
+        locale: 'he-IL',
+        colorScheme: 'light',
+        reducedMotion: 'reduce',
+      });
+      const page = await context.newPage();
+      const network = listenForErrors(page);
+      await page.goto(routeUrl(bangkokRoute, `bangkok-interaction-${profile.name}`), {
+        waitUntil: 'domcontentloaded',
+        timeout,
+      });
+      await page.waitForSelector('[data-thp-bkk-explorer].is-interactive', { timeout: 15000 });
+      const enhancementState = await page.evaluate(() => {
+        const textStyle = (selector, backgroundSelector) => {
+          const element = document.querySelector(selector);
+          const background = element?.closest(backgroundSelector);
+          if (!element || !background) return null;
+          const style = getComputedStyle(element);
+          return {
+            color: style.color,
+            background_color: getComputedStyle(background).backgroundColor,
+            font_size: style.fontSize,
+          };
+        };
+        const budgetRect = document.querySelector('[data-thp-bkk-budget]')?.getBoundingClientRect();
+        const costRect = document.querySelector('[data-thp-bkk-cost-rent]')?.getBoundingClientRect();
+        const languageParts = [...document.querySelectorAll('.thp-bkk-atlas bdi')];
+        const stationLabels = [...document.querySelectorAll('.thp-bkk-station-label')];
+        return {
+          controls_hidden: document.querySelector('.thp-bkk-controls')?.hidden ?? null,
+          result_hidden: document.querySelector('.thp-bkk-result-bar')?.hidden ?? null,
+          cost_hidden: document.querySelector('.thp-bkk-cost')?.hidden ?? null,
+          disabled_markers: document.querySelectorAll('[data-thp-bkk-marker]:disabled').length,
+          marker_count: document.querySelectorAll('[data-thp-bkk-marker]').length,
+          fieldset_tag: document.querySelector('[data-thp-bkk-controls]')?.tagName || null,
+          legend_text: document.querySelector('[data-thp-bkk-controls] legend')?.textContent.trim() || null,
+          status_live: document.querySelector('[data-thp-bkk-status]')?.getAttribute('aria-live') || null,
+          initial_status: document.querySelector('[data-thp-bkk-status]')?.textContent.trim() || null,
+          budget_height: budgetRect?.height || 0,
+          cost_height: costRect?.height || 0,
+          area_name_style: textStyle('.thp-bkk-area-card h3 small', '.thp-bkk-area-card'),
+          price_label_style: textStyle('.thp-bkk-prices dt', '.thp-bkk-prices div'),
+          district_name_style: textStyle('.thp-bkk-district-list small', '.thp-bkk-district-list li'),
+          language_part_count: languageParts.length,
+          valid_language_part_count: languageParts.filter((element) => element.dir === 'ltr' && ['en', 'th'].includes(element.lang)).length,
+          english_language_part_count: languageParts.filter((element) => element.lang === 'en' && element.dir === 'ltr').length,
+          thai_language_part_count: languageParts.filter((element) => element.lang === 'th' && element.dir === 'ltr').length,
+          station_label_count: stationLabels.length,
+          valid_station_language_count: stationLabels.filter((element) => element.querySelector('bdi[lang="en"][dir="ltr"]')).length,
+        };
+      });
+      await page.locator('[data-thp-bkk-budget]').focus();
+      const budgetFocusState = await page.locator('[data-thp-bkk-budget]').evaluate((element) => {
+        const style = getComputedStyle(element);
+        const background = getComputedStyle(element.closest('.thp-bkk-controls'));
+        return {
+          focused: element === document.activeElement,
+          outline_color: style.outlineColor,
+          outline_width: style.outlineWidth,
+          outline_offset: style.outlineOffset,
+          background_color: background.backgroundColor,
+        };
+      });
+      await page.locator('[data-thp-bkk-budget]').evaluate((element) => {
+        element.value = '15000';
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+        element.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      await page.locator('[data-thp-bkk-lifestyle]').selectOption('value');
+      await page.locator('[data-thp-bkk-rail]').selectOption('mrt');
+      await page.locator('[data-thp-bkk-bedroom]').selectOption('one');
+      await page.waitForFunction(() => document.querySelectorAll('[data-thp-bkk-area]:not([hidden])').length === 2);
+      const secondMarker = page.locator('[data-thp-bkk-marker]:not([hidden])').nth(1);
+      const selectedAreaId = await secondMarker.getAttribute('data-area-id');
+      await page.evaluate(() => {
+        const original = Element.prototype.scrollIntoView;
+        window.__thpBangkokScrollAudit = { original, calls: [] };
+        Element.prototype.scrollIntoView = function scrollIntoViewAudit(options) {
+          window.__thpBangkokScrollAudit.calls.push({
+            area_id: this.dataset?.areaId || null,
+            behavior: options?.behavior || null,
+            block: options?.block || null,
+          });
+          return original.apply(this, arguments);
+        };
+      });
+      await secondMarker.focus();
+      const markerFocusState = await secondMarker.evaluate((element) => {
+        const style = getComputedStyle(element);
+        const background = getComputedStyle(element.closest('.thp-bkk-map-shell'));
+        return {
+          focused: element === document.activeElement,
+          outline_color: style.outlineColor,
+          outline_width: style.outlineWidth,
+          outline_offset: style.outlineOffset,
+          background_color: background.backgroundColor,
+        };
+      });
+      await page.keyboard.press('Enter');
+      await page.waitForFunction((areaId) => {
+        const card = document.querySelector(`[data-thp-bkk-area][data-area-id="${areaId}"]`);
+        const marker = document.querySelector(`[data-thp-bkk-marker][data-area-id="${areaId}"]`);
+        return card?.classList.contains('is-selected')
+          && marker?.getAttribute('aria-pressed') === 'true'
+          && card.contains(document.activeElement);
+      }, selectedAreaId);
+      const reducedMotionState = await page.evaluate(() => {
+        const audit = window.__thpBangkokScrollAudit;
+        const state = {
+          media_matches: matchMedia('(prefers-reduced-motion: reduce)').matches,
+          calls: Array.isArray(audit?.calls) ? audit.calls : [],
+        };
+        if (typeof audit?.original === 'function') Element.prototype.scrollIntoView = audit.original;
+        delete window.__thpBangkokScrollAudit;
+        return state;
+      });
+      await page.locator('[data-thp-bkk-cost-rent]').evaluate((element) => {
+        element.value = '40000';
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+      const filteredState = await page.evaluate(() => {
+        const visibleCards = [...document.querySelectorAll('[data-thp-bkk-area]:not([hidden])')];
+        const visibleMarkers = [...document.querySelectorAll('[data-thp-bkk-marker]:not([hidden])')];
+        const selectedCard = document.querySelector('[data-thp-bkk-area].is-selected');
+        const selectedSummary = selectedCard?.querySelector('summary');
+        const defaultCard = visibleCards.find((element) => element !== selectedCard);
+        const selectedStyle = selectedCard ? getComputedStyle(selectedCard) : null;
+        const defaultStyle = defaultCard ? getComputedStyle(defaultCard) : null;
+        const summaryStyle = selectedSummary ? getComputedStyle(selectedSummary) : null;
+        return {
+          explorer_interactive: document.querySelector('[data-thp-bkk-explorer]')?.classList.contains('is-interactive') || false,
+          budget: document.querySelector('[data-thp-bkk-budget]')?.value || null,
+          budget_value_text: document.querySelector('[data-thp-bkk-budget]')?.getAttribute('aria-valuetext') || null,
+          bedroom: document.querySelector('[data-thp-bkk-bedroom]')?.value || null,
+          lifestyle: document.querySelector('[data-thp-bkk-lifestyle]')?.value || null,
+          rail: document.querySelector('[data-thp-bkk-rail]')?.value || null,
+          visible_card_ids: visibleCards.map((element) => element.dataset.areaId).sort(),
+          visible_marker_ids: visibleMarkers.map((element) => element.dataset.areaId).sort(),
+          selected_card_id: selectedCard?.dataset.areaId || null,
+          pressed_marker_id: document.querySelector('[data-thp-bkk-marker][aria-pressed="true"]')?.dataset.areaId || null,
+          keyboard_focus_inside_selected_card: Boolean(selectedCard?.contains(document.activeElement)),
+          selected_card_border_color: selectedStyle?.borderTopColor || null,
+          selected_card_background_color: selectedStyle?.backgroundColor || null,
+          default_card_border_color: defaultStyle?.borderTopColor || null,
+          selected_summary_focused: selectedSummary === document.activeElement,
+          selected_summary_outline_color: summaryStyle?.outlineColor || null,
+          selected_summary_outline_width: summaryStyle?.outlineWidth || null,
+          selected_summary_background_color: summaryStyle?.backgroundColor || null,
+          result_text: document.querySelector('[data-thp-bkk-results]')?.textContent.trim() || null,
+          filtered_status: document.querySelector('[data-thp-bkk-status]')?.textContent.trim() || null,
+        };
+      });
+      let selectedCardScreenshotName = null;
+      let selectedCardEvidence = null;
+      if (profile.name === 'mobile') {
+        const selectedCard = page.locator(`[data-thp-bkk-area][data-area-id="${selectedAreaId}"]`);
+        await selectedCard.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(100);
+        selectedCardScreenshotName = `${outputPrefix}-bangkok-selected-card-mobile-${profile.viewport.width}.png`;
+        await page.screenshot({ path: path.join(outputDir, selectedCardScreenshotName), fullPage: false });
+        selectedCardEvidence = await selectedCard.evaluate((element) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            area_id: element.dataset.areaId || null,
+            selected: element.classList.contains('is-selected'),
+            top: rect.top,
+            bottom: rect.bottom,
+            viewport_height: innerHeight,
+            intersects_viewport: rect.bottom > 0 && rect.top < innerHeight,
+          };
+        });
+      }
+      await page.locator('.thp-bkk-map-shell').scrollIntoViewIfNeeded();
+      await page.waitForTimeout(250);
+      const screenshotName = `${outputPrefix}-bangkok-interaction-${profile.name}-${profile.viewport.width}.png`;
+      await page.screenshot({ path: path.join(outputDir, screenshotName), fullPage: false });
+      await page.locator('[data-thp-bkk-lifestyle]').selectOption('upscale');
+      await page.waitForFunction(() => document.querySelectorAll('[data-thp-bkk-area]:not([hidden])').length === 0);
+      const noResultsState = await page.evaluate(() => ({
+        result_text: document.querySelector('[data-thp-bkk-results]')?.textContent.trim() || null,
+        status_text: document.querySelector('[data-thp-bkk-status]')?.textContent.trim() || null,
+        visible_cards: document.querySelectorAll('[data-thp-bkk-area]:not([hidden])').length,
+        visible_markers: document.querySelectorAll('[data-thp-bkk-marker]:not([hidden])').length,
+        selected_cards: document.querySelectorAll('[data-thp-bkk-area].is-selected').length,
+        pressed_markers: document.querySelectorAll('[data-thp-bkk-marker][aria-pressed="true"]').length,
+      }));
+      await page.locator('[data-thp-bkk-reset]').focus();
+      await page.keyboard.press('Enter');
+      await page.waitForFunction(() => (
+        document.querySelector('[data-thp-bkk-budget]')?.value === '50000'
+        && document.querySelector('[data-thp-bkk-bedroom]')?.value === 'one'
+        && document.querySelector('[data-thp-bkk-lifestyle]')?.value === 'all'
+        && document.querySelector('[data-thp-bkk-rail]')?.value === 'all'
+        && document.querySelectorAll('[data-thp-bkk-area]:not([hidden])').length === 10
+      ));
+      const resetState = await page.evaluate(() => ({
+        budget: document.querySelector('[data-thp-bkk-budget]')?.value || null,
+        bedroom: document.querySelector('[data-thp-bkk-bedroom]')?.value || null,
+        lifestyle: document.querySelector('[data-thp-bkk-lifestyle]')?.value || null,
+        rail: document.querySelector('[data-thp-bkk-rail]')?.value || null,
+        visible_cards: document.querySelectorAll('[data-thp-bkk-area]:not([hidden])').length,
+        visible_markers: document.querySelectorAll('[data-thp-bkk-marker]:not([hidden])').length,
+        focused_budget: document.activeElement === document.querySelector('[data-thp-bkk-budget]'),
+        status_text: document.querySelector('[data-thp-bkk-status]')?.textContent.trim() || null,
+      }));
+      const costState = await page.evaluate(() => {
+        const digits = (selector) => (document.querySelector(selector)?.textContent || '').replace(/\D/g, '');
+        return {
+          rent_value: document.querySelector('[data-thp-bkk-cost-rent]')?.value || null,
+          rent_value_text: document.querySelector('[data-thp-bkk-cost-rent]')?.getAttribute('aria-valuetext') || null,
+          deposit_digits: digits('[data-thp-bkk-cost-deposit]'),
+          entry_digits: digits('[data-thp-bkk-cost-entry]'),
+        };
+      });
+      const overflowPixels = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      report.bangkok_interactions[profile.name] = {
+        expected_selected_area_id: selectedAreaId,
+        enhancement: enhancementState,
+        focus: {
+          budget: budgetFocusState,
+          marker: markerFocusState,
+        },
+        reduced_motion: reducedMotionState,
+        state: {
+          ...filteredState,
+          ...costState,
+          no_results: noResultsState,
+          reset: resetState,
+          overflow_pixels: overflowPixels,
+        },
+        network,
+        screenshot: screenshotName,
+        selected_card_screenshot: selectedCardScreenshotName,
+        selected_card_evidence: selectedCardEvidence,
+      };
+      await context.close();
+    }
+
+    const noJsContext = await browser.newContext({
+      viewport: { width: 1024, height: 768 },
+      javaScriptEnabled: false,
+      locale: 'he-IL',
+      colorScheme: 'light',
+      reducedMotion: 'reduce',
+    });
+    const noJsPage = await noJsContext.newPage();
+    const noJsNetwork = listenForErrors(noJsPage);
+    const noJsResponse = await noJsPage.goto(routeUrl(bangkokRoute, 'bangkok-no-js'), {
+      waitUntil: 'domcontentloaded',
+      timeout,
+    });
+    await noJsPage.waitForSelector('[data-thp-bkk-explorer]', { timeout: 15000 });
+    const noJsState = await noJsPage.evaluate(() => {
+      const controls = document.querySelector('[data-thp-bkk-controls]');
+      const results = document.querySelector('[data-thp-bkk-result-bar]');
+      const calculator = document.querySelector('[data-thp-bkk-calculator]');
+      const cards = [...document.querySelectorAll('[data-thp-bkk-area]')];
+      const lease = document.querySelector('.thp-bkk-lease');
+      const instruction = document.querySelector('.thp-bkk-map-head p');
+      const visible = (element) => {
+        if (!element) return false;
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.display !== 'none' && style.visibility === 'visible' && rect.width > 0 && rect.height > 0;
+      };
+      return {
+        explorer_count: document.querySelectorAll('[data-thp-bkk-explorer]').length,
+        interactive: document.querySelector('[data-thp-bkk-explorer]')?.classList.contains('is-interactive') || false,
+        controls_hidden_attribute: controls?.hasAttribute('hidden') ?? null,
+        controls_display: controls ? getComputedStyle(controls).display : null,
+        results_hidden_attribute: results?.hasAttribute('hidden') ?? null,
+        results_display: results ? getComputedStyle(results).display : null,
+        calculator_hidden_attribute: calculator?.hasAttribute('hidden') ?? null,
+        calculator_display: calculator ? getComputedStyle(calculator).display : null,
+        marker_count: document.querySelectorAll('[data-thp-bkk-marker]').length,
+        disabled_marker_count: document.querySelectorAll('[data-thp-bkk-marker]:disabled').length,
+        static_card_count: cards.length,
+        visible_static_card_count: cards.filter(visible).length,
+        lease_visible: visible(lease),
+        instruction_display: instruction ? getComputedStyle(instruction).display : null,
+        overflow_pixels: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      };
+    });
+    await noJsPage.locator('[data-thp-bkk-explorer]').scrollIntoViewIfNeeded();
+    const noJsScreenshotName = `${outputPrefix}-bangkok-no-js-1024.png`;
+    await noJsPage.screenshot({ path: path.join(outputDir, noJsScreenshotName), fullPage: false });
+    report.bangkok_no_js = {
+      http_status: noJsResponse?.status() || null,
+      state: noJsState,
+      network: noJsNetwork,
+      screenshot: noJsScreenshotName,
+    };
+    await noJsContext.close();
+
+    const tabletContext = await browser.newContext({
+      viewport: { width: 1024, height: 768 },
+      locale: 'he-IL',
+      colorScheme: 'light',
+      reducedMotion: 'reduce',
+    });
+    const tabletPage = await tabletContext.newPage();
+    const tabletNetwork = listenForErrors(tabletPage);
+    await tabletPage.goto(routeUrl(bangkokRoute, 'bangkok-tablet-sticky'), {
+      waitUntil: 'domcontentloaded',
+      timeout,
+    });
+    await tabletPage.waitForSelector('[data-thp-bkk-explorer].is-interactive', { timeout: 15000 });
+    await tabletPage.locator('.thp-bkk-map-shell').evaluate((element) => {
+      const documentTop = element.getBoundingClientRect().top + scrollY;
+      scrollTo(0, documentTop + 220);
+    });
+    await tabletPage.waitForTimeout(250);
+    const tabletState = await tabletPage.evaluate(() => {
+      const header = document.querySelector('.thp-site-header');
+      const map = document.querySelector('.thp-bkk-map-shell');
+      if (!header || !map) return null;
+      const headerRect = header.getBoundingClientRect();
+      const mapRect = map.getBoundingClientRect();
+      const probeX = Math.min(innerWidth - 1, Math.max(0, mapRect.left + mapRect.width / 2));
+      const probeY = Math.min(innerHeight - 1, Math.max(0, Math.max(mapRect.top + 4, headerRect.bottom + 4)));
+      return {
+        scroll_y: scrollY,
+        header_position: getComputedStyle(header).position,
+        map_position: getComputedStyle(map).position,
+        header_top: headerRect.top,
+        header_bottom: headerRect.bottom,
+        map_top: mapRect.top,
+        map_bottom: mapRect.bottom,
+        clearance_pixels: mapRect.top - headerRect.bottom,
+        overlap_pixels: Math.max(0, headerRect.bottom - mapRect.top),
+        map_topmost_below_header: map.contains(document.elementFromPoint(probeX, probeY)),
+        overflow_pixels: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      };
+    });
+    const tabletScreenshotName = `${outputPrefix}-bangkok-tablet-sticky-1024.png`;
+    await tabletPage.screenshot({ path: path.join(outputDir, tabletScreenshotName), fullPage: false });
+    report.bangkok_tablet = {
+      state: tabletState,
+      network: tabletNetwork,
+      screenshot: tabletScreenshotName,
+    };
+    await tabletContext.close();
+
     const hub = contract.routes.find((route) => route.route_id === contract.hub_route_id);
     if (!hub) throw new Error('The hub route is missing from the content contract.');
     const responsiveContext = await browser.newContext({
@@ -404,7 +789,7 @@ async function run() {
     const page = await responsiveContext.newPage();
     const responsiveNetwork = listenForErrors(page);
     await page.goto(routeUrl(hub, 'responsive'), { waitUntil: 'domcontentloaded', timeout });
-    await page.waitForSelector(`main[data-thp-owner-id="${hub.route_id}"]`, { timeout: 15000 });
+    await page.waitForSelector(`main[data-thp-owner-id="${hub.seo_owner_id}"]`, { timeout: 15000 });
     await page.waitForTimeout(600);
 
     const inspectMenuControl = () => page.locator('.thp-menu-toggle').evaluate((element) => {
@@ -902,7 +1287,16 @@ async function run() {
     && sameColor(action.background_color, background)
     && contrastRatio(foreground, background) >= 4.5
   );
-  const spokeIds = contract.routes.filter((route) => route.kind === 'spoke').map((route) => route.route_id).sort();
+  const cssContrast = (foreground, background) => {
+    const parsedForeground = parseColor(foreground);
+    const parsedBackground = parseColor(background);
+    return parsedForeground && parsedBackground
+      ? contrastRatio(parsedForeground, parsedBackground)
+      : 0;
+  };
+  const spokeRoutes = contract.routes.filter((route) => route.kind === 'spoke');
+  const spokeIds = spokeRoutes.map((route) => route.route_id).sort();
+  const spokeOwnerIds = spokeRoutes.map((route) => route.seo_owner_id).sort();
   for (const route of contract.routes) {
     for (const profile of ['desktop', 'mobile']) {
       const result = report.routes[route.route_id][profile];
@@ -915,10 +1309,11 @@ async function run() {
       add(`${prefix}: exact description`, value.description === route.public.meta_description, value.description);
       add(`${prefix}: exact Open Graph metadata`, value.og_title === socialTitle(route) && value.og_description === route.public.meta_description && sameUrl(value.og_url, canonicalFor(route)));
       add(`${prefix}: exact X metadata`, value.twitter_title === socialTitle(route) && value.twitter_description === route.public.meta_description);
-      add(`${prefix}: social image`, value.og_image?.endsWith(socialImagePath) && value.twitter_image?.endsWith(socialImagePath) && value.og_width === '1717' && value.og_height === '916');
+      const expectedSocialImagePath = socialImagePathFor(route);
+      add(`${prefix}: social image`, value.og_image?.endsWith(expectedSocialImagePath) && value.twitter_image?.endsWith(expectedSocialImagePath) && value.og_width === '1717' && value.og_height === '916');
       add(`${prefix}: robots index contract`, robots.has('index') && robots.has('follow') && robots.has('max-image-preview:large'), value.robots);
       add(`${prefix}: Hebrew RTL`, value.lang === 'he-IL' && value.dir === 'rtl');
-      add(`${prefix}: one owned main and H1`, value.main_count === 1 && value.owner_main_count === 1 && value.h1_count === 1 && value.h1 === route.public.h1);
+      add(`${prefix}: one routed and owned main and H1`, value.main_count === 1 && value.route_main_count === 1 && value.owner_main_count === 1 && value.h1_count === 1 && value.h1 === route.public.h1);
       add(`${prefix}: preserved body and breadcrumb`, value.preserved_body_count === 1 && value.breadcrumb_count === 1 && value.breadcrumb_items === route.breadcrumbs.length && value.breadcrumb_current === route.breadcrumbs.at(-1).label);
       add(`${prefix}: sources and hero`, value.source_panel_count === 1 && value.source_count === route.source_ids.length && value.unsafe_source_rel_count === 0 && value.hero_picture_sources === 2 && value.hero_image_count === 1);
       add(`${prefix}: release assets`, value.release_asset_count >= 2, value.release_asset_count);
@@ -928,15 +1323,88 @@ async function run() {
       add(`${prefix}: complete screenshot coverage`, result.screenshot_capture.coverage_complete === true && result.screenshot_capture.final_height === result.screenshot_capture.measured_height && result.screenshot_capture.segments.every((segment, index) => segment.png_width === result.screenshot_capture.width && segment.png_height === segment.height && segment.top === (segment.target_top ?? 0) && (index === 0 ? segment.overlap === 0 : Math.abs(segment.overlap - 160) <= 1)), result.screenshot_capture);
       add(`${prefix}: visible footer action`, exactReadableAction(value.footer_action, deepForest, white), value.footer_action);
       if (route.kind === 'hub') {
-        add(`${prefix}: hub decision and guide structure`, value.hub_decision_cards === 3 && value.hub_decision_links === 9 && value.hub_guide_groups === 3 && value.hub_guide_cards === 7 && JSON.stringify(value.hub_child_owners) === JSON.stringify(spokeIds));
+        add(`${prefix}: hub decision and guide structure`, value.hub_decision_cards === 3 && value.hub_decision_links === 9 && value.hub_guide_groups === 3 && value.hub_guide_cards === 7 && JSON.stringify(value.hub_child_routes) === JSON.stringify(spokeIds) && JSON.stringify(value.hub_child_owners) === JSON.stringify(spokeOwnerIds));
       } else {
         add(`${prefix}: visible hero and hub actions`, exactReadableAction(value.hero_action, deepForest, white) && exactReadableAction(value.aside_hub_action, white, forest), { hero: value.hero_action, hub: value.aside_hub_action });
         add(`${prefix}: visible continuation action`, actionIsVisible(value.continuation_action) && sameColor(value.continuation_action.color, white) && sameColor(value.continuation_action.text_fill_color, white) && value.continuation_action.background_image.includes('rgb(11, 63, 60)') && value.continuation_action.background_image.includes('rgb(7, 47, 45)') && contrastRatio(white, forest) >= 4.5 && contrastRatio(white, deepForest) >= 4.5, value.continuation_action);
-        add(`${prefix}: spoke hierarchy`, value.parent_link_count === 2 && JSON.stringify(value.rendered_continuation_owners) === JSON.stringify(value.expected_continuation_owners));
+        add(`${prefix}: spoke hierarchy`, value.parent_link_count === 2 && JSON.stringify(value.rendered_continuation_routes) === JSON.stringify(value.expected_continuation_routes) && JSON.stringify(value.rendered_continuation_owners) === JSON.stringify(value.expected_continuation_owners));
         add(`${prefix}: generated article navigation`, value.toc_item_count === value.content_h2_count && value.toc_hidden === (value.content_h2_count === 0));
+      }
+      if (route.route_id === 'bangkok-apartment-rental') {
+        add(`${prefix}: Bangkok explorer structure`, value.bangkok_explorer_count === 1 && value.bangkok_area_count === bangkokContract.featured_areas.length && value.bangkok_marker_count === bangkokContract.featured_areas.length && value.bangkok_district_count === bangkokContract.official_districts.length && value.bangkok_fact_count === bangkokContract.current_facts.length && value.bangkok_atlas_source_count === bangkokContract.source_catalog.length, value);
+        add(`${prefix}: Bangkok query heading and assets`, value.bangkok_heading === bangkokContract.public_labels.area_comparison_heading && value.bangkok_style_count === 1 && value.bangkok_script_count === 1 && value.bangkok_hero_src?.includes(bangkokSocialImagePath.replace('-1717.webp', `-${profile === 'mobile' ? '720' : '1717'}.webp`)), value);
+        add(`${prefix}: obsolete Bangkok copy removed`, value.bangkok_obsolete_copy_count === 0, value.bangkok_obsolete_copy_count);
+      } else {
+        add(`${prefix}: Bangkok assets stay route scoped`, value.bangkok_explorer_count === 0 && value.bangkok_style_count === 0 && value.bangkok_script_count === 0, value);
       }
     }
   }
+
+  for (const profile of ['desktop', 'mobile']) {
+    const interaction = report.bangkok_interactions[profile];
+    const value = interaction.state;
+    const enhancement = interaction.enhancement;
+    const screenshotPath = path.join(outputDir, interaction.screenshot);
+    const screenshot = fs.existsSync(screenshotPath) ? fs.readFileSync(screenshotPath) : null;
+    const expectedWidth = profile === 'mobile' ? 390 : 1440;
+    const expectedHeight = profile === 'mobile' ? 844 : 1000;
+    const textContrasts = {
+      area_name: cssContrast(enhancement.area_name_style?.color, enhancement.area_name_style?.background_color),
+      price_label: cssContrast(enhancement.price_label_style?.color, enhancement.price_label_style?.background_color),
+      district_name: cssContrast(enhancement.district_name_style?.color, enhancement.district_name_style?.background_color),
+    };
+    const budgetFocusContrast = cssContrast(interaction.focus?.budget?.outline_color, interaction.focus?.budget?.background_color);
+    const markerFocusContrast = cssContrast(interaction.focus?.marker?.outline_color, interaction.focus?.marker?.background_color);
+    const summaryFocusContrast = cssContrast(value.selected_summary_outline_color, value.selected_summary_background_color);
+    const selectedBorderContrasts = {
+      card_background: cssContrast(value.selected_card_border_color, value.selected_card_background_color),
+      default_border: cssContrast(value.selected_card_border_color, value.default_card_border_color),
+    };
+    const reducedMotionCalls = interaction.reduced_motion?.calls || [];
+    const exactReducedMotionCall = reducedMotionCalls.some((call) => (
+      call.area_id === interaction.expected_selected_area_id
+      && call.behavior === 'auto'
+      && call.block === 'center'
+    ));
+    add(`Bangkok ${profile}: progressive controls activate from their fail-closed markup`, enhancement.controls_hidden === false && enhancement.result_hidden === false && enhancement.cost_hidden === false && enhancement.disabled_markers === 0 && enhancement.marker_count === bangkokContract.featured_areas.length && enhancement.fieldset_tag === 'FIELDSET' && enhancement.legend_text === 'סינון אזורי מגורים' && enhancement.status_live === 'polite', enhancement);
+    add(`Bangkok ${profile}: repaired small text meets 4.5 to 1 contrast`, Object.values(textContrasts).every((ratio) => ratio >= 4.5), { styles: { area_name: enhancement.area_name_style, price_label: enhancement.price_label_style, district_name: enhancement.district_name_style }, ratios: textContrasts });
+    add(`Bangkok ${profile}: both ranges provide at least 44px pointer targets`, enhancement.budget_height >= 44 && enhancement.cost_height >= 44, { budget_height: enhancement.budget_height, cost_height: enhancement.cost_height });
+    add(`Bangkok ${profile}: mixed-language names use complete LTR language isolation`, enhancement.language_part_count > 0 && enhancement.valid_language_part_count === enhancement.language_part_count && enhancement.thai_language_part_count === bangkokContract.featured_areas.length + bangkokContract.official_districts.length && enhancement.english_language_part_count === enhancement.thai_language_part_count + enhancement.station_label_count && enhancement.valid_station_language_count === enhancement.station_label_count, enhancement);
+    add(`Bangkok ${profile}: light, map, and card focus rings clear 3 to 1`, interaction.focus?.budget?.focused === true && interaction.focus?.budget?.outline_width === '3px' && budgetFocusContrast >= 3 && interaction.focus?.marker?.focused === true && interaction.focus?.marker?.outline_width === '3px' && markerFocusContrast >= 3 && value.selected_summary_focused === true && value.selected_summary_outline_width === '3px' && summaryFocusContrast >= 3, { budget: interaction.focus?.budget, marker: interaction.focus?.marker, summary: { focused: value.selected_summary_focused, outline_color: value.selected_summary_outline_color, outline_width: value.selected_summary_outline_width, background_color: value.selected_summary_background_color }, ratios: { budget: budgetFocusContrast, marker: markerFocusContrast, summary: summaryFocusContrast } });
+    add(`Bangkok ${profile}: selected card border clears adjacent colors by 3 to 1`, selectedBorderContrasts.card_background >= 3 && selectedBorderContrasts.default_border >= 3, { selected_border: value.selected_card_border_color, card_background: value.selected_card_background_color, default_border: value.default_card_border_color, ratios: selectedBorderContrasts });
+    add(`Bangkok ${profile}: reduced-motion marker activation uses immediate scrolling`, interaction.reduced_motion?.media_matches === true && exactReducedMotionCall, interaction.reduced_motion);
+    add(`Bangkok ${profile}: filters return the exact matching map and area set`, value.explorer_interactive === true && value.budget === '15000' && value.bedroom === 'one' && value.lifestyle === 'value' && value.rail === 'mrt' && value.visible_card_ids.length === 2 && JSON.stringify(value.visible_card_ids) === JSON.stringify(value.visible_marker_ids) && /^2\D/.test(value.result_text || '') && String(value.budget_value_text || '').replace(/\D/g, '') === '15000', value);
+    add(`Bangkok ${profile}: keyboard marker activation synchronizes selection and focus`, value.selected_card_id === interaction.expected_selected_area_id && value.pressed_marker_id === interaction.expected_selected_area_id && value.keyboard_focus_inside_selected_card === true, value);
+    add(`Bangkok ${profile}: no-result state is complete and announced`, value.no_results.visible_cards === 0 && value.no_results.visible_markers === 0 && value.no_results.selected_cards === 0 && value.no_results.pressed_markers === 0 && /^0\D/.test(value.no_results.result_text || '') && /לא נמצא/.test(value.no_results.status_text || '') && value.no_results.status_text !== value.filtered_status, value.no_results);
+    add(`Bangkok ${profile}: keyboard reset restores defaults, results, focus, and announcement`, value.reset.budget === '50000' && value.reset.bedroom === 'one' && value.reset.lifestyle === 'all' && value.reset.rail === 'all' && value.reset.visible_cards === bangkokContract.featured_areas.length && value.reset.visible_markers === bangkokContract.featured_areas.length && value.reset.focused_budget === true && value.reset.status_text !== value.no_results.status_text, value.reset);
+    add(`Bangkok ${profile}: move-in calculator updates`, value.rent_value === '40000' && String(value.rent_value_text || '').replace(/\D/g, '') === '40000' && value.deposit_digits === '80000' && value.entry_digits === '120000', value);
+    add(`Bangkok ${profile}: interaction remains clean and captured`, value.overflow_pixels === 0 && unexpectedConsoleErrors(interaction.network.console_errors).length === 0 && interaction.network.request_failures.length === 0 && interaction.network.bad_same_origin.length === 0 && screenshot && screenshot.readUInt32BE(16) === expectedWidth && screenshot.readUInt32BE(20) === expectedHeight, { value, network: interaction.network, screenshot: interaction.screenshot });
+    if (profile === 'mobile') {
+      const selectedScreenshotPath = path.join(outputDir, interaction.selected_card_screenshot || '');
+      const selectedScreenshot = interaction.selected_card_screenshot && fs.existsSync(selectedScreenshotPath)
+        ? fs.readFileSync(selectedScreenshotPath)
+        : null;
+      const selectedEvidence = interaction.selected_card_evidence;
+      add('Bangkok mobile: selected card has distinct viewport evidence', interaction.selected_card_screenshot !== interaction.screenshot && selectedScreenshot && selectedScreenshot.readUInt32BE(16) === 390 && selectedScreenshot.readUInt32BE(20) === 844 && selectedEvidence?.area_id === interaction.expected_selected_area_id && selectedEvidence?.selected === true && selectedEvidence?.intersects_viewport === true, { screenshot: interaction.selected_card_screenshot, evidence: selectedEvidence });
+    }
+  }
+
+  const noJs = report.bangkok_no_js;
+  const noJsScreenshotPath = path.join(outputDir, noJs.screenshot || '');
+  const noJsScreenshot = noJs.screenshot && fs.existsSync(noJsScreenshotPath)
+    ? fs.readFileSync(noJsScreenshotPath)
+    : null;
+  add('Bangkok no-JavaScript: HTTP and static content remain available', noJs.http_status === 200 && noJs.state?.explorer_count === 1 && noJs.state?.interactive === false && noJs.state?.static_card_count === bangkokContract.featured_areas.length && noJs.state?.visible_static_card_count === bangkokContract.featured_areas.length && noJs.state?.lease_visible === true, noJs.state);
+  add('Bangkok no-JavaScript: interactive controls fail closed', noJs.state?.controls_hidden_attribute === true && noJs.state?.controls_display === 'none' && noJs.state?.results_hidden_attribute === true && noJs.state?.results_display === 'none' && noJs.state?.calculator_hidden_attribute === true && noJs.state?.calculator_display === 'none' && noJs.state?.marker_count === bangkokContract.featured_areas.length && noJs.state?.disabled_marker_count === bangkokContract.featured_areas.length && noJs.state?.instruction_display === 'none' && noJs.state?.overflow_pixels === 0, noJs.state);
+  add('Bangkok no-JavaScript: fallback is network-clean and captured', unexpectedConsoleErrors(noJs.network.console_errors).length === 0 && noJs.network.request_failures.length === 0 && noJs.network.bad_same_origin.length === 0 && noJsScreenshot && noJsScreenshot.readUInt32BE(16) === 1024 && noJsScreenshot.readUInt32BE(20) === 768, { network: noJs.network, screenshot: noJs.screenshot });
+
+  const tablet = report.bangkok_tablet;
+  const tabletScreenshotPath = path.join(outputDir, tablet.screenshot || '');
+  const tabletScreenshot = tablet.screenshot && fs.existsSync(tabletScreenshotPath)
+    ? fs.readFileSync(tabletScreenshotPath)
+    : null;
+  add('Bangkok 1024px: sticky map clears the sticky header', tablet.state?.scroll_y > 0 && tablet.state?.header_position === 'sticky' && tablet.state?.map_position === 'sticky' && Math.abs(tablet.state?.header_top || 0) <= 1 && tablet.state?.clearance_pixels >= 0 && tablet.state?.overlap_pixels === 0 && tablet.state?.map_topmost_below_header === true && tablet.state?.overflow_pixels === 0, tablet.state);
+  add('Bangkok 1024px: sticky-map evidence is clean and captured', unexpectedConsoleErrors(tablet.network.console_errors).length === 0 && tablet.network.request_failures.length === 0 && tablet.network.bad_same_origin.length === 0 && tabletScreenshot && tabletScreenshot.readUInt32BE(16) === 1024 && tabletScreenshot.readUInt32BE(20) === 768, { network: tablet.network, screenshot: tablet.screenshot });
 
   for (const width of ['320', '768', '1230']) {
     const value = report.responsive[width];

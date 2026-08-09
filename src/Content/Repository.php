@@ -71,6 +71,17 @@ final class Repository {
 	}
 
 	/**
+	 * @param string $seo_owner_id Canonical SEO owner identifier.
+	 * @return array|null
+	 */
+	public static function route_by_seo_owner_id( $seo_owner_id ) {
+		$registry = self::all();
+		$route_id = $registry['route_id_by_seo_owner_id'][ (string) $seo_owner_id ] ?? '';
+
+		return '' !== $route_id ? ( $registry['routes_by_id'][ $route_id ] ?? null ) : null;
+	}
+
+	/**
 	 * @return array
 	 */
 	public static function labels() {

@@ -56,6 +56,10 @@ function absint( $value ) {
 	return abs( (int) $value );
 }
 
+function number_format_i18n( $number ) {
+	return number_format( (float) $number, 0, '.', ',' );
+}
+
 function wp_parse_url( $url, $component = -1 ) {
 	return parse_url( $url, $component );
 }
@@ -72,8 +76,11 @@ function apply_filters( $hook, $value ) {
 require __DIR__ . '/run.php';
 
 use Thailand_Platform\Content\Assets as Content_Assets;
+use Thailand_Platform\Content\BangkokRentalExplorer as Content_BangkokRentalExplorer;
+use Thailand_Platform\Content\BangkokRentalRepository as Content_BangkokRentalRepository;
 use Thailand_Platform\Content\Breadcrumbs as Content_Breadcrumbs;
 use Thailand_Platform\Content\Context as Content_Context;
+use Thailand_Platform\Content\ContextualLinks as Content_ContextualLinks;
 use Thailand_Platform\Content\FeatureFlag as Content_FeatureFlag;
 use Thailand_Platform\Content\Renderer as Content_Renderer;
 use Thailand_Platform\Content\Repository as Content_Repository;
@@ -99,6 +106,14 @@ $registry = Content_Repository::all();
 tl_test_assert( 'thailand-real-estate-v1' === $registry['contract_id'], 'Content registry contract mismatch.' );
 tl_test_assert( 8 === count( $registry['routes_by_id'] ), 'Managed route count mismatch.' );
 tl_test_assert( 'thailand-real-estate' === $registry['route_id_by_post_id']['841'], 'Hub post ID binding mismatch.' );
+tl_test_assert( 'thailand-property-buying-mistakes' === $registry['route_id_by_seo_owner_id']['thailand-property-due-diligence-mistakes'], 'Due-diligence SEO owner bridge mismatch.' );
+tl_test_assert( 'bangkok-apartment-rental' === $registry['route_id_by_seo_owner_id']['bangkok-apartment-rental-guide'], 'Bangkok rental SEO owner bridge mismatch.' );
+tl_test_assert( 'thailand-property-management' === $registry['route_id_by_seo_owner_id']['property-management-thailand'], 'Property-management SEO owner bridge mismatch.' );
+tl_test_assert( 'bangkok-apartment-rental' === Content_Repository::route_by_seo_owner_id( 'bangkok-apartment-rental-guide' )['route_id'], 'SEO owner repository lookup mismatch.' );
+$bangkok_registry = Content_BangkokRentalRepository::all();
+tl_test_assert( 'bangkok-rental-areas-v1' === $bangkok_registry['contract_id'], 'Bangkok rental registry contract mismatch.' );
+tl_test_assert( 50 === count( $bangkok_registry['districts_by_id'] ), 'Bangkok official district count mismatch.' );
+tl_test_assert( 10 === count( $bangkok_registry['areas_by_id'] ), 'Bangkok featured area count mismatch.' );
 
 thp_content_set_request( Content_FeatureFlag::MODE_LIVE, 841, '/%D7%A0%D7%93%D7%9C%D7%9F-%D7%91%D7%AA%D7%90%D7%99%D7%9C%D7%A0%D7%93/?source=test', 'page' );
 $hub = Content_Context::route();
@@ -139,10 +154,95 @@ $breadcrumb_markup = ob_get_clean();
 tl_test_assert( 1 === substr_count( $breadcrumb_markup, 'data-thp-breadcrumbs' ), 'Visible breadcrumb is missing or duplicated.' );
 tl_test_assert( 1 === substr_count( $breadcrumb_markup, 'aria-current="page"' ), 'Current breadcrumb marker mismatch.' );
 
+ob_start();
+Content_ContextualLinks::render_hub_experience( $hub );
+$hub_link_markup = ob_get_clean();
+foreach (
+	array(
+		'thailand-property-buying-mistakes' => 'thailand-property-due-diligence-mistakes',
+		'bangkok-apartment-rental'         => 'bangkok-apartment-rental-guide',
+		'thailand-property-management'     => 'property-management-thailand',
+	) as $content_route_id => $seo_owner_id
+) {
+	tl_test_assert( false !== strpos( $hub_link_markup, 'data-thp-target-route="' . $content_route_id . '"' ), 'Contextual link lost its content route ID.' );
+	tl_test_assert( false !== strpos( $hub_link_markup, 'data-thp-target-owner="' . $seo_owner_id . '"' ), 'Contextual link did not emit its canonical SEO owner ID.' );
+}
+
 thp_content_set_request( Content_FeatureFlag::MODE_LIVE, 65, '/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/', 'post' );
 $spoke = Content_Context::route();
 tl_test_assert( is_array( $spoke ) && 'thailand-property-financing' === $spoke['route_id'], 'Exact spoke did not resolve.' );
 tl_test_assert( 3 === count( $spoke['breadcrumbs'] ), 'Spoke breadcrumb depth mismatch.' );
+
+thp_content_set_request( Content_FeatureFlag::MODE_LIVE, 118, '/מדריך-להשכרת-דירה-בבנגקוק/', 'post' );
+$bangkok_route = Content_Context::route();
+tl_test_assert( is_array( $bangkok_route ) && 'bangkok-apartment-rental' === $bangkok_route['route_id'], 'Bangkok rental route did not resolve.' );
+tl_test_assert( Content_Renderer::ready( $bangkok_route ), 'Bangkok rental renderer is not ready.' );
+tl_test_assert( false !== strpos( Content_Assets::hero_url( '1717' ), 'bangkok-rental-atlas-v1-1717.webp' ), 'Bangkok rental route did not select its own hero.' );
+$bangkok_classes = tl_test_apply_filters( 'body_class', array() );
+tl_test_assert( in_array( 'thp-bangkok-rental', $bangkok_classes, true ), 'Bangkok rental body class missing.' );
+
+$GLOBALS['tl_test_styles']       = array();
+$GLOBALS['tl_test_scripts']      = array();
+$GLOBALS['tl_test_script_data']  = array();
+tl_test_do_action( 'wp_enqueue_scripts' );
+tl_test_assert( isset( $GLOBALS['tl_test_styles'][ Content_Assets::BANGKOK_STYLE_HANDLE ] ), 'Bangkok rental CSS was not enqueued.' );
+tl_test_assert( isset( $GLOBALS['tl_test_scripts'][ Content_Assets::BANGKOK_SCRIPT_HANDLE ] ), 'Bangkok rental JavaScript was not enqueued.' );
+tl_test_assert( 'defer' === $GLOBALS['tl_test_script_data'][ Content_Assets::BANGKOK_SCRIPT_HANDLE ]['strategy'], 'Bangkok rental JavaScript is not deferred.' );
+
+ob_start();
+Content_BangkokRentalExplorer::render( $bangkok_route );
+$bangkok_markup = ob_get_clean();
+tl_test_assert( 1 === substr_count( $bangkok_markup, 'data-thp-bkk-explorer' ), 'Bangkok explorer root mismatch.' );
+tl_test_assert( 10 === substr_count( $bangkok_markup, 'data-thp-bkk-area ' ), 'Bangkok area card count mismatch.' );
+tl_test_assert( 10 === substr_count( $bangkok_markup, 'data-thp-bkk-marker' ), 'Bangkok map marker count mismatch.' );
+tl_test_assert( false !== strpos( $bangkok_markup, 'כל 50 המחוזות הרשמיים של בנגקוק' ), 'Bangkok district directory is missing.' );
+tl_test_assert( false !== strpos( $bangkok_markup, 'הודעת מגורים TM30' ), 'Bangkok tenant facts omit TM30.' );
+tl_test_assert( false !== strpos( $bangkok_markup, 'מס בולים על חוזה שכירות' ), 'Bangkok tenant facts omit stamp duty.' );
+tl_test_assert( false === strpos( $bangkok_markup, 'לכרטיס' ), 'Bangkok explorer retained presentation language.' );
+tl_test_assert( 1 === substr_count( $bangkok_markup, '<fieldset class="thp-bkk-controls" data-thp-bkk-controls hidden>' ), 'Bangkok filters do not fail closed before enhancement.' );
+tl_test_assert( 1 === substr_count( $bangkok_markup, '<legend class="thp-sr-only">סינון אזורי מגורים</legend>' ), 'Bangkok filters lack a semantic group label.' );
+tl_test_assert( 1 === substr_count( $bangkok_markup, 'class="thp-bkk-result-bar" data-thp-bkk-result-bar hidden' ), 'Bangkok result status is visible before enhancement.' );
+tl_test_assert( 1 === substr_count( $bangkok_markup, 'class="thp-bkk-cost" aria-labelledby="thp-bkk-cost-title" data-thp-bkk-calculator hidden' ), 'Bangkok calculator is visible before enhancement.' );
+tl_test_assert( 10 === substr_count( $bangkok_markup, 'aria-pressed="false" disabled' ), 'Bangkok map markers do not fail closed before enhancement.' );
+tl_test_assert( false !== strpos( $bangkok_markup, 'id="thp-bkk-budget"' ) && false !== strpos( $bangkok_markup, 'for="thp-bkk-budget"' ) && false !== strpos( $bangkok_markup, 'aria-valuetext="50,000 באט"' ), 'Bangkok budget control lacks its label, output, or value text contract.' );
+tl_test_assert( false !== strpos( $bangkok_markup, 'id="thp-bkk-cost-rent"' ) && false !== strpos( $bangkok_markup, 'for="thp-bkk-cost-rent"' ) && false !== strpos( $bangkok_markup, 'aria-valuetext="30,000 באט"' ), 'Bangkok calculator control lacks its label, output, or value text contract.' );
+$bangkok_guide_anchor = '<a href="' . esc_url( home_url( '/בנגקוק-תאילנד/' ) ) . '" data-thp-target-owner="bangkok" data-thp-relationship="support">מדריך בנגקוק</a>';
+$price_route          = Content_Repository::route_by_id( 'thailand-property-prices' );
+$price_anchor         = '<a href="' . esc_url( home_url( $price_route['path'] ) ) . '" data-thp-target-route="thailand-property-prices" data-thp-target-owner="' . esc_attr( $price_route['seo_owner_id'] ) . '" data-thp-relationship="sibling">מחירי נדל״ן בתאילנד</a>';
+tl_test_assert( 1 === substr_count( $bangkok_markup, $bangkok_guide_anchor ), 'Bangkok explorer lacks its exact city-guide contextual anchor.' );
+tl_test_assert( 1 === substr_count( $bangkok_markup, $price_anchor ), 'Bangkok explorer lacks its exact property-price contextual anchor.' );
+foreach ( $presentation_phrases as $presentation_phrase ) {
+	tl_test_assert( false === strpos( $bangkok_markup, $presentation_phrase ), 'Bangkok explorer contains presentation language: ' . $presentation_phrase );
+}
+tl_test_assert( 0 === preg_match( '/[–—]/u', $bangkok_markup ), 'Bangkok explorer contains a forbidden long dash.' );
+$bangkok_js = file_get_contents( $root . '/assets/content/bangkok-rental.js' );
+tl_test_assert( is_string( $bangkok_js ), 'Bangkok interaction script is unreadable.' );
+foreach ( $presentation_phrases as $presentation_phrase ) {
+	tl_test_assert( false === strpos( $bangkok_js, $presentation_phrase ), 'Bangkok interaction script contains presentation language: ' . $presentation_phrase );
+}
+tl_test_assert( 0 === preg_match( '/[–—]/u', $bangkok_js ), 'Bangkok interaction script contains a forbidden long dash.' );
+$enhancement_markers = array(
+	"markers.forEach((marker) => { marker.disabled = false; });",
+	"controls?.removeAttribute('hidden');",
+	"resultBar?.removeAttribute('hidden');",
+	"calculator?.removeAttribute('hidden');",
+);
+$interactive_position = strpos( $bangkok_js, "explorer.classList.add('is-interactive');" );
+tl_test_assert( false !== $interactive_position, 'Bangkok script never declares successful enhancement.' );
+foreach ( $enhancement_markers as $enhancement_marker ) {
+	$enhancement_position = strpos( $bangkok_js, $enhancement_marker );
+	tl_test_assert( false !== $enhancement_position && $enhancement_position < $interactive_position, 'Bangkok script exposes interactivity before enabling every fail-closed control: ' . $enhancement_marker );
+}
+tl_test_assert( false !== strpos( $bangkok_js, "window.matchMedia('(prefers-reduced-motion: reduce)').matches" ), 'Bangkok marker navigation ignores reduced-motion preference.' );
+tl_test_assert( false !== strpos( $bangkok_js, "budget?.setAttribute('aria-valuetext', formattedBudget);" ), 'Bangkok budget control does not maintain accessible value text.' );
+tl_test_assert( false !== strpos( $bangkok_js, "rent?.setAttribute('aria-valuetext', formattedRent);" ), 'Bangkok calculator does not maintain accessible value text.' );
+
+$GLOBALS['thp_content_test_bodies'][118] = '<p>פתיחה שימושית שנשארת.</p><p><strong>דירות להשכרה בבנקוק לפי מחוזות</strong></p><p>רשימת מחוזות ישנה</p><p><strong>דירות מומלצות</strong></p><p>בתאילנד אין חוק שוכרי בית ולכן אין כללים.</p><h2>חלק מעשי</h2><p>תוכן שימושי נוסף.</p>';
+Content_Renderer::reset_for_tests();
+$upgraded_bangkok_body = Content_Renderer::post_body( $bangkok_route );
+tl_test_assert( false !== strpos( $upgraded_bangkok_body, 'פתיחה שימושית שנשארת' ) && false !== strpos( $upgraded_bangkok_body, 'תוכן שימושי נוסף' ), 'Bangkok body cleanup removed useful content.' );
+tl_test_assert( false === strpos( $upgraded_bangkok_body, 'רשימת מחוזות ישנה' ), 'Bangkok body retained the replaced district dump.' );
+tl_test_assert( false === strpos( $upgraded_bangkok_body, 'אין חוק שוכרי בית' ), 'Bangkok body retained the obsolete tenant-law claim.' );
 
 thp_content_set_request( Content_FeatureFlag::MODE_LIVE, 66, '/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/', 'post' );
 tl_test_assert( null === Content_Context::route(), 'Wrong post ID matched a managed route.' );
@@ -199,6 +299,8 @@ $css      = file_get_contents( $root . '/assets/content/content.css' );
 $js       = file_get_contents( $root . '/assets/content/content.js' );
 tl_test_assert( 1 === preg_match_all( '/<h1\b/i', $template ), 'Managed template does not own exactly one H1.' );
 tl_test_assert( 1 === preg_match_all( '/<main\b/i', $template ), 'Managed template does not own exactly one main.' );
+tl_test_assert( false !== strpos( $template, 'data-thp-route-id="<?php echo esc_attr( $route[' . "'route_id'" . '] ); ?>"' ), 'Managed main does not retain its content route ID.' );
+tl_test_assert( false !== strpos( $template, 'data-thp-owner-id="<?php echo esc_attr( $route[' . "'seo_owner_id'" . '] ); ?>"' ), 'Managed main does not emit its canonical SEO owner ID.' );
 tl_test_assert( false !== strpos( $template, 'wp_head();' ) && false !== strpos( $template, 'wp_footer();' ), 'Managed document omits WordPress integration hooks.' );
 tl_test_assert( false !== strpos( $header, '/נדלן-בתאילנד/' ), 'Header does not link the real-estate hub.' );
 tl_test_assert( false !== strpos( $footer, '/נדלן-בתאילנד/' ), 'Footer does not link the real-estate hub.' );

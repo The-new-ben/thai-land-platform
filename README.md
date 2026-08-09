@@ -2,13 +2,16 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.3.5 boundary
+## Release 0.3.6 boundary
 
-The package keeps the live RTL homepage, country, seven-region, and 77-province
-geography spine intact. It adds the first national real-estate hub and connects
-seven existing articles through exact ID and path bindings, keyword-led metadata,
-visible breadcrumbs, contextual links, a shared header and footer, and responsive
-artwork. Existing WordPress bodies and public URLs remain intact.
+The package keeps the live RTL homepage, country, seven-region, 77-province,
+and national real-estate systems intact. It upgrades the protected Bangkok
+rental guide with ten market areas, all 50 official Bangkok districts, 19 rail
+stations, source-dated rent bands, tenant facts, budget filters, a decision map,
+and route-specific responsive artwork. Existing WordPress bodies and public
+URLs remain intact.
+Content route IDs now retain a separate foreign key to canonical SEO owner IDs,
+and the released real-estate hub is the live parent of all seven existing guides.
 The responsive menu stays visible through pointer hover and keyboard focus,
 the search action keeps its intended contrast, and the accessibility control
 uses a reserved sticky-header dock on smaller screens so it cannot cover prose,
@@ -36,10 +39,13 @@ node tests/tawk-state.test.js
 python scripts/build_homepage_assets.py
 python scripts/build_geography_registry.py --check
 python scripts/build_content_registry.py --check
+python scripts/build_bangkok_rental_assets.py --check
+python scripts/build_bangkok_rental_registry.py --check
 python scripts/build_seo_registry.py --check
 python scripts/build_seo_runtime.py --check
 python tests/geography-builder.test.py
 python tests/real-estate-content.test.py
+python tests/bangkok-rental-data.test.py
 python tests/draft-content-inventory.test.py
 python tests/seo-runtime-gates.test.py
 python tests/seo-ownership-registry.test.py
