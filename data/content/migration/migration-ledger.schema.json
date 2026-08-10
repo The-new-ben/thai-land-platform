@@ -15,7 +15,8 @@
     "scope",
     "legacy_public_surfaces",
     "draft_records",
-    "planned_hubs"
+    "planned_hubs",
+    "promoted_hubs"
   ],
   "properties": {
     "$schema": { "const": "./migration-ledger.schema.json" },
@@ -75,7 +76,12 @@
     },
     "planned_hubs": {
       "type": "array",
-      "minItems": 11,
+      "minItems": 9,
+      "items": { "$ref": "#/$defs/plannedHub" }
+    },
+    "promoted_hubs": {
+      "type": "array",
+      "minItems": 2,
       "items": { "$ref": "#/$defs/plannedHub" }
     }
   },
@@ -142,6 +148,7 @@
         "remaining_draft_record_count",
         "excluded_released_draft_ids",
         "planned_hub_count",
+        "promoted_hub_count",
         "platform_managed_original_surfaces"
       ],
       "properties": {
@@ -154,7 +161,8 @@
           "items": { "type": "integer", "minimum": 1 },
           "uniqueItems": true
         },
-        "planned_hub_count": { "const": 11 },
+        "planned_hub_count": { "const": 9 },
+        "promoted_hub_count": { "const": 2 },
         "platform_managed_original_surfaces": {
           "type": "array",
           "minItems": 8,
@@ -367,7 +375,7 @@
       ],
       "properties": {
         "ownership_registry_path": { "$ref": "#/$defs/nonEmptyString" },
-        "owner_review_state": { "const": "planned" },
+        "owner_review_state": { "enum": ["planned", "upgrade_required"] },
         "owner_source_evidence": { "$ref": "#/$defs/stringArray" },
         "structured_source_paths": { "$ref": "#/$defs/stringArray" },
         "draft_identity_review_path": { "$ref": "#/$defs/nullableString" },
@@ -526,7 +534,8 @@
           "enum": [
             "partial_sources_body_retrieval_required",
             "research_and_content_build_required",
-            "structured_geography_available_content_required"
+            "structured_geography_available_content_required",
+            "managed_content_private_canary_passed_publication_pending"
           ]
         },
         "supporting_legacy_record_ids": { "$ref": "#/$defs/stringArray" },

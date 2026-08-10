@@ -2,21 +2,27 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.4.0 boundary
+## Release 0.4.1 boundary
 
-The package keeps the live RTL homepage, country, seven-region, 77-province,
-and national real-estate systems intact. It adds an isolated priority guide
-runtime for two parent hubs and five exact existing content routes. The release
-replaces obsolete public rendering for Thailand entry, tourist visas, permanent
-residence, cannabis law, and the historical April 2022 entry update without
-editing the stored WordPress bodies or changing canonical URLs.
+Version 0.4.1 is the parent-hub lifecycle and public activation release that
+follows successful administrator-only Canary verification of version 0.4.0.
+It moves the visa and law-and-tax hubs from reviewed draft ownership into the
+released guide hierarchy while keeping the live RTL homepage, country,
+seven-region, 77-province, national real-estate, and five child-guide systems
+intact.
 
-Every managed guide has one SEO owner, one canonical path, one breadcrumb path,
-current official sources, and a complete responsive document. The historical
-April 2022 route remains available but is clearly archival and noindex, follow.
-The two new hubs may be reviewed as administrator-only drafts in Canary mode
-before publication. The guide runtime remains fully independent from Homepage
-and Real Estate and defaults to Off after installation.
+The released contract gives every managed guide one SEO owner, one canonical
+path, and one breadcrumb path. Parent availability, child ancestry, and
+homepage link expectations now agree with the public lifecycle. The homepage
+adds both hub links to desktop navigation, mobile navigation, and the footer
+only when both exact WordPress pages satisfy their public identity, path, and
+asset gates. If either hub fails a gate, neither is exposed through those
+homepage surfaces.
+
+No stored WordPress body or canonical URL changes in this release. The
+historical April 2022 route remains archival and noindex, follow. Guides stay
+independent from Homepage and Real Estate under separate Off, Canary, and Live
+controls.
 
 The public healthcheck confirms that the compiled geography artifact can be
 loaded. Upgrade and activation still create no content, options, tables,
@@ -52,7 +58,11 @@ php tests/real-estate-runtime.test.php
 php tests/guides-runtime.test.php
 node --check assets/guides/guides.js
 node --check scripts/live_guides_acceptance.cjs
+node --check scripts/live_homepage_acceptance.cjs
 node --check scripts/live_real_estate_acceptance.cjs
+node --check scripts/live_seo_migration_acceptance.cjs
+node --check scripts/live_sitewide_acceptance.cjs
+node tests/live-sitewide-acceptance.test.cjs
 ```
 
 The deterministic builder includes only the exact sorted inventory in

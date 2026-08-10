@@ -976,33 +976,6 @@
           ]
         },
         {
-          "target_owner_id": "thailand-cannabis-law",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "קנאביס בתאילנד"
-          ]
-        },
-        {
-          "target_owner_id": "thailand-entry-april-2022",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "כניסה לתאילנד באפריל 2022"
-          ]
-        },
-        {
-          "target_owner_id": "thailand-entry-requirements",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "כניסה לתאילנד לישראלים"
-          ]
-        },
-        {
           "target_owner_id": "thailand-general-archive",
           "relationship": "child_spoke",
           "placement": "navigation",
@@ -1021,12 +994,12 @@
           ]
         },
         {
-          "target_owner_id": "thailand-permanent-residence",
+          "target_owner_id": "thailand-law-and-tax",
           "relationship": "child_spoke",
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "תושבות קבע בתאילנד"
+            "חוקים בתאילנד לישראלים"
           ]
         },
         {
@@ -1057,21 +1030,21 @@
           ]
         },
         {
-          "target_owner_id": "thailand-tourist-visa",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "ויזת תייר לתאילנד"
-          ]
-        },
-        {
           "target_owner_id": "thailand-visa-service",
           "relationship": "child_spoke",
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
             "שירות ויזה לתאילנד"
+          ]
+        },
+        {
+          "target_owner_id": "thailand-visas",
+          "relationship": "child_spoke",
+          "placement": "navigation",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "ויזות לתאילנד"
           ]
         },
         {
@@ -1140,30 +1113,12 @@
           ]
         },
         {
-          "target_owner_id": "thailand-law-and-tax",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "חוקים בתאילנד לישראלים"
-          ]
-        },
-        {
           "target_owner_id": "thailand-map",
           "relationship": "child_spoke",
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
             "מפת תאילנד"
-          ]
-        },
-        {
-          "target_owner_id": "thailand-visas",
-          "relationship": "child_spoke",
-          "placement": "navigation",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "ויזות לתאילנד"
           ]
         },
         {
@@ -2300,17 +2255,6 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "תאילנד"
-          ]
-        }
-      ],
-      "planned_internal_link_requirements": [
-        {
           "target_owner_id": "thailand-law-and-tax",
           "relationship": "parent_hub",
           "placement": "contextual_body",
@@ -2318,8 +2262,18 @@
           "anchor_terms": [
             "חוקים בתאילנד לישראלים"
           ]
+        },
+        {
+          "target_owner_id": "home",
+          "relationship": "support",
+          "placement": "contextual_body",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "תאילנד"
+          ]
         }
       ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "conditional_merge",
       "review_state": "evidence_pending",
@@ -2327,7 +2281,12 @@
       "source_evidence": [
         "data/seo/inventory/current-public-url-metadata.2026-08-08.csv"
       ],
-      "cannibalization_exclusions": []
+      "cannibalization_exclusions": [
+        {
+          "owner_id": "thailand-law-and-tax",
+          "intent_id": "he|law-tax|thailand|overview|learn"
+        }
+      ]
     },
     {
       "owner_id": "thailand-destinations",
@@ -2509,8 +2468,17 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
+          "target_owner_id": "thailand-visas",
           "relationship": "parent_hub",
+          "placement": "contextual_body",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "ויזות לתאילנד"
+          ]
+        },
+        {
+          "target_owner_id": "home",
+          "relationship": "support",
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
@@ -2527,17 +2495,7 @@
           ]
         }
       ],
-      "planned_internal_link_requirements": [
-        {
-          "target_owner_id": "thailand-visas",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "ויזות לתאילנד"
-          ]
-        }
-      ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "static_annual",
       "migration_action": "preserve_historical",
       "review_state": "evidence_pending",
@@ -2545,7 +2503,16 @@
       "source_evidence": [
         "data/seo/inventory/current-public-url-metadata.2026-08-08.csv"
       ],
-      "cannibalization_exclusions": []
+      "cannibalization_exclusions": [
+        {
+          "owner_id": "thailand-entry-requirements",
+          "intent_id": "he|entry|thailand|current-requirements|stay-current"
+        },
+        {
+          "owner_id": "thailand-visas",
+          "intent_id": "he|immigration|thailand|visa-overview|learn"
+        }
+      ]
     },
     {
       "owner_id": "thailand-entry-requirements",
@@ -2584,17 +2551,6 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "תאילנד"
-          ]
-        }
-      ],
-      "planned_internal_link_requirements": [
-        {
           "target_owner_id": "thailand-visas",
           "relationship": "parent_hub",
           "placement": "contextual_body",
@@ -2602,8 +2558,18 @@
           "anchor_terms": [
             "ויזות לתאילנד"
           ]
+        },
+        {
+          "target_owner_id": "home",
+          "relationship": "support",
+          "placement": "contextual_body",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "תאילנד"
+          ]
         }
       ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "conditional_merge",
       "review_state": "evidence_pending",
@@ -2619,6 +2585,10 @@
         {
           "owner_id": "thailand-tourist-visa",
           "intent_id": "he|immigration|thailand|tourist-visa|learn"
+        },
+        {
+          "owner_id": "thailand-visas",
+          "intent_id": "he|immigration|thailand|visa-overview|learn"
         }
       ]
     },
@@ -3010,7 +2980,7 @@
     },
     {
       "owner_id": "thailand-law-and-tax",
-      "lifecycle": "planned",
+      "lifecycle": "live",
       "canonical_url": "/חוקים-ומסים-בתאילנד/",
       "intent_id": "he|law-tax|thailand|overview|learn",
       "name": "חוקים ומסים בתאילנד",
@@ -3038,8 +3008,7 @@
           "url": "/חוקים-ומסים-בתאילנד/"
         }
       ],
-      "internal_link_requirements": [],
-      "planned_internal_link_requirements": [
+      "internal_link_requirements": [
         {
           "target_owner_id": "thailand-cannabis-law",
           "relationship": "child_spoke",
@@ -3059,14 +3028,20 @@
           ]
         }
       ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "create",
-      "review_state": "planned",
+      "review_state": "upgrade_required",
       "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין כללים מרכזיים לפני מגורים, עבודה, עסק, השקעה או טיול בתאילנד ולמצוא מדריך מדויק",
       "source_evidence": [
-        "research/serp/2026-08-08-hebrew-thailand-serp.md"
+        "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
       ],
-      "cannibalization_exclusions": []
+      "cannibalization_exclusions": [
+        {
+          "owner_id": "thailand-cannabis-law",
+          "intent_id": "he|law|thailand|cannabis|stay-current"
+        }
+      ]
     },
     {
       "owner_id": "thailand-map",
@@ -3156,17 +3131,6 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "תאילנד"
-          ]
-        }
-      ],
-      "planned_internal_link_requirements": [
-        {
           "target_owner_id": "thailand-visas",
           "relationship": "parent_hub",
           "placement": "contextual_body",
@@ -3174,8 +3138,18 @@
           "anchor_terms": [
             "ויזות לתאילנד"
           ]
+        },
+        {
+          "target_owner_id": "home",
+          "relationship": "support",
+          "placement": "contextual_body",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "תאילנד"
+          ]
         }
       ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -3183,7 +3157,12 @@
       "source_evidence": [
         "data/seo/inventory/current-public-url-metadata.2026-08-08.csv"
       ],
-      "cannibalization_exclusions": []
+      "cannibalization_exclusions": [
+        {
+          "owner_id": "thailand-visas",
+          "intent_id": "he|immigration|thailand|visa-overview|learn"
+        }
+      ]
     },
     {
       "owner_id": "thailand-places-to-visit",
@@ -3922,17 +3901,6 @@
       ],
       "internal_link_requirements": [
         {
-          "target_owner_id": "home",
-          "relationship": "parent_hub",
-          "placement": "contextual_body",
-          "minimum_occurrences": 1,
-          "anchor_terms": [
-            "תאילנד"
-          ]
-        }
-      ],
-      "planned_internal_link_requirements": [
-        {
           "target_owner_id": "thailand-visas",
           "relationship": "parent_hub",
           "placement": "contextual_body",
@@ -3940,8 +3908,18 @@
           "anchor_terms": [
             "ויזות לתאילנד"
           ]
+        },
+        {
+          "target_owner_id": "home",
+          "relationship": "support",
+          "placement": "contextual_body",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "תאילנד"
+          ]
         }
       ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
@@ -3957,6 +3935,10 @@
         {
           "owner_id": "thailand-visa-service",
           "intent_id": "he|service|thailand|visa-assistance|transact"
+        },
+        {
+          "owner_id": "thailand-visas",
+          "intent_id": "he|immigration|thailand|visa-overview|learn"
         }
       ]
     },
@@ -4084,7 +4066,7 @@
     },
     {
       "owner_id": "thailand-visas",
-      "lifecycle": "planned",
+      "lifecycle": "live",
       "canonical_url": "/ויזות-לתאילנד/",
       "intent_id": "he|immigration|thailand|visa-overview|learn",
       "name": "ויזות לתאילנד",
@@ -4112,8 +4094,7 @@
           "url": "/ויזות-לתאילנד/"
         }
       ],
-      "internal_link_requirements": [],
-      "planned_internal_link_requirements": [
+      "internal_link_requirements": [
         {
           "target_owner_id": "thailand-entry-april-2022",
           "relationship": "child_spoke",
@@ -4160,14 +4141,32 @@
           ]
         }
       ],
+      "planned_internal_link_requirements": [],
       "freshness_class": "regulated_monthly",
       "migration_action": "create",
-      "review_state": "planned",
+      "review_state": "upgrade_required",
       "unique_contribution": "מענה ייחודי למשימת המשתמש: לבחור מסלול כניסה או שהייה מתאים לתאילנד ולהבין את הפעולות לפני הטיסה ואחריה",
       "source_evidence": [
-        "research/serp/2026-08-08-hebrew-thailand-serp.md"
+        "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
       ],
-      "cannibalization_exclusions": []
+      "cannibalization_exclusions": [
+        {
+          "owner_id": "thailand-entry-april-2022",
+          "intent_id": "he|entry|thailand|april-2022|historical"
+        },
+        {
+          "owner_id": "thailand-entry-requirements",
+          "intent_id": "he|entry|thailand|current-requirements|stay-current"
+        },
+        {
+          "owner_id": "thailand-permanent-residence",
+          "intent_id": "he|immigration|thailand|permanent-residence|learn"
+        },
+        {
+          "owner_id": "thailand-tourist-visa",
+          "intent_id": "he|immigration|thailand|tourist-visa|learn"
+        }
+      ]
     },
     {
       "owner_id": "thailand-work-permit",
@@ -4845,7 +4844,7 @@
       "url": "/החל-מאפריל-2022-מטיילים-יורשו-להיכנס-לתאי/",
       "route_kind": "exact",
       "lifecycle": "live",
-      "indexing_policy": "index",
+      "indexing_policy": "noindex",
       "observed_in": [
         "yoast-sitemaps-2026-08-08"
       ],
@@ -4912,11 +4911,11 @@
       "route_id": "route-thailand-visas",
       "url": "/ויזות-לתאילנד/",
       "route_kind": "exact",
-      "lifecycle": "planned",
+      "lifecycle": "live",
       "indexing_policy": "index",
       "observed_in": [],
       "source_evidence": [
-        "research/serp/2026-08-08-hebrew-thailand-serp.md"
+        "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
       ],
       "assignment": {
         "kind": "canonical_owner",
@@ -4961,11 +4960,11 @@
       "route_id": "route-thailand-law-and-tax",
       "url": "/חוקים-ומסים-בתאילנד/",
       "route_kind": "exact",
-      "lifecycle": "planned",
+      "lifecycle": "live",
       "indexing_policy": "index",
       "observed_in": [],
       "source_evidence": [
-        "research/serp/2026-08-08-hebrew-thailand-serp.md"
+        "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
       ],
       "assignment": {
         "kind": "canonical_owner",

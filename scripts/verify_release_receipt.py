@@ -289,6 +289,8 @@ def main() -> int:
             "seo_registry_tests",
             "seo_runtime_compiler",
             "seo_runtime_gate_tests",
+            "sitewide_acceptance_contract_test_output",
+            "sitewide_acceptance_contract_tests",
             "tawk_state_test_output",
             "tawk_state_tests",
         },
@@ -335,6 +337,11 @@ def main() -> int:
     require(qa["seo_registry_tests"] == "pass", "SEO ownership registry tests did not pass")
     require(qa["seo_runtime_gate_tests"] == "pass", "SEO runtime gate tests did not pass")
     require(qa["javascript_syntax"] == "pass", "JavaScript syntax checks did not pass")
+    require(qa["sitewide_acceptance_contract_tests"] == "pass", "sitewide acceptance contract tests did not pass")
+    require(
+        qa["sitewide_acceptance_contract_test_output"] == "PASS: sitewide acceptance contract",
+        "sitewide acceptance contract test output mismatch",
+    )
     require(qa["tawk_state_tests"] == "pass", "Tawk behavior tests did not pass")
     require(qa["tawk_state_test_output"] == "PASS: Tawk chat behavior", "Tawk behavior test output mismatch")
     expected_javascript_files = sorted(
@@ -344,6 +351,7 @@ def main() -> int:
             "scripts/live_homepage_acceptance.cjs",
             "scripts/live_real_estate_acceptance.cjs",
             "scripts/live_seo_migration_acceptance.cjs",
+            "scripts/live_sitewide_acceptance.cjs",
         ]
     )
     require(qa["javascript_files_checked"] == expected_javascript_files, "JavaScript syntax inventory mismatch")

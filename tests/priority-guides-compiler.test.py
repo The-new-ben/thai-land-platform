@@ -148,7 +148,14 @@ for route_id, route in routes.items():
         parent = routes[route["parent_owner_id"]]
         crumb = route["breadcrumbs"][1]
         check(crumb["path"] == parent["path"], route_id + " breadcrumb path drift")
-        check(crumb["availability"] == "managed_draft", route_id + " parent availability drift")
+        check(crumb["availability"] == "live", route_id + " parent availability drift")
+
+for hub_id in ("thailand-visas", "thailand-law-and-tax"):
+    check(parents[hub_id]["availability"] == "live", hub_id + " availability drift")
+    check(
+        routes[hub_id]["breadcrumbs"][-1]["availability"] == "live",
+        hub_id + " breadcrumb availability drift",
+    )
 
 target_anchors = {
     "home": parents["home"]["primary_keyword"],
@@ -307,8 +314,18 @@ def truncate_seo_hierarchy(candidate: dict) -> None:
     seo_owner(candidate, "thailand-permanent-residence")["breadcrumb_chain"].pop(1)
 
 
-def expose_seo_draft_hub(candidate: dict) -> None:
-    seo_owner(candidate, "thailand-visas")["lifecycle"] = "live"
+def demote_seo_live_hub(candidate: dict) -> None:
+    seo_owner(candidate, "thailand-visas")["lifecycle"] = "planned"
+
+
+def misalign_seo_indexing(candidate: dict) -> None:
+    route = next(
+        item
+        for item in candidate["routes"]
+        if item["assignment"].get("kind") == "canonical_owner"
+        and item["assignment"].get("owner_id") == "thailand-entry-april-2022"
+    )
+    route["indexing_policy"] = "index"
 
 
 def miss_current_seo_contextual_target(candidate: dict) -> None:
@@ -322,11 +339,11 @@ def miss_current_seo_contextual_target(candidate: dict) -> None:
     requirement["anchor_terms"] = ["קנאביס בתאילנד"]
 
 
-def miss_planned_seo_contextual_target(candidate: dict) -> None:
+def miss_parent_seo_contextual_target(candidate: dict) -> None:
     requirement = seo_contextual_requirement(
         candidate,
         "thailand-tourist-visa",
-        "planned_internal_link_requirements",
+        "internal_link_requirements",
         "thailand-visas",
     )
     requirement["target_owner_id"] = "thailand-law-and-tax"
@@ -347,7 +364,7 @@ def misalign_seo_contextual_anchor(candidate: dict) -> None:
     requirement = seo_contextual_requirement(
         candidate,
         "thailand-cannabis-law",
-        "planned_internal_link_requirements",
+        "internal_link_requirements",
         "thailand-law-and-tax",
     )
     requirement["anchor_terms"] = ["מידע משפטי אחר"]
@@ -381,14 +398,15 @@ compile_seo_mutation(misalign_seo_keyword, "SEO primary keyword differs")
 compile_seo_mutation(misalign_seo_synonyms, "SEO synonym set differs")
 compile_seo_mutation(misalign_seo_intent, "SEO primary intent differs")
 compile_seo_mutation(truncate_seo_hierarchy, "SEO owner hierarchy differs")
-compile_seo_mutation(expose_seo_draft_hub, "SEO owner lifecycle differs")
+compile_seo_mutation(demote_seo_live_hub, "SEO owner lifecycle differs")
+compile_seo_mutation(misalign_seo_indexing, "SEO indexing policy differs")
 compile_seo_mutation(
     miss_current_seo_contextual_target,
     "missing current SEO contextual target",
 )
 compile_seo_mutation(
-    miss_planned_seo_contextual_target,
-    "missing planned SEO contextual target",
+    miss_parent_seo_contextual_target,
+    "missing current SEO contextual target",
 )
 compile_seo_mutation(
     misplace_seo_contextual_target,

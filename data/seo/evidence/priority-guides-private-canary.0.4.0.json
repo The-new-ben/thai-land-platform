@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "evidence_id": "thailand-platform-priority-guides-0.4.0-private-canary",
+  "origin": "https://thai-land.co.il",
+  "recorded_at": "2026-08-10T17:37:37+03:00",
+  "evidence_scope": "authenticated_manual_canary",
+  "public_live_verified": false,
+  "privacy": {
+    "authenticated_request_locator": "redacted",
+    "cookies_recorded": false,
+    "credentials_recorded": false,
+    "screenshots_claimed": false,
+    "acceptance_artifact_claimed": false
+  },
+  "release": {
+    "version": "0.4.0",
+    "receipt_path": "plugin-dist/0.4.0/thailand-platform-0.4.0.receipt.json",
+    "receipt_bytes": 21933,
+    "receipt_sha256": "d8424e85f80a47ba0f536c1066ddacfa192cac0ff4ec8f1c233c177e9cf46146",
+    "artifact_path": "plugin-dist/0.4.0/thailand-platform-0.4.0.zip",
+    "artifact_bytes": 1340922,
+    "artifact_sha256": "26f5f289be5cdfcd0a3ce840a511e91803fdaf6d0ace10b54b11f8a776ffbe19",
+    "source_commit": "1ec757d2455921f164358f10d234a181cf794b51"
+  },
+  "production_state": {
+    "health": {
+      "url": "https://thai-land.co.il/wp-json/thailand-platform/v1/health",
+      "observed_at": "2026-08-10T17:37:37+03:00",
+      "http_status": 200,
+      "cache_control": "no-store",
+      "response": {
+        "name": "thailand-platform",
+        "version": "0.4.0",
+        "status": "ok"
+      }
+    },
+    "active_plugin_basename": "thailand-platform-live-040/thailand-platform.php",
+    "inactive_predecessor_basename": "thailand-platform-live-036/thailand-platform.php",
+    "guides_mode": "canary"
+  },
+  "acceptance": {
+    "method": "authenticated_manual_canary",
+    "observed_at": "2026-08-10T17:37:37+03:00",
+    "passed": true,
+    "route_count": 7,
+    "public_live_verified": false,
+    "robots": "noindex,nofollow",
+    "canonical_behavior": "intentionally_absent_in_private_canary",
+    "assertions": {
+      "exact_route_and_owner_markers": true,
+      "one_h1": true,
+      "one_main": true,
+      "one_current_breadcrumb": true,
+      "breadcrumb_count_min": 2,
+      "breadcrumb_count_max": 3,
+      "section_count_min": 5,
+      "section_count_max": 7,
+      "contextual_target_count_min": 1,
+      "contextual_target_count_max": 3,
+      "unlinked_contextual_target_count": 0,
+      "official_source_link_count_min": 2,
+      "official_source_link_count_max": 8,
+      "breadcrumb_schema_present": true,
+      "versioned_css_and_javascript_present": true,
+      "hero_image_loaded": true,
+      "duplicate_id_count": 0,
+      "unnamed_link_count": 0,
+      "horizontal_overflow": false
+    },
+    "routes": [
+      {
+        "route_id": "thailand-cannabis-law",
+        "seo_owner_id": "thailand-cannabis-law",
+        "expected_canonical_path": "/תאילנד-וחוק-אי-הפללת-קנאביס-פנאי/",
+        "post_id": 102,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article"
+      },
+      {
+        "route_id": "thailand-entry-april-2022",
+        "seo_owner_id": "thailand-entry-april-2022",
+        "expected_canonical_path": "/החל-מאפריל-2022-מטיילים-יורשו-להיכנס-לתאי/",
+        "post_id": 62,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article"
+      },
+      {
+        "route_id": "thailand-entry-requirements",
+        "seo_owner_id": "thailand-entry-requirements",
+        "expected_canonical_path": "/hello-world/",
+        "post_id": 1,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article"
+      },
+      {
+        "route_id": "thailand-law-and-tax",
+        "seo_owner_id": "thailand-law-and-tax",
+        "expected_canonical_path": "/חוקים-ומסים-בתאילנד/",
+        "post_id": 848,
+        "post_type": "page",
+        "wordpress_status_at_observation": "draft",
+        "page_schema_type": "CollectionPage"
+      },
+      {
+        "route_id": "thailand-permanent-residence",
+        "seo_owner_id": "thailand-permanent-residence",
+        "expected_canonical_path": "/permanent-residence-thailand/",
+        "post_id": 132,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article"
+      },
+      {
+        "route_id": "thailand-tourist-visa",
+        "seo_owner_id": "thailand-tourist-visa",
+        "expected_canonical_path": "/ויזת-תיירים-תאילנד/",
+        "post_id": 243,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article"
+      },
+      {
+        "route_id": "thailand-visas",
+        "seo_owner_id": "thailand-visas",
+        "expected_canonical_path": "/ויזות-לתאילנד/",
+        "post_id": 846,
+        "post_type": "page",
+        "wordpress_status_at_observation": "draft",
+        "page_schema_type": "CollectionPage"
+      }
+    ],
+    "anonymous_isolation": {
+      "published_route_canary_probe_http_status": 404,
+      "draft_route_canary_probe_http_status": 404,
+      "normal_published_route_http_status": 200,
+      "normal_published_route_guides_marker_present": false
+    }
+  }
+}

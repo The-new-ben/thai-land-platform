@@ -382,6 +382,7 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
             "scripts/live_homepage_acceptance.cjs",
             "scripts/live_real_estate_acceptance.cjs",
             "scripts/live_seo_migration_acceptance.cjs",
+            "scripts/live_sitewide_acceptance.cjs",
         ]
     )
     for entry in javascript_files:
@@ -398,6 +399,13 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
     tawk_output = run_checked([str(node_bin), str(root / "tests" / "tawk-state.test.js")], root)
     if tawk_output != "PASS: Tawk chat behavior":
         raise ValueError(f"Unexpected Tawk behavior test output: {tawk_output}")
+
+    sitewide_acceptance_output = run_checked(
+        [str(node_bin), str(root / "tests" / "live-sitewide-acceptance.test.cjs")],
+        root,
+    )
+    if sitewide_acceptance_output != "PASS: sitewide acceptance contract":
+        raise ValueError(f"Unexpected sitewide acceptance contract test output: {sitewide_acceptance_output}")
 
     run_checked([sys.executable, str(root / "scripts" / "build_homepage_assets.py"), "--check"], root)
     run_checked([sys.executable, str(root / "scripts" / "build_bangkok_rental_assets.py"), "--check"], root)
@@ -471,6 +479,8 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
         "javascript_source_sha256": javascript_source_sha256,
         "tawk_state_tests": "pass",
         "tawk_state_test_output": tawk_output,
+        "sitewide_acceptance_contract_tests": "pass",
+        "sitewide_acceptance_contract_test_output": sitewide_acceptance_output,
         "contract_tests": "pass",
         "contract_test_output": test_output,
         "homepage_asset_compiler": "pass",

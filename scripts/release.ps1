@@ -110,6 +110,7 @@ $releaseInputs = @(
     'scripts/live_homepage_acceptance.cjs',
     'scripts/live_real_estate_acceptance.cjs',
     'scripts/live_seo_migration_acceptance.cjs',
+    'scripts/live_sitewide_acceptance.cjs',
     'scripts/read_release_version.py',
     'scripts/release.ps1',
     'scripts/verify_release_receipt.py',
@@ -119,6 +120,7 @@ $releaseInputs = @(
     'tests/draft-content-inventory.test.py',
     'tests/geography-resolver.test.php',
     'tests/guides-runtime.test.php',
+    'tests/live-sitewide-acceptance.test.cjs',
     'tests/priority-guides-compiler.test.py',
     'tests/queued-expired-content.test.py',
     'tests/real-estate-content.test.py',
@@ -206,6 +208,7 @@ try {
     $guidesRuntimeTest = Join-Path $frozenSource 'tests\guides-runtime.test.php'
     $seoRegistryTest = Join-Path $frozenSource 'tests\seo-ownership-registry.test.py'
     $seoRuntimeTest = Join-Path $frozenSource 'tests\seo-runtime-gates.test.py'
+    $sitewideAcceptanceContractTest = Join-Path $frozenSource 'tests\live-sitewide-acceptance.test.cjs'
     $validator = Join-Path $frozenSource 'scripts\verify_release_receipt.py'
     $candidateA = Join-Path $resolvedTemporaryRoot 'candidate-a.zip'
     $candidateB = Join-Path $resolvedTemporaryRoot 'candidate-b.zip'
@@ -313,6 +316,11 @@ try {
     $seoRuntimeTestOutput = & $pythonExecutable $seoRuntimeTest
     if ($LASTEXITCODE -ne 0) {
         throw "SEO runtime gate tests failed.`n$seoRuntimeTestOutput"
+    }
+
+    $sitewideAcceptanceContractTestOutput = & $nodeExecutable $sitewideAcceptanceContractTest
+    if ($LASTEXITCODE -ne 0 -or ($sitewideAcceptanceContractTestOutput -join "`n").Trim() -ne 'PASS: sitewide acceptance contract') {
+        throw "Sitewide acceptance contract tests failed.`n$sitewideAcceptanceContractTestOutput"
     }
 
     $buildAOutput = & $pythonExecutable $builder --root $frozenSource --out $candidateA --php-bin $phpExecutable --node-bin $nodeExecutable --source-commit $sourceCommit

@@ -243,12 +243,12 @@ def validate_catalogs(
         "home": ("/", "live", "תאילנד"),
         "thailand-visas": (
             "/ויזות-לתאילנד/",
-            "managed_draft",
+            "live",
             "ויזות לתאילנד",
         ),
         "thailand-law-and-tax": (
             "/חוקים-ומסים-בתאילנד/",
-            "managed_draft",
+            "live",
             "חוקים בתאילנד לישראלים",
         ),
     }
@@ -520,6 +520,11 @@ def validate_seo_alignment(
         for item in owner_items
         if isinstance(item, dict) and isinstance(item.get("owner_id"), str)
     }
+    seo_route_items = registry.get("routes", [])
+    if not isinstance(seo_route_items, list) or any(
+        not isinstance(item, dict) for item in seo_route_items
+    ):
+        raise RegistryError("SEO routes must be an array of objects")
     for route_id, route in routes_by_id.items():
         owner = owners.get(route["seo_owner_id"])
         if owner is None:
@@ -528,9 +533,26 @@ def validate_seo_alignment(
             raise RegistryError(f"canonical URL differs for {route_id}")
         if owner.get("parent_owner_id") != route["parent_owner_id"]:
             raise RegistryError(f"SEO parent differs for {route_id}")
-        expected_lifecycle = "planned" if route["kind"] == "collection" else "live"
-        if owner.get("lifecycle") != expected_lifecycle:
+        if owner.get("lifecycle") != "live":
             raise RegistryError(f"SEO owner lifecycle differs for {route_id}")
+        matching_seo_routes = [
+            item
+            for item in seo_route_items
+            if isinstance(item.get("assignment"), dict)
+            and item["assignment"].get("kind") == "canonical_owner"
+            and item["assignment"].get("owner_id") == route["seo_owner_id"]
+        ]
+        if len(matching_seo_routes) != 1:
+            raise RegistryError(f"SEO route claim differs for {route_id}")
+        seo_route = matching_seo_routes[0]
+        if (
+            seo_route.get("route_kind") != "exact"
+            or seo_route.get("url") != route["path"]
+            or seo_route.get("lifecycle") != "live"
+        ):
+            raise RegistryError(f"SEO route identity differs for {route_id}")
+        if seo_route.get("indexing_policy") != route["indexing"]["policy"]:
+            raise RegistryError(f"SEO indexing policy differs for {route_id}")
         ownership = route["ownership"]
         if owner.get("primary_keyword") != ownership["primary_keyword"]:
             raise RegistryError(f"SEO primary keyword differs for {route_id}")

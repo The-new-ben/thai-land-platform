@@ -59,21 +59,21 @@ return json_decode(
       "primary_keyword": "תאילנד"
     },
     "thailand-law-and-tax": {
-      "availability": "managed_draft",
+      "availability": "live",
       "label": "חוקים ומסים בתאילנד",
       "owner_id": "thailand-law-and-tax",
       "path": "/חוקים-ומסים-בתאילנד/",
       "primary_keyword": "חוקים בתאילנד לישראלים"
     },
     "thailand-visas": {
-      "availability": "managed_draft",
+      "availability": "live",
       "label": "ויזות וכניסה לתאילנד",
       "owner_id": "thailand-visas",
       "path": "/ויזות-לתאילנד/",
       "primary_keyword": "ויזות לתאילנד"
     }
   },
-  "registry_sha256": "fc78300727a325490f6c7a80003d1a3e419f92ae22cd7fe2b1dffff496083309",
+  "registry_sha256": "b8402c617df26a1680e086f6614b398d05bc0c2da0a4e7140bbccf2c0d431875",
   "route_id_by_path": {
     "/hello-world/": "thailand-entry-requirements",
     "/permanent-residence-thailand/": "thailand-permanent-residence",
@@ -112,7 +112,7 @@ return json_decode(
           "path": "/"
         },
         {
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false,
           "label": "חוקים ומסים בתאילנד",
           "path": "/חוקים-ומסים-בתאילנד/"
@@ -376,7 +376,7 @@ return json_decode(
           "path": "/"
         },
         {
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false,
           "label": "ויזות וכניסה לתאילנד",
           "path": "/ויזות-לתאילנד/"
@@ -610,7 +610,7 @@ return json_decode(
           "path": "/"
         },
         {
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false,
           "label": "ויזות וכניסה לתאילנד",
           "path": "/ויזות-לתאילנד/"
@@ -895,7 +895,7 @@ return json_decode(
           "path": "/"
         },
         {
-          "availability": "managed_draft",
+          "availability": "live",
           "current": true,
           "label": "חוקים ומסים בתאילנד",
           "path": "/חוקים-ומסים-בתאילנד/"
@@ -1163,7 +1163,7 @@ return json_decode(
           "path": "/"
         },
         {
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false,
           "label": "ויזות וכניסה לתאילנד",
           "path": "/ויזות-לתאילנד/"
@@ -1466,7 +1466,7 @@ return json_decode(
           "path": "/"
         },
         {
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false,
           "label": "ויזות וכניסה לתאילנד",
           "path": "/ויזות-לתאילנד/"
@@ -1741,7 +1741,7 @@ return json_decode(
           "path": "/"
         },
         {
-          "availability": "managed_draft",
+          "availability": "live",
           "current": true,
           "label": "ויזות לתאילנד",
           "path": "/ויזות-לתאילנד/"
@@ -2012,14 +2012,14 @@ return json_decode(
   },
   "schema_sha256": "f80326f8f541df9e652df17c375284139e905321bdccec125f591393826a39c3",
   "schema_version": 1,
-  "seo_registry_sha256": "a1c7c3dce4d45744df3e9edc358201ba398ad83a146c0581b1efdd3c20cdbd0a",
+  "seo_registry_sha256": "1a834f9f35e3963e45447ef29c97c2276dbbb2e02b2247b04be584782da233db",
   "site": {
     "direction": "rtl",
     "locale": "he-IL",
     "name": "Thai-Land.co.il",
     "origin": "https://thai-land.co.il"
   },
-  "source_sha256": "577ff9635707a1ccce7566518ed5ffacb441412b8dde3bcbca349c1c5a54213f",
+  "source_sha256": "75a11c05407fa0fc78e5c3dbb01d12ef9a833e7990824a712fd92478be934d5e",
   "sources_by_id": {
     "tat-full-reopen-october-2022": {
       "checked_on": "2026-08-10",

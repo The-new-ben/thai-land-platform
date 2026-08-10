@@ -4,24 +4,34 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 License: Proprietary
 
 Geography, search, homepage, real-estate, and priority guide runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.4.0 adds two parent hubs and five priority guides for Thailand entry,
-visas, permanent residence, cannabis law, and the historical April 2022 entry
-update. Each route is bound to its exact WordPress identity, canonical owner,
-breadcrumb path, current source set, and full replacement body while the stored
-WordPress body remains untouched. The isolated guide runtime defaults to Off,
-supports administrator-only Canary previews, and fails closed if any required
-template, asset, image, or compiled record is unavailable. Upgrade and
-activation do not change content, URLs, redirects, taxonomies, or database
-structure.
+Version 0.4.1 completes the parent-hub lifecycle and public activation release
+after successful administrator-only Canary verification of version 0.4.0. The
+visa and law-and-tax hubs now own their released hierarchy, parent availability,
+breadcrumb ancestry, and homepage link expectations. Desktop navigation,
+mobile navigation, and the footer expose both hubs only when both exact
+WordPress pages satisfy their public identity, path, and asset gates. Stored
+WordPress bodies and canonical URLs remain unchanged. The isolated guide
+runtime retains separate Off, Canary, and Live controls and fails closed if a
+required binding or asset is unavailable.
 
 == Changelog ==
+
+= 0.4.1 =
+* Complete the public lifecycle transition for the visa and law-and-tax parent
+  hubs after successful version 0.4.0 administrator Canary verification.
+* Align current SEO ownership, guide availability, breadcrumb ancestry, and
+  homepage link expectations with the released parent-hub state.
+* Expose both hubs in desktop navigation, mobile navigation, and the footer only
+  when both exact WordPress pages satisfy the public identity and asset gates.
+* Preserve the seven canonical URLs, child-guide ownership, stored WordPress
+  bodies, and independent Off, Canary, and Live controls.
 
 = 0.4.0 =
 * Add two parent hubs and five priority guides for Thailand entry, tourist visas,

@@ -6,7 +6,7 @@ This directory contains the evidence-first execution ledger for the remaining Th
 
 - 35 legacy public surfaces that are not managed by the current platform release
 - 63 remaining draft records after excluding released draft 841
-- 11 registered planned hubs
+- 9 registered planned hubs and 2 promoted hubs awaiting public publication evidence
 - 6 ordered release waves
 
 The builder derives every record from the frozen public inventories, draft inventories, ownership registry and managed-route evidence. It does not change production and it does not copy a WordPress body into the repository.
@@ -15,7 +15,7 @@ The builder derives every record from the frozen public inventories, draft inven
 
 The inventories contain identity, metrics, hashes and reviewed dispositions. They do not contain the complete page or draft bodies. Unreviewed legacy records therefore use `live_html_retrieval_required`, and unreviewed drafts use `draft_body_retrieval_required`. The urgent source review stores only identity, length, digest and editorial decisions. It never stores a source body, backup or site export.
 
-The authenticated review separated draft 498 from the visitor cannabis-law owner. Its opening-a-cannabis-business query now has an explicit candidate owner under Business, and none of its superseded 2022 claims can enter the visitor guide.
+The authenticated review separated draft 498 from the visitor cannabis-law owner. Its opening-a-cannabis-business query now has an explicit candidate owner under Business, and none of its superseded 2022 claims can enter the visitor guide. The two promoted Guides hubs are backed only by private 0.4.0 Canary evidence until public publication and acceptance are recorded.
 
 ## Completion contract
 

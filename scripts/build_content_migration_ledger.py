@@ -41,12 +41,20 @@ OWNERSHIP_REGISTRY_PATH = ROOT / "data" / "seo" / "ownership-registry.json"
 MANAGED_ROUTES_PATH = (
     ROOT / "data" / "seo" / "evidence" / "managed-live-routes.0.3.5.json"
 )
+GUIDES_CANARY_EVIDENCE_PATH = (
+    ROOT
+    / "data"
+    / "seo"
+    / "evidence"
+    / "priority-guides-private-canary.0.4.0.json"
+)
 HOMEPAGE_EVIDENCE_PATH = (
     ROOT / "output" / "playwright" / "homepage-live-0.3.6-acceptance.json"
 )
 
 GENERATED_ON = "2026-08-10"
 RELEASED_DRAFT_IDS = {841}
+PROMOTED_GUIDE_HUB_IDS = {"thailand-visas", "thailand-law-and-tax"}
 SYSTEM_ENRICHMENT_HUBS = {
     "israeli-store-thailand",
     "services-in-thailand",
@@ -751,6 +759,111 @@ def build_planned_hubs(
     return records
 
 
+def build_promoted_hubs(
+    registry: dict[str, Any],
+    legacy_records: list[dict[str, Any]],
+    draft_records: list[dict[str, Any]],
+    source_reviews: dict[int, dict[str, Any]],
+    canary: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Keep promoted parent hubs accountable until public acceptance is recorded."""
+    owners = {item["owner_id"]: item for item in registry["intent_owners"]}
+    if canary.get("evidence_scope") != "authenticated_manual_canary":
+        raise ValueError("Guides Canary evidence scope differs")
+    if canary.get("public_live_verified") is not False:
+        raise ValueError("Guides Canary evidence must not claim public live verification")
+    acceptance = canary.get("acceptance")
+    if not isinstance(acceptance, dict) or acceptance.get("passed") is not True:
+        raise ValueError("Guides private Canary acceptance is missing")
+    if acceptance.get("public_live_verified") is not False:
+        raise ValueError("Guides acceptance must remain private-only evidence")
+    canary_routes = acceptance.get("routes")
+    if not isinstance(canary_routes, list):
+        raise ValueError("Guides private Canary route records are missing")
+    canary_by_owner = {
+        item.get("seo_owner_id"): item
+        for item in canary_routes
+        if isinstance(item, dict) and isinstance(item.get("seo_owner_id"), str)
+    }
+
+    records: list[dict[str, Any]] = []
+    for owner_id in sorted(PROMOTED_GUIDE_HUB_IDS):
+        owner = owners.get(owner_id)
+        if owner is None or owner.get("lifecycle") != "live":
+            raise ValueError(f"promoted Guides hub is not a live owner: {owner_id}")
+        expected_source = relative_path(GUIDES_CANARY_EVIDENCE_PATH)
+        if owner.get("source_evidence") != [expected_source]:
+            raise ValueError(f"promoted Guides hub evidence differs: {owner_id}")
+        identity_reviews = [
+            review
+            for review in source_reviews.values()
+            if review["target_owner_id"] == owner_id
+            and review["decision"] == "new_parent_identity_frozen"
+        ]
+        if len(identity_reviews) != 1:
+            raise ValueError(f"promoted Guides hub needs one draft identity: {owner_id}")
+        identity_review = identity_reviews[0]
+        observed = canary_by_owner.get(owner_id)
+        if (
+            not isinstance(observed, dict)
+            or observed.get("post_id") != identity_review["post_id"]
+            or observed.get("post_type") != "page"
+            or observed.get("wordpress_status_at_observation") != "draft"
+            or observed.get("expected_canonical_path") != owner["canonical_url"]
+        ):
+            raise ValueError(f"promoted Guides hub Canary identity differs: {owner_id}")
+        legacy_ids = sorted(
+            item["record_id"]
+            for item in legacy_records
+            if owner_id in item["hierarchy_path_owner_ids"]
+        )
+        draft_ids = sorted(
+            item["record_id"]
+            for item in draft_records
+            if owner_id in item["release_target"]["hierarchy_path_owner_ids"]
+        )
+        hierarchy = full_hierarchy(owner_id, owners)
+        records.append(
+            {
+                "record_id": f"hub:{owner_id}",
+                "owner_id": owner_id,
+                "canonical_url": owner["canonical_url"],
+                "primary_keyword": owner["primary_keyword"],
+                "hierarchy_parent_owner_id": owner["parent_owner_id"],
+                "hierarchy_path_owner_ids": hierarchy,
+                "disposition": owner["migration_action"],
+                "migration_status": "evidence_update_pending",
+                "release_target": {
+                    "wave_id": "wave-02-parent-hubs",
+                    "target_owner_id": owner_id,
+                    "target_url": owner["canonical_url"],
+                    "target_state": "registered_live_owner_private_canary_passed_publication_pending",
+                    "target_kind": "parent_hub_public_release",
+                    "blocked": False,
+                    "hierarchy_path_owner_ids": hierarchy,
+                    "system_enrichment_wave_id": None,
+                },
+                "source_material_status": "managed_content_private_canary_passed_publication_pending",
+                "supporting_legacy_record_ids": legacy_ids,
+                "supporting_draft_record_ids": draft_ids,
+                "evidence": {
+                    "ownership_registry_path": relative_path(OWNERSHIP_REGISTRY_PATH),
+                    "owner_review_state": owner["review_state"],
+                    "owner_source_evidence": owner["source_evidence"],
+                    "structured_source_paths": [],
+                    "draft_identity_review_path": relative_path(SOURCE_REVIEW_PATH),
+                    "draft_identity_post_id": identity_review["post_id"],
+                    "draft_identity_slug": identity_review["slug"],
+                    "draft_identity_status": identity_review["status"],
+                    "draft_identity_content_sha256": identity_review["content_sha256"],
+                },
+                "completion_profile": "planned_hub_release",
+                "completion_evidence": completion_evidence(),
+            }
+        )
+    return records
+
+
 def build_ledger() -> dict[str, Any]:
     public_rows = load_csv(PUBLIC_INVENTORY_PATH)
     category_rows = load_csv(CATEGORY_INVENTORY_PATH)
@@ -758,6 +871,7 @@ def build_ledger() -> dict[str, Any]:
     disposition_rows = load_csv(DRAFT_DISPOSITION_PATH)
     registry = load_json(OWNERSHIP_REGISTRY_PATH)
     managed = load_json(MANAGED_ROUTES_PATH)
+    guides_canary = load_json(GUIDES_CANARY_EVIDENCE_PATH)
     source_review = load_json(SOURCE_REVIEW_PATH)
     source_review_records = source_review.get("records")
     if not isinstance(source_review_records, list):
@@ -778,6 +892,13 @@ def build_ledger() -> dict[str, Any]:
     )
     hub_records = build_planned_hubs(
         registry, legacy_records, draft_records, source_reviews
+    )
+    promoted_hub_records = build_promoted_hubs(
+        registry,
+        legacy_records,
+        draft_records,
+        source_reviews,
+        guides_canary,
     )
 
     ledger = {
@@ -818,6 +939,11 @@ def build_ledger() -> dict[str, Any]:
                 "json_managed_route_evidence",
                 len(managed["managed_routes"]),
             ),
+            source_descriptor(
+                GUIDES_CANARY_EVIDENCE_PATH,
+                "json_authenticated_private_canary_evidence",
+                len(guides_canary["acceptance"]["routes"]),
+            ),
         ],
         "scope": {
             "frozen_public_surface_count": len(public_rows) + len(category_rows),
@@ -826,11 +952,13 @@ def build_ledger() -> dict[str, Any]:
             "remaining_draft_record_count": len(draft_records),
             "excluded_released_draft_ids": sorted(RELEASED_DRAFT_IDS),
             "planned_hub_count": len(hub_records),
+            "promoted_hub_count": len(promoted_hub_records),
             "platform_managed_original_surfaces": managed_exclusions,
         },
         "legacy_public_surfaces": legacy_records,
         "draft_records": draft_records,
         "planned_hubs": hub_records,
+        "promoted_hubs": promoted_hub_records,
     }
     return sanitize(ledger)
 
@@ -873,7 +1001,8 @@ def validate_ledger(ledger: dict[str, Any]) -> list[str]:
         "platform_managed_original_surface_count": 8,
         "legacy_public_surface_count": 35,
         "remaining_draft_record_count": 63,
-        "planned_hub_count": 11,
+        "planned_hub_count": 9,
+        "promoted_hub_count": 2,
     }
     for key, expected in expected_scope.items():
         if scope.get(key) != expected:
@@ -883,6 +1012,7 @@ def validate_ledger(ledger: dict[str, Any]) -> list[str]:
         ledger["legacy_public_surfaces"],
         ledger["draft_records"],
         ledger["planned_hubs"],
+        ledger["promoted_hubs"],
     )
     all_records = [record for group in groups for record in group]
     record_ids = [record["record_id"] for record in all_records]
