@@ -51,12 +51,20 @@ if ($version -notmatch '^[0-9]+(?:\.[0-9]+)+$') {
 }
 
 $releaseInputs = @(
+    'assets/guides/sources/cannabis-law-thailand-v1-master.png',
+    'assets/guides/sources/visas-entry-thailand-v1-master.png',
     'data/content/bangkok-rental-areas.json',
     'data/content/bangkok-rental-areas.schema.json',
+    'data/content/priority-guides.json',
+    'data/content/priority-guides.schema.json',
     'data/content/real-estate.json',
     'data/content/real-estate.schema.json',
     'data/content/inventory/draft-content-disposition.2026-08-08.csv',
     'data/content/inventory/draft-content-metadata.2026-08-08.csv',
+    'data/content/migration/migration-ledger.2026-08-10.json',
+    'data/content/migration/migration-ledger.schema.json',
+    'data/content/migration/README.md',
+    'data/content/migration/urgent-source-review.2026-08-10.json',
     'data/geography/aliases.csv',
     'data/geography/geometry.json',
     'data/geography/normalization-vectors.json',
@@ -71,6 +79,11 @@ $releaseInputs = @(
     'data/seo/inventory/indexable-category-surfaces.2026-08-08.csv',
     'data/seo/ownership-registry.json',
     'data/seo/ownership-registry.schema.json',
+    'data/content/queued/post-136-thailand-rainy-day-activities.json',
+    'data/content/queued/post-17-koh-samui-new-hotels-2022.json',
+    'data/content/queued/post-732-thailand-family-holiday-costs.json',
+    'data/content/queued/post-810-thailand-property-prices-plan.json',
+    'output/playwright/homepage-live-0.3.6-acceptance.json',
     'package-files.txt',
     'prototype/app.js',
     'prototype/assets/homepage-hero-thailand-system-v1-1024.webp',
@@ -85,11 +98,15 @@ $releaseInputs = @(
     'scripts/build_bangkok_rental_assets.py',
     'scripts/build_bangkok_rental_registry.py',
     'scripts/build_content_registry.py',
+    'scripts/build_content_migration_ledger.py',
     'scripts/build_homepage_assets.py',
     'scripts/build_geography_registry.py',
+    'scripts/build_guide_assets.py',
     'scripts/build_seo_registry.py',
     'scripts/build_seo_runtime.py',
+    'scripts/build_priority_guides_registry.py',
     'scripts/build_plugin_zip.py',
+    'scripts/live_guides_acceptance.cjs',
     'scripts/live_homepage_acceptance.cjs',
     'scripts/live_real_estate_acceptance.cjs',
     'scripts/live_seo_migration_acceptance.cjs',
@@ -97,9 +114,13 @@ $releaseInputs = @(
     'scripts/release.ps1',
     'scripts/verify_release_receipt.py',
     'tests/bangkok-rental-data.test.py',
+    'tests/content-migration-ledger.test.py',
     'tests/geography-builder.test.py',
     'tests/draft-content-inventory.test.py',
     'tests/geography-resolver.test.php',
+    'tests/guides-runtime.test.php',
+    'tests/priority-guides-compiler.test.py',
+    'tests/queued-expired-content.test.py',
     'tests/real-estate-content.test.py',
     'tests/real-estate-runtime.test.php',
     'tests/run.php',
@@ -168,14 +189,21 @@ try {
     $bangkokAssetBuilder = Join-Path $frozenSource 'scripts\build_bangkok_rental_assets.py'
     $bangkokRegistryBuilder = Join-Path $frozenSource 'scripts\build_bangkok_rental_registry.py'
     $contentBuilder = Join-Path $frozenSource 'scripts\build_content_registry.py'
+    $contentMigrationLedgerBuilder = Join-Path $frozenSource 'scripts\build_content_migration_ledger.py'
     $geographyBuilder = Join-Path $frozenSource 'scripts\build_geography_registry.py'
+    $guideAssetBuilder = Join-Path $frozenSource 'scripts\build_guide_assets.py'
+    $priorityGuidesBuilder = Join-Path $frozenSource 'scripts\build_priority_guides_registry.py'
     $seoRegistryBuilder = Join-Path $frozenSource 'scripts\build_seo_registry.py'
     $seoRuntimeBuilder = Join-Path $frozenSource 'scripts\build_seo_runtime.py'
     $contentRegistryTest = Join-Path $frozenSource 'tests\real-estate-content.test.py'
+    $contentMigrationLedgerTest = Join-Path $frozenSource 'tests\content-migration-ledger.test.py'
     $contentRuntimeTest = Join-Path $frozenSource 'tests\real-estate-runtime.test.php'
     $bangkokDataTest = Join-Path $frozenSource 'tests\bangkok-rental-data.test.py'
     $draftContentInventoryTest = Join-Path $frozenSource 'tests\draft-content-inventory.test.py'
     $geographyBuilderTest = Join-Path $frozenSource 'tests\geography-builder.test.py'
+    $priorityGuidesCompilerTest = Join-Path $frozenSource 'tests\priority-guides-compiler.test.py'
+    $queuedExpiredContentTest = Join-Path $frozenSource 'tests\queued-expired-content.test.py'
+    $guidesRuntimeTest = Join-Path $frozenSource 'tests\guides-runtime.test.php'
     $seoRegistryTest = Join-Path $frozenSource 'tests\seo-ownership-registry.test.py'
     $seoRuntimeTest = Join-Path $frozenSource 'tests\seo-runtime-gates.test.py'
     $validator = Join-Path $frozenSource 'scripts\verify_release_receipt.py'
@@ -190,6 +218,11 @@ try {
     $bangkokAssetCheckOutput = & $pythonExecutable $bangkokAssetBuilder --check
     if ($LASTEXITCODE -ne 0) {
         throw "Generated Bangkok rental asset verification failed.`n$bangkokAssetCheckOutput"
+    }
+
+    $guideAssetCheckOutput = & $pythonExecutable $guideAssetBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated guide asset verification failed.`n$guideAssetCheckOutput"
     }
 
     $bangkokRegistryCheckOutput = & $pythonExecutable $bangkokRegistryBuilder --check
@@ -207,6 +240,11 @@ try {
         throw "Generated content registry verification failed.`n$contentCheckOutput"
     }
 
+    $priorityGuidesCheckOutput = & $pythonExecutable $priorityGuidesBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated priority guides registry verification failed.`n$priorityGuidesCheckOutput"
+    }
+
     $seoRegistryCheckOutput = & $pythonExecutable $seoRegistryBuilder --check
     if ($LASTEXITCODE -ne 0) {
         throw "Generated SEO ownership registry verification failed.`n$seoRegistryCheckOutput"
@@ -215,6 +253,11 @@ try {
     $seoRuntimeCheckOutput = & $pythonExecutable $seoRuntimeBuilder --check
     if ($LASTEXITCODE -ne 0) {
         throw "Generated SEO runtime verification failed.`n$seoRuntimeCheckOutput"
+    }
+
+    $contentMigrationLedgerCheckOutput = & $pythonExecutable $contentMigrationLedgerBuilder
+    if ($LASTEXITCODE -ne 0) {
+        throw "Content migration ledger verification failed.`n$contentMigrationLedgerCheckOutput"
     }
 
     $geographyTestOutput = & $pythonExecutable $geographyBuilderTest
@@ -232,6 +275,16 @@ try {
         throw "Real-estate runtime tests failed.`n$contentRuntimeTestOutput"
     }
 
+    $priorityGuidesCompilerTestOutput = & $pythonExecutable $priorityGuidesCompilerTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Priority guides compiler tests failed.`n$priorityGuidesCompilerTestOutput"
+    }
+
+    $guidesRuntimeTestOutput = & $phpExecutable $guidesRuntimeTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Priority guides runtime tests failed.`n$guidesRuntimeTestOutput"
+    }
+
     $bangkokDataTestOutput = & $pythonExecutable $bangkokDataTest
     if ($LASTEXITCODE -ne 0) {
         throw "Bangkok rental data tests failed.`n$bangkokDataTestOutput"
@@ -240,6 +293,16 @@ try {
     $draftContentInventoryTestOutput = & $pythonExecutable $draftContentInventoryTest
     if ($LASTEXITCODE -ne 0) {
         throw "Draft-content inventory tests failed.`n$draftContentInventoryTestOutput"
+    }
+
+    $contentMigrationLedgerTestOutput = & $pythonExecutable $contentMigrationLedgerTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Content migration ledger tests failed.`n$contentMigrationLedgerTestOutput"
+    }
+
+    $queuedExpiredContentTestOutput = & $pythonExecutable $queuedExpiredContentTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Queued expired-content tests failed.`n$queuedExpiredContentTestOutput"
     }
 
     $seoTestOutput = & $pythonExecutable $seoRegistryTest

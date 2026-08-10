@@ -1,0 +1,622 @@
+{
+  "contract_version": "1.0.0",
+  "content_kind": "source_dated_replacement_plan",
+  "language": "he-IL",
+  "direction": "rtl",
+  "checked_on": "2026-08-10",
+  "wordpress": {
+    "post_id": 810,
+    "post_type": "post",
+    "protected_path": "/price/",
+    "canonical_path": "/price/",
+    "future_clean_path": {
+      "path": "/מחירי-נדלן-בתאילנד/",
+      "status": "evidence_gated",
+      "requirements": [
+        "בדיקת שאילתות, הופעות, קליקים ומיקום של /price/",
+        "מיפוי קישורים נכנסים וקישורים פנימיים ל-/price/",
+        "אישור שאין כתובת אחרת שמחזיקה את כוונת מחירי הנדל״ן",
+        "הכנת הפניית 301 ישירה ללא שרשרת",
+        "עדכון canonical, מפת אתר, פירורי לחם וקישורים פנימיים",
+        "בדיקת אינדוקס ומעקב ביצועים במשך שנים עשר שבועות"
+      ]
+    }
+  },
+  "ownership": {
+    "owner_id": "thailand-property-prices",
+    "intent_id": "he|real-estate|thailand|market-prices|evaluate",
+    "primary_keyword": "מחירי נדל״ן בתאילנד",
+    "primary_intent": "להשוות מחירי נכסים לפי אזור, סוג נכס ובסיס מחיר מתוארך",
+    "intent_class": "evaluation",
+    "freshness_class": "price_sensitive_monthly",
+    "canonical_owner_exclusions": [
+      "איך לקנות נכס בתאילנד",
+      "בעלות זרים בדירה בתאילנד",
+      "משכנתא בתאילנד לזרים",
+      "השכרת דירה בבנגקוק",
+      "פרויקטים למכירה בתאילנד",
+      "תשואה על נדל״ן בתאילנד"
+    ]
+  },
+  "hierarchy": {
+    "parent_owner_id": "thailand-real-estate",
+    "owner_path": [
+      "home",
+      "thailand-real-estate",
+      "thailand-property-prices"
+    ],
+    "breadcrumbs": [
+      {
+        "owner_id": "home",
+        "label": "תאילנד לישראלים",
+        "path": "/"
+      },
+      {
+        "owner_id": "thailand-real-estate",
+        "label": "נדל״ן בתאילנד",
+        "path": "/נדלן-בתאילנד/"
+      },
+      {
+        "owner_id": "thailand-property-prices",
+        "label": "מחירי נדל״ן בתאילנד",
+        "path": "/price/"
+      }
+    ]
+  },
+  "seo": {
+    "title": "מחירי נדל״ן בתאילנד: השוואה לפי אזור וסוג נכס",
+    "h1": "מחירי נדל״ן בתאילנד: איך משווים דירות, בתים וקרקע",
+    "meta_description": "מחירי נדל״ן בתאילנד לפי אזור, סוג נכס ובסיס המחיר. הבינו מחיר מבוקש, מדד, שומה ועלות עסקה לפני שמשווים דירה, בית או קרקע.",
+    "search_intent_answer": "השוואת מחירים מתוארכת שמפרידה בין מחיר מבוקש, מחיר עסקה, שומה ממשלתית ומדד שוק.",
+    "slug_policy": "הנתיב /price/ נשמר. שינוי לנתיב עברי אפשרי רק לאחר עמידה בשער הראיות.",
+    "cannibalization_boundaries": [
+      "העמוד מחזיק מחירי שוק והשוואת עלויות לפי מקום וסוג נכס.",
+      "תהליך הרכישה נשאר בבעלות buy-property-thailand.",
+      "זכויות בעלות זרה נשארות בבעלות foreign-condo-ownership-thailand.",
+      "אשראי ומשכנתאות נשארים בבעלות thailand-property-financing.",
+      "מחירי שכירות בבנגקוק נשארים בבעלות bangkok-apartment-rental-guide.",
+      "עמודי פרויקט מחזיקים מלאי ומחיר של פרויקט מסוים."
+    ]
+  },
+  "publishable_copy": {
+    "lead": [
+      "מחירי נדל״ן בתאילנד אינם מספר ארצי אחד. דירת קבלן ליד רכבת בבנגקוק, דירת יד שנייה בפאטאיה, וילה בפוקט וקרקע בקוסמוי הן קטגוריות שונות, עם מקורות מידע שונים ועלויות עסקה שונות. כדי להשוות נכון צריך להתחיל באזור, בסוג הנכס ובשאלה איזה מחיר מוצג.",
+      "בעמוד הזה כל נתון מספרי יוצג עם תאריך, מטבע, יחידת מידה, סוג מקור וגודל המדגם. מחיר מבוקש במודעה לא יוצג כמחיר עסקה, שומה ממשלתית לא תוצג כמחיר שוק, ומדד ארצי לא יתורגם למחיר של נכס מסוים."
+    ],
+    "quick_answer": {
+      "heading": "לפני שמסתכלים על מספר",
+      "items": [
+        "מזהים אם מדובר במחיר מבוקש, מחיר עסקה, שומה ממשלתית או מדד.",
+        "משווים נכסים מאותו אזור, סוג, מצב, גודל ומסלול בעלות.",
+        "בודקים מחיר למטר רבוע לצד המחיר הכולל.",
+        "מוסיפים דמי העברה, מסים, ייעוץ, תחזוקה, קרן שיפוצים ומימון לפי המקרה.",
+        "שומרים את תאריך המקור ואת שער המטבע שבו בוצעה ההמרה."
+      ]
+    },
+    "sections": [
+      {
+        "section_id": "four-price-types",
+        "heading": "ארבעה סוגי מחיר שאסור לערבב",
+        "body": [
+          "מחיר מבוקש הוא הסכום שמוכר או יזם מפרסם, והוא עשוי להשתנות במשא ומתן. מחיר עסקה הוא סכום שנרשם בעסקה שהושלמה, אך הגישה לנתונים מפורטים אינה תמיד זהה בכל אזור. שומה ממשלתית משמשת למטרות מנהליות ומיסוי מסוימות, והיא אינה הבטחה למחיר שבו הנכס יימכר.",
+          "מדד מחירים מציג שינוי לאורך זמן בקבוצה של נכסים. הוא טוב להבנת כיוון השוק, אך אינו אומר כמה עולה דירה מסוימת. בכל רכיב בעמוד יופיע בסיס המחיר, כדי שהקורא ידע מה הוא משווה."
+        ]
+      },
+      {
+        "section_id": "national-snapshot",
+        "heading": "תמונת השוק הארצית",
+        "body": [
+          "בנק תאילנד מפרסם מדדי מחירי מגורים לפי סוג נכס, ו-REIC מפרסם מדדים וסקירות של שוק הדיור. הנתונים האלה ישמשו להצגת כיוון ותאריך, לא להמצאת מחיר למטר רבוע במקום שאין בו מדגם מקומי.",
+          "תמונת השוק תציג את תקופת המדד האחרונה, שינוי מול התקופה הקודמת ושינוי שנתי רק לאחר חילוץ ישיר מהמקור. ליד כל נתון יופיע אם הוא ארצי, בנגקוק והמטרופולין, EEC או אזור אחר."
+        ]
+      },
+      {
+        "section_id": "area-comparison",
+        "heading": "השוואה לפי אזור",
+        "body": [
+          "ההשוואה הראשית תחלק את השוק לבנגקוק, פוקט, קוסמוי, פאטאיה וצ'ונבורי, צ'יאנג מאי והואה הין. בכל אזור יוצגו בנפרד דירות חדשות, דירות יד שנייה, בתים או וילות וקרקע רק כאשר קיים מדגם מתאים.",
+          "בתוך עיר גדולה יש צורך ברמת פירוט נוספת. בבנגקוק, למשל, מרחק מתחנת רכבת, גיל הבניין, קומה, גודל היחידה וזהות הפרויקט יכולים להשפיע יותר משם המחוז. באיים יש משמעות לנגישות, שיפוע, תשתיות, רישוי והמרחק מהחוף."
+        ],
+        "planned_areas": [
+          "Bangkok",
+          "Phuket",
+          "Koh Samui",
+          "Pattaya and Chonburi",
+          "Chiang Mai",
+          "Hua Hin"
+        ]
+      },
+      {
+        "section_id": "property-types",
+        "heading": "דירה, בית, וילה וקרקע אינם אותה השוואה",
+        "body": [
+          "בדירה אפשר להשוות מחיר כולל ומחיר למטר רבוע, אך צריך לציין אם השטח הוא שטח היחידה הרשום ומה כלול בו. בבית או וילה צריך להפריד בין שטח בנוי לשטח הקרקע. בקרקע, יחידת המידה והזכויות במסמך הקרקע הן חלק מהותי מההשוואה.",
+          "אין לאחד את כל הסוגים לטווח אחד. לכל סוג נכס יוצגו גודל, מצב, גיל, מסלול בעלות ומיקום. נכס חדש מקבל תווית נפרדת מנכס יד שנייה, ונכס בבנייה נפרד מנכס שהושלם."
+        ]
+      },
+      {
+        "section_id": "new-versus-resale",
+        "heading": "נכס חדש מול יד שנייה",
+        "body": [
+          "מחיר יזם יכול לכלול מבצע, חבילת ריהוט או לוח תשלומים שאינם קיימים ביד שנייה. מחיר יד שנייה עשוי לשקף מצב פיזי, דמי תחזוקה, יתרת קרן שיפוצים ויכולת משא ומתן. השוואה הוגנת מתעדת מה כלול בכל מחיר.",
+          "בפרויקט שעדיין בבנייה צריך להציג שלב בנייה, מועד מסירה שפורסם, תנאי תשלום ומלאי שנצפה. אין להפוך מחיר פתיחה של יחידה אחת לטווח מחיר של כל הפרויקט."
+        ]
+      },
+      {
+        "section_id": "price-per-sqm",
+        "heading": "איך לקרוא מחיר למטר רבוע",
+        "body": [
+          "מחיר למטר רבוע עוזר להשוות יחידות בגדלים שונים, אבל הוא אינו מספיק לבדו. יחידה קטנה יכולה להציג מחיר גבוה יותר למטר, ויחידה עם נוף, קומה גבוהה או תכנון טוב יכולה להיסחר אחרת מיחידה באותו בניין.",
+          "כל חישוב יציין את השטח ששימש במכנה, את מקור השטח ואת שיטת העיגול. אם המודעה אינה מציגה שטח ברור, היא לא תיכנס לחישוב המחיר למטר."
+        ]
+      },
+      {
+        "section_id": "government-appraisal",
+        "heading": "שומה ממשלתית לעומת מחיר שוק",
+        "body": [
+          "מחלקת האוצר התאילנדית מפעילה מערכות לחיפוש שומות קרקע, מבנים ודירות. השומה יכולה לשמש בסיס בחישובים מנהליים מסוימים, אך היא אינה מחליפה בדיקת שוק של נכסים דומים.",
+          "כאשר מוצגת שומה, העמוד יסמן אותה כשומה ממשלתית, יציין את מחזור השומה ואת מזהה הנכס או האזור שנבדק. היא לא תופיע באותו שדה של מחיר מודעה או מחיר עסקה."
+        ]
+      },
+      {
+        "section_id": "total-acquisition-cost",
+        "heading": "ממחיר הנכס לתקציב רכישה מלא",
+        "body": [
+          "המחיר בחוזה הוא רק רכיב אחד. תקציב רכישה יכול לכלול אגרות רישום והעברה, מסים לפי זהות המוכר ומשך ההחזקה, בדיקת מסמכים, תרגום, ייעוץ, בדיקה הנדסית, ריהוט, תחזוקה ומימון.",
+          "שיעור או הקלה זמנית יוצגו רק כאשר המקור הרשמי מציין את התנאים ואת תקופת התוקף. במקום להחיל אחוז כללי על כל עסקה, המחשבון העתידי יבקש סוג נכס, מחיר חוזה, שומה, זהות הצדדים ותאריך העברה."
+        ]
+      },
+      {
+        "section_id": "foreign-buyer-context",
+        "heading": "מה משתנה לרוכש זר",
+        "body": [
+          "לפני השוואת מחיר צריך להגדיר מסלול בעלות אפשרי. דירה בבית משותף, בית עם מבנה וקרקע וחכירה הם מסלולים שונים. מחיר נמוך אינו יתרון אם מבנה העסקה אינו מתאים או אם לא ניתן להשלים את הרישום בדרך שתוכננה.",
+          "העמוד יקשר למדריך בעלות זרים בדירה בתאילנד ולא ישכפל את ההסבר המשפטי. בכל תצפית מחיר יופיע שדה שמציין אם מסלול הבעלות פורסם, לא פורסם או דורש בירור במסמכים."
+        ]
+      },
+      {
+        "section_id": "currency-and-finance",
+        "heading": "מטבע ומימון",
+        "body": [
+          "מחירי השוק נשמרים בבאט. המרה לשקלים היא שכבת תצוגה עם שער ותאריך, ולא שינוי של מחיר המקור. עלות ההמרה בפועל יכולה להיות שונה לפי הבנק, הכרטיס או שירות ההעברה.",
+          "אם הרכישה תלויה במימון, יש לחשב הון עצמי, ריבית, עמלות ויכולת העברה. תנאי מימון אינם חלק ממחיר השוק ולכן הם יוצגו בנפרד ויקשרו למדריך המשכנתאות."
+        ]
+      },
+      {
+        "section_id": "methodology",
+        "heading": "איך תיבנה ההשוואה",
+        "body": [
+          "כל תצפית תישמר עם כתובת המקור, זמן האיסוף, סוג המחיר, מטבע, אזור, סוג נכס, מצב, גודל ומסלול בעלות. רשומות כפולות יזוהו לפי פרויקט, יחידה, שטח, מחיר ומקור. מודעה ללא זהות מספקת לא תיכנס למדגם.",
+          "טווח יוצג רק כאשר יש מספר מספק של תצפיות דומות. ליד חציון או טווח יופיע גודל המדגם וחלון הזמן. המדד הרשמי יוצג בנפרד ממדגם המודעות, והמקורות לא יחוברו לממוצע אחד."
+        ]
+      },
+      {
+        "section_id": "buyer-checklist",
+        "heading": "שאלות שצריך לשאול על כל מחיר",
+        "body": [
+          "לפני שמסיקים שנכס יקר או זול, בקשו את זהות הנכס, השטח הרשום, סוג הבעלות, מצב הבנייה, מה כלול במחיר ומהן הוצאות ההחזקה. בדקו אם המחיר הוא לפני משא ומתן ואם המבצע תלוי בלוח תשלומים מסוים.",
+          "השוו לפחות כמה נכסים דומים מאותו אזור ובאותו חלון זמן. אם אין מדגם מתאים, הציגו את הנתון כתצפית יחידה ולא כטווח שוק."
+        ],
+        "checklist": [
+          "האם זה מחיר מבוקש, עסקה, שומה או מדד",
+          "מהו תאריך המחיר",
+          "מהו סוג הנכס ומצבו",
+          "מהו השטח הרשום ששימש בחישוב",
+          "מה כלול במחיר",
+          "מהן הוצאות העסקה וההחזקה",
+          "איזה מסלול בעלות מוצע",
+          "כמה תצפיות דומות עומדות מאחורי הטווח"
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "question": "האם מחיר מבוקש הוא מחיר העסקה?",
+        "answer": "לא בהכרח. מחיר מבוקש הוא נקודת פתיחה של מוכר או יזם. מחיר העסקה הוא הסכום בעסקה שהושלמה. העמוד יציג אותם בשדות נפרדים."
+      },
+      {
+        "question": "האם שומה ממשלתית היא מחיר השוק?",
+        "answer": "לא. שומה ממשלתית משמשת למטרות מנהליות וחישובים מסוימים. היא מקור חשוב, אך אינה מבטיחה את המחיר שבו נכס יימכר."
+      },
+      {
+        "question": "למה חשוב מחיר למטר רבוע?",
+        "answer": "הוא מאפשר להשוות נכסים בגדלים שונים, אך צריך לקרוא אותו יחד עם גודל, קומה, מצב, מיקום וסוג הנכס."
+      },
+      {
+        "question": "האם אפשר להשוות דירה בבנגקוק לווילה בפוקט?",
+        "answer": "לא כטווח אחד. אלה סוגי נכס ושווקים שונים. ההשוואה צריכה להישאר בתוך אותו אזור, סוג נכס, מצב וחלון זמן."
+      }
+    ]
+  },
+  "planned_data_components": [
+    {
+      "component_id": "national-index-snapshot",
+      "purpose": "Show official market direction by geography and property type.",
+      "release_condition": "Latest BOT or REIC period extracted with source date, geography, base period and comparison basis."
+    },
+    {
+      "component_id": "area-price-comparison",
+      "purpose": "Compare like-for-like asking-price observations by area and property type.",
+      "release_condition": "Every displayed band has a qualifying sample, observation window, currency, basis and source list."
+    },
+    {
+      "component_id": "property-type-filter",
+      "purpose": "Separate condo, house, villa and land records.",
+      "release_condition": "Each record has a controlled property type and the required area fields."
+    },
+    {
+      "component_id": "price-basis-filter",
+      "purpose": "Separate asking price, recorded transfer, government appraisal and official index.",
+      "release_condition": "No record lacks a price basis and no aggregation mixes bases."
+    },
+    {
+      "component_id": "total-cost-builder",
+      "purpose": "Add source-dated transaction and holding costs to a selected property price.",
+      "release_condition": "Every rate has an official source, effective period, eligibility conditions and calculation basis."
+    },
+    {
+      "component_id": "currency-view",
+      "purpose": "Show dated ILS equivalents while keeping THB as the source currency.",
+      "release_condition": "BOT rate date, rate type and any provider fee are visible."
+    }
+  ],
+  "price_observation_contract": {
+    "required_fields": [
+      "observation_id",
+      "source_url",
+      "source_type",
+      "observed_at",
+      "price_basis",
+      "currency",
+      "price_total",
+      "market_area_id",
+      "property_type",
+      "market_state",
+      "tenure_or_ownership_route",
+      "floor_area_sqm",
+      "land_area_sqm_when_applicable",
+      "price_per_sqm_when_computable",
+      "project_or_building_identity",
+      "completion_status",
+      "included_items",
+      "duplicate_key"
+    ],
+    "controlled_price_basis": [
+      "asking_price",
+      "recorded_transfer_price",
+      "government_appraisal",
+      "official_price_index"
+    ],
+    "controlled_market_state": [
+      "new_build_available",
+      "off_plan",
+      "completed_resale",
+      "land"
+    ],
+    "aggregation_rules": [
+      "Never aggregate different price bases.",
+      "Never aggregate different currencies before conversion to THB with a dated rate.",
+      "Never compute price per square metre without a sourced floor-area value.",
+      "Never publish a market range from a single observation.",
+      "Always display sample size and observation window with a median or range.",
+      "Keep project-level inventory separate from area-level market summaries.",
+      "Deduplicate repeated listings before aggregation."
+    ]
+  },
+  "measurement_requirements": [
+    {
+      "field": "official_residential_price_index",
+      "status": "required_before_numeric_publication",
+      "unit": "index_points_and_percent_change",
+      "dimensions": [
+        "period",
+        "base_period",
+        "property_type",
+        "geography",
+        "change_basis",
+        "source_url",
+        "source_updated_at",
+        "extracted_at"
+      ],
+      "minimum_observations": 1,
+      "refresh_days": 45
+    },
+    {
+      "field": "area_asking_price_band",
+      "status": "required_before_numeric_publication",
+      "unit": "thb_total_and_thb_per_sqm",
+      "dimensions": [
+        "market_area_id",
+        "property_type",
+        "market_state",
+        "tenure_or_ownership_route",
+        "floor_area_band",
+        "observation_window",
+        "sample_size",
+        "minimum",
+        "median",
+        "maximum",
+        "source_urls"
+      ],
+      "minimum_observations": 12,
+      "refresh_days": 30
+    },
+    {
+      "field": "recorded_transfer_summary",
+      "status": "required_before_transaction_price_publication",
+      "unit": "thb_by_period_and_geography",
+      "dimensions": [
+        "period",
+        "geography",
+        "property_type",
+        "transaction_count",
+        "transaction_value",
+        "statistic_definition",
+        "official_source_url"
+      ],
+      "minimum_observations": 1,
+      "refresh_days": 100
+    },
+    {
+      "field": "government_appraisal_value",
+      "status": "required_before_appraisal_publication",
+      "unit": "thb_by_official_area_unit",
+      "dimensions": [
+        "parcel_or_condominium_identifier",
+        "province",
+        "district",
+        "appraisal_cycle",
+        "official_area_unit",
+        "value",
+        "source_url",
+        "observed_at"
+      ],
+      "minimum_observations": 1,
+      "refresh_days": 365
+    },
+    {
+      "field": "transaction_cost_rate",
+      "status": "required_before_cost_calculation",
+      "unit": "rate_or_fixed_thb",
+      "dimensions": [
+        "cost_name",
+        "legal_basis",
+        "calculation_basis",
+        "payer",
+        "eligibility",
+        "effective_from",
+        "effective_until",
+        "official_source_url",
+        "checked_on"
+      ],
+      "minimum_observations": 1,
+      "refresh_days": 30
+    },
+    {
+      "field": "maintenance_and_sinking_fund",
+      "status": "required_before_project_cost_publication",
+      "unit": "thb_per_sqm_or_thb_per_period",
+      "dimensions": [
+        "project_id",
+        "charge_type",
+        "rate",
+        "calculation_basis",
+        "billing_period",
+        "source_document",
+        "document_date"
+      ],
+      "minimum_observations": 1,
+      "refresh_days": 180
+    },
+    {
+      "field": "thb_ils_conversion",
+      "status": "required_before_shekel_publication",
+      "unit": "dated_exchange_rate",
+      "dimensions": [
+        "base_currency",
+        "quote_currency",
+        "rate_type",
+        "rate_date",
+        "provider_fee",
+        "source_url"
+      ],
+      "minimum_observations": 1,
+      "refresh_days": 1
+    }
+  ],
+  "internal_links": [
+    {
+      "target_owner_id": "thailand-real-estate",
+      "path": "/נדלן-בתאילנד/",
+      "relationship": "parent_hub",
+      "anchor_text": "נדל״ן בתאילנד",
+      "placement": "lead_and_conclusion"
+    },
+    {
+      "target_owner_id": "foreign-condo-ownership-thailand",
+      "path": "/זכויות-בית-משותף-נכס-בתאילנד/",
+      "relationship": "sibling",
+      "anchor_text": "בעלות זרים בדירה בתאילנד",
+      "placement": "foreign_buyer_context_section"
+    },
+    {
+      "target_owner_id": "thailand-property-financing",
+      "path": "/אפשרויות-משכנתא-ומימון-נכסים-בתאילנד/",
+      "relationship": "sibling",
+      "anchor_text": "משכנתא בתאילנד לזרים",
+      "placement": "currency_and_finance_section"
+    },
+    {
+      "target_owner_id": "buy-property-thailand",
+      "path": "/קניית-נכס-בתאילנד/",
+      "relationship": "sibling",
+      "anchor_text": "קניית נכס בתאילנד",
+      "placement": "total_acquisition_cost_section"
+    },
+    {
+      "target_owner_id": "bangkok-apartment-rental-guide",
+      "path": "/מדריך-להשכרת-דירה-בבנגקוק/",
+      "relationship": "related_intent",
+      "anchor_text": "השכרת דירה בבנגקוק",
+      "placement": "area_comparison_section"
+    }
+  ],
+  "source_catalog": [
+    {
+      "source_id": "source:bot:residential-price-index",
+      "publisher": "Bank of Thailand",
+      "title": "Residential Property Price Index",
+      "url": "https://app.bot.or.th/BTWS_STAT/statistics/BOTWEBSTAT.aspx?language=ENG&reportID=993",
+      "source_type": "official_price_index",
+      "source_updated_on": "2026-06-30",
+      "checked_on": "2026-08-10",
+      "supports": "Residential price index by property type and period."
+    },
+    {
+      "source_id": "source:bot:financial-soundness-property",
+      "publisher": "Bank of Thailand",
+      "title": "Financial Soundness Indicators",
+      "url": "https://app.bot.or.th/BTWS_STAT/statistics/BOTWEBSTAT.aspx?language=ENG&reportID=987",
+      "source_type": "official_financial_indicator",
+      "checked_on": "2026-08-10",
+      "supports": "Residential property price change indicator and definition."
+    },
+    {
+      "source_id": "source:reic:price-index-catalog",
+      "publisher": "Real Estate Information Center, Government Housing Bank",
+      "title": "Price indices and other indices",
+      "url": "https://www.reic.or.th/Research/REICReport",
+      "source_type": "official_market_research_catalog",
+      "checked_on": "2026-08-10",
+      "supports": "Current catalog of national, Bangkok metropolitan and EEC housing indices."
+    },
+    {
+      "source_id": "source:reic:new-condo-index-bangkok",
+      "publisher": "Real Estate Information Center, Government Housing Bank",
+      "title": "New condominium price index for units under sale in Bangkok and vicinity",
+      "url": "https://www.reic.or.th/Research/REICReportGroup/4",
+      "source_type": "official_market_price_index",
+      "source_updated_on": "2026-07-07",
+      "checked_on": "2026-08-10",
+      "supports": "Quarterly new-condominium index releases for Bangkok and vicinity."
+    },
+    {
+      "source_id": "source:reic:national-market-q1-2026",
+      "publisher": "Real Estate Information Center, Government Housing Bank",
+      "title": "Nationwide housing market situation, first quarter 2026",
+      "url": "https://reic.or.th/Upload/260619-PressReleaseREIC-Q1-69-02_80789_1782064192_28247.pdf",
+      "source_type": "official_market_report",
+      "published_on": "2026-06-19",
+      "checked_on": "2026-08-10",
+      "supports": "National transaction, supply and market-context measures for the stated quarter."
+    },
+    {
+      "source_id": "source:treasury:property-valuation-services",
+      "publisher": "The Treasury Department of Thailand",
+      "title": "Property Valuation Services",
+      "url": "https://www.treasury.go.th/en/services/land-assessment",
+      "source_type": "official_appraisal_service_catalog",
+      "checked_on": "2026-08-10",
+      "supports": "Official land, building and condominium valuation services and fee-calculation links."
+    },
+    {
+      "source_id": "source:treasury:land-appraisal-search",
+      "publisher": "The Treasury Department of Thailand",
+      "title": "Land Valuation Search",
+      "url": "https://www.treasury.go.th/en/services/land-assessment/land-assessment-value-epv-search-system",
+      "source_type": "official_parcel_appraisal_service",
+      "checked_on": "2026-08-10",
+      "supports": "Parcel-level government appraisal search and current appraisal-cycle context."
+    },
+    {
+      "source_id": "source:dol:fees-taxes-duties",
+      "publisher": "Department of Lands Thailand",
+      "title": "Fees, taxes and duties for land registration",
+      "url": "https://www.dol.go.th/sf/dol-services/public-service-manual/land-registration/fees-taxes-duties/",
+      "source_type": "official_transaction_cost_guidance",
+      "checked_on": "2026-08-10",
+      "supports": "Legal bases and calculation categories for registration fees, taxes and duties."
+    },
+    {
+      "source_id": "source:dol:landsmaps",
+      "publisher": "Department of Lands Thailand",
+      "title": "Department of Lands and LandsMaps access",
+      "url": "https://www.dol.go.th/home",
+      "source_type": "official_land_information_portal",
+      "checked_on": "2026-08-10",
+      "supports": "Official access point for parcel map search and land services."
+    },
+    {
+      "source_id": "source:bot:daily-fx",
+      "publisher": "Bank of Thailand",
+      "title": "Daily Foreign Exchange Rates",
+      "url": "https://www.bot.or.th/en/statistics/exchange-rate.html",
+      "source_type": "official_financial_data",
+      "checked_on": "2026-08-10",
+      "supports": "Dated reference rates for optional THB to ILS display."
+    },
+    {
+      "source_id": "source:ddproperty:thailand-sale-inventory",
+      "publisher": "DDproperty",
+      "title": "Thailand property for sale inventory",
+      "url": "https://www.ddproperty.com/en/property-for-sale/p/thailand",
+      "source_type": "commercial_asking_price_inventory",
+      "checked_on": "2026-08-10",
+      "supports": "Candidate source for dated asking-price observations after deduplication and field validation."
+    },
+    {
+      "source_id": "source:fazwaz:thailand-sale-inventory",
+      "publisher": "FazWaz",
+      "title": "Thailand property for sale inventory",
+      "url": "https://www.fazwaz.com/property-for-sale/thailand",
+      "source_type": "commercial_asking_price_inventory",
+      "checked_on": "2026-08-10",
+      "supports": "Candidate source for dated project and asking-price observations after deduplication and field validation."
+    }
+  ],
+  "schema_policy": {
+    "allowed": [
+      "Article",
+      "BreadcrumbList"
+    ],
+    "conditional": [
+      "Dataset may be emitted only after observations, methodology, temporal coverage and reuse terms are visibly published.",
+      "ItemList may be emitted only when every compared area is rendered and linked in the same order.",
+      "Place or Residence may be emitted only for a real identified entity with visible address and source-bound fields."
+    ],
+    "forbidden": [
+      "Product or Offer without real current inventory and a transaction path",
+      "PriceSpecification generated from an unsourced or undated estimate",
+      "AggregateRating copied from portals",
+      "Review without a real named reviewer and visible review",
+      "Dataset while measured observations or methodology are absent"
+    ]
+  },
+  "release_gate": {
+    "status": "measurement_required_before_numeric_market_claims",
+    "explanatory_copy_ready": true,
+    "numeric_market_sections_ready": false,
+    "requirements": [
+      "Collect like-for-like asking observations for each released area band.",
+      "Extract the latest official index period directly from BOT and REIC.",
+      "Bind every transaction-cost rate to an official effective period and eligibility rule.",
+      "Run duplicate detection across commercial listing sources.",
+      "Calculate statistics only after the minimum sample threshold is met.",
+      "Render basis, sample size, observation window and source beside every number."
+    ]
+  },
+  "forbidden_stale_claims": [
+    "מחיר ארצי אחד לכל הנדל״ן בתאילנד",
+    "מחיר מבוקש מוצג כמחיר עסקה",
+    "שומה ממשלתית מוצגת כמחיר שוק",
+    "מדד מחירים מוצג כמחיר למטר רבוע",
+    "טווח מחיר ללא גודל מדגם וחלון זמן",
+    "מחיר למטר רבוע ללא שטח מקור",
+    "מחיר בשקלים ללא שער ותאריך",
+    "עלות עסקה המבוססת על הקלה שפג תוקפה",
+    "מחיר פתיחה של יחידה אחת מוצג כמחיר של פרויקט שלם",
+    "טווח שמשלב דירה, בית, וילה וקרקע",
+    "הבטחת תשואה או עליית ערך",
+    "מספר שוק שנוצר ללא תצפיות מדידות"
+  ]
+}

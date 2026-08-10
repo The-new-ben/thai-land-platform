@@ -26,6 +26,7 @@ MANAGED_LIVE_EVIDENCE_PATH = (
     ROOT / "data" / "seo" / "evidence" / "managed-live-routes.0.3.5.json"
 )
 CONTENT_PATH = ROOT / "data" / "content" / "real-estate.json"
+GUIDES_CONTENT_PATH = ROOT / "data" / "content" / "priority-guides.json"
 
 SNAPSHOT_BASELINES = {
     "yoast-sitemaps-2026-08-08": {
@@ -482,7 +483,10 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
 
     def test_route_and_owner_identifiers_are_unique(self) -> None:
         for records, fields in (
-            (self.owners, ("owner_id", "canonical_url", "intent_id")),
+            (
+                self.owners,
+                ("owner_id", "canonical_url", "intent_id", "primary_intent"),
+            ),
             (self.routes, ("route_id", "url")),
             (self.snapshots, ("snapshot_id", "path")),
         ):
@@ -572,16 +576,11 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                 hierarchy.append(current)
                 current = self.by_owner[current]["parent_owner_id"]
             hierarchy.reverse()
-            expected = (
-                [
-                    item
-                    for item in hierarchy
-                    if self.by_owner[item]["lifecycle"] == "live"
-                ]
-                if owner["lifecycle"] == "live"
-                else hierarchy
+            self.assertEqual(
+                hierarchy,
+                [item["owner_id"] for item in chain],
+                owner_id,
             )
-            self.assertEqual(expected, [item["owner_id"] for item in chain], owner_id)
             self.assertEqual("home", chain[0]["owner_id"], owner_id)
             self.assertEqual(owner_id, chain[-1]["owner_id"], owner_id)
             self.assertEqual(len(chain), len({item["owner_id"] for item in chain}))
@@ -589,18 +588,108 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                 target = self.by_owner[item["owner_id"]]
                 self.assertEqual(target["name"], item["name"], owner_id)
                 self.assertEqual(target["canonical_url"], item["url"], owner_id)
-                if owner["lifecycle"] == "live":
-                    self.assertEqual("live", target["lifecycle"], owner_id)
             if owner_id == "home":
                 self.assertIsNone(owner["parent_owner_id"])
                 self.assertEqual(1, len(chain))
             else:
                 parent = owner["parent_owner_id"]
                 self.assertIn(parent, self.by_owner, owner_id)
-                if owner["lifecycle"] == "planned" or self.by_owner[parent]["lifecycle"] == "live":
-                    self.assertEqual(parent, chain[-2]["owner_id"], owner_id)
-                else:
-                    self.assertNotIn(parent, [item["owner_id"] for item in chain], owner_id)
+                self.assertEqual(parent, chain[-2]["owner_id"], owner_id)
+
+    def test_priority_guides_match_their_complete_ownership_contract(self) -> None:
+        guides = load_json(GUIDES_CONTENT_PATH)
+        self.assertEqual(7, len(guides["routes"]))
+        for route in guides["routes"]:
+            route_id = route["route_id"]
+            owner = self.by_owner[route["seo_owner_id"]]
+            ownership = route["ownership"]
+            self.assertEqual(route["path"], owner["canonical_url"], route_id)
+            self.assertEqual(
+                route["parent_owner_id"],
+                owner["parent_owner_id"],
+                route_id,
+            )
+            self.assertEqual(
+                ownership["primary_keyword"],
+                owner["primary_keyword"],
+                route_id,
+            )
+            self.assertEqual(
+                set(ownership["synonyms"]),
+                set(owner["intent_synonyms"]),
+                route_id,
+            )
+            self.assertEqual(
+                len(ownership["synonyms"]),
+                len(owner["intent_synonyms"]),
+                route_id,
+            )
+            self.assertEqual(
+                ownership["intent"],
+                owner["primary_intent"],
+                route_id,
+            )
+            expected_lifecycle = (
+                "planned" if route["kind"] == "collection" else "live"
+            )
+            self.assertEqual(expected_lifecycle, owner["lifecycle"], route_id)
+            expected_owner_ids = (
+                ["home", route["seo_owner_id"]]
+                if route["kind"] == "collection"
+                else [
+                    "home",
+                    route["parent_owner_id"],
+                    route["seo_owner_id"],
+                ]
+            )
+            expected_chain = list(
+                zip(
+                    expected_owner_ids,
+                    [item["path"] for item in route["breadcrumbs"]],
+                )
+            )
+            self.assertEqual(
+                expected_chain,
+                [
+                    (item["owner_id"], item["url"])
+                    for item in owner["breadcrumb_chain"]
+                ],
+                route_id,
+            )
+
+            contextual_requirements = [
+                edge
+                for bucket in (
+                    owner["internal_link_requirements"],
+                    owner["planned_internal_link_requirements"],
+                )
+                for edge in bucket
+                if edge["placement"] == "contextual_body"
+            ]
+            authored_links = route["contextual_links"]
+            self.assertEqual(
+                {edge["target_owner_id"] for edge in contextual_requirements},
+                {item["target_owner_id"] for item in authored_links},
+                route_id,
+            )
+            for requirement in contextual_requirements:
+                matches = [
+                    item
+                    for item in authored_links
+                    if item["target_owner_id"] == requirement["target_owner_id"]
+                ]
+                self.assertGreaterEqual(
+                    len(matches),
+                    requirement["minimum_occurrences"],
+                    route_id,
+                )
+                self.assertTrue(
+                    all(
+                        item["anchor_text"] in requirement["anchor_terms"]
+                        for item in matches
+                    ),
+                    route_id,
+                )
 
     def test_hierarchy_has_no_parent_cycles(self) -> None:
         for owner in self.owners:
@@ -680,7 +769,13 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                 and owner_id != "home"
                 and owner["entity_type"] not in technical
             ):
-                live_parent = owner["breadcrumb_chain"][-2]["owner_id"]
+                live_ancestors = [
+                    item["owner_id"]
+                    for item in owner["breadcrumb_chain"][:-1]
+                    if self.by_owner[item["owner_id"]]["lifecycle"] == "live"
+                ]
+                self.assertGreaterEqual(len(live_ancestors), 1, owner_id)
+                live_parent = live_ancestors[-1]
                 self.assertTrue(
                     any(
                         edge["target_owner_id"] == live_parent

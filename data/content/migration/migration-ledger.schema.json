@@ -1,0 +1,540 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thai-land.co.il/schemas/content-migration-ledger-1.0.0.json",
+  "title": "Thai-Land content migration execution ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "ledger_version",
+    "generated_on",
+    "site",
+    "policy",
+    "release_waves",
+    "sources",
+    "scope",
+    "legacy_public_surfaces",
+    "draft_records",
+    "planned_hubs"
+  ],
+  "properties": {
+    "$schema": { "const": "./migration-ledger.schema.json" },
+    "ledger_version": { "const": "1.0.0" },
+    "generated_on": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "base_url", "default_language"],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "base_url": { "const": "https://thai-land.co.il" },
+        "default_language": { "const": "he-IL" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_owner_rule",
+        "completion_rule",
+        "publication_rule",
+        "migration_status_values"
+      ],
+      "properties": {
+        "canonical_owner_rule": { "$ref": "#/$defs/nonEmptyString" },
+        "completion_rule": { "$ref": "#/$defs/nonEmptyString" },
+        "publication_rule": { "$ref": "#/$defs/nonEmptyString" },
+        "migration_status_values": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/migrationStatus" }
+        }
+      }
+    },
+    "release_waves": {
+      "type": "array",
+      "minItems": 6,
+      "items": { "$ref": "#/$defs/releaseWave" }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 6,
+      "items": { "$ref": "#/$defs/sourceDescriptor" }
+    },
+    "scope": { "$ref": "#/$defs/scope" },
+    "legacy_public_surfaces": {
+      "type": "array",
+      "minItems": 35,
+      "items": { "$ref": "#/$defs/legacySurface" }
+    },
+    "draft_records": {
+      "type": "array",
+      "minItems": 63,
+      "items": { "$ref": "#/$defs/draftRecord" }
+    },
+    "planned_hubs": {
+      "type": "array",
+      "minItems": 11,
+      "items": { "$ref": "#/$defs/plannedHub" }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nullableString": {
+      "type": ["string", "null"]
+    },
+    "nullableInteger": {
+      "type": ["integer", "null"]
+    },
+    "stringArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    },
+    "migrationStatus": {
+      "enum": [
+        "blocked_evidence",
+        "complete",
+        "discard_review_pending",
+        "evidence_update_pending",
+        "extraction_pending",
+        "identity_created_content_pending",
+        "offer_and_content_review_pending",
+        "planned_not_started",
+        "rebuild_pending",
+        "rewrite_pending",
+        "split_plan_pending"
+      ]
+    },
+    "releaseWave": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wave_id", "sequence", "name", "depends_on", "exit_gate"],
+      "properties": {
+        "wave_id": { "type": "string", "pattern": "^wave-[0-9]{2}-[a-z0-9-]+$" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "depends_on": { "$ref": "#/$defs/stringArray" },
+        "exit_gate": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "sourceDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "kind", "sha256_lf", "record_count"],
+      "properties": {
+        "path": { "$ref": "#/$defs/nonEmptyString" },
+        "kind": { "$ref": "#/$defs/nonEmptyString" },
+        "sha256_lf": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "record_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frozen_public_surface_count",
+        "platform_managed_original_surface_count",
+        "legacy_public_surface_count",
+        "remaining_draft_record_count",
+        "excluded_released_draft_ids",
+        "planned_hub_count",
+        "platform_managed_original_surfaces"
+      ],
+      "properties": {
+        "frozen_public_surface_count": { "const": 43 },
+        "platform_managed_original_surface_count": { "const": 8 },
+        "legacy_public_surface_count": { "const": 35 },
+        "remaining_draft_record_count": { "const": 63 },
+        "excluded_released_draft_ids": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 1 },
+          "uniqueItems": true
+        },
+        "planned_hub_count": { "const": 11 },
+        "platform_managed_original_surfaces": {
+          "type": "array",
+          "minItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["url", "owner_id", "evidence_path"],
+            "properties": {
+              "url": { "type": "string", "pattern": "^/" },
+              "owner_id": { "$ref": "#/$defs/nonEmptyString" },
+              "evidence_path": { "$ref": "#/$defs/nonEmptyString" }
+            }
+          }
+        }
+      }
+    },
+    "releaseTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wave_id",
+        "target_owner_id",
+        "target_url",
+        "target_state",
+        "target_kind",
+        "blocked",
+        "hierarchy_path_owner_ids",
+        "system_enrichment_wave_id"
+      ],
+      "properties": {
+        "wave_id": { "type": "string", "pattern": "^wave-[0-9]{2}-" },
+        "target_owner_id": { "$ref": "#/$defs/nonEmptyString" },
+        "target_url": { "type": "string", "pattern": "^/" },
+        "target_state": { "$ref": "#/$defs/nonEmptyString" },
+        "target_kind": { "$ref": "#/$defs/nonEmptyString" },
+        "blocked": { "type": "boolean" },
+        "hierarchy_path_owner_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/nonEmptyString" }
+        },
+        "system_enrichment_wave_id": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "completionEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_migration_receipt_path",
+        "source_material_receipt_path",
+        "disposition_receipt_path",
+        "target_content_sha256",
+        "release_version",
+        "release_receipt_path",
+        "live_url",
+        "http_status",
+        "canonical_verified",
+        "breadcrumb_verified",
+        "internal_links_verified",
+        "structured_data_verified",
+        "indexability_verified",
+        "desktop_qa_artifact",
+        "mobile_qa_artifact",
+        "verified_at"
+      ],
+      "properties": {
+        "content_migration_receipt_path": { "$ref": "#/$defs/nullableString" },
+        "source_material_receipt_path": { "$ref": "#/$defs/nullableString" },
+        "disposition_receipt_path": { "$ref": "#/$defs/nullableString" },
+        "target_content_sha256": { "$ref": "#/$defs/nullableString" },
+        "release_version": { "$ref": "#/$defs/nullableString" },
+        "release_receipt_path": { "$ref": "#/$defs/nullableString" },
+        "live_url": { "$ref": "#/$defs/nullableString" },
+        "http_status": { "$ref": "#/$defs/nullableInteger" },
+        "canonical_verified": { "type": "boolean" },
+        "breadcrumb_verified": { "type": "boolean" },
+        "internal_links_verified": { "type": "boolean" },
+        "structured_data_verified": { "type": "boolean" },
+        "indexability_verified": { "type": "boolean" },
+        "desktop_qa_artifact": { "$ref": "#/$defs/nullableString" },
+        "mobile_qa_artifact": { "$ref": "#/$defs/nullableString" },
+        "verified_at": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "legacyMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "http_status",
+        "content_sha256",
+        "approximate_main_word_count",
+        "main_h1_count",
+        "main_h2_count",
+        "main_unique_internal_destinations",
+        "meta_description_length",
+        "image_count"
+      ],
+      "properties": {
+        "http_status": { "type": "integer", "minimum": 100 },
+        "content_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "approximate_main_word_count": { "type": "integer", "minimum": 0 },
+        "main_h1_count": { "type": "integer", "minimum": 0 },
+        "main_h2_count": { "type": "integer", "minimum": 0 },
+        "main_unique_internal_destinations": { "type": "integer", "minimum": 0 },
+        "meta_description_length": { "type": "integer", "minimum": 0 },
+        "image_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "draftMetrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "characters",
+        "words",
+        "h1_count",
+        "h2_count",
+        "h3_count",
+        "link_count",
+        "image_count",
+        "shortcode_count",
+        "source_long_dash_count"
+      ],
+      "properties": {
+        "characters": { "type": "integer", "minimum": 0 },
+        "words": { "type": "integer", "minimum": 0 },
+        "h1_count": { "type": "integer", "minimum": 0 },
+        "h2_count": { "type": "integer", "minimum": 0 },
+        "h3_count": { "type": "integer", "minimum": 0 },
+        "link_count": { "type": "integer", "minimum": 0 },
+        "image_count": { "type": "integer", "minimum": 0 },
+        "shortcode_count": { "type": "integer", "minimum": 0 },
+        "source_long_dash_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "legacyEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_inventory_path",
+        "source_inventory_row_key",
+        "ownership_registry_path",
+        "ownership_route_id",
+        "owner_review_state",
+        "source_body_snapshot_status",
+        "source_review_path",
+        "source_review_record_key",
+        "source_review_decision",
+        "required_resolution_evidence"
+      ],
+      "properties": {
+        "source_inventory_path": { "$ref": "#/$defs/nonEmptyString" },
+        "source_inventory_row_key": { "type": "string", "pattern": "^/" },
+        "ownership_registry_path": { "$ref": "#/$defs/nonEmptyString" },
+        "ownership_route_id": { "$ref": "#/$defs/nonEmptyString" },
+        "owner_review_state": { "$ref": "#/$defs/nonEmptyString" },
+        "source_body_snapshot_status": {
+          "enum": ["not_in_repository", "reviewed_no_body_stored"]
+        },
+        "source_review_path": { "$ref": "#/$defs/nullableString" },
+        "source_review_record_key": { "$ref": "#/$defs/nullableInteger" },
+        "source_review_decision": { "$ref": "#/$defs/nullableString" },
+        "required_resolution_evidence": { "$ref": "#/$defs/stringArray" }
+      }
+    },
+    "draftEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metadata_inventory_path",
+        "metadata_inventory_row_key",
+        "disposition_inventory_path",
+        "disposition_inventory_row_key",
+        "ownership_registry_path",
+        "source_target_owner_id",
+        "source_body_snapshot_status",
+        "source_review_path",
+        "source_review_record_key",
+        "source_review_decision",
+        "disposition_rationale"
+      ],
+      "properties": {
+        "metadata_inventory_path": { "$ref": "#/$defs/nonEmptyString" },
+        "metadata_inventory_row_key": { "$ref": "#/$defs/nonEmptyString" },
+        "disposition_inventory_path": { "$ref": "#/$defs/nonEmptyString" },
+        "disposition_inventory_row_key": { "$ref": "#/$defs/nonEmptyString" },
+        "ownership_registry_path": { "$ref": "#/$defs/nonEmptyString" },
+        "source_target_owner_id": { "$ref": "#/$defs/nonEmptyString" },
+        "source_body_snapshot_status": {
+          "enum": ["not_in_repository", "reviewed_no_body_stored"]
+        },
+        "source_review_path": { "$ref": "#/$defs/nullableString" },
+        "source_review_record_key": { "$ref": "#/$defs/nullableInteger" },
+        "source_review_decision": { "$ref": "#/$defs/nullableString" },
+        "disposition_rationale": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "hubEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ownership_registry_path",
+        "owner_review_state",
+        "owner_source_evidence",
+        "structured_source_paths",
+        "draft_identity_review_path",
+        "draft_identity_post_id",
+        "draft_identity_slug",
+        "draft_identity_status",
+        "draft_identity_content_sha256"
+      ],
+      "properties": {
+        "ownership_registry_path": { "$ref": "#/$defs/nonEmptyString" },
+        "owner_review_state": { "const": "planned" },
+        "owner_source_evidence": { "$ref": "#/$defs/stringArray" },
+        "structured_source_paths": { "$ref": "#/$defs/stringArray" },
+        "draft_identity_review_path": { "$ref": "#/$defs/nullableString" },
+        "draft_identity_post_id": { "$ref": "#/$defs/nullableInteger" },
+        "draft_identity_slug": { "$ref": "#/$defs/nullableString" },
+        "draft_identity_status": { "$ref": "#/$defs/nullableString" },
+        "draft_identity_content_sha256": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "legacySurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "source_kind",
+        "source_url",
+        "source_absolute_url",
+        "source_title",
+        "canonical_owner_id",
+        "candidate_owner_id",
+        "owner_assignment_state",
+        "canonical_target_url",
+        "hierarchy_parent_owner_id",
+        "hierarchy_path_owner_ids",
+        "disposition",
+        "migration_status",
+        "release_target",
+        "source_material_status",
+        "source_metrics",
+        "evidence",
+        "completion_profile",
+        "completion_evidence"
+      ],
+      "properties": {
+        "record_id": { "type": "string", "pattern": "^legacy:" },
+        "source_kind": { "enum": ["post", "page", "category"] },
+        "source_url": { "type": "string", "pattern": "^/" },
+        "source_absolute_url": { "type": "string", "pattern": "^https://thai-land\\.co\\.il/" },
+        "source_title": { "$ref": "#/$defs/nonEmptyString" },
+        "canonical_owner_id": { "$ref": "#/$defs/nonEmptyString" },
+        "candidate_owner_id": { "$ref": "#/$defs/nullableString" },
+        "owner_assignment_state": { "$ref": "#/$defs/nonEmptyString" },
+        "canonical_target_url": { "type": "string", "pattern": "^/" },
+        "hierarchy_parent_owner_id": { "$ref": "#/$defs/nullableString" },
+        "hierarchy_path_owner_ids": { "$ref": "#/$defs/stringArray" },
+        "disposition": {
+          "enum": ["conditional_merge", "extract_then_review", "keep_rewrite", "preserve_historical"]
+        },
+        "migration_status": { "$ref": "#/$defs/migrationStatus" },
+        "release_target": { "$ref": "#/$defs/releaseTarget" },
+        "source_material_status": {
+          "enum": ["live_html_retrieval_required", "live_body_reviewed_no_body_stored"]
+        },
+        "source_metrics": { "$ref": "#/$defs/legacyMetrics" },
+        "evidence": { "$ref": "#/$defs/legacyEvidence" },
+        "completion_profile": { "const": "public_route_release" },
+        "completion_evidence": { "$ref": "#/$defs/completionEvidence" }
+      }
+    },
+    "draftRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "source_post_id",
+        "source_post_type",
+        "source_status",
+        "source_title",
+        "source_slug",
+        "source_modified_display",
+        "canonical_owner_id",
+        "candidate_owner_id",
+        "owner_assignment_state",
+        "hierarchy_parent_owner_id",
+        "hierarchy_path_owner_ids",
+        "disposition",
+        "migration_status",
+        "release_target",
+        "source_material_status",
+        "source_material_class",
+        "source_metrics",
+        "evidence",
+        "completion_profile",
+        "completion_evidence"
+      ],
+      "properties": {
+        "record_id": { "type": "string", "pattern": "^draft:[0-9]+$" },
+        "source_post_id": { "type": "integer", "minimum": 1 },
+        "source_post_type": { "enum": ["post", "page"] },
+        "source_status": { "const": "draft" },
+        "source_title": { "$ref": "#/$defs/nonEmptyString" },
+        "source_slug": { "$ref": "#/$defs/nullableString" },
+        "source_modified_display": { "$ref": "#/$defs/nullableString" },
+        "canonical_owner_id": { "$ref": "#/$defs/nullableString" },
+        "candidate_owner_id": { "$ref": "#/$defs/nullableString" },
+        "owner_assignment_state": { "$ref": "#/$defs/nonEmptyString" },
+        "hierarchy_parent_owner_id": { "$ref": "#/$defs/nullableString" },
+        "hierarchy_path_owner_ids": { "$ref": "#/$defs/stringArray" },
+        "disposition": {
+          "enum": [
+            "discard",
+            "discard_after_extract",
+            "extract_entity",
+            "extract_merge",
+            "keep_rewrite",
+            "legal_rewrite",
+            "rebuild_tool",
+            "service_rewrite",
+            "split_rewrite",
+            "trust_rewrite"
+          ]
+        },
+        "migration_status": { "$ref": "#/$defs/migrationStatus" },
+        "release_target": { "$ref": "#/$defs/releaseTarget" },
+        "source_material_status": {
+          "enum": ["draft_body_retrieval_required", "draft_body_reviewed_no_body_stored"]
+        },
+        "source_material_class": { "$ref": "#/$defs/nonEmptyString" },
+        "source_metrics": { "$ref": "#/$defs/draftMetrics" },
+        "evidence": { "$ref": "#/$defs/draftEvidence" },
+        "completion_profile": { "enum": ["discard", "source_material_integration"] },
+        "completion_evidence": { "$ref": "#/$defs/completionEvidence" }
+      }
+    },
+    "plannedHub": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "owner_id",
+        "canonical_url",
+        "primary_keyword",
+        "hierarchy_parent_owner_id",
+        "hierarchy_path_owner_ids",
+        "disposition",
+        "migration_status",
+        "release_target",
+        "source_material_status",
+        "supporting_legacy_record_ids",
+        "supporting_draft_record_ids",
+        "evidence",
+        "completion_profile",
+        "completion_evidence"
+      ],
+      "properties": {
+        "record_id": { "type": "string", "pattern": "^hub:" },
+        "owner_id": { "$ref": "#/$defs/nonEmptyString" },
+        "canonical_url": { "type": "string", "pattern": "^/" },
+        "primary_keyword": { "$ref": "#/$defs/nonEmptyString" },
+        "hierarchy_parent_owner_id": { "$ref": "#/$defs/nonEmptyString" },
+        "hierarchy_path_owner_ids": { "$ref": "#/$defs/stringArray" },
+        "disposition": { "const": "create" },
+        "migration_status": { "$ref": "#/$defs/migrationStatus" },
+        "release_target": { "$ref": "#/$defs/releaseTarget" },
+        "source_material_status": {
+          "enum": [
+            "partial_sources_body_retrieval_required",
+            "research_and_content_build_required",
+            "structured_geography_available_content_required"
+          ]
+        },
+        "supporting_legacy_record_ids": { "$ref": "#/$defs/stringArray" },
+        "supporting_draft_record_ids": { "$ref": "#/$defs/stringArray" },
+        "evidence": { "$ref": "#/$defs/hubEvidence" },
+        "completion_profile": { "const": "planned_hub_release" },
+        "completion_evidence": { "$ref": "#/$defs/completionEvidence" }
+      }
+    }
+  }
+}

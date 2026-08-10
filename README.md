@@ -2,32 +2,27 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.3.6 boundary
+## Release 0.4.0 boundary
 
 The package keeps the live RTL homepage, country, seven-region, 77-province,
-and national real-estate systems intact. It upgrades the protected Bangkok
-rental guide with ten market areas, all 50 official Bangkok districts, 19 rail
-stations, source-dated rent bands, tenant facts, budget filters, a decision map,
-and route-specific responsive artwork. Existing WordPress bodies and public
-URLs remain intact.
-Content route IDs now retain a separate foreign key to canonical SEO owner IDs,
-and the released real-estate hub is the live parent of all seven existing guides.
-The responsive menu stays visible through pointer hover and keyboard focus,
-the search action keeps its intended contrast, and the accessibility control
-uses a reserved sticky-header dock on smaller screens so it cannot cover prose,
-calls to action, or footer controls while the reader scrolls.
-The responsive overflow contract explicitly wins over theme-level overflow
-rules while preserving the drawer's scroll lock.
-When the accessibility panel opens, it now begins below the sticky header while
-its 44-pixel toggle stays in the reserved header dock. The full panel remains
-inside short viewports with its own scroll area and no collision with the menu
-or brand.
+and national real-estate systems intact. It adds an isolated priority guide
+runtime for two parent hubs and five exact existing content routes. The release
+replaces obsolete public rendering for Thailand entry, tourist visas, permanent
+residence, cannabis law, and the historical April 2022 entry update without
+editing the stored WordPress bodies or changing canonical URLs.
+
+Every managed guide has one SEO owner, one canonical path, one breadcrumb path,
+current official sources, and a complete responsive document. The historical
+April 2022 route remains available but is clearly archival and noindex, follow.
+The two new hubs may be reviewed as administrator-only drafts in Canary mode
+before publication. The guide runtime remains fully independent from Homepage
+and Real Estate and defaults to Off after installation.
 
 The public healthcheck confirms that the compiled geography artifact can be
 loaded. Upgrade and activation still create no content, options, tables,
-taxonomies, or persistent rewrite rules. The managed real-estate experience
-remains fail closed outside its exact page and post bindings, and its release
-mode stays under administrator control.
+taxonomies, or persistent rewrite rules. Homepage, Real Estate, and Guides all
+remain fail closed outside their exact bindings and stay under separate
+administrator controls.
 
 ## Local verification
 
@@ -41,16 +36,22 @@ python scripts/build_geography_registry.py --check
 python scripts/build_content_registry.py --check
 python scripts/build_bangkok_rental_assets.py --check
 python scripts/build_bangkok_rental_registry.py --check
+python scripts/build_guide_assets.py --check
+python scripts/build_priority_guides_registry.py --check
 python scripts/build_seo_registry.py --check
 python scripts/build_seo_runtime.py --check
 python tests/geography-builder.test.py
 python tests/real-estate-content.test.py
 python tests/bangkok-rental-data.test.py
+python tests/priority-guides-compiler.test.py
 python tests/draft-content-inventory.test.py
 python tests/seo-runtime-gates.test.py
 python tests/seo-ownership-registry.test.py
 php -n tests/geography-resolver.test.php
 php tests/real-estate-runtime.test.php
+php tests/guides-runtime.test.php
+node --check assets/guides/guides.js
+node --check scripts/live_guides_acceptance.cjs
 node --check scripts/live_real_estate_acceptance.cjs
 ```
 

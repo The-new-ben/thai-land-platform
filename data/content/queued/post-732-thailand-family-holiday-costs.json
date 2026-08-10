@@ -1,0 +1,1693 @@
+{
+  "contract_version": "1.0.0",
+  "content_kind": "publish_ready_article",
+  "language": "he-IL",
+  "direction": "rtl",
+  "checked_on": "2026-08-10",
+  "wordpress": {
+    "post_id": 732,
+    "post_type": "post",
+    "protected_path": "/המחירים-הזולים-ביותר-תאילנד-2025/",
+    "canonical_path": "/המחירים-הזולים-ביותר-תאילנד-2025/",
+    "future_clean_path": {
+      "path": "/עלות-חופשה-בתאילנד-למשפחה/",
+      "status": "evidence_gated",
+      "requirements": [
+        "בדיקת שאילתות, הופעות, קליקים ומיקום של הכתובת הקיימת",
+        "מיפוי קישורים נכנסים וקישורים פנימיים לכתובת הקיימת",
+        "הכרעה מתועדת שהעמוד נשאר בעל התוכן של תקציב משפחתי",
+        "בדיקת חפיפה מול מחשבון התקציב ומדריך משפחות",
+        "הכנת הפניית 301 ישירה ועדכון canonical ומפת האתר",
+        "מעקב אחר אינדוקס וביצועים במשך שמונה שבועות"
+      ]
+    }
+  },
+  "ownership": {
+    "owner_id": "thailand-family-holiday-costs",
+    "intent_id": "he|travel|thailand|family-budget|plan",
+    "primary_keyword": "עלות חופשה בתאילנד למשפחה",
+    "primary_intent": "לבנות תקציב משפחתי מלא לתאילנד לפי הרכב, מסלול, עונה ורמת נוחות",
+    "intent_class": "planning",
+    "freshness_class": "price_sensitive_monthly",
+    "canonical_owner_exclusions": [
+      "מחשבון תקציב חופשה בתאילנד",
+      "תאילנד עם ילדים",
+      "מלונות למשפחות בתאילנד",
+      "טיסות זולות לתאילנד",
+      "יוקר המחיה בתאילנד"
+    ]
+  },
+  "hierarchy": {
+    "parent_owner_id": "thailand-tourism",
+    "owner_path": [
+      "home",
+      "thailand-tourism",
+      "thailand-family-holiday-costs"
+    ],
+    "breadcrumbs": [
+      {
+        "owner_id": "home",
+        "label": "תאילנד לישראלים",
+        "path": "/"
+      },
+      {
+        "owner_id": "thailand-tourism",
+        "label": "תיירות בתאילנד",
+        "path": "/תיירות-בתאילנד/"
+      },
+      {
+        "owner_id": "thailand-family-holiday-costs",
+        "label": "עלות חופשה בתאילנד למשפחה",
+        "path": "/המחירים-הזולים-ביותר-תאילנד-2025/"
+      }
+    ]
+  },
+  "seo": {
+    "title": "עלות חופשה בתאילנד למשפחה: כך בונים תקציב מלא",
+    "h1": "עלות חופשה בתאילנד למשפחה: טיסות, מלונות, נסיעות ואטרקציות",
+    "meta_description": "עלות חופשה בתאילנד למשפחה לפי הרכב הנוסעים, העונה והמסלול. כך מחשבים טיסות, חדרים, תחבורה, אוכל, אטרקציות והוצאות שנוטים לשכוח.",
+    "search_intent_answer": "שיטה מלאה לחישוב תקציב משפחתי מתאריכים ומחירים אמיתיים, בלי להציג מספר ממוצע שמסתיר הבדלים בין משפחות.",
+    "slug_policy": "הכתובת הקיימת נשמרת גם לאחר הסרת השנה מהכותרת. כתובת נקייה יותר כפופה לשער הראיות.",
+    "cannibalization_boundaries": [
+      "העמוד מלמד איך לבנות ולהבין תקציב משפחתי.",
+      "המחשבון מחזיק את פעולת החישוב האינטראקטיבית ואינו משכפל את המדריך.",
+      "עמוד הטיסות מחזיק השוואת מסלולי טיסה וחברות תעופה.",
+      "עמוד המלונות מחזיק בחירת לינה לפי יעד וסגנון.",
+      "מדריך משפחות עתידי יחזיק מסלולים, גילאים ופעילויות ולא את שאילתת המחיר הראשית."
+    ]
+  },
+  "public_content": {
+    "lead": [
+      "אין מחיר אחד לחופשה משפחתית בתאילנד. משפחה עם פעוט שחולק מיטה, משפחה שזקוקה לשני חדרים ומשפחה עם בני נוער משלמות סכומים שונים גם באותו מלון ובאותם תאריכים. גם בחירת האיים, מספר הטיסות הפנימיות ותנאי הביטול יכולים לשנות את התקציב יותר מהמחיר של ארוחה בודדת.",
+      "הדרך המדויקת לתכנן היא לבנות תקציב מתאריכי הנסיעה שלכם. בעמוד מופיעות דוגמאות מתוארכות לשלושה הרכבי משפחה, שלושה אורכי חופשה ושלוש רמות נוחות, עם הפרדה בין הוצאות בתוך תאילנד לבין הטיסה הבינלאומית. כל דוגמה נשענת על רכיבי מחיר ישירים שנבדקו ב-10 באוגוסט 2026 ועל נוסחה גלויה שאפשר להתאים למסלול שלכם."
+    ],
+    "quick_answer": {
+      "heading": "נוסחת התקציב המשפחתי",
+      "items": [
+        "טיסות בינלאומיות לכל הנוסעים, כולל מזוודות, מושבים ועמלות תשלום.",
+        "לינה לפי מספר החדרים והלילות, כולל מסים, ארוחות ותוספות לילדים.",
+        "מעברים בין יעדים, הסעות משדה התעופה ותחבורה מקומית.",
+        "אוכל, אטרקציות, ביטוח, גלישה סלולרית, כביסה וקניות מתוכננות.",
+        "רזרבה לשינויי שער, טיפול רפואי קטן, שינוי תוכנית או הוצאה שנשכחה.",
+        "בדוגמאות שבעמוד הטיסה מישראל מוצגת בנפרד, כדי שלא לערבב מחיר כרטיס משתנה עם הוצאות הקרקע בתאילנד."
+      ],
+      "formula": "תקציב משפחתי כולל = טיסות בינלאומיות + לינה + מעבר בין יעדים + תחבורה מקומית + אוכל + פעילויות + ביטוח ותקשורת + רזרבה"
+    },
+    "budget_examples": {
+      "heading": "כמה יכולה לעלות חופשה משפחתית בתאילנד: דוגמאות מתוארכות",
+      "observed_at": "2026-08-10T15:36:20+03:00",
+      "method_note": [
+        "הדוגמאות מחשבות מסלול הלוך ושוב דרך בנגקוק, עם צ'יאנג מאי בצפון ופוקט באי. הן מציגות שלושה הרכבי משפחה, עשרה, ארבעה עשר או עשרים ואחד לילות, ורמת נוחות חסכונית, מאוזנת או מרווחת. אלה סכומי תכנון מחושבים, לא מחיר שוק ממוצע ולא הזמנה של ספק יחיד.",
+        "הוצאות הקרקע כוללות לינה, אוכל, פעילויות, תחבורה מקומית, שתי טיסות פנים הלוך ושוב, תקשורת וכביסה ורזרבת תכנון. הטיסה הבינלאומית מוצגת בנפרד. ביטוח נסיעות, קניות, אלכוהול והוצאות רפואיות אינם בתוך הסכום, מפני שהם תלויים בכיסוי ובבחירה האישית."
+      ],
+      "route": {
+        "route_id": "bangkok-chiang-mai-phuket-return",
+        "name": "בנגקוק, צ'יאנג מאי ופוקט",
+        "sequence": [
+          "Bangkok",
+          "Chiang Mai",
+          "Bangkok",
+          "Phuket",
+          "Bangkok"
+        ],
+        "night_splits": [
+          {
+            "nights": 10,
+            "bangkok": 3,
+            "chiang_mai": 3,
+            "phuket": 4
+          },
+          {
+            "nights": 14,
+            "bangkok": 4,
+            "chiang_mai": 4,
+            "phuket": 6
+          },
+          {
+            "nights": 21,
+            "bangkok": 6,
+            "chiang_mai": 6,
+            "phuket": 9
+          }
+        ],
+        "domestic_flight_pattern": "שתי דוגמאות הלוך ושוב מבנגקוק, אחת לצ'יאנג מאי ואחת לפוקט",
+        "source_ids": [
+          "source:tat:trip-planner",
+          "source:thai-airways:bkk-cnx",
+          "source:thai-airways:bkk-hkt"
+        ]
+      },
+      "family_profiles": [
+        {
+          "family_profile_id": "family_2a_1c",
+          "adults": 2,
+          "child_ages": [
+            5
+          ],
+          "occupied_airline_seats": 3,
+          "adult_equivalent_units": 2.55,
+          "lodging_assumption": "חדר משפחתי אחד כאשר התפוסה מאפשרת זאת"
+        },
+        {
+          "family_profile_id": "family_2a_2c",
+          "adults": 2,
+          "child_ages": [
+            5,
+            10
+          ],
+          "occupied_airline_seats": 4,
+          "adult_equivalent_units": 3.25,
+          "lodging_assumption": "חדר משפחתי גדול, סוויטה או שני חדרים לפי היעד"
+        },
+        {
+          "family_profile_id": "family_2a_3c",
+          "adults": 2,
+          "child_ages": [
+            4,
+            9,
+            14
+          ],
+          "occupied_airline_seats": 5,
+          "adult_equivalent_units": 4.15,
+          "lodging_assumption": "שני חדרים או יחידה משפחתית גדולה שמתירה חמישה אורחים"
+        }
+      ],
+      "adult_equivalent_method": {
+        "value_type": "planning_weight_not_supplier_age_rule",
+        "adult_weight": 1.0,
+        "child_ages_0_to_5_weight": 0.55,
+        "child_ages_6_to_11_weight": 0.7,
+        "child_ages_12_to_17_weight": 0.9,
+        "use": "משקל תכנון לאוכל ולפעילויות בלבד. מחיר ספק בפועל נקבע תמיד לפי גיל, גובה ותנאי המוצר."
+      },
+      "evidence_binding": {
+        "evidence_binding_id": "family-cost-evidence-2026-08-10",
+        "observed_at": "2026-08-10T15:36:20+03:00",
+        "sample_size": 12,
+        "currencies": [
+          "USD",
+          "THB",
+          "ILS"
+        ],
+        "observation_ids": [
+          "obs:etihad:tlv-bkk:2026-10-17",
+          "obs:thai:bkk-cnx:2026-09-01",
+          "obs:thai:bkk-hkt:2026-09-06",
+          "obs:ibis-silom:direct-deal:2026-09-01",
+          "obs:kantary-hills:2br-low:2026-09-01",
+          "obs:kantary-hills:2br-high:2026-11-10",
+          "obs:kantary-hills:2br-peak-surcharge:2026-12-24",
+          "obs:raya-heritage:one-price:2026-10-01",
+          "obs:mk:family-set:2026-09-01",
+          "obs:grand-palace:foreigner-ticket:2026-09-01",
+          "obs:phuket-aquarium:family-entry:2026-09-01",
+          "obs:bts:max-adult-fare:2026-09-01"
+        ],
+        "source_ids": [
+          "source:etihad:tlv-bkk",
+          "source:thai-airways:bkk-cnx",
+          "source:thai-airways:bkk-hkt",
+          "source:ibis-styles-silom:direct-deal",
+          "source:kantary-hills:2026-rates",
+          "source:raya-heritage:one-price-2026",
+          "source:mk:family-set-2026",
+          "source:grand-palace:visitor-fee",
+          "source:phuket-aquarium:fees",
+          "source:bts:adult-fare-2025-11-01",
+          "source:bot:daily-fx",
+          "source:boi:usd-ils-2026-08-07"
+        ],
+        "family_profile_binding": "public_content.budget_examples.family_profiles",
+        "travel_date_binding": "public_content.budget_examples.season_windows.sample_travel_dates",
+        "inclusions": "The ground estimate includes the categories listed in method_note and the calculation formula. The international flight is held outside the ground total.",
+        "taxes": "Each supplier observation records whether tax is included, excluded or not itemized. Planning assumptions do not convert an excluded-tax from-rate into a claimed checkout total.",
+        "cancellation": "Each supplier observation records the displayed cancellation position. The calculated scenarios are planning totals and do not inherit one supplier's cancellation rule."
+      },
+      "season_windows": [
+        {
+          "season_id": "low",
+          "label": "עונה זולה יותר בדוגמה",
+          "planning_factor": 1.0,
+          "value_type": "route_wide_planning_factor_not_market_average",
+          "sample_travel_dates": [
+            {
+              "nights": 10,
+              "start": "2026-09-01",
+              "end": "2026-09-11"
+            },
+            {
+              "nights": 14,
+              "start": "2026-09-01",
+              "end": "2026-09-15"
+            },
+            {
+              "nights": 21,
+              "start": "2026-09-01",
+              "end": "2026-09-22"
+            }
+          ],
+          "source_ids": [
+            "source:kantary-hills:2026-rates",
+            "source:tmd:thailand-climate-rain"
+          ]
+        },
+        {
+          "season_id": "shoulder",
+          "label": "עונת מעבר בדוגמה",
+          "planning_factor": 1.15,
+          "value_type": "route_wide_planning_factor_not_market_average",
+          "sample_travel_dates": [
+            {
+              "nights": 10,
+              "start": "2026-10-17",
+              "end": "2026-10-27"
+            },
+            {
+              "nights": 14,
+              "start": "2026-10-17",
+              "end": "2026-10-31"
+            },
+            {
+              "nights": 21,
+              "start": "2026-10-10",
+              "end": "2026-10-31"
+            }
+          ],
+          "source_ids": [
+            "source:kantary-hills:2026-rates",
+            "source:tmd:thailand-climate-rain"
+          ]
+        },
+        {
+          "season_id": "peak",
+          "label": "תקופת חג וסוף שנה בדוגמה",
+          "planning_factor": 1.3,
+          "value_type": "route_wide_planning_factor_not_market_average",
+          "sample_travel_dates": [
+            {
+              "nights": 10,
+              "start": "2026-12-21",
+              "end": "2026-12-31"
+            },
+            {
+              "nights": 14,
+              "start": "2026-12-17",
+              "end": "2026-12-31"
+            },
+            {
+              "nights": 21,
+              "start": "2026-12-10",
+              "end": "2026-12-31"
+            }
+          ],
+          "source_ids": [
+            "source:kantary-hills:2026-rates",
+            "source:tmd:thailand-climate-rain"
+          ]
+        }
+      ],
+      "observed_price_samples": [
+        {
+          "observation_id": "obs:etihad:tlv-bkk:2026-10-17",
+          "source_id": "source:etihad:tlv-bkk",
+          "source_url": "https://www.etihad.com/en-il/flights/flights-from-tel-aviv-to-bangkok",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-10-17",
+            "end": "2026-10-31"
+          },
+          "family_profile": {
+            "adults": 1,
+            "child_ages": []
+          },
+          "sample_size": 1,
+          "sample_unit": "roundtrip_itinerary",
+          "supplier": "Etihad Airways",
+          "product": "Tel Aviv to Bangkok round trip, economy",
+          "price": {
+            "amount": 727,
+            "currency": "USD",
+            "basis": "from_price_per_occupied_seat"
+          },
+          "inclusions": "Round-trip economy fare result. Optional products and services are outside the displayed fare.",
+          "taxes": "The route result does not separately itemize taxes.",
+          "cancellation": "Cancellation and change rules are not exposed before fare selection on the route result.",
+          "availability": "The airline page said the fare was seen within the previous 48 hours and may no longer be available."
+        },
+        {
+          "observation_id": "obs:thai:bkk-cnx:2026-09-01",
+          "source_id": "source:thai-airways:bkk-cnx",
+          "source_url": "https://www.thaiairways.com/flights/en-th/flights-from-bangkok-to-chiang-mai",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-09-01",
+            "end": "2026-09-11"
+          },
+          "family_profile": {
+            "adults": 1,
+            "child_ages": []
+          },
+          "sample_size": 1,
+          "sample_unit": "roundtrip_itinerary",
+          "supplier": "Thai Airways",
+          "product": "Bangkok to Chiang Mai round trip, economy",
+          "price": {
+            "amount": 4700,
+            "currency": "THB",
+            "basis": "from_price_for_one_adult"
+          },
+          "inclusions": "Round-trip economy result for one adult. Baggage and seat selection depend on the fare selected and are not itemized on the route result.",
+          "taxes": "Taxes and surcharges are included according to the airline page.",
+          "cancellation": "Cancellation and change rules are not exposed on the route result.",
+          "availability": "Collected from round-trip searches in the previous 48 hours and subject to availability."
+        },
+        {
+          "observation_id": "obs:thai:bkk-hkt:2026-09-06",
+          "source_id": "source:thai-airways:bkk-hkt",
+          "source_url": "https://www.thaiairways.com/flights/en-th/flights-from-bangkok-to-phuket",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-09-06",
+            "end": "2026-09-16"
+          },
+          "family_profile": {
+            "adults": 1,
+            "child_ages": []
+          },
+          "sample_size": 1,
+          "sample_unit": "roundtrip_itinerary",
+          "supplier": "Thai Airways",
+          "product": "Bangkok to Phuket round trip, economy",
+          "price": {
+            "amount": 4760,
+            "currency": "THB",
+            "basis": "from_price_for_one_adult"
+          },
+          "inclusions": "Round-trip economy result for one adult. Baggage and seat selection depend on the fare selected and are not itemized on the route result.",
+          "taxes": "Taxes and surcharges are included according to the airline page.",
+          "cancellation": "Cancellation and change rules are not exposed on the route result.",
+          "availability": "Collected from round-trip searches in the previous 48 hours and subject to availability."
+        },
+        {
+          "observation_id": "obs:ibis-silom:direct-deal:2026-09-01",
+          "source_id": "source:ibis-styles-silom:direct-deal",
+          "source_url": "https://www.ibisstylesbangkoksilom.com/offers/direct-deal/",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-09-01",
+            "end": "2026-09-02"
+          },
+          "family_profile": {
+            "adults": 2,
+            "child_ages": []
+          },
+          "sample_size": 1,
+          "sample_unit": "room_night",
+          "supplier": "ibis Styles Bangkok Silom",
+          "product": "Direct Deal, room only",
+          "price": {
+            "amount": 1800,
+            "currency": "THB",
+            "basis": "from_price_per_room_night_before_plus_plus"
+          },
+          "inclusions": "Room only, Wi-Fi, pool and fitness access. Breakfast is excluded.",
+          "taxes": "The published price is marked plus plus, so service charge and VAT are not included in the displayed amount.",
+          "cancellation": "Prepayment is required and the promotion is non-refundable and non-cancellable. Amendments may be requested before arrival subject to availability.",
+          "availability": "Published for booking through 2026-09-30 and stays through 2026-11-30. Occupancy-specific checkout was not completed."
+        },
+        {
+          "observation_id": "obs:kantary-hills:2br-low:2026-09-01",
+          "source_id": "source:kantary-hills:2026-rates",
+          "source_url": "https://www.kantaryhills-chiangmai.com/rates/",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-09-01",
+            "end": "2026-09-02"
+          },
+          "family_profile": {
+            "adults": 2,
+            "child_ages": [
+              5,
+              10
+            ]
+          },
+          "sample_size": 1,
+          "sample_unit": "room_night",
+          "supplier": "Kantary Hills Hotel Chiang Mai",
+          "product": "Two Bedroom Suite twin rate, low season",
+          "price": {
+            "amount": 6500,
+            "currency": "THB",
+            "basis": "net_price_per_room_night"
+          },
+          "inclusions": "Two Bedroom Suite with breakfast for up to four occupants.",
+          "taxes": "Service charge and applicable VAT are included.",
+          "cancellation": "The published internet rate is described as fully flexible within the stated timeframe; the exact deadline is not stated on the rate page.",
+          "availability": "Published daily rate effective within the official 2026 low-season window and subject to change."
+        },
+        {
+          "observation_id": "obs:kantary-hills:2br-high:2026-11-10",
+          "source_id": "source:kantary-hills:2026-rates",
+          "source_url": "https://www.kantaryhills-chiangmai.com/rates/",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-11-10",
+            "end": "2026-11-11"
+          },
+          "family_profile": {
+            "adults": 2,
+            "child_ages": [
+              5,
+              10
+            ]
+          },
+          "sample_size": 1,
+          "sample_unit": "room_night",
+          "supplier": "Kantary Hills Hotel Chiang Mai",
+          "product": "Two Bedroom Suite twin rate, high season",
+          "price": {
+            "amount": 8000,
+            "currency": "THB",
+            "basis": "net_price_per_room_night"
+          },
+          "inclusions": "Two Bedroom Suite with breakfast for up to four occupants.",
+          "taxes": "Service charge and applicable VAT are included.",
+          "cancellation": "The published internet rate is described as fully flexible within the stated timeframe; the exact deadline is not stated on the rate page.",
+          "availability": "Published daily rate effective within the official 2026 high-season window and subject to change."
+        },
+        {
+          "observation_id": "obs:kantary-hills:2br-peak-surcharge:2026-12-24",
+          "source_id": "source:kantary-hills:2026-rates",
+          "source_url": "https://www.kantaryhills-chiangmai.com/rates/",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-12-24",
+            "end": "2026-12-25"
+          },
+          "family_profile": {
+            "adults": 2,
+            "child_ages": [
+              5,
+              10
+            ]
+          },
+          "sample_size": 1,
+          "sample_unit": "room_night_surcharge",
+          "supplier": "Kantary Hills Hotel Chiang Mai",
+          "product": "Two Bedroom Suite peak-period supplement",
+          "price": {
+            "amount": 1500,
+            "currency": "THB",
+            "basis": "net_surcharge_per_room_night_added_to_base_rate"
+          },
+          "inclusions": "Peak-period room supplement only; the high-season base room rate remains separate.",
+          "taxes": "The official rate page states that the published rates and supplements are net and include applicable charges.",
+          "cancellation": "The room rate is described as fully flexible within the stated timeframe; the exact deadline is not stated.",
+          "availability": "The supplement is published for the official holiday window that includes the selected night."
+        },
+        {
+          "observation_id": "obs:raya-heritage:one-price:2026-10-01",
+          "source_id": "source:raya-heritage:one-price-2026",
+          "source_url": "https://www.rayaheritage.com/en/exclusiveoffersth.php",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-10-01",
+            "end": "2026-10-02"
+          },
+          "family_profile": {
+            "adults": 2,
+            "child_ages": []
+          },
+          "sample_size": 1,
+          "sample_unit": "suite_night",
+          "supplier": "Raya Heritage Chiang Mai",
+          "product": "One Price Offer, suite for two",
+          "price": {
+            "amount": 10000,
+            "currency": "THB",
+            "basis": "net_price_per_suite_night"
+          },
+          "included_resort_credit": {
+            "amount": 500,
+            "currency": "THB",
+            "basis": "per_room_night"
+          },
+          "inclusions": "Suite for two, daily breakfast, round-trip Chiang Mai airport transfer and resort credit.",
+          "taxes": "Tax and service charge are included in the net rate.",
+          "cancellation": "The offer is non-refundable and cannot be exchanged for cash.",
+          "availability": "Valid for stays through 2026-10-31, subject to availability, for eligible residents of Thailand and Asia. The hotel accepts children from age six."
+        },
+        {
+          "observation_id": "obs:mk:family-set:2026-09-01",
+          "source_id": "source:mk:family-set-2026",
+          "source_url": "https://www.mkrestaurant.com/en/promotion/detail/%E0%B8%9E%E0%B8%B4%E0%B9%80%E0%B8%A8%E0%B8%A9%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%B2%E0%B8%8A%E0%B8%B4%E0%B8%81-mk-%E0%B8%8A%E0%B8%B8%E0%B8%94%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%B9-member-set/",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-09-01",
+            "end": "2026-09-01"
+          },
+          "family_profile": {
+            "adults": 2,
+            "child_ages": [
+              5,
+              10
+            ]
+          },
+          "sample_size": 1,
+          "sample_unit": "family_meal_set",
+          "supplier": "MK Restaurant",
+          "product": "Member Family Set for three to four diners",
+          "price": {
+            "amount": 1399,
+            "currency": "THB",
+            "basis": "price_per_set"
+          },
+          "inclusions": "The named promotional family set only; drinks or extra dishes are outside the set unless listed by the restaurant.",
+          "taxes": "The promotion page does not separately itemize tax or service charge.",
+          "cancellation": "This is a restaurant promotion rather than an advance room or transport booking; cancellation terms are not stated.",
+          "availability": "Published for MK members from 2026-06-01 through 2026-12-31, subject to the promotion rules."
+        },
+        {
+          "observation_id": "obs:grand-palace:foreigner-ticket:2026-09-01",
+          "source_id": "source:grand-palace:visitor-fee",
+          "source_url": "https://www.royalgrandpalace.th/en/visit/practical-information",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-09-01",
+            "end": "2026-09-01"
+          },
+          "family_profile": {
+            "adults": 1,
+            "child_ages": []
+          },
+          "sample_size": 1,
+          "sample_unit": "visitor_ticket",
+          "supplier": "The Grand Palace",
+          "product": "Foreign visitor admission",
+          "price": {
+            "amount": 500,
+            "currency": "THB",
+            "basis": "price_per_foreign_visitor"
+          },
+          "inclusions": "Admission scope listed by the official visitor page; the ticket remains valid for listed included sites within its validity period.",
+          "taxes": "The official page presents the amount as the admission fee and does not add a separate tax line.",
+          "cancellation": "Refund and cancellation terms are not stated on the practical-information page.",
+          "availability": "Current published admission amount observed for the planning date; opening conditions should be checked before visiting."
+        },
+        {
+          "observation_id": "obs:phuket-aquarium:family-entry:2026-09-01",
+          "source_id": "source:phuket-aquarium:fees",
+          "source_url": "https://phuketaquarium.org/en/tourist-information/entrance-fees/",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-09-01",
+            "end": "2026-09-01"
+          },
+          "family_profile": {
+            "adults": 2,
+            "child_ages": [
+              10
+            ],
+            "child_height_cm": 120
+          },
+          "sample_size": 1,
+          "sample_unit": "family_visit",
+          "supplier": "Phuket Aquarium",
+          "product": "Foreign visitor family admission calculation",
+          "price": {
+            "amount": 750,
+            "currency": "THB",
+            "basis": "calculated_total_for_two_adults_and_one_child_over_free_height"
+          },
+          "calculation": "Two foreign adult admissions plus one foreign child admission from the official fee schedule.",
+          "inclusions": "Standard aquarium admission for the stated family profile.",
+          "taxes": "The official page presents the amounts as final entrance fees.",
+          "cancellation": "Tickets are non-refundable according to the official fee page.",
+          "availability": "The same published fee applies on weekdays, weekends and public holidays according to the official page."
+        },
+        {
+          "observation_id": "obs:bts:max-adult-fare:2026-09-01",
+          "source_id": "source:bts:adult-fare-2025-11-01",
+          "source_url": "https://www.bts.co.th/files/uploads/tickets/pdf/fare_matrix_Eff.1Nov25_Adult.pdf",
+          "observed_at": "2026-08-10T15:36:20+03:00",
+          "travel_dates": {
+            "start": "2026-09-01",
+            "end": "2026-09-01"
+          },
+          "family_profile": {
+            "adults": 1,
+            "child_ages": []
+          },
+          "sample_size": 1,
+          "sample_unit": "single_journey",
+          "supplier": "BTS SkyTrain",
+          "product": "Maximum adult single-journey fare in the official matrix",
+          "price": {
+            "amount": 65,
+            "currency": "THB",
+            "basis": "maximum_adult_fare_per_single_journey"
+          },
+          "inclusions": "One adult journey within the fare-matrix scope.",
+          "taxes": "The fare matrix presents the amount as the passenger fare and does not add a separate tax line.",
+          "cancellation": "Refund conditions are not stated in the fare matrix.",
+          "availability": "Official fare matrix effective from 2025-11-01 and checked on the observation date."
+        }
+      ],
+      "planning_rate_cards": [
+        {
+          "style_id": "value",
+          "label": "חסכוני",
+          "value_type": "planning_assumption_not_market_quote",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "components": {
+            "lodging_thb_per_family_night": {
+              "family_2a_1c": 3000,
+              "family_2a_2c": 4800,
+              "family_2a_3c": 6000
+            },
+            "food_thb_per_adult_equivalent_day": 450,
+            "activities_thb_per_adult_equivalent_day": 175,
+            "local_transport_thb_per_family_day": {
+              "family_2a_1c": 650,
+              "family_2a_2c": 800,
+              "family_2a_3c": 950
+            },
+            "connectivity_laundry_thb_per_trip": {
+              "family_2a_1c": 2400,
+              "family_2a_2c": 3000,
+              "family_2a_3c": 3600
+            }
+          },
+          "assumption_basis": "A conservative planning allowance anchored to the direct Bangkok room offer, official Chiang Mai family-room rates, the dated family meal set, public-transport ceiling and official attraction admissions. It is not presented as a supplier or market average.",
+          "source_ids": [
+            "source:ibis-styles-silom:direct-deal",
+            "source:kantary-hills:2026-rates",
+            "source:mk:family-set-2026",
+            "source:bts:adult-fare-2025-11-01",
+            "source:grand-palace:visitor-fee",
+            "source:phuket-aquarium:fees"
+          ]
+        },
+        {
+          "style_id": "comfortable",
+          "label": "מאוזן",
+          "value_type": "planning_assumption_not_market_quote",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "components": {
+            "lodging_thb_per_family_night": {
+              "family_2a_1c": 5500,
+              "family_2a_2c": 7500,
+              "family_2a_3c": 9500
+            },
+            "food_thb_per_adult_equivalent_day": 750,
+            "activities_thb_per_adult_equivalent_day": 420,
+            "local_transport_thb_per_family_day": {
+              "family_2a_1c": 1200,
+              "family_2a_2c": 1450,
+              "family_2a_3c": 1700
+            },
+            "connectivity_laundry_thb_per_trip": {
+              "family_2a_1c": 3600,
+              "family_2a_2c": 4500,
+              "family_2a_3c": 5400
+            }
+          },
+          "assumption_basis": "A planning allowance centered on the official Chiang Mai suite schedule with additional room-configuration, island, meal, activity and local-mobility headroom. It is not a claim about a typical market price.",
+          "source_ids": [
+            "source:kantary-hills:2026-rates",
+            "source:thai-airways:bkk-cnx",
+            "source:thai-airways:bkk-hkt",
+            "source:mk:family-set-2026",
+            "source:grand-palace:visitor-fee",
+            "source:phuket-aquarium:fees"
+          ]
+        },
+        {
+          "style_id": "premium",
+          "label": "מרווח",
+          "value_type": "planning_assumption_not_market_quote",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "components": {
+            "lodging_thb_per_family_night": {
+              "family_2a_1c": 12000,
+              "family_2a_2c": 16000,
+              "family_2a_3c": 22000
+            },
+            "food_thb_per_adult_equivalent_day": 1300,
+            "activities_thb_per_adult_equivalent_day": 980,
+            "local_transport_thb_per_family_day": {
+              "family_2a_1c": 2400,
+              "family_2a_2c": 2900,
+              "family_2a_3c": 3400
+            },
+            "connectivity_laundry_thb_per_trip": {
+              "family_2a_1c": 6000,
+              "family_2a_2c": 7500,
+              "family_2a_3c": 9000
+            }
+          },
+          "assumption_basis": "A high-comfort planning allowance anchored to the dated suite offer and expanded for family room count, private local transport, frequent paid activities and higher dining spend. It is not a supplier quote for the full route.",
+          "source_ids": [
+            "source:raya-heritage:one-price-2026",
+            "source:kantary-hills:2026-rates",
+            "source:thai-airways:bkk-cnx",
+            "source:thai-airways:bkk-hkt",
+            "source:grand-palace:visitor-fee",
+            "source:phuket-aquarium:fees"
+          ]
+        }
+      ],
+      "calculation": {
+        "calculation_id": "family-ground-spend-v1-2026-08-10",
+        "evidence_binding_id": "family-cost-evidence-2026-08-10",
+        "value_type": "transparent_planning_estimate",
+        "domestic_roundtrip_fare_allowance_thb_per_occupied_seat": 9460,
+        "domestic_fare_formula": "Observed Bangkok-Chiang Mai round trip plus observed Bangkok-Phuket round trip for one adult economy passenger.",
+        "contingency_rate": 0.1,
+        "rounding": "nearest_100_thb",
+        "formula": "Round to nearest 100 THB after adding lodging times nights times season factor, adult-equivalent units times food and activities times nights, local transport times nights, domestic round-trip fare allowance times occupied seats, connectivity and laundry, then a ten-percent planning reserve.",
+        "source_ids": [
+          "source:thai-airways:bkk-cnx",
+          "source:thai-airways:bkk-hkt",
+          "source:ibis-styles-silom:direct-deal",
+          "source:kantary-hills:2026-rates",
+          "source:raya-heritage:one-price-2026",
+          "source:mk:family-set-2026",
+          "source:grand-palace:visitor-fee",
+          "source:phuket-aquarium:fees",
+          "source:bts:adult-fare-2025-11-01",
+          "source:bot:daily-fx",
+          "source:boi:usd-ils-2026-08-07"
+        ]
+      },
+      "currency_snapshot": {
+        "evidence_binding_id": "family-cost-evidence-2026-08-10",
+        "rate_date": "2026-08-07",
+        "observed_at": "2026-08-10T15:36:20+03:00",
+        "bot_thb_per_usd_mid_rate": 33.119,
+        "boi_ils_per_usd_representative_rate": 3.006,
+        "calculated_ils_per_thb": 0.09076361001237959,
+        "calculated_thb_per_ils": 11.01763140385895,
+        "formula": "Bank of Israel ILS per USD divided by Bank of Thailand THB per USD mid rate. BOT does not list ILS in its displayed currency table, so the official USD series is used as the cross-rate bridge.",
+        "provider_fee_included": false,
+        "fee_note": "Card, bank, cash-exchange and foreign-transaction margins are outside this reference conversion.",
+        "source_ids": [
+          "source:bot:daily-fx",
+          "source:boi:usd-ils-2026-08-07"
+        ]
+      },
+      "ground_estimate_matrix": [
+        {
+          "family_profile_id": "family_2a_1c",
+          "nights": 10,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 91500, "ils": 8305},
+              "shoulder": {"thb": 96500, "ils": 8759},
+              "peak": {"thb": 101400, "ils": 9203}
+            },
+            "comfortable": {
+              "low": {"thb": 141700, "ils": 12861},
+              "shoulder": {"thb": 150800, "ils": 13687},
+              "peak": {"thb": 159800, "ils": 14504}
+            },
+            "premium": {
+              "low": {"thb": 260200, "ils": 23617},
+              "shoulder": {"thb": 280000, "ils": 25414},
+              "peak": {"thb": 299800, "ils": 27211}
+            }
+          }
+        },
+        {
+          "family_profile_id": "family_2a_1c",
+          "nights": 14,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 114600, "ils": 10402},
+              "shoulder": {"thb": 121500, "ils": 11028},
+              "peak": {"thb": 128500, "ils": 11663}
+            },
+            "comfortable": {
+              "low": {"thb": 184300, "ils": 16728},
+              "shoulder": {"thb": 197000, "ils": 17880},
+              "peak": {"thb": 209700, "ils": 19033}
+            },
+            "premium": {
+              "low": {"thb": 349100, "ils": 31686},
+              "shoulder": {"thb": 376800, "ils": 34200},
+              "peak": {"thb": 404600, "ils": 36723}
+            }
+          }
+        },
+        {
+          "family_profile_id": "family_2a_1c",
+          "nights": 21,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 155000, "ils": 14068},
+              "shoulder": {"thb": 165400, "ils": 15012},
+              "peak": {"thb": 175800, "ils": 15956}
+            },
+            "comfortable": {
+              "low": {"thb": 258900, "ils": 23499},
+              "shoulder": {"thb": 277900, "ils": 25223},
+              "peak": {"thb": 297000, "ils": 26957}
+            },
+            "premium": {
+              "low": {"thb": 504800, "ils": 45817},
+              "shoulder": {"thb": 546300, "ils": 49584},
+              "peak": {"thb": 587900, "ils": 53360}
+            }
+          }
+        },
+        {
+          "family_profile_id": "family_2a_2c",
+          "nights": 10,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 128900, "ils": 11699},
+              "shoulder": {"thb": 136800, "ils": 12416},
+              "peak": {"thb": 144700, "ils": 13133}
+            },
+            "comfortable": {
+              "low": {"thb": 186900, "ils": 16964},
+              "shoulder": {"thb": 199200, "ils": 18080},
+              "peak": {"thb": 211600, "ils": 19206}
+            },
+            "premium": {
+              "low": {"thb": 339300, "ils": 30796},
+              "shoulder": {"thb": 365700, "ils": 33192},
+              "peak": {"thb": 392100, "ils": 35588}
+            }
+          }
+        },
+        {
+          "family_profile_id": "family_2a_2c",
+          "nights": 14,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 162400, "ils": 14740},
+              "shoulder": {"thb": 173500, "ils": 15747},
+              "peak": {"thb": 184600, "ils": 16755}
+            },
+            "comfortable": {
+              "low": {"thb": 243000, "ils": 22056},
+              "shoulder": {"thb": 260300, "ils": 23626},
+              "peak": {"thb": 277600, "ils": 25196}
+            },
+            "premium": {
+              "low": {"thb": 455000, "ils": 41297},
+              "shoulder": {"thb": 492000, "ils": 44656},
+              "peak": {"thb": 529000, "ils": 48014}
+            }
+          }
+        },
+        {
+          "family_profile_id": "family_2a_2c",
+          "nights": 21,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 221200, "ils": 20077},
+              "shoulder": {"thb": 237800, "ils": 21584},
+              "peak": {"thb": 254500, "ils": 23099}
+            },
+            "comfortable": {
+              "low": {"thb": 341200, "ils": 30969},
+              "shoulder": {"thb": 367100, "ils": 33319},
+              "peak": {"thb": 393100, "ils": 35679}
+            },
+            "premium": {
+              "low": {"thb": 657600, "ils": 59686},
+              "shoulder": {"thb": 713100, "ils": 64724},
+              "peak": {"thb": 768500, "ils": 69752}
+            }
+          }
+        },
+        {
+          "family_profile_id": "family_2a_3c",
+          "nights": 10,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 161000, "ils": 14613},
+              "shoulder": {"thb": 170900, "ils": 15512},
+              "peak": {"thb": 180800, "ils": 16410}
+            },
+            "comfortable": {
+              "low": {"thb": 234600, "ils": 21293},
+              "shoulder": {"thb": 250300, "ils": 22718},
+              "peak": {"thb": 265900, "ils": 24134}
+            },
+            "premium": {
+              "low": {"thb": 445400, "ils": 40426},
+              "shoulder": {"thb": 481700, "ils": 43721},
+              "peak": {"thb": 518000, "ils": 47016}
+            }
+          }
+        },
+        {
+          "family_profile_id": "family_2a_3c",
+          "nights": 14,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 203000, "ils": 18425},
+              "shoulder": {"thb": 216800, "ils": 19678},
+              "peak": {"thb": 230700, "ils": 20939}
+            },
+            "comfortable": {
+              "low": {"thb": 305200, "ils": 27701},
+              "shoulder": {"thb": 327200, "ils": 29698},
+              "peak": {"thb": 349100, "ils": 31686}
+            },
+            "premium": {
+              "low": {"thb": 598800, "ils": 54349},
+              "shoulder": {"thb": 649600, "ils": 58960},
+              "peak": {"thb": 700400, "ils": 63571}
+            }
+          }
+        },
+        {
+          "family_profile_id": "family_2a_3c",
+          "nights": 21,
+          "calculation_id": "family-ground-spend-v1-2026-08-10",
+          "evidence_binding_id": "family-cost-evidence-2026-08-10",
+          "totals": {
+            "value": {
+              "low": {"thb": 276500, "ils": 25096},
+              "shoulder": {"thb": 297200, "ils": 26975},
+              "peak": {"thb": 318000, "ils": 28863}
+            },
+            "comfortable": {
+              "low": {"thb": 428900, "ils": 38929},
+              "shoulder": {"thb": 461800, "ils": 41915},
+              "peak": {"thb": 494700, "ils": 44901}
+            },
+            "premium": {
+              "low": {"thb": 867200, "ils": 78710},
+              "shoulder": {"thb": 943500, "ils": 85635},
+              "peak": {"thb": 1019700, "ils": 92552}
+            }
+          }
+        }
+      ],
+      "international_flight_snapshot": {
+        "evidence_binding_id": "family-cost-evidence-2026-08-10",
+        "observation_id": "obs:etihad:tlv-bkk:2026-10-17",
+        "travel_dates": {
+          "start": "2026-10-17",
+          "end": "2026-10-31"
+        },
+        "fare_per_occupied_seat": {
+          "usd": 727,
+          "thb": 24078,
+          "ils": 2185
+        },
+        "family_totals": [
+          {
+            "family_profile_id": "family_2a_1c",
+            "occupied_seats": 3,
+            "usd": 2181,
+            "thb": 72233,
+            "ils": 6556
+          },
+          {
+            "family_profile_id": "family_2a_2c",
+            "occupied_seats": 4,
+            "usd": 2908,
+            "thb": 96310,
+            "ils": 8741
+          },
+          {
+            "family_profile_id": "family_2a_3c",
+            "occupied_seats": 5,
+            "usd": 3635,
+            "thb": 120388,
+            "ils": 10927
+          }
+        ],
+        "calculation_note": "The family values multiply one observed adult-seat from-fare by the occupied-seat count. They are a comparison snapshot, not a family checkout quote, and optional baggage, seat and fare-rule products can change the result.",
+        "source_ids": [
+          "source:etihad:tlv-bkk",
+          "source:bot:daily-fx",
+          "source:boi:usd-ils-2026-08-07"
+        ]
+      },
+      "how_to_read": [
+        "בחרו את הרכב המשפחה ואת מספר הלילות, ואז השוו בין רמת הנוחות והעונה.",
+        "הוסיפו את הטיסה הבינלאומית בנפרד רק אם תאריכי הדוגמה קרובים לתאריכים שלכם.",
+        "לפני הזמנה החליפו כל רכיב במחיר הסופי שקיבלתם לאותם גילאים, חדרים ותנאי ביטול."
+      ]
+    },
+    "sections": [
+      {
+        "section_id": "inputs-first",
+        "heading": "חמש החלטות שצריך לקבל לפני שמחפשים מחיר",
+        "source_ids": [
+          "source:tat:trip-planner",
+          "source:tmd:thailand-climate-rain"
+        ],
+        "body": [
+          "התקציב מתחיל בהרכב הנוסעים, בתאריכים, במשך החופשה, ברשימת היעדים וברמת הנוחות. בלי חמשת הנתונים האלה כל מספר הוא ניחוש. רשמו את גיל כל ילד בזמן הנסיעה, משום שחברת תעופה, מלון ואטרקציה עשויים להשתמש בספי גיל שונים.",
+          "לאחר מכן קבעו אילו הוצאות משולמות מראש ואילו ישולמו בתאילנד. כך אפשר להפריד בין סכום ההזמנה הראשוני לבין הכסף הדרוש במהלך הטיול, ולהימנע מהשוואה שגויה בין חבילה הכוללת העברות וארוחות לבין הזמנה בסיסית בלבד."
+        ],
+        "required_inputs": [
+          "תאריכי יציאה וחזרה",
+          "מספר מבוגרים וגיל כל ילד",
+          "מספר לילות בכל יעד",
+          "מספר חדרים ותצורת מיטות",
+          "מספר טיסות, רכבות, מעבורות והעברות",
+          "רמת לינה ואוכל",
+          "מספר ימי פעילות בתשלום"
+        ]
+      },
+      {
+        "section_id": "international-flights",
+        "heading": "טיסות מישראל: השוו מחיר סופי ולא כרטיס פתיחה",
+        "source_ids": [
+          "source:etihad:tlv-bkk"
+        ],
+        "body": [
+          "בטיסה משפחתית צריך להשוות את המחיר לכל הנוסעים לאחר בחירת מזוודות, מושבים ותנאי שינוי. כרטיס זול ללא מטען עלול להיות יקר יותר מכרטיס הכולל מזוודה כאשר מכפילים את התוספת במספר בני המשפחה ובשני הכיוונים.",
+          "השוו מסלול ישיר מול מסלול עם עצירה לפי זמן הדלת עד הדלת, לא רק לפי זמן הטיסה. עצירה ארוכה יכולה להוסיף אוכל, חדר מנוחה או לילה, ואילו כרטיסים נפרדים עלולים לדרוש איסוף מזוודות וסיכון גדול יותר במקרה של איחור. שמרו את המחיר הסופי, המטבע, זמן הבדיקה ותנאי הכרטיס."
+        ],
+        "comparison_fields": [
+          "מחיר סופי לכל המשפחה",
+          "מטען יד ומטען לבטן המטוס",
+          "בחירת מושבים",
+          "מספר עצירות ומשך המסע",
+          "כרטיס אחד לכל המסלול או כרטיסים נפרדים",
+          "תנאי שינוי, ביטול ואי הגעה"
+        ]
+      },
+      {
+        "section_id": "rooms",
+        "heading": "לינה: מספר החדרים חשוב יותר ממספר הכוכבים",
+        "source_ids": [
+          "source:ibis-styles-silom:direct-deal",
+          "source:kantary-hills:2026-rates",
+          "source:raya-heritage:one-price-2026"
+        ],
+        "body": [
+          "הטעות הנפוצה ביותר היא להכפיל מחיר חדר במספר הלילות בלי לבדוק אם החדר מתאים להרכב המשפחה. מלון עשוי לדרוש חדר נוסף, מיטה נוספת או סוג חדר יקר יותר לפי גיל הילדים. במקרים אחרים סוויטה משפחתית אחת יכולה להיות יעילה יותר משני חדרים, אך רק אם תצורת השינה באמת מתאימה.",
+          "בכל השוואה הגדירו אותם תאריכים, אותה תפוסה ואותה מדיניות ארוחות. הגיעו לשלב שבו מופיעים מסים ותוספות, ובדקו אם ארוחת בוקר לילדים כלולה. תנאי ביטול גמישים עשויים להצדיק מחיר גבוה יותר כאשר הטיול מוזמן זמן רב מראש."
+        ],
+        "room_checklist": [
+          "מספר מיטות קבועות ומיטות נוספות",
+          "גיל הילד המותר בכל תצורה",
+          "דלת מקשרת אם מזמינים שני חדרים",
+          "ארוחת בוקר לכל אורח",
+          "מסים ותוספות במחיר הסופי",
+          "מדיניות ביטול ושינוי",
+          "מרחק מהחדר למתקנים החשובים למשפחה"
+        ]
+      },
+      {
+        "section_id": "route-cost",
+        "heading": "המסלול קובע כמה פעמים משלמים על מעבר",
+        "source_ids": [
+          "source:tat:trip-planner",
+          "source:thai-airways:bkk-cnx",
+          "source:thai-airways:bkk-hkt"
+        ],
+        "body": [
+          "כל יעד נוסף יוצר לפחות מעבר אחד ולעיתים גם הסעה לשדה, טיסה או רכבת, מזוודות, אוכל בדרך ולילה פחות יעיל. מסלול עמוס יכול להיות יקר ומתיש גם כאשר כל מלון בנפרד נראה זול.",
+          "למשפחה כדאי לחשב עלות מעבר מלאה: יציאה מהמלון, הגעה למסוף, כרטיסים, מטען, מעבר מהמסוף הבא למלון וזמן שבו אי אפשר להשתמש בחדר. השוו גם חלופה של לילה נוסף ביעד קיים. לעיתים פחות יעדים נותנים חופשה רגועה יותר ותקציב ברור יותר."
+        ],
+        "route_cost_components": [
+          "הסעה מהמלון למסוף",
+          "כרטיס לכל נוסע",
+          "תוספת מטען או בחירת מושב",
+          "אוכל בזמן המעבר",
+          "הסעה מהמסוף ליעד הבא",
+          "שעות חופשה שאבדו במעבר"
+        ]
+      },
+      {
+        "section_id": "domestic-transport",
+        "heading": "טיסות פנים, רכבות, מעבורות ורכב",
+        "source_ids": [
+          "source:thai-airways:bkk-cnx",
+          "source:thai-airways:bkk-hkt",
+          "source:srt:passenger-booking",
+          "source:srt:dticket",
+          "source:tmd:warning-and-events"
+        ],
+        "body": [
+          "טיסת פנים חוסכת זמן במסלול ארוך, אך המחיר המשפחתי כולל מטען, מושבים ושתי הסעות. רכבת לילה יכולה לשלב נסיעה ולינה, אך צריך לבדוק סוג תא, פרטיות, שעות וגיל הילדים. מעבורת דורשת חיבור מהמסוף למלון ותוכנית חלופית כאשר מזג האוויר משפיע על ההפלגה.",
+          "בהשכרת רכב הוסיפו מושבי בטיחות מתאימים, ביטוח, דלק, חניה ופיקדון. אל תניחו שנהיגה עצמית היא תמיד החלופה הזולה. ביעד עירוני עם רכבת, מלון מעט יקר יותר ליד תחנה עשוי להקטין הוצאות נסיעה וזמן."
+        ],
+        "comparison_rule": "משווים כל חלופה לפי מחיר משפחתי מלא, זמן דלת עד דלת, מספר החלפות, מטען וגמישות ביטול."
+      },
+      {
+        "section_id": "food",
+        "heading": "אוכל: תכננו לפי סוג יום ולא לפי ממוצע כללי",
+        "source_ids": [
+          "source:mk:family-set-2026"
+        ],
+        "body": [
+          "יום במלון חוף, יום טיול מאורגן ויום עירוני יוצרים דפוסי אוכל שונים. במקום להכפיל ממוצע אחד במספר הימים, חלקו את המסלול לימים עם ארוחת בוקר כלולה, ימים שבהם אוכלים בקניון או בשוק, וימים שבהם תלויים במסעדת המלון או באי קטן.",
+          "משפחה עם ילדים בררנים צריכה לכלול נשנושים, מים ומנה חלופית. בדקו אם בחדר יש מקרר ואם ליד המלון יש חנות או מסעדות. בחירה באזור נוח יכולה להוזיל את היום בלי לוותר על איכות, מפני שאינה מחייבת נסיעה או ארוחה בכל ערב בתוך המלון."
+        ],
+        "daily_food_fields": [
+          "ארוחת בוקר כלולה או נרכשת",
+          "ארוחת צהריים מקומית או במסגרת טיול",
+          "ארוחת ערב מקומית או במלון",
+          "מים, פירות ונשנושים",
+          "צרכים תזונתיים מיוחדים"
+        ]
+      },
+      {
+        "section_id": "activities",
+        "heading": "אטרקציות: מחיר כניסה הוא רק חלק מהיום",
+        "source_ids": [
+          "source:grand-palace:visitor-fee",
+          "source:phuket-aquarium:fees"
+        ],
+        "body": [
+          "אטרקציה משפחתית יכולה לכלול כרטיס, הסעה, אוכל, ציוד, צילום או תוספת לפעילות מסוימת. בטיול ימי יש לבדוק אם ההעברה מהמלון, ארוחה, ציוד ומסים כלולים. במוזיאון או אקווריום יש לבדוק את סף הגיל ואת סוג הכרטיס באתר הרשמי.",
+          "אל תזמינו פעילות בתשלום לכל יום. השאירו ימים גמישים לחוף, פארק, שוק או מנוחה. כך התקציב נשאר בשליטה וגם קל יותר לשנות תוכנית בגלל מזג אוויר, עייפות או מחלה."
+        ],
+        "activity_fields": [
+          "מחיר לפי מבוגר ולפי גיל כל ילד",
+          "הסעה והאזור שממנו אוספים",
+          "ארוחה, ציוד ומסים",
+          "משך הפעילות וזמן הנסיעה",
+          "מדיניות שינוי בגלל מזג אוויר",
+          "דרישות בריאות, גובה או גיל"
+        ]
+      },
+      {
+        "section_id": "insurance-connectivity",
+        "heading": "ביטוח, גלישה והוצאות קטנות שמצטברות",
+        "source_ids": [
+          "source:bot:daily-fx",
+          "source:boi:usd-ils-2026-08-07"
+        ],
+        "body": [
+          "ביטוח נסיעות צריך להתאים לגיל, למצב הרפואי ולפעילויות המתוכננות. אין להעתיק מחיר ממשפחה אחרת, משום שהכיסוי והחיתום שונים. אם מתוכננים ספורט ימי, נהיגה או פעילות אתגרית, בדקו במפורש מה נכלל בפוליסה.",
+          "הוסיפו חבילת גלישה או eSIM לכל מי שצריך קו, כביסה, תרופות קבועות, עמלות משיכה והמרת מטבע. למשפחה כדאי להחזיק רזרבה נפרדת שאינה משמשת לקניות רגילות. את ההמרה לשקלים בצעו לפי שער מתוארך והוסיפו את עלות ההמרה בפועל של אמצעי התשלום."
+        ]
+      },
+      {
+        "section_id": "budget-styles",
+        "heading": "שלושה סגנונות תקציב שאפשר להשוות",
+        "source_ids": [
+          "source:ibis-styles-silom:direct-deal",
+          "source:kantary-hills:2026-rates",
+          "source:raya-heritage:one-price-2026",
+          "source:mk:family-set-2026"
+        ],
+        "body": [
+          "הגדירו סגנון לפני החיפוש כדי שלא תשוו מוצרים שונים. תקציב חסכוני מתעדף פחות מעברים, חדר פשוט באזור נוח ופעילויות נבחרות. תקציב מאוזן משלב מלון משפחתי נוח, כמה פעילויות בתשלום וגמישות ביטול. תקציב מרווח נותן עדיפות לחדר גדול, העברות פרטיות ופעילות כמעט בכל יום.",
+          "אין סגנון נכון לכל משפחה. משפחה אחת מעדיפה להשקיע בחדר ולחסוך באוכל, ואחרת מעדיפה מלון בסיסי וסיורים פרטיים. פצלו את התקציב לקטגוריות וקבעו מראש היכן אתם רוצים נוחות והיכן אתם מוכנים להתגמש."
+        ],
+        "profiles": [
+          {
+            "profile": "חסכוני",
+            "priorities": [
+              "פחות יעדים ומעברים",
+              "חדר פשוט באזור עם אוכל ותחבורה",
+              "פעילויות חינם לצד פעילויות נבחרות",
+              "השוואת מטען ותנאי כרטיס לפני רכישה"
+            ]
+          },
+          {
+            "profile": "מאוזן",
+            "priorities": [
+              "מלון משפחתי נוח",
+              "שילוב תחבורה ציבורית והעברות פרטיות",
+              "פעילות מרכזית בכמה מהימים",
+              "תנאי ביטול סבירים"
+            ]
+          },
+          {
+            "profile": "מרווח",
+            "priorities": [
+              "חדר גדול או שני חדרים",
+              "העברות פרטיות",
+              "מסלול עם יותר טיסות פנים",
+              "פעילויות, ארוחות ושירותים בתדירות גבוהה"
+            ]
+          }
+        ]
+      },
+      {
+        "section_id": "dated-cost-examples",
+        "heading": "איך להשתמש בדוגמאות המחיר המתוארכות",
+        "source_ids": [
+          "source:etihad:tlv-bkk",
+          "source:thai-airways:bkk-cnx",
+          "source:thai-airways:bkk-hkt",
+          "source:ibis-styles-silom:direct-deal",
+          "source:kantary-hills:2026-rates",
+          "source:raya-heritage:one-price-2026",
+          "source:mk:family-set-2026",
+          "source:grand-palace:visitor-fee",
+          "source:phuket-aquarium:fees",
+          "source:bts:adult-fare-2025-11-01",
+          "source:bot:daily-fx",
+          "source:boi:usd-ils-2026-08-07"
+        ],
+        "body": [
+          "מצאו בדוגמאות את הרכב המשפחה ואת משך החופשה הקרובים אליכם. הסכום בתאילנד מפריד בין רמת נוחות לעונה, ואילו טיסת ישראל ובנגקוק מוצגת לידו כרכיב נפרד. כך אפשר להחליף את הטיסה בלי לשנות את כל חישוב הלינה, האוכל והנסיעות.",
+          "הטבלה נועדה לתת נקודת פתיחה שקופה. כאשר יש לכם תאריכים סופיים, החליפו את הנחת הלינה במחיר החדר המדויק, את כרטיסי הפנים במחיר לכל הגילאים והמטען, ואת האטרקציות במחיר המשפחתי שמופיע במסך התשלום."
+        ],
+        "data_reference": "public_content.budget_examples"
+      },
+      {
+        "section_id": "itinerary-models",
+        "heading": "כך מחשבים שני מסלולים משפחתיים נפוצים",
+        "source_ids": [
+          "source:tat:trip-planner",
+          "source:thai-airways:bkk-cnx",
+          "source:thai-airways:bkk-hkt",
+          "source:srt:dticket"
+        ],
+        "body": [
+          "במסלול בנגקוק וקוסמוי רשמו בנפרד טיסה בינלאומית, מלון בבנגקוק, מעבר לקוסמוי, מלון באי, נסיעות מקומיות ופעילויות. אל תשכחו את הדרך בין נמל התעופה למלון בשני היעדים ואת המטען בטיסת הפנים.",
+          "במסלול בנגקוק וצ'יאנג מאי אפשר להשוות טיסת פנים מול רכבת לילה. ברכבת צריך להוסיף את סוג המושב או התא ואת ההגעה לתחנה, ובטיסה את המטען וההסעות. רק סכום מלא וזמן דלת עד דלת מאפשרים החלטה נכונה."
+        ],
+        "models": [
+          {
+            "name": "בנגקוק וקוסמוי",
+            "formula": "טיסות מישראל + לינה בבנגקוק + מעבר לקוסמוי + לינה בקוסמוי + תחבורה מקומית + אוכל + פעילויות + ביטוח ותקשורת + רזרבה"
+          },
+          {
+            "name": "בנגקוק וצ'יאנג מאי",
+            "formula": "טיסות מישראל + לינה בבנגקוק + טיסה או רכבת לצ'יאנג מאי + לינה בצ'יאנג מאי + תחבורה מקומית + אוכל + פעילויות + ביטוח ותקשורת + רזרבה"
+          }
+        ]
+      },
+      {
+        "section_id": "price-log",
+        "heading": "שמרו יומן מחירים קטן לפני ההזמנה",
+        "source_ids": [
+          "source:bot:daily-fx",
+          "source:boi:usd-ils-2026-08-07",
+          "source:etihad:tlv-bkk",
+          "source:thai-airways:bkk-cnx",
+          "source:thai-airways:bkk-hkt"
+        ],
+        "body": [
+          "לכל הצעה רשמו תאריך ושעת בדיקה, ספק, תאריכי נסיעה, מספר נוסעים, מטבע, מה כלול ותנאי ביטול. צילום מסך לבדו אינו מספיק אם לא ברור איזה חדר או כרטיס נבחר. השוו הצעות רק כאשר השדות זהים.",
+          "המירו לשקלים לצורך תכנון, אך שמרו גם את המחיר במטבע החיוב. שער החליפין משתנה, וכרטיס אשראי או בנק עשויים להשתמש בשער ובעמלה שונים מהשער היציג. לכן ההמרה היא תמונת מצב מתוארכת ולא מחיר מובטח."
+        ],
+        "log_fields": [
+          "תאריך ושעת הבדיקה",
+          "כתובת המקור",
+          "תאריכי השירות",
+          "הרכב הנוסעים",
+          "מטבע ומחיר סופי",
+          "כל מה שכלול",
+          "תנאי שינוי וביטול",
+          "שער ההמרה ותאריך השער"
+        ]
+      },
+      {
+        "section_id": "reduce-cost",
+        "heading": "איך להקטין עלות בלי לפגוע בחופשה",
+        "source_ids": [
+          "source:tat:trip-planner"
+        ],
+        "body": [
+          "התחילו מצמצום מעברים, לא מצמצום אוכל או ביטוח. בחרו מלון ליד המקומות שבהם תבלו, השוו חדר משפחתי מול שני חדרים, ורכזו פעילויות לפי אזור. בדקו תאריכים סמוכים אם יש גמישות, אך השוו גם מזג אוויר, חגים ותנאי ביטול.",
+          "בחרו שניים או שלושה דברים שעליהם לא מתפשרים, למשל טיסה נוחה, חדר מתאים ובריכה לילדים. בשאר הקטגוריות אפשר להתגמש. החלטה מוקדמת מונעת שדרוגים אקראיים והזמנות כפולות במהלך הטיול."
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "question": "כמה עולה חופשה משפחתית בתאילנד?",
+        "answer": "הסכום תלוי בתאריכים, גיל הילדים, מספר החדרים, היעדים ורמת הנוחות. בדוגמאות שבעמוד אפשר לבחור הרכב, משך, עונה ורמת נוחות, לראות את הוצאות הקרקע בבאט ובשקלים ולהוסיף את הטיסה הבינלאומית בנפרד."
+      },
+      {
+        "question": "מה ההוצאה שהכי קל לפספס?",
+        "answer": "מעברים בין יעדים. מעבר כולל לא רק כרטיס אלא גם הסעות, מטען, אוכל בדרך וזמן חופשה. גם תוספת חדר או מיטה לילד משנה מאוד את הלינה."
+      },
+      {
+        "question": "האם חבילה תמיד זולה יותר מהזמנה עצמאית?",
+        "answer": "לא. משווים מחיר סופי ותכולה זהה: טיסות, מטען, חדר, ארוחות, העברות ותנאי ביטול. חבילה יכולה להיות משתלמת, אך רק אם כל הרכיבים מתאימים למשפחה."
+      },
+      {
+        "question": "באיזה מטבע כדאי לנהל את התקציב?",
+        "answer": "שמרו כל מחיר במטבע שבו תחויבו והציגו לידו המרה מתוארכת לשקלים. כך רואים גם את הסכום המקורי וגם את השפעת שער החליפין."
+      },
+      {
+        "question": "כמה רזרבה צריך להשאיר?",
+        "answer": "הרזרבה תלויה בגמישות הכרטיסים, בכיסוי הביטוחי ובמסלול. הגדירו סכום נפרד לשינוי תוכנית או הוצאה רפואית קטנה, ואל תחשיבו אותו כתקציב קניות."
+      }
+    ]
+  },
+  "internal_links": [
+    {
+      "target_owner_id": "thailand-tourism",
+      "path": "/תיירות-בתאילנד/",
+      "relationship": "parent_hub",
+      "anchor_text": "תיירות בתאילנד",
+      "placement": "lead_and_conclusion"
+    },
+    {
+      "target_owner_id": "thailand-trip-budget-calculator",
+      "path": "/מחשבון-תכנון-חופשה-בתאילנד/",
+      "relationship": "tool_sibling",
+      "anchor_text": "מחשבון תקציב חופשה בתאילנד",
+      "placement": "quick_answer_and_price_log"
+    },
+    {
+      "target_owner_id": "thailand-flights",
+      "path": "/המדריך-האולטימטיבי-למציאת-טיסות-זולו/",
+      "relationship": "sibling",
+      "anchor_text": "טיסות לתאילנד",
+      "placement": "international_flights_section"
+    },
+    {
+      "target_owner_id": "thailand-hotels",
+      "path": "/category/מלון-כל-סוגי-המלונות/",
+      "relationship": "sibling",
+      "anchor_text": "מלונות בתאילנד",
+      "placement": "rooms_section"
+    },
+    {
+      "target_owner_id": "best-time-for-thailand",
+      "path": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/",
+      "relationship": "contextual",
+      "anchor_text": "מתי כדאי לטוס לתאילנד",
+      "placement": "inputs_first_section"
+    }
+  ],
+  "source_catalog": [
+    {
+      "source_id": "source:bot:daily-fx",
+      "publisher": "Bank of Thailand",
+      "title": "Daily Foreign Exchange Rates",
+      "url": "https://app.bot.or.th/BTWS_STAT/statistics/BOTWEBSTAT.aspx?language=ENG&reportID=123",
+      "source_type": "official_financial_data",
+      "checked_on": "2026-08-10",
+      "source_updated_on": "2026-08-07",
+      "supports": "The official 2026-08-07 commercial-bank table, including the THB per USD mid rate used in the dated ILS cross-rate calculation."
+    },
+    {
+      "source_id": "source:bot:fx-methodology",
+      "publisher": "Bank of Thailand",
+      "title": "Rates of Exchange of Commercial Banks in Bangkok Metropolis: metadata",
+      "url": "https://www.bot.or.th/content/dam/bot/documents/en/statistics/exchange%20rate%20description_en.pdf",
+      "source_type": "official_methodology",
+      "checked_on": "2026-08-10",
+      "supports": "Scope and publication method for official exchange-rate data."
+    },
+    {
+      "source_id": "source:boi:usd-ils-2026-08-07",
+      "publisher": "Bank of Israel",
+      "title": "Official SDMX exchange-rate observation for USD/ILS",
+      "url": "https://edge.boi.gov.il/FusionEdgeServer/sdmx/v2/data/dataflow/BOI.STATISTICS/EXR/1.0/?c%5BSERIES_CODE%5D=RER_USD_ILS&format=csv-series&startPeriod=2026-08-07&endPeriod=2026-08-07",
+      "source_type": "official_financial_data_api",
+      "checked_on": "2026-08-10",
+      "supports": "The official 2026-08-07 representative ILS per USD rate used with the BOT THB per USD rate to calculate the ILS/THB cross rate."
+    },
+    {
+      "source_id": "source:etihad:tlv-bkk",
+      "publisher": "Etihad Airways",
+      "title": "Flights from Tel Aviv to Bangkok",
+      "url": "https://www.etihad.com/en-il/flights/flights-from-tel-aviv-to-bangkok",
+      "source_type": "airline_direct_fare_page",
+      "checked_on": "2026-08-10",
+      "supports": "A dated round-trip economy from-fare for the 2026-10-17 to 2026-10-31 Tel Aviv to Bangkok itinerary, plus the airline's freshness and availability limitations."
+    },
+    {
+      "source_id": "source:thai-airways:bkk-cnx",
+      "publisher": "Thai Airways",
+      "title": "Bangkok to Chiang Mai flights",
+      "url": "https://www.thaiairways.com/flights/en-th/flights-from-bangkok-to-chiang-mai",
+      "source_type": "airline_direct_fare_page",
+      "checked_on": "2026-08-10",
+      "supports": "A dated one-adult round-trip economy from-fare for 2026-09-01 to 2026-09-11, inclusive of tax and surcharges, with airline availability language."
+    },
+    {
+      "source_id": "source:thai-airways:bkk-hkt",
+      "publisher": "Thai Airways",
+      "title": "Bangkok to Phuket flights",
+      "url": "https://www.thaiairways.com/flights/en-th/flights-from-bangkok-to-phuket",
+      "source_type": "airline_direct_fare_page",
+      "checked_on": "2026-08-10",
+      "supports": "A dated one-adult round-trip economy from-fare for 2026-09-06 to 2026-09-16, inclusive of tax and surcharges, with airline availability language."
+    },
+    {
+      "source_id": "source:ibis-styles-silom:direct-deal",
+      "publisher": "ibis Styles Bangkok Silom",
+      "title": "Direct Deal",
+      "url": "https://www.ibisstylesbangkoksilom.com/offers/direct-deal/",
+      "source_type": "hotel_direct_offer",
+      "checked_on": "2026-08-10",
+      "supports": "The dated room-only from-rate, stay window, inclusions, tax notation, prepayment and cancellation conditions for the Bangkok value-room observation."
+    },
+    {
+      "source_id": "source:kantary-hills:2026-rates",
+      "publisher": "Kantary Hills Hotel Chiang Mai",
+      "title": "Rate and Reservation",
+      "url": "https://www.kantaryhills-chiangmai.com/rates/",
+      "source_type": "hotel_direct_rate_schedule",
+      "checked_on": "2026-08-10",
+      "supports": "Official 2026 daily suite rates by low and high season, included breakfast and taxes, occupancy, flexibility, extra-person rules and the holiday supplement."
+    },
+    {
+      "source_id": "source:raya-heritage:one-price-2026",
+      "publisher": "Raya Heritage Chiang Mai",
+      "title": "One Price Offer",
+      "url": "https://www.rayaheritage.com/en/exclusiveoffersth.php",
+      "source_type": "hotel_direct_offer",
+      "checked_on": "2026-08-10",
+      "supports": "The net suite-night offer through 2026-10-31, eligible occupancy, breakfast, transfer, resort credit, tax treatment and non-refundable condition."
+    },
+    {
+      "source_id": "source:mk:family-set-2026",
+      "publisher": "MK Restaurant",
+      "title": "Member Family Set",
+      "url": "https://www.mkrestaurant.com/en/promotion/detail/%E0%B8%9E%E0%B8%B4%E0%B9%80%E0%B8%A8%E0%B8%A9%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%B1%E0%B8%9A%E0%B8%AA%E0%B8%A1%E0%B8%B2%E0%B8%8A%E0%B8%B4%E0%B8%81-mk-%E0%B8%8A%E0%B8%B8%E0%B8%94%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B8%B9-member-set/",
+      "source_type": "restaurant_direct_promotion",
+      "checked_on": "2026-08-10",
+      "supports": "The member family-set amount, diner basis and 2026 promotion window used as a direct family-meal reference."
+    },
+    {
+      "source_id": "source:grand-palace:visitor-fee",
+      "publisher": "The Grand Palace",
+      "title": "Practical Information",
+      "url": "https://www.royalgrandpalace.th/en/visit/practical-information",
+      "source_type": "attraction_official_admission_page",
+      "checked_on": "2026-08-10",
+      "supports": "The current foreign-visitor admission amount and included visit scope used as a Bangkok activity component."
+    },
+    {
+      "source_id": "source:phuket-aquarium:fees",
+      "publisher": "Phuket Aquarium",
+      "title": "Entrance Fees",
+      "url": "https://phuketaquarium.org/en/tourist-information/entrance-fees/",
+      "source_type": "government_attraction_admission_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current foreign adult and child entry fees, free-height rule, non-refundable condition and day-of-week policy for the Phuket family activity calculation."
+    },
+    {
+      "source_id": "source:bts:adult-fare-2025-11-01",
+      "publisher": "Bangkok Mass Transit System",
+      "title": "Adult Fare Matrix effective 1 November 2025",
+      "url": "https://www.bts.co.th/files/uploads/tickets/pdf/fare_matrix_Eff.1Nov25_Adult.pdf",
+      "source_type": "transport_operator_official_fare_matrix",
+      "checked_on": "2026-08-10",
+      "source_updated_on": "2025-11-01",
+      "supports": "The official adult single-journey fare ceiling used as a Bangkok local-transport planning boundary."
+    },
+    {
+      "source_id": "source:tat:trip-planner",
+      "publisher": "Tourism Authority of Thailand",
+      "title": "Thailand Trip Planner",
+      "url": "https://www.tourismthailand.org/trip-planner",
+      "source_type": "official_tourism_planner",
+      "checked_on": "2026-08-10",
+      "supports": "Destination and experience planning by Thai region."
+    },
+    {
+      "source_id": "source:tmd:thailand-climate-rain",
+      "publisher": "Thai Meteorological Department",
+      "title": "Climate of Thailand: rainfall by region",
+      "url": "https://www.tmd.go.th/info/%E0%B8%A0%E0%B8%A1%E0%B8%AD%E0%B8%B2%E0%B8%81%E0%B8%B2%E0%B8%A8%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%AB%E0%B8%99%E0%B8%B2-2",
+      "source_type": "official_climate_reference",
+      "checked_on": "2026-08-10",
+      "supports": "Regional season differences that affect route and price observations."
+    },
+    {
+      "source_id": "source:srt:passenger-booking",
+      "publisher": "State Railway of Thailand",
+      "title": "Passenger tickets and D-Ticket booking",
+      "url": "https://www.railway.co.th/Service/Passenger_detail?value1=0049613716F4864B9ED01F76DB70384102000000D80D09718D966C89C1754CC14D9E1DD4B4F0AEAECC36C8E0E3E9AFC5EB63BE27&value2=0049613716F4864B9ED01F76DB703841020000000F045B68246D48C5E5C115A5D6CB60AC2EA1EE533A164B399BC2B8ECF1C32CF6",
+      "source_type": "official_transport_booking_guidance",
+      "checked_on": "2026-08-10",
+      "supports": "Official train booking channel and ticket process."
+    },
+    {
+      "source_id": "source:srt:dticket",
+      "publisher": "State Railway of Thailand",
+      "title": "D-Ticket",
+      "url": "https://dticket.railway.co.th/DTicketPublicWeb/home/Home",
+      "source_type": "official_live_booking_channel",
+      "checked_on": "2026-08-10",
+      "supports": "Route-specific, date-specific train availability and prices."
+    },
+    {
+      "source_id": "source:tmd:warning-and-events",
+      "publisher": "Thai Meteorological Department",
+      "title": "Warning and Events",
+      "url": "https://www.tmd.go.th/en/warning-and-events",
+      "source_type": "official_weather_warning_service",
+      "checked_on": "2026-08-10",
+      "supports": "Current weather and marine warning context for transfers and activities."
+    }
+  ],
+  "measurement_requirements": [
+    {
+      "field": "international_flight_total",
+      "status": "source_dated_observation_refresh_required",
+      "unit": "booking_total_by_currency",
+      "dimensions": [
+        "travel_dates",
+        "adult_count",
+        "child_ages",
+        "baggage",
+        "seats",
+        "fare_rules",
+        "source_url",
+        "observed_at"
+      ],
+      "minimum_observations": 1,
+      "refresh_days": 7
+    },
+    {
+      "field": "hotel_nightly_total",
+      "status": "source_dated_planning_component_refresh_required",
+      "unit": "thb_per_required_room_configuration",
+      "dimensions": [
+        "destination",
+        "hotel",
+        "room_type",
+        "occupancy",
+        "child_ages",
+        "meal_basis",
+        "taxes",
+        "cancellation",
+        "stay_dates",
+        "source_url",
+        "observed_at"
+      ],
+      "minimum_observations": 5,
+      "refresh_days": 14
+    },
+    {
+      "field": "domestic_transfer_total",
+      "status": "source_dated_planning_component_refresh_required",
+      "unit": "thb_per_family_per_route",
+      "dimensions": [
+        "origin",
+        "destination",
+        "mode",
+        "passenger_ages",
+        "baggage",
+        "station_transfers",
+        "travel_date",
+        "source_url",
+        "observed_at"
+      ],
+      "minimum_observations": 2,
+      "refresh_days": 14
+    },
+    {
+      "field": "food_day_total",
+      "status": "source_dated_planning_component_refresh_required",
+      "unit": "thb_per_family_day",
+      "dimensions": [
+        "destination",
+        "day_type",
+        "meal_count",
+        "adult_count",
+        "child_ages",
+        "venue_type",
+        "receipts_or_menu_urls",
+        "observed_at"
+      ],
+      "minimum_observations": 1,
+      "refresh_days": 30
+    },
+    {
+      "field": "activity_total",
+      "status": "source_dated_planning_component_refresh_required",
+      "unit": "thb_per_family_per_activity",
+      "dimensions": [
+        "activity",
+        "destination",
+        "adult_count",
+        "child_ages",
+        "transport_included",
+        "food_included",
+        "fees_included",
+        "activity_date",
+        "official_source_url",
+        "observed_at"
+      ],
+      "minimum_observations": 2,
+      "refresh_days": 14
+    },
+    {
+      "field": "thb_ils_conversion",
+      "status": "source_dated_cross_rate_refresh_required",
+      "unit": "dated_exchange_rate",
+      "dimensions": [
+        "base_currency",
+        "quote_currency",
+        "rate_type",
+        "rate_date",
+        "provider_fee",
+        "source_url"
+      ],
+      "minimum_observations": 2,
+      "refresh_days": 1
+    }
+  ],
+  "schema_policy": {
+    "allowed": [
+      "Article",
+      "BreadcrumbList"
+    ],
+    "conditional": [
+      "ItemList may be emitted only when the compared budget components are visibly rendered in the same order.",
+      "FAQPage may be emitted only when all questions and answers are visible and current search-engine eligibility is rechecked."
+    ],
+    "forbidden": [
+      "Product or Offer for a budget estimate",
+      "PriceSpecification without current currency, value, basis and observation date",
+      "AggregateRating or Review copied from another service",
+      "Dataset until measured observations, methodology and reuse terms are published"
+    ]
+  },
+  "forbidden_stale_claims": [
+    "מחירי 2025 מוצגים כמחירים נוכחיים",
+    "המחירים הזולים ביותר ללא תאריכים והרכב משפחה",
+    "מחיר ממוצע אחד שמתאים לכל משפחה",
+    "מחיר מלון לפני מסים ותוספות מוצג כמחיר סופי",
+    "מחיר טיסה ללא מטען ומושבים מוצג כעלות משפחתית מלאה",
+    "המרה לשקלים ללא שער ותאריך",
+    "הבטחה שחבילה תמיד זולה יותר מהזמנה עצמאית",
+    "מחיר של ספק או אטרקציה ללא מקור רשמי ותאריך תצפית"
+  ]
+}

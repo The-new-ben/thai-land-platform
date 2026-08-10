@@ -171,6 +171,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-destinations",
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
+        },
+        {
           "owner_id": "bangkok",
           "name": "בנגקוק",
           "url": "/בנגקוק-תאילנד/"
@@ -322,6 +327,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-destinations",
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
         },
         {
           "owner_id": "bangkok",
@@ -971,7 +981,7 @@
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "חוקי קנאביס בתאילנד"
+            "קנאביס בתאילנד"
           ]
         },
         {
@@ -989,7 +999,7 @@
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "האם תאילנד פתוחה לתיירים"
+            "כניסה לתאילנד לישראלים"
           ]
         },
         {
@@ -1135,7 +1145,7 @@
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "חוקים ומסים בתאילנד"
+            "חוקים בתאילנד לישראלים"
           ]
         },
         {
@@ -1323,6 +1333,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-destinations",
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
+        },
+        {
           "owner_id": "koh-samui",
           "name": "קוסמוי",
           "url": "/category/קו-סמוי-ko-samui-תאילנד/"
@@ -1415,6 +1430,11 @@
           "url": "/"
         },
         {
+          "owner_id": "thailand-destinations",
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
+        },
+        {
           "owner_id": "koh-samui",
           "name": "קוסמוי",
           "url": "/category/קו-סמוי-ko-samui-תאילנד/"
@@ -1469,6 +1489,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-destinations",
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
         },
         {
           "owner_id": "koh-samui",
@@ -1603,6 +1628,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-destinations",
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
         },
         {
           "owner_id": "phuket",
@@ -1886,6 +1916,11 @@
           "url": "/"
         },
         {
+          "owner_id": "living-in-thailand",
+          "name": "חיים בתאילנד",
+          "url": "/חיים-בתאילנד/"
+        },
+        {
           "owner_id": "relocation-to-thailand",
           "name": "רילוקיישן ומעבר לתאילנד",
           "url": "/מעבר-לתאילנד-רילוקיישן-לתאילנד-מדריך/"
@@ -1945,6 +1980,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "living-in-thailand",
+          "name": "חיים בתאילנד",
+          "url": "/חיים-בתאילנד/"
         },
         {
           "owner_id": "remote-work-cafes-thailand",
@@ -2168,6 +2208,11 @@
           "url": "/"
         },
         {
+          "owner_id": "services-in-thailand",
+          "name": "שירותים בתאילנד",
+          "url": "/שירותים-בתאילנד/"
+        },
+        {
           "owner_id": "thai-lawyer-hebrew-service",
           "name": "עורך דין דובר עברית בתאילנד",
           "url": "/lawyer-thailand/"
@@ -2223,11 +2268,12 @@
       "canonical_url": "/תאילנד-וחוק-אי-הפללת-קנאביס-פנאי/",
       "intent_id": "he|law|thailand|cannabis|stay-current",
       "name": "חוקי קנאביס בתאילנד",
-      "primary_intent": "להבין מה מותר ומה אסור כעת בנוגע לקנאביס בתאילנד",
-      "primary_keyword": "חוקי קנאביס בתאילנד",
+      "primary_intent": "להבין מה מותר ומה אסור לתיירים לפי כללי הקנאביס העדכניים בתאילנד",
+      "primary_keyword": "קנאביס בתאילנד",
       "intent_synonyms": [
-        "קנאביס בתאילנד חוק",
-        "cannabis Thailand law"
+        "חוקי קנאביס בתאילנד",
+        "האם קנאביס חוקי בתאילנד",
+        "קנאביס בתאילנד לתיירים"
       ],
       "intent_class": "current_status",
       "entity_type": "article_guide",
@@ -2240,6 +2286,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-law-and-tax",
+          "name": "חוקים ומסים בתאילנד",
+          "url": "/חוקים-ומסים-בתאילנד/"
         },
         {
           "owner_id": "thailand-cannabis-law",
@@ -2265,14 +2316,14 @@
           "placement": "contextual_body",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "חוקים ומסים בתאילנד"
+            "חוקים בתאילנד לישראלים"
           ]
         }
       ],
       "freshness_class": "regulated_monthly",
       "migration_action": "conditional_merge",
       "review_state": "evidence_pending",
-      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין מה מותר ומה אסור כעת בנוגע לקנאביס בתאילנד",
+      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין מה מותר ומה אסור לתיירים לפי כללי הקנאביס העדכניים בתאילנד",
       "source_evidence": [
         "data/seo/inventory/current-public-url-metadata.2026-08-08.csv"
       ],
@@ -2427,11 +2478,11 @@
       "canonical_url": "/החל-מאפריל-2022-מטיילים-יורשו-להיכנס-לתאי/",
       "intent_id": "he|entry|thailand|april-2022|historical",
       "name": "כללי הכניסה לתאילנד באפריל 2022",
-      "primary_intent": "להבין שינוי היסטורי בכללי הכניסה לתאילנד",
+      "primary_intent": "להבין את השינוי ההיסטורי שחל בכללי הכניסה לתאילנד באפריל 2022",
       "primary_keyword": "כניסה לתאילנד באפריל 2022",
       "intent_synonyms": [
         "כללי קורונה תאילנד אפריל 2022",
-        "RT-PCR Thailand April 2022"
+        "ביטול PCR לפני טיסה לתאילנד 2022"
       ],
       "intent_class": "historical",
       "entity_type": "historical_update",
@@ -2444,6 +2495,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-visas",
+          "name": "ויזות לתאילנד",
+          "url": "/ויזות-לתאילנד/"
         },
         {
           "owner_id": "thailand-entry-april-2022",
@@ -2459,6 +2515,15 @@
           "minimum_occurrences": 1,
           "anchor_terms": [
             "תאילנד"
+          ]
+        },
+        {
+          "target_owner_id": "thailand-entry-requirements",
+          "relationship": "support",
+          "placement": "contextual_body",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "כניסה לתאילנד לישראלים"
           ]
         }
       ],
@@ -2476,7 +2541,7 @@
       "freshness_class": "static_annual",
       "migration_action": "preserve_historical",
       "review_state": "evidence_pending",
-      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין שינוי היסטורי בכללי הכניסה לתאילנד",
+      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין את השינוי ההיסטורי שחל בכללי הכניסה לתאילנד באפריל 2022",
       "source_evidence": [
         "data/seo/inventory/current-public-url-metadata.2026-08-08.csv"
       ],
@@ -2488,11 +2553,11 @@
       "canonical_url": "/hello-world/",
       "intent_id": "he|entry|thailand|current-requirements|stay-current",
       "name": "דרישות כניסה לתאילנד",
-      "primary_intent": "לבדוק מה נדרש כעת בכניסה לתאילנד",
-      "primary_keyword": "האם תאילנד פתוחה לתיירים",
+      "primary_intent": "לבדוק מה ישראלים צריכים להכין עכשיו לפני טיסה וביקורת גבולות בתאילנד",
+      "primary_keyword": "כניסה לתאילנד לישראלים",
       "intent_synonyms": [
-        "דרישות כניסה לתאילנד עכשיו",
-        "Thailand entry requirements"
+        "דרישות כניסה לתאילנד",
+        "האם תאילנד פתוחה לתיירים"
       ],
       "intent_class": "current_status",
       "entity_type": "article_guide",
@@ -2505,6 +2570,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-visas",
+          "name": "ויזות לתאילנד",
+          "url": "/ויזות-לתאילנד/"
         },
         {
           "owner_id": "thailand-entry-requirements",
@@ -2537,7 +2607,7 @@
       "freshness_class": "regulated_monthly",
       "migration_action": "conditional_merge",
       "review_state": "evidence_pending",
-      "unique_contribution": "מענה ייחודי למשימת המשתמש: לבדוק מה נדרש כעת בכניסה לתאילנד",
+      "unique_contribution": "מענה ייחודי למשימת המשתמש: לבדוק מה ישראלים צריכים להכין עכשיו לפני טיסה וביקורת גבולות בתאילנד",
       "source_evidence": [
         "data/seo/inventory/current-public-url-metadata.2026-08-08.csv"
       ],
@@ -2897,6 +2967,11 @@
           "url": "/"
         },
         {
+          "owner_id": "health-in-thailand",
+          "name": "בריאות בתאילנד",
+          "url": "/בריאות-בתאילנד/"
+        },
+        {
           "owner_id": "thailand-insurance-comparison",
           "name": "ביטוח נסיעות, בריאות ורילוקיישן לתאילנד",
           "url": "/ביטוח-נסיעות-לחול-ביטוח-רילוקיישן-בי/"
@@ -2939,11 +3014,11 @@
       "canonical_url": "/חוקים-ומסים-בתאילנד/",
       "intent_id": "he|law-tax|thailand|overview|learn",
       "name": "חוקים ומסים בתאילנד",
-      "primary_intent": "להבין חוקים, זכויות וחובות מס מרכזיות",
-      "primary_keyword": "חוקים ומסים בתאילנד",
+      "primary_intent": "להבין כללים מרכזיים לפני מגורים, עבודה, עסק, השקעה או טיול בתאילנד ולמצוא מדריך מדויק",
+      "primary_keyword": "חוקים בתאילנד לישראלים",
       "intent_synonyms": [
-        "חוק בתאילנד לישראלים",
-        "Thailand law and tax"
+        "חוקים ומסים בתאילנד",
+        "כללים משפטיים בתאילנד"
       ],
       "intent_class": "learning",
       "entity_type": "national_hub",
@@ -2971,7 +3046,7 @@
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "חוקי קנאביס בתאילנד"
+            "קנאביס בתאילנד"
           ]
         },
         {
@@ -2987,7 +3062,7 @@
       "freshness_class": "regulated_monthly",
       "migration_action": "create",
       "review_state": "planned",
-      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין חוקים, זכויות וחובות מס מרכזיות",
+      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין כללים מרכזיים לפני מגורים, עבודה, עסק, השקעה או טיול בתאילנד ולמצוא מדריך מדויק",
       "source_evidence": [
         "research/serp/2026-08-08-hebrew-thailand-serp.md"
       ],
@@ -3050,11 +3125,11 @@
       "canonical_url": "/permanent-residence-thailand/",
       "intent_id": "he|immigration|thailand|permanent-residence|learn",
       "name": "תושבות קבע בתאילנד",
-      "primary_intent": "להבין זכאות ותהליך לקבלת תושבות קבע בתאילנד",
+      "primary_intent": "להבין זכאות, מסלולים, מסמכים, מועדים ועלויות לפני בקשת תושבות קבע בתאילנד",
       "primary_keyword": "תושבות קבע בתאילנד",
       "intent_synonyms": [
-        "תושב קבע תאילנד",
-        "permanent residence Thailand"
+        "מעמד תושב קבע בתאילנד",
+        "Permanent Residence Thailand"
       ],
       "intent_class": "learning",
       "entity_type": "article_guide",
@@ -3067,6 +3142,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-visas",
+          "name": "ויזות לתאילנד",
+          "url": "/ויזות-לתאילנד/"
         },
         {
           "owner_id": "thailand-permanent-residence",
@@ -3099,7 +3179,7 @@
       "freshness_class": "regulated_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
-      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין זכאות ותהליך לקבלת תושבות קבע בתאילנד",
+      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין זכאות, מסלולים, מסמכים, מועדים ועלויות לפני בקשת תושבות קבע בתאילנד",
       "source_evidence": [
         "data/seo/inventory/current-public-url-metadata.2026-08-08.csv"
       ],
@@ -3128,6 +3208,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-destinations",
+          "name": "יעדים בתאילנד",
+          "url": "/יעדים-בתאילנד/"
         },
         {
           "owner_id": "thailand-places-to-visit",
@@ -3806,11 +3891,11 @@
       "canonical_url": "/ויזת-תיירים-תאילנד/",
       "intent_id": "he|immigration|thailand|tourist-visa|learn",
       "name": "ויזת תייר לתאילנד",
-      "primary_intent": "להבין תנאים, משך והארכה של ויזת תייר לתאילנד",
+      "primary_intent": "להחליט אם נדרשת אשרת תייר ולהכין בקשת e-Visa מלאה מחוץ לתאילנד",
       "primary_keyword": "ויזת תייר לתאילנד",
       "intent_synonyms": [
         "אשרת תייר לתאילנד",
-        "tourist visa Thailand"
+        "ויזה לתאילנד לישראלים"
       ],
       "intent_class": "learning",
       "entity_type": "article_guide",
@@ -3823,6 +3908,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "thailand-visas",
+          "name": "ויזות לתאילנד",
+          "url": "/ויזות-לתאילנד/"
         },
         {
           "owner_id": "thailand-tourist-visa",
@@ -3855,7 +3945,7 @@
       "freshness_class": "regulated_monthly",
       "migration_action": "keep_rewrite",
       "review_state": "upgrade_required",
-      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין תנאים, משך והארכה של ויזת תייר לתאילנד",
+      "unique_contribution": "מענה ייחודי למשימת המשתמש: להחליט אם נדרשת אשרת תייר ולהכין בקשת e-Visa מלאה מחוץ לתאילנד",
       "source_evidence": [
         "data/seo/inventory/current-public-url-metadata.2026-08-08.csv"
       ],
@@ -3951,6 +4041,11 @@
           "url": "/"
         },
         {
+          "owner_id": "services-in-thailand",
+          "name": "שירותים בתאילנד",
+          "url": "/שירותים-בתאילנד/"
+        },
+        {
           "owner_id": "thailand-visa-service",
           "name": "שירות וסיוע בהנפקת ויזה לתאילנד",
           "url": "/הנפקת-ויזה-לתאילנד-סוגי-ויזות-ואשרות-ת/"
@@ -3993,11 +4088,11 @@
       "canonical_url": "/ויזות-לתאילנד/",
       "intent_id": "he|immigration|thailand|visa-overview|learn",
       "name": "ויזות לתאילנד",
-      "primary_intent": "להבין דרישות כניסה, סוגי ויזה והארכת שהייה",
+      "primary_intent": "לבחור מסלול כניסה או שהייה מתאים לתאילנד ולהבין את הפעולות לפני הטיסה ואחריה",
       "primary_keyword": "ויזות לתאילנד",
       "intent_synonyms": [
-        "סוגי ויזה לתאילנד",
-        "Thailand visas"
+        "סוגי ויזות לתאילנד",
+        "אשרות ושהייה בתאילנד"
       ],
       "intent_class": "learning",
       "entity_type": "national_hub",
@@ -4034,7 +4129,7 @@
           "placement": "navigation",
           "minimum_occurrences": 1,
           "anchor_terms": [
-            "האם תאילנד פתוחה לתיירים"
+            "כניסה לתאילנד לישראלים"
           ]
         },
         {
@@ -4068,7 +4163,7 @@
       "freshness_class": "regulated_monthly",
       "migration_action": "create",
       "review_state": "planned",
-      "unique_contribution": "מענה ייחודי למשימת המשתמש: להבין דרישות כניסה, סוגי ויזה והארכת שהייה",
+      "unique_contribution": "מענה ייחודי למשימת המשתמש: לבחור מסלול כניסה או שהייה מתאים לתאילנד ולהבין את הפעולות לפני הטיסה ואחריה",
       "source_evidence": [
         "research/serp/2026-08-08-hebrew-thailand-serp.md"
       ],
@@ -4204,6 +4299,11 @@
           "owner_id": "home",
           "name": "תאילנד לישראלים",
           "url": "/"
+        },
+        {
+          "owner_id": "living-in-thailand",
+          "name": "חיים בתאילנד",
+          "url": "/חיים-בתאילנד/"
         },
         {
           "owner_id": "useful-thai-language",

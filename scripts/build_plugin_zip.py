@@ -372,9 +372,13 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
     for entry in php_files:
         run_checked([str(php_bin), "-l", str(root / Path(*PurePosixPath(entry).parts))], root)
 
+    contract_environment = os.environ.copy()
+    contract_environment["THAILAND_PLATFORM_NODE_BINARY"] = str(node_bin)
+
     javascript_files = sorted(
         [entry for entry in entries if entry.lower().endswith(".js")]
         + [
+            "scripts/live_guides_acceptance.cjs",
             "scripts/live_homepage_acceptance.cjs",
             "scripts/live_real_estate_acceptance.cjs",
             "scripts/live_seo_migration_acceptance.cjs",
@@ -386,18 +390,61 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
             raise ValueError(f"JavaScript QA input is missing or unsafe: {entry}")
         run_checked([str(node_bin), "--check", str(source)], root)
 
+    javascript_source_sha256 = {
+        entry: sha256_bytes((root / Path(*PurePosixPath(entry).parts)).read_bytes())
+        for entry in javascript_files
+    }
+
     tawk_output = run_checked([str(node_bin), str(root / "tests" / "tawk-state.test.js")], root)
     if tawk_output != "PASS: Tawk chat behavior":
         raise ValueError(f"Unexpected Tawk behavior test output: {tawk_output}")
 
+    run_checked([sys.executable, str(root / "scripts" / "build_homepage_assets.py"), "--check"], root)
     run_checked([sys.executable, str(root / "scripts" / "build_bangkok_rental_assets.py"), "--check"], root)
     run_checked([sys.executable, str(root / "scripts" / "build_bangkok_rental_registry.py"), "--check"], root)
     run_checked([sys.executable, str(root / "tests" / "bangkok-rental-data.test.py")], root)
+    run_checked([sys.executable, str(root / "scripts" / "build_content_registry.py"), "--check"], root)
+    run_checked([sys.executable, str(root / "tests" / "real-estate-content.test.py")], root)
+    real_estate_runtime_output = run_checked(
+        [str(php_bin), str(root / "tests" / "real-estate-runtime.test.php")],
+        root,
+        contract_environment,
+    )
+    expected_real_estate_runtime_output = (
+        "PASS: Thailand Platform release contract\n"
+        "PASS: managed real-estate runtime contract"
+    )
+    if real_estate_runtime_output != expected_real_estate_runtime_output:
+        raise ValueError(f"Unexpected real-estate runtime test output: {real_estate_runtime_output}")
+    run_checked([sys.executable, str(root / "tests" / "draft-content-inventory.test.py")], root)
+    migration_ledger_output = run_checked(
+        [sys.executable, str(root / "scripts" / "build_content_migration_ledger.py")],
+        root,
+    )
+    if migration_ledger_output != "PASS: content migration ledger is current":
+        raise ValueError(f"Unexpected content migration ledger output: {migration_ledger_output}")
+    run_checked([sys.executable, str(root / "tests" / "content-migration-ledger.test.py")], root)
+    run_checked([sys.executable, str(root / "tests" / "queued-expired-content.test.py")], root)
+    run_checked([sys.executable, str(root / "scripts" / "build_guide_assets.py"), "--check"], root)
+    run_checked([sys.executable, str(root / "scripts" / "build_priority_guides_registry.py"), "--check"], root)
+    guides_compiler_output = run_checked(
+        [sys.executable, str(root / "tests" / "priority-guides-compiler.test.py")],
+        root,
+    )
+    if guides_compiler_output != "PASS: priority guides compiler tests":
+        raise ValueError(f"Unexpected priority guides compiler test output: {guides_compiler_output}")
+    guides_runtime_output = run_checked(
+        [str(php_bin), str(root / "tests" / "guides-runtime.test.php")],
+        root,
+    )
+    if guides_runtime_output != "PASS: priority guides runtime tests":
+        raise ValueError(f"Unexpected priority guides runtime test output: {guides_runtime_output}")
     run_checked([sys.executable, str(root / "scripts" / "build_geography_registry.py"), "--check"], root)
     run_checked([sys.executable, str(root / "tests" / "geography-builder.test.py")], root)
+    run_checked([sys.executable, str(root / "scripts" / "build_seo_registry.py"), "--check"], root)
+    run_checked([sys.executable, str(root / "scripts" / "build_seo_runtime.py"), "--check"], root)
     run_checked([sys.executable, str(root / "tests" / "seo-ownership-registry.test.py")], root)
-    contract_environment = os.environ.copy()
-    contract_environment["THAILAND_PLATFORM_NODE_BINARY"] = str(node_bin)
+    run_checked([sys.executable, str(root / "tests" / "seo-runtime-gates.test.py")], root)
     test_output = run_checked(
         [str(php_bin), str(root / "tests" / "run.php")],
         root,
@@ -421,16 +468,36 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
         "node_runtime": node_version,
         "javascript_syntax": "pass",
         "javascript_files_checked": javascript_files,
+        "javascript_source_sha256": javascript_source_sha256,
         "tawk_state_tests": "pass",
         "tawk_state_test_output": tawk_output,
         "contract_tests": "pass",
         "contract_test_output": test_output,
+        "homepage_asset_compiler": "pass",
         "bangkok_asset_compiler": "pass",
         "bangkok_registry_compiler": "pass",
         "bangkok_data_tests": "pass",
+        "content_registry_compiler": "pass",
+        "real_estate_content_tests": "pass",
+        "real_estate_runtime_tests": "pass",
+        "real_estate_runtime_test_output": real_estate_runtime_output,
+        "draft_content_inventory_tests": "pass",
+        "content_migration_ledger_compiler": "pass",
+        "content_migration_ledger_compiler_output": migration_ledger_output,
+        "content_migration_ledger_tests": "pass",
+        "queued_expired_content_tests": "pass",
+        "guide_asset_compiler": "pass",
+        "priority_guides_registry_compiler": "pass",
+        "priority_guides_compiler_tests": "pass",
+        "priority_guides_compiler_test_output": guides_compiler_output,
+        "guides_runtime_tests": "pass",
+        "guides_runtime_test_output": guides_runtime_output,
         "geography_compiler": "pass",
         "geography_builder_tests": "pass",
+        "seo_registry_compiler": "pass",
+        "seo_runtime_compiler": "pass",
         "seo_registry_tests": "pass",
+        "seo_runtime_gate_tests": "pass",
     }
 
 

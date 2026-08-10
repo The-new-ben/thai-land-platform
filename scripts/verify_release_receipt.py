@@ -256,11 +256,21 @@ def main() -> int:
             "bangkok_asset_compiler",
             "bangkok_data_tests",
             "bangkok_registry_compiler",
+            "content_migration_ledger_compiler",
+            "content_migration_ledger_compiler_output",
+            "content_migration_ledger_tests",
+            "content_registry_compiler",
             "contract_test_output",
             "contract_tests",
+            "draft_content_inventory_tests",
             "geography_builder_tests",
             "geography_compiler",
+            "guide_asset_compiler",
+            "guides_runtime_test_output",
+            "guides_runtime_tests",
+            "homepage_asset_compiler",
             "javascript_files_checked",
+            "javascript_source_sha256",
             "javascript_syntax",
             "node_binary",
             "node_runtime",
@@ -268,7 +278,17 @@ def main() -> int:
             "php_files_linted",
             "php_lint",
             "php_runtime",
+            "priority_guides_compiler_test_output",
+            "priority_guides_compiler_tests",
+            "priority_guides_registry_compiler",
+            "queued_expired_content_tests",
+            "real_estate_content_tests",
+            "real_estate_runtime_test_output",
+            "real_estate_runtime_tests",
+            "seo_registry_compiler",
             "seo_registry_tests",
+            "seo_runtime_compiler",
+            "seo_runtime_gate_tests",
             "tawk_state_test_output",
             "tawk_state_tests",
         },
@@ -276,24 +296,68 @@ def main() -> int:
     )
     require(qa["php_lint"] == "pass", "PHP lint did not pass")
     require(qa["contract_tests"] == "pass", "contract tests did not pass")
+    require(qa["homepage_asset_compiler"] == "pass", "homepage asset compiler parity did not pass")
     require(qa["bangkok_asset_compiler"] == "pass", "Bangkok asset compiler parity did not pass")
     require(qa["bangkok_registry_compiler"] == "pass", "Bangkok registry compiler parity did not pass")
     require(qa["bangkok_data_tests"] == "pass", "Bangkok data tests did not pass")
+    require(qa["content_registry_compiler"] == "pass", "content registry compiler parity did not pass")
+    require(qa["real_estate_content_tests"] == "pass", "real-estate content tests did not pass")
+    require(qa["real_estate_runtime_tests"] == "pass", "real-estate runtime tests did not pass")
+    require(
+        qa["real_estate_runtime_test_output"]
+        == "PASS: Thailand Platform release contract\nPASS: managed real-estate runtime contract",
+        "real-estate runtime test output mismatch",
+    )
+    require(qa["draft_content_inventory_tests"] == "pass", "draft-content inventory tests did not pass")
+    require(qa["content_migration_ledger_compiler"] == "pass", "content migration ledger compiler parity did not pass")
+    require(
+        qa["content_migration_ledger_compiler_output"] == "PASS: content migration ledger is current",
+        "content migration ledger compiler output mismatch",
+    )
+    require(qa["content_migration_ledger_tests"] == "pass", "content migration ledger tests did not pass")
+    require(qa["queued_expired_content_tests"] == "pass", "queued expired-content tests did not pass")
     require(qa["geography_compiler"] == "pass", "geography compiler parity did not pass")
     require(qa["geography_builder_tests"] == "pass", "geography builder tests did not pass")
+    require(qa["guide_asset_compiler"] == "pass", "guide asset compiler parity did not pass")
+    require(qa["priority_guides_registry_compiler"] == "pass", "priority guides registry compiler parity did not pass")
+    require(qa["priority_guides_compiler_tests"] == "pass", "priority guides compiler tests did not pass")
+    require(
+        qa["priority_guides_compiler_test_output"] == "PASS: priority guides compiler tests",
+        "priority guides compiler test output mismatch",
+    )
+    require(qa["guides_runtime_tests"] == "pass", "priority guides runtime tests did not pass")
+    require(
+        qa["guides_runtime_test_output"] == "PASS: priority guides runtime tests",
+        "priority guides runtime test output mismatch",
+    )
+    require(qa["seo_registry_compiler"] == "pass", "SEO ownership registry compiler parity did not pass")
+    require(qa["seo_runtime_compiler"] == "pass", "SEO runtime compiler parity did not pass")
     require(qa["seo_registry_tests"] == "pass", "SEO ownership registry tests did not pass")
+    require(qa["seo_runtime_gate_tests"] == "pass", "SEO runtime gate tests did not pass")
     require(qa["javascript_syntax"] == "pass", "JavaScript syntax checks did not pass")
     require(qa["tawk_state_tests"] == "pass", "Tawk behavior tests did not pass")
     require(qa["tawk_state_test_output"] == "PASS: Tawk chat behavior", "Tawk behavior test output mismatch")
     expected_javascript_files = sorted(
         [entry for entry in inventory_entries if entry.lower().endswith(".js")]
         + [
+            "scripts/live_guides_acceptance.cjs",
             "scripts/live_homepage_acceptance.cjs",
             "scripts/live_real_estate_acceptance.cjs",
             "scripts/live_seo_migration_acceptance.cjs",
         ]
     )
     require(qa["javascript_files_checked"] == expected_javascript_files, "JavaScript syntax inventory mismatch")
+    javascript_source_sha256 = qa["javascript_source_sha256"]
+    require(isinstance(javascript_source_sha256, dict), "JavaScript source hashes must be an object")
+    exact_keys(javascript_source_sha256, set(expected_javascript_files), "JavaScript source hashes")
+    for relative in expected_javascript_files:
+        source = source_root / relative
+        require(source.is_file() and not source.is_symlink(), f"JavaScript QA source is missing or unsafe: {relative}")
+        require(
+            valid_hash(javascript_source_sha256[relative])
+            and javascript_source_sha256[relative] == sha256(source),
+            f"JavaScript QA source hash mismatch: {relative}",
+        )
     require(qa["contract_test_output"] == "PASS: Thailand Platform release contract", "contract test output mismatch")
     require(type(qa["php_files_linted"]) is int and qa["php_files_linted"] > 0, "PHP lint count is invalid")
     require(isinstance(qa["php_runtime"], str) and qa["php_runtime"].startswith("PHP "), "PHP runtime is invalid")

@@ -177,8 +177,11 @@ PUBLIC: dict[str, dict[str, Any]] = {
         "he|entry|thailand|april-2022|historical",
         "כללי הכניסה לתאילנד באפריל 2022",
         "כניסה לתאילנד באפריל 2022",
-        ["כללי קורונה תאילנד אפריל 2022", "RT-PCR Thailand April 2022"],
-        "להבין שינוי היסטורי בכללי הכניסה לתאילנד",
+        [
+            "כללי קורונה תאילנד אפריל 2022",
+            "ביטול PCR לפני טיסה לתאילנד 2022",
+        ],
+        "להבין את השינוי ההיסטורי שחל בכללי הכניסה לתאילנד באפריל 2022",
         "thailand-visas",
         "historical_update",
         "historical",
@@ -267,8 +270,8 @@ PUBLIC: dict[str, dict[str, Any]] = {
         "he|immigration|thailand|permanent-residence|learn",
         "תושבות קבע בתאילנד",
         "תושבות קבע בתאילנד",
-        ["תושב קבע תאילנד", "permanent residence Thailand"],
-        "להבין זכאות ותהליך לקבלת תושבות קבע בתאילנד",
+        ["מעמד תושב קבע בתאילנד", "Permanent Residence Thailand"],
+        "להבין זכאות, מסלולים, מסמכים, מועדים ועלויות לפני בקשת תושבות קבע בתאילנד",
         "thailand-visas",
         "article_guide",
         "learning",
@@ -379,8 +382,8 @@ PUBLIC: dict[str, dict[str, Any]] = {
         "he|immigration|thailand|tourist-visa|learn",
         "ויזת תייר לתאילנד",
         "ויזת תייר לתאילנד",
-        ["אשרת תייר לתאילנד", "tourist visa Thailand"],
-        "להבין תנאים, משך והארכה של ויזת תייר לתאילנד",
+        ["אשרת תייר לתאילנד", "ויזה לתאילנד לישראלים"],
+        "להחליט אם נדרשת אשרת תייר ולהכין בקשת e-Visa מלאה מחוץ לתאילנד",
         "thailand-visas",
         "article_guide",
         "learning",
@@ -451,9 +454,9 @@ PUBLIC: dict[str, dict[str, Any]] = {
         "thailand-entry-requirements",
         "he|entry|thailand|current-requirements|stay-current",
         "דרישות כניסה לתאילנד",
-        "האם תאילנד פתוחה לתיירים",
-        ["דרישות כניסה לתאילנד עכשיו", "Thailand entry requirements"],
-        "לבדוק מה נדרש כעת בכניסה לתאילנד",
+        "כניסה לתאילנד לישראלים",
+        ["דרישות כניסה לתאילנד", "האם תאילנד פתוחה לתיירים"],
+        "לבדוק מה ישראלים צריכים להכין עכשיו לפני טיסה וביקורת גבולות בתאילנד",
         "thailand-visas",
         "article_guide",
         "current_status",
@@ -515,9 +518,13 @@ PUBLIC: dict[str, dict[str, Any]] = {
         "thailand-cannabis-law",
         "he|law|thailand|cannabis|stay-current",
         "חוקי קנאביס בתאילנד",
-        "חוקי קנאביס בתאילנד",
-        ["קנאביס בתאילנד חוק", "cannabis Thailand law"],
-        "להבין מה מותר ומה אסור כעת בנוגע לקנאביס בתאילנד",
+        "קנאביס בתאילנד",
+        [
+            "חוקי קנאביס בתאילנד",
+            "האם קנאביס חוקי בתאילנד",
+            "קנאביס בתאילנד לתיירים",
+        ],
+        "להבין מה מותר ומה אסור לתיירים לפי כללי הקנאביס העדכניים בתאילנד",
         "thailand-law-and-tax",
         "article_guide",
         "current_status",
@@ -823,8 +830,8 @@ PLANNED = {
         "he|immigration|thailand|visa-overview|learn",
         "ויזות לתאילנד",
         "ויזות לתאילנד",
-        ["סוגי ויזה לתאילנד", "Thailand visas"],
-        "להבין דרישות כניסה, סוגי ויזה והארכת שהייה",
+        ["סוגי ויזות לתאילנד", "אשרות ושהייה בתאילנד"],
+        "לבחור מסלול כניסה או שהייה מתאים לתאילנד ולהבין את הפעולות לפני הטיסה ואחריה",
         "home",
         "national_hub",
         "learning",
@@ -835,9 +842,9 @@ PLANNED = {
         "thailand-law-and-tax",
         "he|law-tax|thailand|overview|learn",
         "חוקים ומסים בתאילנד",
-        "חוקים ומסים בתאילנד",
-        ["חוק בתאילנד לישראלים", "Thailand law and tax"],
-        "להבין חוקים, זכויות וחובות מס מרכזיות",
+        "חוקים בתאילנד לישראלים",
+        ["חוקים ומסים בתאילנד", "כללים משפטיים בתאילנד"],
+        "להבין כללים מרכזיים לפני מגורים, עבודה, עסק, השקעה או טיול בתאילנד ולמצוא מדריך מדויק",
         "home",
         "national_hub",
         "learning",
@@ -1338,17 +1345,18 @@ def build_registry() -> dict[str, Any]:
         "contextual_body",
         ["מדריך בנגקוק"],
     )
+    add_link(
+        "thailand-entry-april-2022",
+        "thailand-entry-requirements",
+        "support",
+        "contextual_body",
+        [definitions["thailand-entry-requirements"]["primary_keyword"]],
+    )
 
     owners: list[dict[str, Any]] = []
     for owner_id in sorted(definitions):
         definition = definitions[owner_id]
         owner_chain = chain(owner_id)
-        if lifecycle_by_owner[owner_id] == "live":
-            owner_chain = [
-                chain_id
-                for chain_id in owner_chain
-                if lifecycle_by_owner[chain_id] == "live"
-            ]
         source_evidence: list[str]
         canonical_url = canonical_urls[owner_id]
         if lifecycle_by_owner[owner_id] == "planned":
