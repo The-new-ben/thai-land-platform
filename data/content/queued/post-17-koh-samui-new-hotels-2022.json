@@ -1,0 +1,514 @@
+{
+  "contract_version": "1.0.0",
+  "content_kind": "publish_ready_article",
+  "language": "he-IL",
+  "direction": "rtl",
+  "checked_on": "2026-08-10",
+  "wordpress": {
+    "post_id": 17,
+    "post_type": "post",
+    "protected_path": "/מלונות-חדשים-בקו-סמוי-2022/",
+    "canonical_path": "/מלונות-חדשים-בקו-סמוי-2022/",
+    "future_clean_path": {
+      "path": "/מלונות-שנפתחו-בקוסמוי-ב-2022/",
+      "status": "evidence_gated",
+      "requirements": [
+        "בדיקת הופעות ושאילתות של הכתובת הקיימת ב-Google Search Console",
+        "מיפוי קישורים נכנסים לכתובת הקיימת",
+        "אישור שהכתובת החדשה אינה יוצרת בעל תוכן מתחרה",
+        "הכנת הפניית 301 ישירה ללא שרשרת הפניות",
+        "בדיקת canonical, מפת אתר וקישורים פנימיים לאחר השינוי",
+        "מעקב אחר אינדוקס, הופעות וקליקים במשך שמונה שבועות"
+      ]
+    }
+  },
+  "ownership": {
+    "owner_id": "koh-samui-new-hotels-2022",
+    "intent_id": "he|hotel|koh-samui|openings-2022|historical",
+    "primary_keyword": "מלונות חדשים בקוסמוי 2022",
+    "primary_intent": "לבדוק אילו מלונות נפתחו בקוסמוי בשנת 2022 ומה מאפיין אותם כיום",
+    "intent_class": "historical",
+    "freshness_class": "static_annual",
+    "canonical_owner_exclusions": [
+      "מלונות בקוסמוי",
+      "מלונות יוקרה בקוסמוי",
+      "מלונות חדשים בקוסמוי השנה",
+      "מלונות למשפחות בקוסמוי"
+    ]
+  },
+  "hierarchy": {
+    "parent_owner_id": "koh-samui",
+    "owner_path": [
+      "home",
+      "thailand-destinations",
+      "koh-samui",
+      "koh-samui-new-hotels-2022"
+    ],
+    "breadcrumbs": [
+      {
+        "owner_id": "home",
+        "label": "תאילנד לישראלים",
+        "path": "/"
+      },
+      {
+        "owner_id": "thailand-destinations",
+        "label": "יעדים בתאילנד",
+        "path": "/יעדים-בתאילנד/",
+        "availability": "planned",
+        "render_policy": "plain_text_until_live"
+      },
+      {
+        "owner_id": "koh-samui",
+        "label": "קוסמוי",
+        "path": "/category/קו-סמוי-ko-samui-תאילנד/"
+      },
+      {
+        "owner_id": "koh-samui-new-hotels-2022",
+        "label": "מלונות חדשים בקוסמוי 2022",
+        "path": "/מלונות-חדשים-בקו-סמוי-2022/"
+      }
+    ]
+  },
+  "seo": {
+    "title": "מלונות חדשים בקוסמוי 2022: מה נפתח ומה מתאים למי",
+    "h1": "מלונות חדשים בקוסמוי 2022: ארבע פתיחות ששינו את מפת האירוח",
+    "meta_description": "מלונות חדשים בקוסמוי 2022, כולל קימפטון קיטאלאי, אוואני צ'אוונג, הולידיי אין בופוט ואאוטריגר למאי. הכירו את האזורים, הסגנון וההתאמה.",
+    "search_intent_answer": "רשימה היסטורית מדויקת של מלונות שנפתחו או השלימו פתיחה בקוסמוי בשנת 2022, לצד המצב והשימוש המתאים כיום.",
+    "slug_policy": "הכתובת הקיימת נשמרת. מעבר לכתובת נקייה יותר אפשרי רק לאחר עמידה מלאה בשער הראיות.",
+    "cannibalization_boundaries": [
+      "העמוד עונה רק על פתיחות בשנת 2022 ואינו מדרג את כלל המלונות באי.",
+      "השוואת מלונות יוקרה נשארת בבעלות koh-samui-luxury-hotels.",
+      "בחירת אזור לינה כללית נשארת בבעלות koh-samui.",
+      "פתיחות מלונות בשנה הנוכחית דורשות בעל תוכן נפרד ומתעדכן."
+    ]
+  },
+  "public_content": {
+    "lead": [
+      "בשנת 2022 נוספו לקוסמוי ארבע אפשרויות אירוח בולטות: Kimpton Kitalay Samui בצ'ואנג מון, Avani Chaweng Samui Hotel & Beach Club בצ'אוונג, Holiday Inn Resort Samui Bophut Beach בבופוט ו-OUTRIGGER Koh Samui Beach Resort בלמאי. חלקן היו בנייה חדשה וחלקן פתיחה מדורגת של מתחם מחודש, ולכן חשוב להבחין בין המונחים ולא להציג את כולן כאילו נבנו מאפס.",
+      "זהו מדריך לשנת הפתיחה 2022, לא רשימת המלונות החדשים ביותר כיום. העמוד עודכן ב-10 באוגוסט 2026, וכל אחד מארבעת המלונות עדיין מופיע באתר הרשמי של המותג. לפני הזמנה כדאי לבדוק באתר המלון את סוג החדר, מדיניות הילדים, תנאי הביטול והמחיר לתאריכים שלכם."
+    ],
+    "quick_answer": {
+      "heading": "בקצרה: איזה מלון נפתח ואיפה",
+      "items": [
+        "Kimpton Kitalay Samui נפתח בינואר 2022 בצ'ואנג מון ומתאים למי שמחפש מלון חוף מעוצב ושקט יחסית בצפון-מזרח האי.",
+        "Avani Chaweng Samui נפתח בקיץ 2022 בצ'אוונג ופועל כיום כמלון למבוגרים בלבד, עם דגש על אווירה חברתית וחיי לילה.",
+        "Holiday Inn Resort Samui Bophut Beach נפתח ב-2022 בבופוט ומתמקד בחופשה משפחתית ליד Fisherman's Village.",
+        "OUTRIGGER Koh Samui Beach Resort פתח אגף ראשון באוגוסט והשלים את הפתיחה בנובמבר 2022 בלמאי, עם מתקנים למשפחות ולזוגות."
+      ]
+    },
+    "sections": [
+      {
+        "section_id": "meaning-of-new",
+        "heading": "מה פירוש מלון חדש ברשימה הזאת",
+        "body": [
+          "בענף המלונאות המילה חדש יכולה לתאר בניין חדש, מותג חדש שנכנס לנכס קיים, שיפוץ עמוק או פתיחה שנעשתה בכמה שלבים. ההבדל חשוב, משום שהוא משפיע על תכנון החדרים, גיל התשתיות והציפייה מחוויית האירוח.",
+          "ברשימה הזאת נכלל מלון רק כאשר מקור של המותג תיעד פתיחה בשנת 2022, וכאשר נמצא גם עמוד רשמי פעיל בעת העדכון. אין כאן הבטחה שמתקן, מסעדה או מדיניות שנזכרו בהודעת הפתיחה נשארו ללא שינוי."
+        ]
+      },
+      {
+        "section_id": "kimpton-kitalay",
+        "heading": "Kimpton Kitalay Samui: חוף צ'ואנג מון ועיצוב של כפר ליד הים",
+        "source_ids": [
+          "source:ihg:kimpton-opening-2022",
+          "source:kimpton:current-site"
+        ],
+        "body": [
+          "IHG הודיעה על הפתיחה הרשמית ב-12 בינואר 2022. המלון נמצא בחוף צ'ואנג מון בצפון-מזרח קוסמוי, אזור רגוע יותר מצ'אוונג ובמרחק נסיעה קצר מנמל התעופה. בעת הפתיחה תוארו 138 חדרים, סוויטות ווילות בריכה, חמש מסעדות וברים ומועדון ילדים גדול.",
+          "כיום האתר הרשמי עדיין מציג 138 חדרים, סוויטות ווילות. הבחירה מתאימה במיוחד לזוגות ולמשפחות שרוצים להישאר במלון חוף מלא שירותים, אך עדיין להיות קרובים לאזורי בופוט וצ'אוונג. מי שמתכנן לצאת ברגל למסעדות רבות בכל ערב צריך להשוות את המיקום מול בופוט או מרכז צ'אוונג."
+        ],
+        "decision_notes": [
+          "מתאים לחופשת מלון מרכזית, לזוגות ולמשפחות שמעדיפים חוף שקט יחסית.",
+          "בדקו את סוג החדר בפועל, משום שההבדל בין חדר, סוויטה ווילה משנה מאוד את המרחב והפרטיות.",
+          "בדקו מראש אילו פעילויות ילדים, מסעדות ושירותי חוף פועלים בתאריכי השהייה."
+        ]
+      },
+      {
+        "section_id": "avani-chaweng",
+        "heading": "Avani Chaweng Samui: חופשה חברתית בלב צ'אוונג",
+        "source_ids": [
+          "source:minor:avani-opened-2022",
+          "source:avani:current-site"
+        ],
+        "body": [
+          "Minor Hotels הציגה ביוני 2022 מלון חדש בן 80 חדרים וסוויטות, ולאחר מכן פרסמה בספטמבר שהמלון נפתח. המיקום על דרך חוף צ'אוונג מציב אותו ליד מסעדות, בילוי וקניות, ובצמוד ל-SEEN Beach Club Samui.",
+          "האתר הרשמי מגדיר כיום את המלון כמיועד לאורחים בני 18 ומעלה. לכן הוא יכול להתאים לזוגות ולחברים שרוצים להיות קרובים לחיי הלילה, אך אינו הבחירה המתאימה למשפחה עם ילדים. גם למי שמחפש שקט מוקדם בערב כדאי להשוות חלופה בצ'ואנג מון, בופוט או בחלק שקט יותר של האי."
+        ],
+        "decision_notes": [
+          "מתאים למבוגרים שמעדיפים אווירה פעילה, בריכה חברתית וגישה נוחה לבילוי.",
+          "אינו מתאים כיום לשהייה עם אורחים מתחת לגיל 18 לפי האתר הרשמי.",
+          "בדקו לוח אירועים ומדיניות רעש אם השינה והשקט חשובים לכם."
+        ]
+      },
+      {
+        "section_id": "holiday-inn-bophut",
+        "heading": "Holiday Inn Resort Samui Bophut Beach: בסיס משפחתי ליד Fisherman's Village",
+        "source_ids": [
+          "source:ihg:holiday-inn-2022-opening",
+          "source:ihg:holiday-inn-current",
+          "source:holiday-inn:contact-map"
+        ],
+        "body": [
+          "IHG מונה את Holiday Inn Resort Samui Bophut Beach בין פתיחות 2022 של המותג בתאילנד. המלון נמצא על חוף בופוט, ליד אזור Fisherman's Village, כך שאפשר לשלב שהייה במתחם עם יציאה קצרה למסעדות, חנויות ושוק הערב במועדים שבהם הוא פועל.",
+          "האתר הרשמי מציג כיום 203 חדרים בתשעה מבנים נמוכים, כולל סוויטות משפחתיות. זהו יתרון למשפחה שרוצה מתקני ילדים וגישה נוחה לאזור פעיל, אך חשוב לבדוק את תצורת המיטות, תפוסת החדר וגילאי הילדים לפני תשלום, ולא להסתפק בשם Family Suite."
+        ],
+        "decision_notes": [
+          "מתאים למשפחות שרוצות להיות ליד בופוט ולא להסתמך על נסיעה לכל ארוחה.",
+          "השוו בין חדר רגיל, סוויטה עם חדר שינה אחד וסוויטה עם שני חדרי שינה.",
+          "בדקו את מדיניות הילדים והארוחות להזמנה המסוימת, משום שתנאי המבצע עשויים להשתנות."
+        ]
+      },
+      {
+        "section_id": "outrigger-lamai",
+        "heading": "OUTRIGGER Koh Samui Beach Resort: פתיחה מדורגת בלמאי",
+        "source_ids": [
+          "source:outrigger:first-opening-2022",
+          "source:outrigger:opening-complete-2022",
+          "source:outrigger:current-site"
+        ],
+        "body": [
+          "המלון פתח באוגוסט 2022 את השלב הראשון עם 44 חדרים, והשלים ב-26 בנובמבר את פתיחת 102 החדרים הנוספים. לאחר השלמת התהליך מנה המתחם 146 חדרים וסוויטות. התיאור המדויק הוא פתיחה מדורגת של אתר נופש מחודש, ולא טענה שכל המתחם נבנה לראשונה בשנת 2022.",
+          "המיקום בלמאי מתאים למי שמעדיף את דרום-מזרח האי ואת האופי המקומי של האזור. משפחות יכולות להתעניין בחדרים מקושרים ובמתקני הילדים, ואילו זוגות צריכים לבדוק אם האווירה המשפחתית מתאימה לסוג החופשה שלהם. זמני נסיעה לנמל התעופה, בופוט וצ'אוונג ארוכים יותר בהשוואה למלונות בצפון-מזרח."
+        ],
+        "decision_notes": [
+          "מתאים למי שבוחר במודע את אזור למאי ולא חייב להיות קרוב לבופוט.",
+          "משפחות צריכות לבדוק זמינות של חדרים מקושרים ולא להניח שהיא כלולה בכל סוג חדר.",
+          "בדקו את משך הנסיעה לפי שעת ההגעה ולא לפי מרחק בקו אווירי."
+        ]
+      },
+      {
+        "section_id": "choose-by-area",
+        "heading": "איך לבחור בין צ'ואנג מון, צ'אוונג, בופוט ולמאי",
+        "body": [
+          "צ'ואנג מון מתאים למי שמעדיף מפרץ רגוע יותר וקרבה יחסית לנמל התעופה. צ'אוונג מתאים למי שרוצה ריכוז גדול של בילוי, אוכל וקניות. בופוט מציע שילוב נוח בין חוף, מסעדות ואווירת ערב, ולמאי נותן בסיס נפרד בדרום-מזרח האי.",
+          "המלון הטוב ביותר הוא זה שמתאים למסלול שלכם, לא המלון עם רשימת המתקנים הארוכה ביותר. סמנו תחילה את האזור שבו תרצו לבלות בערב, את גילאי הנוסעים ואת מספר היציאות המתוכננות מהמלון. רק אחר כך השוו חדרים ומחירים לאותם תאריכים."
+        ]
+      },
+      {
+        "section_id": "booking-checklist",
+        "heading": "מה לבדוק לפני שמזמינים",
+        "body": [
+          "מחיר חדר בקוסמוי משתנה לפי תאריך, סוג חדר, מספר אורחים, ארוחות ותנאי ביטול. השוואה אמינה משתמשת באותם תאריכים ובאותה תפוסה, ומגיעה עד למסך שבו מוצגים מסים ותוספות.",
+          "אם אתם נוסעים עם ילדים, בדקו בנפרד מיטה נוספת, ארוחת בוקר, גיל הכניסה למועדון ילדים והשגחת מבוגר. אם אתם נוסעים כזוג, בדקו אירועים, מוזיקה וקרבת החדר לשטח ציבורי. בכל הזמנה כדאי לשמור צילום של תנאי הביטול ושל סוג החדר שנבחר."
+        ],
+        "checklist": [
+          "שם החדר המדויק ותצורת המיטות",
+          "מספר האורחים המותר בחדר",
+          "מסים, תוספות וארוחות הכלולים במחיר הסופי",
+          "מדיניות שינוי וביטול",
+          "כללי גיל ומדיניות ילדים",
+          "גישה לחוף ומצב הים בעונה",
+          "זמן נסיעה מהמלון למקומות החשובים לכם"
+        ]
+      },
+      {
+        "section_id": "current-openings-intent",
+        "heading": "מחפשים מלונות שנפתחו לאחר 2022",
+        "body": [
+          "כאן תמצאו רק מלונות שנפתחו או השלימו פתיחה בשנת 2022. למלונות שנפתחו לאחר מכן עברו למדריך המלונות העדכני של קוסמוי, ואל תסתמכו על שינוי מותג בלבד כהוכחה לכך שמלון הוא חדש.",
+          "למציאת מלון חדש יותר עברו למדריך המלונות בקוסמוי, בחרו אזור וסגנון חופשה, ובדקו בעמוד הרשמי של כל מלון את תאריך הפתיחה או השיפוץ. כך אפשר להבדיל בין מלון חדש, אגף חדש ושינוי מותג."
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "question": "האם אלה המלונות החדשים ביותר בקוסמוי כיום?",
+        "answer": "לא. אלה מלונות שנפתחו או השלימו פתיחה בשנת 2022. לחיפוש עדכני צריך לבדוק את מדריך המלונות בקוסמוי ואת אתרי המלונות לתאריכי הנסיעה."
+      },
+      {
+        "question": "איזה מהמלונות מתאים למשפחה עם ילדים?",
+        "answer": "Holiday Inn Resort Samui Bophut Beach ו-OUTRIGGER Koh Samui Beach Resort מציגים התאמה משפחתית ברורה. Kimpton Kitalay Samui מציע גם מתקני ילדים. Avani Chaweng פועל כיום למבוגרים בלבד."
+      },
+      {
+        "question": "איזה מלון נמצא באזור הפעיל ביותר?",
+        "answer": "Avani Chaweng נמצא בצ'אוונג ומתאים למי שמעדיף חיי לילה וגישה מהירה לבילוי. Holiday Inn נמצא ליד Fisherman's Village בבופוט, אזור פעיל אך בעל אופי שונה."
+      },
+      {
+        "question": "למה אין בעמוד מחיר קבוע לכל מלון?",
+        "answer": "מחירי מלון תלויים בתאריך, תפוסה, סוג חדר, ארוחות ותנאי ביטול. מספר קבוע ללא תאריך וללא תנאי הזמנה עלול להטעות."
+      }
+    ]
+  },
+  "hotel_entities": [
+    {
+      "entity_id": "hotel:th:koh-samui:kimpton-kitalay",
+      "name": "Kimpton Kitalay Samui",
+      "area": "Choeng Mon",
+      "opening_status": "officially_opened_2022-01-12",
+      "current_positioning": "beachfront_resort",
+      "room_count": 138,
+      "address": "10/79 Moo 5, Bophut, Choeng Mon Beach, Koh Samui, Surat Thani 84320, Thailand",
+      "coordinates": {
+        "lat": 9.57384,
+        "lng": 100.07938,
+        "accuracy": "entrance_area",
+        "basis": "official_address_and_map"
+      },
+      "province_entity_id": "geo:th:province:84",
+      "district_name": "Ko Samui",
+      "subdistrict_name": "Bo Phut",
+      "canonical_page_url": "/מלונות-חדשים-בקו-סמוי-2022/#kimpton-kitalay",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:ihg:kimpton-opening-2022",
+        "source:kimpton:current-site"
+      ]
+    },
+    {
+      "entity_id": "hotel:th:koh-samui:avani-chaweng",
+      "name": "Avani Chaweng Samui Hotel & Beach Club",
+      "area": "Chaweng",
+      "opening_status": "opened_by_2022-09-06",
+      "current_positioning": "adults_only_social_hotel",
+      "room_count": 80,
+      "address": "209/10 Moo 2, Sala Koy Road, Bo Phut, Koh Samui, Surat Thani 84320, Thailand",
+      "coordinates": {
+        "lat": 9.521612182008036,
+        "lng": 100.05837327575729,
+        "accuracy": "official_gps",
+        "basis": "official_contact_page"
+      },
+      "province_entity_id": "geo:th:province:84",
+      "district_name": "Ko Samui",
+      "subdistrict_name": "Bo Phut",
+      "canonical_page_url": "/מלונות-חדשים-בקו-סמוי-2022/#avani-chaweng",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:minor:avani-opened-2022",
+        "source:avani:current-site",
+        "source:avani:contact-map"
+      ]
+    },
+    {
+      "entity_id": "hotel:th:koh-samui:holiday-inn-bophut",
+      "name": "Holiday Inn Resort Samui Bophut Beach",
+      "area": "Bophut",
+      "opening_status": "opened_in_2022",
+      "current_positioning": "family_beachfront_resort",
+      "room_count": 203,
+      "address": "8888 Moo 1, Bophut, Koh Samui, Surat Thani 84320, Thailand",
+      "coordinates": {
+        "lat": 9.5589205,
+        "lng": 100.00568563476564,
+        "accuracy": "official_embedded_map",
+        "basis": "hotel_owned_contact_page"
+      },
+      "province_entity_id": "geo:th:province:84",
+      "district_name": "Ko Samui",
+      "subdistrict_name": "Bo Phut",
+      "canonical_page_url": "/מלונות-חדשים-בקו-סמוי-2022/#holiday-inn-bophut",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:ihg:holiday-inn-2022-opening",
+        "source:ihg:holiday-inn-current",
+        "source:holiday-inn:contact-map"
+      ]
+    },
+    {
+      "entity_id": "hotel:th:koh-samui:outrigger-lamai",
+      "name": "OUTRIGGER Koh Samui Beach Resort",
+      "area": "Lamai",
+      "opening_status": "phased_opening_completed_2022-11-26",
+      "current_positioning": "family_and_couples_resort",
+      "room_count": 146,
+      "address": "173/41 Moo 4, Rob Koh Road, Maret, Koh Samui, Surat Thani 84310, Thailand",
+      "coordinates": {
+        "lat": 9.4724132,
+        "lng": 100.0567332,
+        "accuracy": "official_map_pin",
+        "basis": "official_hotel_map_link"
+      },
+      "province_entity_id": "geo:th:province:84",
+      "district_name": "Ko Samui",
+      "subdistrict_name": "Maret",
+      "canonical_page_url": "/מלונות-חדשים-בקו-סמוי-2022/#outrigger-lamai",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:outrigger:first-opening-2022",
+        "source:outrigger:opening-complete-2022",
+        "source:outrigger:current-site"
+      ]
+    }
+  ],
+  "internal_links": [
+    {
+      "target_owner_id": "koh-samui",
+      "path": "/category/קו-סמוי-ko-samui-תאילנד/",
+      "relationship": "parent_hub",
+      "anchor_text": "מדריך קוסמוי",
+      "placement": "lead_and_conclusion"
+    },
+    {
+      "target_owner_id": "thailand-hotels",
+      "path": "/category/מלון-כל-סוגי-המלונות/",
+      "relationship": "ancestor_hub",
+      "anchor_text": "מלונות בתאילנד",
+      "placement": "current_openings_section"
+    },
+    {
+      "target_owner_id": "koh-samui-luxury-hotels",
+      "path": "/מלונות-היוקרה-הטובים-ביותר-בקוסמוי/",
+      "relationship": "sibling",
+      "anchor_text": "מלונות יוקרה בקוסמוי",
+      "placement": "choose_by_area_section"
+    },
+    {
+      "target_owner_id": "best-time-for-thailand",
+      "path": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/",
+      "relationship": "contextual",
+      "anchor_text": "מתי כדאי לטוס לתאילנד",
+      "placement": "booking_checklist_section"
+    }
+  ],
+  "source_catalog": [
+    {
+      "source_id": "source:ihg:kimpton-opening-2022",
+      "publisher": "IHG Hotels & Resorts",
+      "title": "Kimpton brings its signature heartfelt service and playful design to Thailand's Koh Samui",
+      "url": "https://www.ihgplc.com/en/news-and-media/news-releases/2022/kimpton-brings-its-signature-heartfelt-service-and-playful-design-to-thailands-koh-samui",
+      "source_type": "brand_opening_release",
+      "published_on": "2022-01-12",
+      "checked_on": "2026-08-10",
+      "supports": "Official opening date, location, room count and opening facilities."
+    },
+    {
+      "source_id": "source:kimpton:current-site",
+      "publisher": "Kimpton Kitalay Samui",
+      "title": "Kimpton Kitalay Samui official site",
+      "url": "https://www.kimptonkitalaysamui.com/",
+      "source_type": "current_official_hotel_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current hotel identity, location and 138-room positioning."
+    },
+    {
+      "source_id": "source:minor:avani-opened-2022",
+      "publisher": "Minor Hotels",
+      "title": "Avani Hotels Announces a Hedonistic Bolt-Hole on Koh Samui's Legendary Chaweng Beach",
+      "url": "https://media.minorhotels.com/en-GLO/225520-avani-hotels-announces-a-hedonistic-bolt-hole-on-koh-samui-s-legendary-chaweng-beach/",
+      "source_type": "brand_opening_release",
+      "published_on": "2022-09-06",
+      "checked_on": "2026-08-10",
+      "supports": "Opened status, Chaweng location and hotel concept."
+    },
+    {
+      "source_id": "source:avani:current-site",
+      "publisher": "Avani Hotels & Resorts",
+      "title": "Avani Chaweng Samui Hotel & Beach Club",
+      "url": "https://www.avanihotels.com/en/chaweng-samui",
+      "source_type": "current_official_hotel_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current adults-only policy, room count and facilities."
+    },
+    {
+      "source_id": "source:avani:contact-map",
+      "publisher": "Avani Hotels & Resorts",
+      "title": "Contact Avani Chaweng Samui Hotel & Beach Club",
+      "url": "https://www.avanihotels.com/en/chaweng-samui/contact",
+      "source_type": "official_contact_and_gps_page",
+      "checked_on": "2026-08-10",
+      "supports": "Official GPS position and current hotel contact details."
+    },
+    {
+      "source_id": "source:outrigger:first-opening-2022",
+      "publisher": "OUTRIGGER Resorts & Hotels",
+      "title": "OUTRIGGER Koh Samui Beach Resort Now Open",
+      "url": "https://news.outrigger.com/2022/08/01/outrigger-koh-samui-beach-resort-now-open/",
+      "source_type": "brand_opening_release",
+      "published_on": "2022-08-01",
+      "checked_on": "2026-08-10",
+      "supports": "Official first-phase opening date, 44 opening rooms and 102 rooms scheduled for the second phase."
+    },
+    {
+      "source_id": "source:outrigger:opening-complete-2022",
+      "publisher": "OUTRIGGER Resorts & Hotels",
+      "title": "Outrigger Koh Samui Beach Resort Completes Its Opening",
+      "url": "https://news.outrigger.com/2022/11/28/outrigger-koh-samui-beach-resort-completes-its-opening/",
+      "source_type": "brand_opening_release",
+      "published_on": "2022-11-28",
+      "checked_on": "2026-08-10",
+      "supports": "Phased opening, completion date, Lamai location, room count and facilities."
+    },
+    {
+      "source_id": "source:outrigger:current-site",
+      "publisher": "OUTRIGGER Resorts & Hotels",
+      "title": "OUTRIGGER Koh Samui Beach Resort",
+      "url": "https://www.outrigger.com/thailand/outrigger-koh-samui-beach-resort",
+      "source_type": "current_official_hotel_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current hotel identity and booking presence."
+    },
+    {
+      "source_id": "source:ihg:holiday-inn-2022-opening",
+      "publisher": "IHG Hotels & Resorts",
+      "title": "IHG continues its expansion in Phuket with two Holiday Inn Resort conversions",
+      "url": "https://www.ihgplc.com/en/news-and-media/news-releases/2023/ihg-continues-its-expansion-in-phuket-with-two-holiday-inn-resort-conversions",
+      "source_type": "brand_portfolio_release",
+      "checked_on": "2026-08-10",
+      "supports": "IHG identifies Holiday Inn Resort Samui Bophut Beach as a 2022 opening."
+    },
+    {
+      "source_id": "source:ihg:holiday-inn-current",
+      "publisher": "IHG Hotels & Resorts",
+      "title": "Holiday Inn Resort Samui Bophut Beach",
+      "url": "https://www.ihg.com/holidayinnresorts/hotels/us/en/koh-samui/usmrt/hoteldetail",
+      "source_type": "current_official_hotel_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current family positioning, Bophut location, room count and room types."
+    },
+    {
+      "source_id": "source:holiday-inn:contact-map",
+      "publisher": "Holiday Inn Resort Samui Bophut Beach",
+      "title": "Contact and Location",
+      "url": "https://www.holidayinnsamui.com/contact-us",
+      "source_type": "hotel_owned_contact_and_map_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current street address and the hotel's embedded map position."
+    }
+  ],
+  "measurement_requirements": [
+    {
+      "field": "nightly_total_thb",
+      "status": "required_before_price_publication",
+      "method": "Observe the same dates, occupancy, room type, meal basis, taxes and cancellation terms on the official hotel site.",
+      "minimum_observations": 3,
+      "refresh_days": 14
+    },
+    {
+      "field": "airport_transfer_time_minutes",
+      "status": "required_before_numeric_publication",
+      "method": "Record route estimates for the same weekday and arrival time, then state the observation date and traffic context.",
+      "minimum_observations": 2,
+      "refresh_days": 90
+    },
+    {
+      "field": "current_facility_schedule",
+      "status": "required_before_schedule_publication",
+      "method": "Confirm directly on the hotel site or with the hotel for the requested stay dates.",
+      "minimum_observations": 1,
+      "refresh_days": 30
+    }
+  ],
+  "schema_policy": {
+    "allowed": [
+      "Article",
+      "BreadcrumbList",
+      "ItemList"
+    ],
+    "conditional": [
+      "Hotel markup may be emitted for an entity only when its official name, current URL, address and displayed fields are present in the rendered page and checked on the publication date."
+    ],
+    "forbidden": [
+      "AggregateRating without first-party visible rating evidence",
+      "Review without a real named reviewer and visible review",
+      "Offer without a current bookable price, currency, dates and availability",
+      "FAQPage when the questions and answers are not rendered to every reader"
+    ]
+  },
+  "forbidden_stale_claims": [
+    "אלה המלונות החדשים ביותר בקוסמוי",
+    "כל ארבעת המלונות נבנו מאפס בשנת 2022",
+    "מחיר קבוע לחדר ללא תאריכים ותנאי הזמנה",
+    "Avani Chaweng מתאים למשפחות עם ילדים לפי המדיניות הנוכחית",
+    "כל מתקן או מבצע מהודעת הפתיחה עדיין פעיל",
+    "שנת 2022 מוצגת כשנה הנוכחית"
+  ]
+}

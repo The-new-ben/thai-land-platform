@@ -286,6 +286,8 @@ body.thailand-platform-home.large-text { font-size: 18px; }
 .thp-home .mega-panel > div:not(.mega-panel__intro) a { padding: 3px 0; font-size: .9rem; }
 .thp-home .mega-panel > div:not(.mega-panel__intro) a:hover { color: var(--coral); }
 .thp-home .mega-panel__intro { padding-inline-end: 32px; border-inline-end: 1px solid var(--line); }
+.thp-home .mega-panel--guides { grid-template-columns: 1.25fr repeat(2, 1fr); }
+.thp-home .mega-panel--guides p { margin-top: 6px; font-size: .78rem; }
 
 .thp-home .header-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 8px; }
 .thp-home .icon-button { display: inline-grid; width: 42px; height: 42px; padding: 0; place-items: center; color: inherit; background: transparent; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; }
@@ -691,6 +693,9 @@ body.thailand-platform-home.large-text { font-size: 18px; }
 .thp-home .footer-nav h2 { margin-bottom: 12px; color: var(--white); font-size: .84rem; }
 .thp-home .footer-nav a { font-size: .75rem; }
 .thp-home .footer-nav a:hover { color: #f1c675; }
+.thp-home .footer-guides { display: flex; padding-block: 20px; flex-wrap: wrap; align-items: center; gap: 10px 24px; border-top: 1px solid rgba(255,255,255,.12); font-size: .75rem; }
+.thp-home .footer-guides span { color: #f1c675; font-weight: 760; }
+.thp-home .footer-guides a:hover { color: #f1c675; }
 .thp-home .footer-local { display: flex; padding-block: 23px; flex-wrap: wrap; gap: 10px 20px; border-top: 1px solid rgba(255,255,255,.12); font-size: .72rem; }
 .thp-home .footer-local span { color: #f1c675; font-weight: 760; }
 .thp-home .footer-bottom { background: rgba(0,0,0,.16); }

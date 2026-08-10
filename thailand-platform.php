@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Thailand Platform
  * Plugin URI: https://thai-land.co.il/
- * Description: Geography, search, homepage, and content runtime for thai-land.co.il.
- * Version: 0.3.6
+ * Description: Geography, search, homepage, real-estate, and priority guide runtime for thai-land.co.il.
+ * Version: 0.4.0
  * Requires at least: 6.9
  * Requires PHP: 7.4
  * Author: thai-land.co.il
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THAILAND_PLATFORM_VERSION', '0.3.6' );
+define( 'THAILAND_PLATFORM_VERSION', '0.4.0' );
 define( 'THAILAND_PLATFORM_FILE', __FILE__ );
 define( 'THAILAND_PLATFORM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );
@@ -46,6 +46,17 @@ require_once THAILAND_PLATFORM_DIR . 'src/Content/ContextualLinks.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Content/Renderer.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Content/Settings.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Content/Module.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/FeatureFlag.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/Repository.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/Context.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/Assets.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/HomepageNavigation.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/View.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/Seo.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/Schema.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/Renderer.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/Settings.php';
+require_once THAILAND_PLATFORM_DIR . 'src/Guides/Module.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Updates/Checker.php';
 
 define(

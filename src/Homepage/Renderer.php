@@ -79,7 +79,8 @@ final class Renderer {
 			return '';
 		}
 
-		$markup = trim( $source );
+		$markup = apply_filters( 'thailand_platform_homepage_markup', trim( $source ) );
+		$markup = is_string( $markup ) ? $markup : '';
 
 		return $markup;
 	}

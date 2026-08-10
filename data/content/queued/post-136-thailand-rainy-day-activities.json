@@ -1,0 +1,614 @@
+{
+  "contract_version": "1.0.0",
+  "content_kind": "publish_ready_article",
+  "language": "he-IL",
+  "direction": "rtl",
+  "checked_on": "2026-08-10",
+  "wordpress": {
+    "post_id": 136,
+    "post_type": "post",
+    "protected_path": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/",
+    "canonical_path": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/",
+    "future_clean_path": {
+      "path": "/מה-לעשות-ביום-גשום-בתאילנד/",
+      "status": "evidence_gated",
+      "requirements": [
+        "בדיקת שאילתות, הופעות וקליקים של הכתובת הקיימת",
+        "מיפוי קישורים נכנסים וקישורים פנימיים לכתובת הקיימת",
+        "אישור שהכתובת החדשה אינה מתחרה בעמוד עונת הגשמים",
+        "הכנת הפניית 301 ישירה ועדכון canonical ומפת האתר",
+        "בדיקת תוצאות חיפוש והפניות לאחר העלייה",
+        "מעקב אחר אינדוקס וביצועים במשך שמונה שבועות"
+      ]
+    }
+  },
+  "ownership": {
+    "owner_id": "thailand-rainy-day-activities",
+    "intent_id": "he|travel|thailand|rainy-day-activities|plan",
+    "primary_keyword": "מה לעשות ביום גשום בתאילנד",
+    "primary_intent": "למצוא פעילויות חלופיות ובטוחות כאשר יורד גשם במהלך חופשה בתאילנד",
+    "intent_class": "planning",
+    "freshness_class": "seasonal_monthly",
+    "canonical_owner_exclusions": [
+      "מתי לטוס לתאילנד",
+      "עונת הגשמים בתאילנד",
+      "תחזית מזג אוויר בתאילנד",
+      "אטרקציות בתאילנד"
+    ]
+  },
+  "hierarchy": {
+    "parent_owner_id": "thailand-tourism",
+    "owner_path": [
+      "home",
+      "thailand-tourism",
+      "thailand-rainy-day-activities"
+    ],
+    "breadcrumbs": [
+      {
+        "owner_id": "home",
+        "label": "תאילנד לישראלים",
+        "path": "/"
+      },
+      {
+        "owner_id": "thailand-tourism",
+        "label": "תיירות בתאילנד",
+        "path": "/תיירות-בתאילנד/"
+      },
+      {
+        "owner_id": "thailand-rainy-day-activities",
+        "label": "מה לעשות ביום גשום בתאילנד",
+        "path": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/"
+      }
+    ]
+  },
+  "seo": {
+    "title": "מה לעשות ביום גשום בתאילנד: רעיונות לפי יעד",
+    "h1": "מה לעשות ביום גשום בתאילנד: תוכנית חלופית לבנגקוק, פוקט, קוסמוי וצ'יאנג מאי",
+    "meta_description": "מה לעשות ביום גשום בתאילנד: מסלולים מקורים בבנגקוק, פוקט, קוסמוי וצ'יאנג מאי, רעיונות למשפחות וכללי בטיחות לפני שיוצאים.",
+    "search_intent_answer": "תוכנית פעולה לפי חומרת מזג האוויר, משך הזמן הפנוי והיעד, עם חלופות מקורות וכללי בטיחות.",
+    "slug_policy": "הכתובת המוגנת נשמרת למרות השנה הישנה. שינוי כתובת יתבצע רק לאחר עמידה בשער הראיות.",
+    "cannibalization_boundaries": [
+      "העמוד עוסק בפעילויות חלופיות בזמן גשם ולא בבחירת חודש לטיול.",
+      "מידע אקלימי שנתי נשאר בבעלות best-time-for-thailand.",
+      "עמודי יעד מחזיקים את רשימת האטרקציות המלאה בכל עיר.",
+      "התראות מזג אוויר בזמן אמת מגיעות מהשירות המטאורולוגי התאילנדי ולא מהעמוד הזה."
+    ]
+  },
+  "public_content": {
+    "lead": [
+      "גשם בתאילנד לא מחייב לבטל יום שלם. לעיתים מדובר בממטר חזק וקצר, ולעיתים בהתראה אזורית שמשנה נסיעות, שיט ופעילויות חוץ. הצעד הראשון הוא לבדוק את ההתראה והתחזית לאזור המדויק, ורק אחר כך לבחור בין המתנה קצרה, מסלול מקורה או שינוי מלא של היום.",
+      "הדרך הנוחה ביותר היא להכין מראש שתי חלופות ליד מקום הלינה: פעילות מקורה קצרה שאפשר להתחיל מיד, ותוכנית לחצי יום או ליום שלם. כך לא מבזבזים את הבוקר על חיפוש, ולא נוסעים לצד השני של העיר בזמן הצפה או עומס."
+    ],
+    "quick_answer": {
+      "heading": "מה עושים עכשיו",
+      "items": [
+        "בודקים התראה רשמית לאזור ולא מסתפקים בסמל גשם באפליקציה.",
+        "בוחרים פעילות מקורה שנמצאת באותו אזור של המלון או מחוברת לרכבת עירונית.",
+        "דוחים שיט, מפל, תצפית, מסלול הררי או נסיעה בכביש מוצף כאשר קיימת אזהרה.",
+        "שומרים פעילות ארוכה אחת, פעילות קצרה אחת ומקום אוכל קרוב כאפשרויות חלופיות."
+      ]
+    },
+    "sections": [
+      {
+        "section_id": "weather-first",
+        "heading": "לפני שבוחרים פעילות: ממטר מקומי או מזג אוויר מסוכן",
+        "source_ids": [
+          "source:tmd:warning-and-events",
+          "source:tmd:thailand-climate-rain"
+        ],
+        "body": [
+          "תחזית שמציגה גשם אינה אומרת בהכרח שירד גשם רצוף בכל היעד. תאילנד גדולה, והדפוס משתנה בין הצפון, מרכז המדינה, חוף אנדמן וחוף המפרץ. השירות המטאורולוגי התאילנדי מפרסם תחזית יומית, תחזית לשבעה ימים, מכ״ם והתראות על גשם כבד, רוח וגלים.",
+          "אם מופיעה התראה על גשם כבד, הצפה, סופת רעמים או ים גבוה, התייחסו אליה כאל החלטת בטיחות ולא כאל המלצה לטיול. אל תנסו לחצות מים זורמים, אל תעמדו בשטח פתוח בזמן ברקים ואל תצאו לשיט רק מפני שהכרטיס כבר שולם. פנו למפעיל ובקשו שינוי מועד או הסבר על מדיניות הביטול."
+        ],
+        "actions": [
+          "פתחו את עמוד ההתראות של TMD ובחרו את האזור הרלוונטי.",
+          "בדקו מכ״ם לפני מעבר בין שכונות או יציאה מהעיר.",
+          "שאלו את מקום הלינה על רחובות שמוצפים באזור הקרוב.",
+          "העדיפו רכבת עירונית או מסלול קצר ומקורה כאשר הכבישים עמוסים."
+        ]
+      },
+      {
+        "section_id": "bangkok",
+        "heading": "יום גשום בבנגקוק: בנו מסלול סביב תחנת רכבת אחת",
+        "source_ids": [
+          "source:bacc:contact-hours",
+          "source:sealife-bangkok:plan",
+          "source:museum-siam:visit"
+        ],
+        "body": [
+          "בנגקוק מציעה את המבחר הגדול ביותר של פעילויות מקורות, אבל המרחקים והפקקים יכולים להפוך בחירה טובה ליום מתיש. במקום לקפוץ בין קצות העיר, בחרו אשכול אחד. באזור סיאם אפשר לשלב את Bangkok Art and Culture Centre, אקווריום SEA LIFE ומרכזי קניות, רובם במרחק הליכה מקורה או נסיעה קצרה ברכבת.",
+          "באזור העיר העתיקה אפשר לבחור את Museum Siam ולשלב ארוחה סמוכה, אך יש לבדוק מראש את יום הפעילות ואת הדרך מהתחנה. לוח התערוכות ושעות הפתיחה משתנים, ולכן יש לפתוח את האתר הרשמי בבוקר הביקור. בבנגקוק כדאי לשמור את הפעילות הארוכה לשעות הגשם ואת המעבר הקצר לשעה שבה המכ״ם מראה היחלשות."
+        ],
+        "route_options": [
+          {
+            "name": "סיאם למשפחה",
+            "stops": [
+              "SEA LIFE Bangkok Ocean World",
+              "ארוחה במתחם סיאם",
+              "פעילות ילדים או קולנוע לפי גיל"
+            ]
+          },
+          {
+            "name": "סיאם לאמנות",
+            "stops": [
+              "Bangkok Art and Culture Centre",
+              "תערוכה פעילה לפי לוח האירועים",
+              "בית קפה או חנות ספרים באזור"
+            ]
+          },
+          {
+            "name": "העיר העתיקה",
+            "stops": [
+              "Museum Siam",
+              "ארוחה באזור Sanam Chai",
+              "חזרה ברכבת לפני עומס הערב"
+            ]
+          }
+        ]
+      },
+      {
+        "section_id": "phuket",
+        "heading": "יום גשום בפוקט: אקווריום, מוזיאון או סדנה",
+        "source_ids": [
+          "source:aquaria-phuket:visit",
+          "source:tmd:warning-and-events"
+        ],
+        "body": [
+          "בפוקט ההחלטה החשובה היא אם להישאר בצד החוף או לנסוע לעיר פוקט. Aquaria Phuket נמצא במתחם Central Phuket ויכול למלא חלק גדול מחצי יום, במיוחד עם ילדים. אפשר לשלב ארוחה ופעילות נוספת באותו מתחם בלי להיחשף שוב לגשם בכל מעבר.",
+          "אם אתם כבר בעיר פוקט, חפשו מוזיאון או סדנה מקורה באזור העיר העתיקה, אך ודאו שהמקום פתוח ושאפשר להגיע אליו בבטחה. ביום של אזהרת ים אין להחליף חוף בשיט מקורה לכאורה. הסיכון קשור לגלים ולמעבר בים, לא רק לשאלה אם הסירה מכוסה."
+        ],
+        "decision_notes": [
+          "עם ילדים: העדיפו פעילות אחת ארוכה ומקום אוכל באותו מבנה.",
+          "לזוגות: שלבו סדנת בישול, ספא או מוזיאון עם הזמנה מראש.",
+          "בגשם כבד: הימנעו ממעבר ארוך בין החוף המערבי לעיר אם קיימות אזהרות דרך."
+        ]
+      },
+      {
+        "section_id": "koh-samui",
+        "heading": "יום גשום בקוסמוי: בחרו פעילות קרובה ולא הקפה של האי",
+        "source_ids": [
+          "source:central-samui:current",
+          "source:tmd:warning-and-events"
+        ],
+        "body": [
+          "בקוסמוי יש פחות אשכולות מקורים גדולים מאשר בבנגקוק. האפשרויות המעשיות הן סדנת בישול, ספא, בית קפה עם מרחב ישיבה, קולנוע או קניות ב-Central Samui, בהתאם למקום הלינה ולמצב הכבישים.",
+          "אין היגיון לנסוע מצדו האחד של האי לצדו האחר בשביל פעילות קצרה כאשר הראות נמוכה או הכביש מוצף. בחרו חלופה בבופוט, צ'אוונג, למאי או באזור המלון. מפלים עלולים להיות חזקים ומסלולים עלולים להיות חלקים אחרי גשם, ולכן ביקור בהם אינו ברירת מחדל ליום רטוב."
+        ],
+        "decision_notes": [
+          "הזמינו סדנת בישול רק לאחר אישור שהיא מתקיימת ושיש הסעה בטוחה.",
+          "שאלו את הספא אם הטיפול וההסעה כלולים במחיר הסופי.",
+          "בדקו התראת גלים לפני כל שיט או מעבר במעבורת."
+        ]
+      },
+      {
+        "section_id": "chiang-mai",
+        "heading": "יום גשום בצ'יאנג מאי: תרבות, אוכל ומלאכה",
+        "source_ids": [
+          "source:fine-arts:chiang-mai-museum",
+          "source:maiiam:visit",
+          "source:tmd:warning-and-events"
+        ],
+        "body": [
+          "בצ'יאנג מאי אפשר לבנות יום סביב מוזיאון, גלריה, סדנת מלאכה או שיעור בישול. Chiang Mai National Museum הוא אפשרות רשמית בעיר, ו-MAIIAM Contemporary Art Museum נמצא מחוץ למרכז ודורש תכנון נסיעה. בדקו באתר כל מקום את התערוכה הפעילה, יום הסגירה והגישה לפני היציאה.",
+          "כאשר קיימת אזהרה על גשם כבד או הצפה, אל תחליפו את העיר בנסיעה ספונטנית לדוי סוטפ, דוי אינתנון או מפל. כביש הררי רטוב, ערפל ושביל חלק משנים את רמת הסיכון. הישארו במסלול עירוני קצר עד שהמצב משתפר."
+        ],
+        "route_options": [
+          "מוזיאון לאומי, ארוחת צהריים וסדנת מלאכה",
+          "גלריה או מוזיאון אמנות, בית קפה ושוק מקורה אם הוא פעיל",
+          "שיעור בישול עם הסעה מאושרת ומקום מקורה"
+        ]
+      },
+      {
+        "section_id": "families",
+        "heading": "תוכנית ליום גשום עם ילדים",
+        "body": [
+          "עם ילדים עדיף לצמצם מעברים. בחרו מקום שבו יש שירותים, אוכל, אזור מנוחה ופעילות שמתאימה לגיל. אקווריום, מוזיאון אינטראקטיבי, סדנה קצרה או מתחם משחקים יכולים לעבוד טוב יותר מרשימה ארוכה של עצירות.",
+          "קחו חולצה יבשה, גרביים, שקית לבגדים רטובים ומשהו קטן לאכול. רצפה רטובה ומזגן חזק יכולים להפוך את המעבר בין הרחוב למבנה ללא נעים. אם הפעילות דורשת כרטיס לשעה קבועה, השאירו מרווח הגעה ואל תבנו על זמן נסיעה רגיל."
+        ],
+        "age_guidance": [
+          "פעוטות: פעילות אחת קצרה, ארוחה ומנוחה קרובה.",
+          "ילדי בית ספר: אקווריום, מוזיאון אינטראקטיבי או סדנה מעשית.",
+          "בני נוער: אמנות, קולנוע, משחק, שיעור בישול או מרכז קניות עם בחירה עצמאית."
+        ]
+      },
+      {
+        "section_id": "low-cost",
+        "heading": "רעיונות ליום גשום בתקציב נמוך",
+        "source_ids": [
+          "source:bacc:contact-hours"
+        ],
+        "body": [
+          "לא כל תוכנית חלופית חייבת להיות אטרקציה יקרה. ספרייה, מרכז תרבות, תערוכה ללא דמי כניסה, שוק מקורה, בית קפה עם ספר או מסלול אוכל קצר יכולים למלא כמה שעות. בבנגקוק, למשל, אפשר לבדוק את התערוכות הפעילות ב-BACC לפני הגעה.",
+          "החיסכון הגדול מגיע מצמצום נסיעות והזמנות כפולות. בחרו אזור אחד, בדקו מראש אם נדרש כרטיס ושמרו אפשרות שאינה דורשת תשלום מוקדם. אל תסתמכו על מחיר שמופיע בבלוג ישן. המחיר הקובע הוא המחיר הרשמי לתאריך ולסוג המבקר שלכם."
+        ]
+      },
+      {
+        "section_id": "time-blocks",
+        "heading": "בחרו תוכנית לפי משך הגשם",
+        "source_ids": [
+          "source:tmd:warning-and-events"
+        ],
+        "body": [
+          "לממטר קצר הכינו עצירה של שעה עד שעתיים, כמו בית קפה, ארוחה או גלריה קרובה. לחצי יום בחרו מוזיאון, אקווריום, סדנת בישול או ספא. ליום שלם בנו אשכול עם פעילות מרכזית, ארוחה ופעילות משנית באותו אזור.",
+          "אל תעמיסו את התוכנית החלופית. זמני נסיעה מתארכים בגשם, כניסות עשויות להתמלא ומקום מסוים עלול להיסגר. השאירו מרווח בין הפעילויות ובדקו שוב את המכ״ם לפני שאתם עוברים לתחנה הבאה."
+        ],
+        "plans": [
+          {
+            "duration": "שעה עד שעתיים",
+            "formula": "מקום מקורה קרוב + בדיקת מכ״ם + חזרה למסלול המקורי אם התנאים מאפשרים"
+          },
+          {
+            "duration": "חצי יום",
+            "formula": "פעילות מרכזית אחת + ארוחה באותו אזור + מעבר קצר"
+          },
+          {
+            "duration": "יום שלם",
+            "formula": "אשכול מקורה אחד + שתי פעילויות לכל היותר + זמן נסיעה גמיש"
+          }
+        ]
+      },
+      {
+        "section_id": "avoid",
+        "heading": "מה לא כדאי לעשות בגשם כבד",
+        "source_ids": [
+          "source:tmd:warning-and-events"
+        ],
+        "body": [
+          "אל תיכנסו למים זורמים ברגל או ברכב, ואל תעקפו מחסום. אל תצאו לים כאשר קיימת אזהרת גלים או כאשר המפעיל אינו יכול להסביר את תנאי הבטיחות. אל תעמדו על חוף פתוח, תצפית או שטח חשוף בזמן סופת רעמים.",
+          "אל תניחו שמפל בטוח יותר מפני שהוא נמצא ביבשה. זרימה יכולה להתחזק במהירות והשביל עלול להפוך חלק. גם נסיעה על קטנוע בגשם כבד מגדילה את הסיכון. אם אין דרך בטוחה להגיע לפעילות, נשארים במקום הלינה ומחליפים את היום כאשר התנאים משתפרים."
+        ]
+      },
+      {
+        "section_id": "rain-kit",
+        "heading": "ערכת גשם קטנה ששווה להחזיק בתיק",
+        "body": [
+          "מטרייה קטנה או שכמייה עוזרות במעבר קצר, אבל החשוב יותר הוא לשמור טלפון, מסמכים ותרופות יבשים. נרתיק אטום, שקית לבגדים רטובים וסוללה ניידת תופסים מעט מקום ומונעים בעיות גדולות.",
+          "נעל עם אחיזה טובה עדיפה על כפכף חלק. במבנים ממוזגים כדאי לשמור שכבה יבשה לילדים ולמי שרגיש לקור. לפני יציאה ודאו שיש דרך חזרה וששירות התחבורה ממשיך לפעול."
+        ],
+        "checklist": [
+          "נרתיק אטום לטלפון ולמסמכים",
+          "שקית נפרדת לבגדים רטובים",
+          "שכבה יבשה וקלה",
+          "סוללה ניידת",
+          "מים ותרופה קבועה",
+          "כתובת מקום הלינה בתאילנדית או במפה שמורה"
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "question": "האם גשם בתחזית אומר שכל היום אבוד?",
+        "answer": "לא. לעיתים מדובר בממטר מקומי וקצר. בדקו מכ״ם והתראה לאזור המדויק, והכינו פעילות מקורה שאפשר לקצר או להאריך."
+      },
+      {
+        "question": "האם כדאי לצאת לשיט ביום גשום?",
+        "answer": "גשם קל לבדו אינו עונה על השאלה. רוח, גלים, ברקים והנחיות הרשויות הם הגורמים החשובים. כאשר קיימת אזהרה, דוחים את השיט ופונים למפעיל."
+      },
+      {
+        "question": "מה עדיף עם ילדים בבנגקוק?",
+        "answer": "אשכול אחד באזור סיאם יכול לצמצם מעברים ולשלב אקווריום, אוכל ופעילות נוספת בתוך אזור מחובר ונוח יחסית."
+      },
+      {
+        "question": "האם מפלים מתאימים ליום גשום?",
+        "answer": "לא כברירת מחדל. זרימה חזקה, שבילים חלקים והצפות פתאומיות עלולים להפוך את הביקור למסוכן. בדקו הנחיות מקומיות ומצב דרך לפני יציאה."
+      }
+    ]
+  },
+  "internal_links": [
+    {
+      "target_owner_id": "thailand-tourism",
+      "path": "/תיירות-בתאילנד/",
+      "relationship": "parent_hub",
+      "anchor_text": "תיירות בתאילנד",
+      "placement": "lead_and_conclusion"
+    },
+    {
+      "target_owner_id": "best-time-for-thailand",
+      "path": "/מהו-הזמן-הטוב-ביותר-לחופשה-בתאילנד/",
+      "relationship": "sibling",
+      "anchor_text": "מתי לטוס לתאילנד",
+      "placement": "weather_first_section"
+    },
+    {
+      "target_owner_id": "bangkok",
+      "path": "/בנגקוק-תאילנד/",
+      "relationship": "destination_context",
+      "anchor_text": "מדריך בנגקוק",
+      "placement": "bangkok_section"
+    },
+    {
+      "target_owner_id": "phuket",
+      "path": "/category/פוקט-phuket/",
+      "relationship": "destination_context",
+      "anchor_text": "מדריך פוקט",
+      "placement": "phuket_section"
+    },
+    {
+      "target_owner_id": "koh-samui",
+      "path": "/category/קו-סמוי-ko-samui-תאילנד/",
+      "relationship": "destination_context",
+      "anchor_text": "מדריך קוסמוי",
+      "placement": "koh_samui_section"
+    }
+  ],
+  "place_entities": [
+    {
+      "entity_id": "attraction:th:bangkok:bacc",
+      "name": "Bangkok Art and Culture Centre",
+      "entity_type": "cultural_centre",
+      "address": "939 Rama 1 Road, Wang Mai, Pathum Wan, Bangkok 10330, Thailand",
+      "coordinates": {
+        "lat": 13.7467,
+        "lng": 100.53022,
+        "accuracy": "building"
+      },
+      "province_entity_id": "geo:th:province:10",
+      "district_name": "Pathum Wan",
+      "canonical_page_url": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/#bangkok",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:bacc:contact-hours"
+      ]
+    },
+    {
+      "entity_id": "attraction:th:bangkok:sea-life-bangkok",
+      "name": "SEA LIFE Bangkok Ocean World",
+      "entity_type": "aquarium",
+      "address": "B1-B2, Siam Paragon, 991 Rama 1 Road, Pathum Wan, Bangkok 10330, Thailand",
+      "coordinates": {
+        "lat": 13.7470679,
+        "lng": 100.5338526,
+        "accuracy": "official_map_pin"
+      },
+      "province_entity_id": "geo:th:province:10",
+      "district_name": "Pathum Wan",
+      "canonical_page_url": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/#bangkok",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:sealife-bangkok:plan"
+      ]
+    },
+    {
+      "entity_id": "attraction:th:bangkok:museum-siam",
+      "name": "Museum Siam",
+      "entity_type": "museum",
+      "address": "4 Sanam Chai Road, Phra Borom Maha Ratchawang, Phra Nakhon, Bangkok 10200, Thailand",
+      "coordinates": {
+        "lat": 13.74396,
+        "lng": 100.49385,
+        "accuracy": "osm_building_checked_against_official_address"
+      },
+      "province_entity_id": "geo:th:province:10",
+      "district_name": "Phra Nakhon",
+      "canonical_page_url": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/#bangkok",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:museum-siam:visit"
+      ]
+    },
+    {
+      "entity_id": "attraction:th:phuket:aquaria-phuket",
+      "name": "Aquaria Phuket",
+      "entity_type": "aquarium",
+      "address": "B1, Central Phuket Floresta, 199 Moo 4, Wichit, Mueang Phuket, Phuket 83000, Thailand",
+      "coordinates": {
+        "lat": 7.8887188,
+        "lng": 98.3658599,
+        "accuracy": "official_map_pin"
+      },
+      "province_entity_id": "geo:th:province:83",
+      "district_name": "Mueang Phuket",
+      "subdistrict_name": "Wichit",
+      "canonical_page_url": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/#phuket",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:aquaria-phuket:visit"
+      ]
+    },
+    {
+      "entity_id": "venue:th:koh-samui:central-samui",
+      "name": "Central Samui",
+      "entity_type": "shopping_and_entertainment_centre",
+      "address": "209, 209/1-209/2 Moo 2, Bo Phut, Ko Samui, Surat Thani 84320, Thailand",
+      "coordinates": {
+        "lat": 9.5316,
+        "lng": 100.06124,
+        "accuracy": "complex_centroid"
+      },
+      "province_entity_id": "geo:th:province:84",
+      "district_name": "Ko Samui",
+      "subdistrict_name": "Bo Phut",
+      "canonical_page_url": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/#koh-samui",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:central-samui:current"
+      ]
+    },
+    {
+      "entity_id": "attraction:th:chiang-mai:national-museum",
+      "name": "Chiang Mai National Museum",
+      "entity_type": "national_museum",
+      "address": "451 Moo 2, Chiang Mai-Lampang Superhighway, Chang Phueak, Mueang Chiang Mai, Chiang Mai 50300, Thailand",
+      "coordinates": {
+        "lat": 18.8113028,
+        "lng": 98.9767139,
+        "accuracy": "building"
+      },
+      "province_entity_id": "geo:th:province:50",
+      "district_name": "Mueang Chiang Mai",
+      "subdistrict_name": "Chang Phueak",
+      "canonical_page_url": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/#chiang-mai",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:fine-arts:chiang-mai-museum"
+      ]
+    },
+    {
+      "entity_id": "attraction:th:chiang-mai:maiiam",
+      "name": "MAIIAM Contemporary Art Museum",
+      "entity_type": "contemporary_art_museum",
+      "address": "122 Moo 7, Ton Pao, San Kamphaeng, Chiang Mai 50130, Thailand",
+      "coordinates": {
+        "lat": 18.78,
+        "lng": 99.1077778,
+        "accuracy": "site_area"
+      },
+      "province_entity_id": "geo:th:province:50",
+      "district_name": "San Kamphaeng",
+      "subdistrict_name": "Ton Pao",
+      "canonical_page_url": "/5-דברים-לעשות-ביום-גשום-בתאילנד-2022/#chiang-mai",
+      "map_state": "map_record",
+      "source_ids": [
+        "source:maiiam:visit"
+      ]
+    }
+  ],
+  "source_catalog": [
+    {
+      "source_id": "source:tmd:warning-and-events",
+      "publisher": "Thai Meteorological Department",
+      "title": "Warning and Events",
+      "url": "https://www.tmd.go.th/en/warning-and-events",
+      "source_type": "official_weather_warning_service",
+      "checked_on": "2026-08-10",
+      "supports": "Daily forecast, seven-day forecast, radar and severe weather warnings."
+    },
+    {
+      "source_id": "source:tmd:thailand-climate-rain",
+      "publisher": "Thai Meteorological Department",
+      "title": "Climate of Thailand: rainfall by region",
+      "url": "https://www.tmd.go.th/info/%E0%B8%A0%E0%B8%A1%E0%B8%AD%E0%B8%B2%E0%B8%81%E0%B8%B2%E0%B8%A8%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B9%84%E0%B8%97%E0%B8%A2-%E0%B8%AB%E0%B8%99%E0%B8%B2-2",
+      "source_type": "official_climate_reference",
+      "checked_on": "2026-08-10",
+      "supports": "Regional differences in rainfall patterns across Thailand."
+    },
+    {
+      "source_id": "source:tat:year-round-indoor",
+      "publisher": "Tourism Authority of Thailand",
+      "title": "6 Experiences to Enjoy Year-Round",
+      "url": "https://www.tourismthailand.org/Articles/6-place-to-travel-en",
+      "source_type": "official_tourism_editorial",
+      "checked_on": "2026-08-10",
+      "supports": "Indoor attraction categories and examples in several Thai destinations."
+    },
+    {
+      "source_id": "source:bacc:contact-hours",
+      "publisher": "Bangkok Art and Culture Centre",
+      "title": "Contact and visitor information",
+      "url": "https://www.bacc.or.th/en/contact/",
+      "source_type": "official_attraction_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current public opening pattern and official visitor contact."
+    },
+    {
+      "source_id": "source:sealife-bangkok:plan",
+      "publisher": "SEA LIFE Bangkok Ocean World",
+      "title": "Plan Your Visit",
+      "url": "https://www.visitsealife.com/bangkok/en/plan/",
+      "source_type": "official_attraction_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current visitor planning, opening information and ticket guidance."
+    },
+    {
+      "source_id": "source:museum-siam:visit",
+      "publisher": "Museum Siam",
+      "title": "Visit Museum Siam",
+      "url": "https://www.museumsiam.org/museumsiam-visit.php",
+      "source_type": "official_attraction_page",
+      "checked_on": "2026-08-10",
+      "supports": "Official visitor and access information."
+    },
+    {
+      "source_id": "source:aquaria-phuket:visit",
+      "publisher": "Aquaria Phuket",
+      "title": "Plan Your Visit to Aquaria Phuket",
+      "url": "https://aquaria-phuket.com/location.php",
+      "source_type": "official_attraction_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current attraction location and visitor planning."
+    },
+    {
+      "source_id": "source:fine-arts:chiang-mai-museum",
+      "publisher": "Fine Arts Department of Thailand",
+      "title": "Chiang Mai National Museum",
+      "url": "https://finearts.go.th/chiangmaimuseum",
+      "source_type": "official_government_attraction_page",
+      "checked_on": "2026-08-10",
+      "supports": "Official museum identity and visitor contact."
+    },
+    {
+      "source_id": "source:maiiam:visit",
+      "publisher": "MAIIAM Contemporary Art Museum",
+      "title": "Visit MAIIAM",
+      "url": "https://maiiam.com/en/visit",
+      "source_type": "official_attraction_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current museum identity, official address, visitor guidance and opening information."
+    },
+    {
+      "source_id": "source:central-samui:current",
+      "publisher": "Central Samui",
+      "title": "Central Samui",
+      "url": "https://www.centralsamui.com/en",
+      "source_type": "official_venue_page",
+      "checked_on": "2026-08-10",
+      "supports": "Current venue identity and location."
+    }
+  ],
+  "measurement_requirements": [
+    {
+      "field": "attraction_opening_status",
+      "status": "required_before_each_refresh",
+      "method": "Check the attraction's official page on the morning of publication or refresh.",
+      "minimum_observations": 1,
+      "refresh_days": 30
+    },
+    {
+      "field": "admission_price_thb",
+      "status": "required_before_price_publication",
+      "method": "Record the official price by visitor type, age, date and inclusions. Do not copy reseller teaser prices.",
+      "minimum_observations": 1,
+      "refresh_days": 14
+    },
+    {
+      "field": "weather_warning_status",
+      "status": "live_lookup_required",
+      "method": "Read the current TMD warning for the exact region immediately before travel.",
+      "minimum_observations": 1,
+      "refresh_days": 1
+    },
+    {
+      "field": "road_and_ferry_status",
+      "status": "live_lookup_required",
+      "method": "Confirm with the operator, accommodation or local authority for the current route and departure.",
+      "minimum_observations": 1,
+      "refresh_days": 1
+    }
+  ],
+  "schema_policy": {
+    "allowed": [
+      "Article",
+      "BreadcrumbList",
+      "ItemList"
+    ],
+    "conditional": [
+      "TouristAttraction may be emitted only for places rendered with current official name, URL and address.",
+      "FAQPage may be emitted only when every question and answer is visible on the page and current search-engine eligibility is rechecked."
+    ],
+    "forbidden": [
+      "Event for an activity without a real dated event",
+      "Offer without a current official price and availability",
+      "AggregateRating copied from a third party",
+      "Weather claims presented as live without a live TMD lookup"
+    ]
+  },
+  "forbidden_stale_claims": [
+    "חמש פעילויות בלבד לכל תאילנד",
+    "המלצות שממותגות לשנת 2022 כאילו הן עדכניות",
+    "גשם בתחזית פירושו גשם רצוף בכל היום",
+    "שיט בטוח מפני שהסירה מקורה",
+    "מפל הוא פעילות בטוחה בזמן גשם כבד",
+    "שעות פתיחה או מחירים ללא תאריך ומקור רשמי",
+    "התראת מזג אוויר קבועה שמחליפה בדיקה בזמן אמת"
+  ]
+}

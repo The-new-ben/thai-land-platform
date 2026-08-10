@@ -5,7 +5,7 @@ const path = require('path');
 const { chromium } = require('playwright');
 
 const rootDir = path.resolve(__dirname, '..');
-const release = process.env.THP_RELEASE || '0.3.6';
+const release = process.env.THP_RELEASE || '0.4.0';
 const baseUrl = process.env.THP_BASE_URL || 'https://thai-land.co.il/';
 const chromePath = process.env.THP_CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const outputDir = path.join(rootDir, 'output', 'playwright');
@@ -13,6 +13,14 @@ const outputPrefix = `homepage-live-${release}`;
 const expectedTitle = 'תאילנד: טיולים, מעבר, נדל״ן ועסקים | Thai-Land.co.il';
 const expectedDescription = 'תאילנד בעברית: יעדים, מסלולים, מגורים, נדל״ן ועסקים לישראלים בבנגקוק, פוקט, קוסמוי וצ׳יאנג מאי.';
 const expectedSocialImagePath = '/assets/homepage/images/homepage-hero-thailand-system-v1-1713.webp';
+const guideContract = JSON.parse(fs.readFileSync(path.join(rootDir, 'data', 'content', 'priority-guides.json'), 'utf8'));
+const expectedGuideHubs = guideContract.routes
+  .filter((route) => route.kind === 'collection')
+  .map((route) => ({
+    route_id: route.route_id,
+    path: route.path,
+    anchor: route.ownership.primary_keyword,
+  }));
 
 function presentationPhrases() {
   const source = fs.readFileSync(path.join(rootDir, 'tests', 'run.php'), 'utf8');
@@ -160,6 +168,31 @@ async function run() {
       };
     }, forbidden);
     report.desktop.initial.versioned_asset = await desktop.locator(`link[href*="ver=${release}"],script[src*="ver=${release}"]`).count() > 0;
+    report.desktop.guide_hierarchy = await desktop.evaluate((hubs) => {
+      const surfaces = ['desktop', 'mobile', 'footer'];
+      return hubs.map((hub) => ({
+        ...hub,
+        surfaces: surfaces.map((surface) => {
+          const container = document.querySelector(`[data-thp-guides-home-nav="${surface}"]`);
+          const links = container
+            ? [...container.querySelectorAll(`[data-thp-guides-home-link="${hub.route_id}"]`)]
+            : [];
+          return {
+            surface,
+            count: links.length,
+            href: links[0]?.href || '',
+            text: (links[0]?.textContent || '').replace(/\s+/g, ' ').trim(),
+          };
+        }),
+      }));
+    }, expectedGuideHubs);
+    report.desktop.guide_target_statuses = [];
+    for (const hub of expectedGuideHubs) {
+      const target = new URL(hub.path, baseUrl).toString();
+      const response = await desktopContext.request.get(target, { failOnStatusCode: false, timeout: 45000 });
+      report.desktop.guide_target_statuses.push({ route_id: hub.route_id, url: response.url(), status: response.status() });
+      await response.dispose();
+    }
 
     await desktop.locator('[data-global-search] input').fill('פוקט');
     await desktop.waitForTimeout(200);
@@ -338,6 +371,13 @@ async function run() {
     ['WebSite schema exists', report.desktop.initial.schema_types.includes('WebSite')],
     ['Organization schema exists', report.desktop.initial.schema_types.includes('Organization')],
     ['release asset version is live', report.desktop.initial.versioned_asset === true],
+    ['published Guide hubs appear once in desktop, mobile, and footer navigation', report.desktop.guide_hierarchy.length === 2
+      && report.desktop.guide_hierarchy.every((hub) => hub.surfaces.length === 3
+        && hub.surfaces.every((surface) => surface.count === 1
+          && surface.text === hub.anchor
+          && new URL(surface.href).toString() === new URL(hub.path, baseUrl).toString()))],
+    ['published Guide hub targets return 200', report.desktop.guide_target_statuses.length === 2
+      && report.desktop.guide_target_statuses.every((target) => target.status === 200)],
     ['search suggestions work', report.desktop.interactions.search_options.length > 0],
     ['map selection works', Boolean(report.desktop.interactions.selected_place)],
     ['save control works', report.desktop.interactions.saved_count === '1'],

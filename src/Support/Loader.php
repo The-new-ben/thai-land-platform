@@ -9,6 +9,7 @@ namespace Thailand_Platform\Support;
 
 use Thailand_Platform\Content\Module as Content_Module;
 use Thailand_Platform\Geography\Route as Geography_Route;
+use Thailand_Platform\Guides\Module as Guides_Module;
 use Thailand_Platform\Health\Route as Health_Route;
 use Thailand_Platform\Homepage\Module as Homepage_Module;
 use Thailand_Platform\Updates\Checker as Update_Checker;
@@ -44,6 +45,9 @@ final class Loader {
 
 		$content = new Content_Module();
 		$content->register();
+
+		$guides = new Guides_Module();
+		$guides->register();
 
 		Update_Checker::register();
 	}

@@ -2,7 +2,7 @@
 /**
  * Thailand Platform uninstall boundary.
  *
- * Remove only the bounded presentation preference owned by this plugin.
+ * Remove only the bounded presentation preferences owned by this plugin.
  *
  * @package Thailand_Platform
  */
@@ -12,6 +12,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 delete_option( 'thailand_platform_homepage_mode' );
+delete_option( 'thailand_platform_real_estate_mode' );
+delete_option( 'thailand_platform_guides_mode' );
 
 if ( function_exists( 'wp_cache_flush' ) ) {
 	wp_cache_flush();

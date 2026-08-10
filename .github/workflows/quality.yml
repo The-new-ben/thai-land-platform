@@ -50,6 +50,9 @@ jobs:
       - name: Verify generated Bangkok assets
         run: python scripts/build_bangkok_rental_assets.py --check
 
+      - name: Verify generated guide assets
+        run: python scripts/build_guide_assets.py --check
+
       - name: Verify generated geography artifacts
         run: python scripts/build_geography_registry.py --check
 
@@ -57,8 +60,10 @@ jobs:
         run: |
           python scripts/build_content_registry.py --check
           python scripts/build_bangkok_rental_registry.py --check
+          python scripts/build_priority_guides_registry.py --check
           python scripts/build_seo_registry.py --check
           python scripts/build_seo_runtime.py --check
+          python scripts/build_content_migration_ledger.py
 
       - name: Test geography compiler
         run: python tests/geography-builder.test.py
@@ -72,13 +77,18 @@ jobs:
         run: |
           python tests/real-estate-content.test.py
           python tests/bangkok-rental-data.test.py
+          python tests/priority-guides-compiler.test.py
           python tests/draft-content-inventory.test.py
+          python tests/content-migration-ledger.test.py
+          python tests/queued-expired-content.test.py
 
       - name: Check JavaScript syntax and chat behavior
         run: |
           node --check prototype/app.js
           node --check assets/homepage/homepage.js
           node --check assets/content/bangkok-rental.js
+          node --check assets/guides/guides.js
+          node --check scripts/live_guides_acceptance.cjs
           node --check scripts/live_real_estate_acceptance.cjs
           node tests/tawk-state.test.js
 
@@ -90,6 +100,7 @@ jobs:
           php tests/run.php
           php -n tests/geography-resolver.test.php
           php tests/real-estate-runtime.test.php
+          php tests/guides-runtime.test.php
 
       - name: Build release candidate on minimum PHP
         if: matrix.php == '7.4'

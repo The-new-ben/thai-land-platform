@@ -4,22 +4,34 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.3.6
+Stable tag: 0.4.0
 License: Proprietary
 
-Geography, search, homepage, and content runtime for thai-land.co.il.
+Geography, search, homepage, real-estate, and priority guide runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.3.6 adds a detailed Bangkok long-term rental guide while keeping every
-existing public URL and stored WordPress body intact. Readers can compare ten
-living areas, all 50 official districts, 19 rail stations, current rent bands,
-upfront cash, and tenant rules through an accessible RTL decision map. The
-release also aligns content routes with canonical SEO owners. Upgrade and
+Version 0.4.0 adds two parent hubs and five priority guides for Thailand entry,
+visas, permanent residence, cannabis law, and the historical April 2022 entry
+update. Each route is bound to its exact WordPress identity, canonical owner,
+breadcrumb path, current source set, and full replacement body while the stored
+WordPress body remains untouched. The isolated guide runtime defaults to Off,
+supports administrator-only Canary previews, and fails closed if any required
+template, asset, image, or compiled record is unavailable. Upgrade and
 activation do not change content, URLs, redirects, taxonomies, or database
 structure.
 
 == Changelog ==
+
+= 0.4.0 =
+* Add two parent hubs and five priority guides for Thailand entry, tourist visas,
+  permanent residence, cannabis law, and the historical April 2022 entry update.
+* Bind all seven routes to exact WordPress IDs and paths, one canonical owner,
+  one breadcrumb path, and immutable full replacement content.
+* Add a separate Off, Canary, and Live switch with administrator-only draft
+  previews, private cache controls, and an emergency disable constant.
+* Add responsive original guide artwork, current official sources, structured
+  data, and strict compiler, runtime, package, and receipt gates.
 
 = 0.3.6 =
 * Add ten Bangkok living areas with current one-bedroom and two-bedroom asking

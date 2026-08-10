@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "reviewed_on": "2026-08-10",
+  "site": "https://thai-land.co.il/",
+  "method": "Authenticated WordPress editor review. Only identity, length, digest and editorial decisions are stored. No source body, backup or site export is stored.",
+  "records": [
+    {
+      "post_id": 1,
+      "post_type": "post",
+      "status": "publish",
+      "slug": "hello-world",
+      "title": "האם תאילנד פתוחה לתיירים?",
+      "content_length": 438,
+      "content_sha256": "0c6c3ef54c5719ae8ae8eacec74a38f8ea2f08da3b0521cbed20f13b7729461d",
+      "target_owner_id": "thailand-entry-requirements",
+      "decision": "replace_entire_body",
+      "reusable_material": "Identity and current-entry intent only. The stored body is a 2022 COVID entry notice and none of its operational instructions remain suitable for current guidance."
+    },
+    {
+      "post_id": 62,
+      "post_type": "post",
+      "status": "publish",
+      "slug": "החל-מאפריל-2022-מטיילים-יורשו-להיכנס-לתאי",
+      "title": "החל מאפריל 2022 מטיילים יורשו להיכנס לתאילנד ללא צורך בהצגת הוכחה לבדיקת RT-PCR שלילית תוך 72 שעות מהנסיעה.",
+      "content_length": 5283,
+      "content_sha256": "bc3542a12e6b7feb54c57d1ec7ef9ca0e42f06c8ed8489d446ac65debb366c91",
+      "target_owner_id": "thailand-entry-april-2022",
+      "decision": "preserve_as_historical_noindex",
+      "reusable_material": "Historical record only. Remove it from current entry advice, label it clearly as an April 2022 archive, set noindex,follow and link prominently to the current entry owner."
+    },
+    {
+      "post_id": 102,
+      "post_type": "post",
+      "status": "publish",
+      "slug": "תאילנד-וחוק-אי-הפללת-קנאביס-פנאי",
+      "title": "תאילנד חוק אי הפללת קנאביס 2022",
+      "content_length": 6251,
+      "content_sha256": "da9d04e4051d7d569876a156d374d578cb39894aee04400863f97af666162ed3",
+      "target_owner_id": "thailand-cannabis-law",
+      "decision": "replace_entire_body",
+      "reusable_material": "Identity and cannabis-law intent only. The stored body presents superseded 2022 decriminalization rules as current and must not contribute factual copy."
+    },
+    {
+      "post_id": 132,
+      "post_type": "post",
+      "status": "publish",
+      "slug": "permanent-residence-thailand",
+      "title": "תושבות קבע תאילנדית",
+      "content_length": 2860,
+      "content_sha256": "baa0bceb331e1156c8204a7406d115090f3250698cb514bbef6b4f17515717fd",
+      "target_owner_id": "thailand-permanent-residence",
+      "decision": "reuse_structure_after_revalidation",
+      "reusable_material": "The benefits, eligibility, quota, categories, process and re-entry topic structure is useful. Every claim, date, amount and outcome must be replaced or revalidated from current Immigration Bureau sources."
+    },
+    {
+      "post_id": 243,
+      "post_type": "post",
+      "status": "publish",
+      "slug": "ויזת-תיירים-תאילנד",
+      "title": "ויזת תיירים תאילנד",
+      "content_length": 2870,
+      "content_sha256": "4055b907b5b21989e1d812a4909bd8d47fa1898165ea082e5c9ac145747c67e7",
+      "target_owner_id": "thailand-tourist-visa",
+      "decision": "replace_entire_body",
+      "reusable_material": "Identity and tourist-visa intent only. Cash payment, physical appointment, old NIS fees, processing time and document thresholds are superseded by the current eVisa process."
+    },
+    {
+      "post_id": 498,
+      "post_type": "post",
+      "status": "draft",
+      "slug": "מדריך-פתיחת-עסק-קנאביס-בתאילנד-לישראל",
+      "title": "מדריך פתיחת עסק קנאביס בתאילנד לישראלים",
+      "content_length": 9461,
+      "content_sha256": "0eb3e100dc77b52b6c85d27197b255e18e4a65843693804f7d3fbdff5672b385",
+      "target_owner_id": "candidate-cannabis-business-thailand",
+      "decision": "separate_owner_full_legal_research",
+      "reusable_material": "The draft owns a business-opening query, not the visitor law query. Preserve its question set only. Do not reuse its 2022 licensing, ownership, cultivation, distribution or legality claims without new official evidence."
+    },
+    {
+      "post_id": 846,
+      "post_type": "page",
+      "status": "draft",
+      "slug": "ויזות-לתאילנד",
+      "title": "ויזות לתאילנד: כניסה, סוגי ויזה ושהייה",
+      "content_length": 242,
+      "content_sha256": "9ac40dd3b9a4533c6fe5de50594b5e8f26cc9ff52c3d51cb6ee74a9c721939ae",
+      "target_owner_id": "thailand-visas",
+      "decision": "new_parent_identity_frozen",
+      "reusable_material": "Private parent page identity created for the managed Visas hierarchy. It remains a draft until canary acceptance passes."
+    },
+    {
+      "post_id": 848,
+      "post_type": "page",
+      "status": "draft",
+      "slug": "חוקים-ומסים-בתאילנד",
+      "title": "חוקים ומסים בתאילנד: כללים מרכזיים לישראלים",
+      "content_length": 236,
+      "content_sha256": "63f1df0a58c0d5016bfe94ab84f664a6db45cc7a41c7e021b125a2bef9b12ad4",
+      "target_owner_id": "thailand-law-and-tax",
+      "decision": "new_parent_identity_frozen",
+      "reusable_material": "Private parent page identity created for the managed Laws hierarchy. It remains a draft until canary acceptance passes."
+    }
+  ]
+}
