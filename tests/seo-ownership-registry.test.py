@@ -25,6 +25,13 @@ BUILDER_PATH = ROOT / "scripts" / "build_seo_registry.py"
 MANAGED_LIVE_EVIDENCE_PATH = (
     ROOT / "data" / "seo" / "evidence" / "managed-live-routes.0.3.5.json"
 )
+GUIDES_PRIVATE_CANARY_EVIDENCE_PATH = (
+    ROOT
+    / "data"
+    / "seo"
+    / "evidence"
+    / "priority-guides-private-canary.0.4.0.json"
+)
 CONTENT_PATH = ROOT / "data" / "content" / "real-estate.json"
 GUIDES_CONTENT_PATH = ROOT / "data" / "content" / "priority-guides.json"
 
@@ -429,6 +436,62 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
             hub_route["source_evidence"],
         )
 
+    def test_priority_guides_private_canary_is_redacted_and_not_public_live_evidence(self) -> None:
+        evidence = load_json(GUIDES_PRIVATE_CANARY_EVIDENCE_PATH)
+        self.assertEqual("authenticated_manual_canary", evidence["evidence_scope"])
+        self.assertFalse(evidence["public_live_verified"])
+        self.assertEqual(
+            {
+                "authenticated_request_locator": "redacted",
+                "cookies_recorded": False,
+                "credentials_recorded": False,
+                "screenshots_claimed": False,
+                "acceptance_artifact_claimed": False,
+            },
+            evidence["privacy"],
+        )
+        self.assertEqual("canary", evidence["production_state"]["guides_mode"])
+        self.assertEqual("0.4.0", evidence["production_state"]["health"]["response"]["version"])
+        self.assertEqual("noindex,nofollow", evidence["acceptance"]["robots"])
+        self.assertEqual(
+            "intentionally_absent_in_private_canary",
+            evidence["acceptance"]["canonical_behavior"],
+        )
+        self.assertFalse(evidence["acceptance"]["public_live_verified"])
+        self.assertNotIn("path", evidence["acceptance"])
+        self.assertNotIn("screenshot", evidence["acceptance"])
+
+        release = evidence["release"]
+        for path_key, bytes_key, digest_key in (
+            ("receipt_path", "receipt_bytes", "receipt_sha256"),
+            ("artifact_path", "artifact_bytes", "artifact_sha256"),
+        ):
+            path = ROOT / release[path_key]
+            self.assertTrue(path.is_file(), path)
+            self.assertEqual(release[bytes_key], path.stat().st_size, path)
+            self.assertEqual(
+                release[digest_key], hashlib.sha256(path.read_bytes()).hexdigest(), path
+            )
+
+        routes = evidence["acceptance"]["routes"]
+        self.assertEqual(7, len(routes))
+        by_id = {route["route_id"]: route for route in routes}
+        self.assertEqual(7, len(by_id))
+        self.assertEqual(846, by_id["thailand-visas"]["post_id"])
+        self.assertEqual(848, by_id["thailand-law-and-tax"]["post_id"])
+        for hub_id in ("thailand-visas", "thailand-law-and-tax"):
+            self.assertEqual("draft", by_id[hub_id]["wordpress_status_at_observation"])
+            self.assertEqual("CollectionPage", by_id[hub_id]["page_schema_type"])
+        self.assertEqual(
+            {
+                "published_route_canary_probe_http_status": 404,
+                "draft_route_canary_probe_http_status": 404,
+                "normal_published_route_http_status": 200,
+                "normal_published_route_guides_marker_present": False,
+            },
+            evidence["acceptance"]["anonymous_isolation"],
+        )
+
     def test_protected_urls_have_exactly_one_route_claim(self) -> None:
         expected: dict[str, set[str]] = {}
         for snapshot_id, rows in self.inventory_rows().items():
@@ -445,15 +508,17 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
             for key, group in route_groups.items()
             if any(item["observed_in"] for item in group)
         })
+        reviewed_noindex_owners = {"thailand-entry-april-2022"}
+        observed_noindex_owners: set[str] = set()
         for url, snapshot_ids in expected.items():
             self.assertEqual(1, len(route_groups[url]), url)
             claim = route_groups[url][0]
             self.assertEqual("live", claim["lifecycle"], url)
-            self.assertEqual("index", claim["indexing_policy"], url)
             self.assertEqual(snapshot_ids, set(claim["observed_in"]), url)
             assignment = claim["assignment"]
             if assignment["kind"] == "canonical_owner":
                 self.assertIn(assignment["owner_id"], self.by_owner, url)
+                current_owner = assignment["owner_id"]
             else:
                 self.assertTrue(assignment["release_blocked"], url)
                 self.assertGreaterEqual(len(assignment["required_evidence"]), 1, url)
@@ -467,6 +532,13 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                 candidate = assignment["candidate_owner_id"]
                 if candidate is not None:
                     self.assertIn(candidate, self.by_owner, url)
+            expected_policy = (
+                "noindex" if current_owner in reviewed_noindex_owners else "index"
+            )
+            self.assertEqual(expected_policy, claim["indexing_policy"], url)
+            if claim["indexing_policy"] == "noindex":
+                observed_noindex_owners.add(current_owner)
+        self.assertEqual(reviewed_noindex_owners, observed_noindex_owners)
 
     def test_planned_routes_do_not_shadow_observed_urls(self) -> None:
         observed = {
@@ -629,10 +701,7 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                 owner["primary_intent"],
                 route_id,
             )
-            expected_lifecycle = (
-                "planned" if route["kind"] == "collection" else "live"
-            )
-            self.assertEqual(expected_lifecycle, owner["lifecycle"], route_id)
+            self.assertEqual("live", owner["lifecycle"], route_id)
             expected_owner_ids = (
                 ["home", route["seo_owner_id"]]
                 if route["kind"] == "collection"
@@ -690,6 +759,97 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                     ),
                     route_id,
                 )
+
+    def test_priority_guide_hubs_own_one_live_tree_without_planned_edges(self) -> None:
+        children_by_parent = {
+            "thailand-visas": {
+                "thailand-entry-requirements",
+                "thailand-entry-april-2022",
+                "thailand-tourist-visa",
+                "thailand-permanent-residence",
+            },
+            "thailand-law-and-tax": {"thailand-cannabis-law"},
+        }
+        canary_evidence = (
+            "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
+        )
+        home = self.by_owner["home"]
+        for parent_id, child_ids in children_by_parent.items():
+            parent = self.by_owner[parent_id]
+            self.assertEqual("live", parent["lifecycle"])
+            self.assertEqual([canary_evidence], parent["source_evidence"])
+            self.assertEqual(
+                ["home", parent_id],
+                [item["owner_id"] for item in parent["breadcrumb_chain"]],
+            )
+            self.assertTrue(
+                any(
+                    edge["target_owner_id"] == parent_id
+                    and edge["relationship"] == "child_spoke"
+                    and edge["placement"] == "navigation"
+                    for edge in home["internal_link_requirements"]
+                ),
+                parent_id,
+            )
+            self.assertFalse(
+                any(
+                    edge["target_owner_id"] == parent_id
+                    for edge in home["planned_internal_link_requirements"]
+                ),
+                parent_id,
+            )
+
+            parent_exclusions = {
+                item["owner_id"] for item in parent["cannibalization_exclusions"]
+            }
+            self.assertTrue(child_ids.issubset(parent_exclusions), parent_id)
+            for child_id in child_ids:
+                child = self.by_owner[child_id]
+                self.assertEqual("live", child["lifecycle"], child_id)
+                self.assertEqual(parent_id, child["parent_owner_id"], child_id)
+                self.assertEqual(
+                    ["home", parent_id, child_id],
+                    [item["owner_id"] for item in child["breadcrumb_chain"]],
+                    child_id,
+                )
+                self.assertTrue(
+                    any(
+                        edge["target_owner_id"] == parent_id
+                        and edge["relationship"] == "parent_hub"
+                        and edge["placement"] == "contextual_body"
+                        for edge in child["internal_link_requirements"]
+                    ),
+                    child_id,
+                )
+                self.assertFalse(
+                    any(
+                        edge["target_owner_id"] == parent_id
+                        for edge in child["planned_internal_link_requirements"]
+                    ),
+                    child_id,
+                )
+                self.assertTrue(
+                    any(
+                        edge["target_owner_id"] == child_id
+                        and edge["relationship"] == "child_spoke"
+                        for edge in parent["internal_link_requirements"]
+                    ),
+                    child_id,
+                )
+                self.assertIn(
+                    parent_id,
+                    {
+                        item["owner_id"]
+                        for item in child["cannibalization_exclusions"]
+                    },
+                    child_id,
+                )
+
+        for path in ("/ויזות-לתאילנד/", "/חוקים-ומסים-בתאילנד/"):
+            route = self.by_route[path]
+            self.assertEqual("live", route["lifecycle"])
+            self.assertEqual([], route["observed_in"])
+            self.assertEqual([canary_evidence], route["source_evidence"])
 
     def test_hierarchy_has_no_parent_cycles(self) -> None:
         for owner in self.owners:
@@ -818,7 +978,8 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                     reachable.add(target)
                     pending.append(target)
 
-        self.assertEqual(44, len(public_owner_ids))
+        self.assertEqual(45, len(public_owner_ids))
+        self.assertNotIn("thailand-entry-april-2022", public_owner_ids)
         self.assertTrue(public_owner_ids.issubset(reachable), public_owner_ids - reachable)
 
     def test_real_estate_spokes_have_hub_and_two_contextual_continuations(self) -> None:
@@ -1014,6 +1175,7 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
             SCHEMA_PATH,
             README_PATH,
             BUILDER_PATH,
+            GUIDES_PRIVATE_CANARY_EVIDENCE_PATH,
             Path(__file__),
         )
         for path in paths:

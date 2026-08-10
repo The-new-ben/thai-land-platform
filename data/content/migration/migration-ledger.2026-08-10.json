@@ -113,7 +113,7 @@
     {
       "path": "data/seo/ownership-registry.json",
       "kind": "json_ownership_registry",
-      "sha256_lf": "a1c7c3dce4d45744df3e9edc358201ba398ad83a146c0581b1efdd3c20cdbd0a",
+      "sha256_lf": "1a834f9f35e3963e45447ef29c97c2276dbbb2e02b2247b04be584782da233db",
       "record_count": 119
     },
     {
@@ -121,6 +121,12 @@
       "kind": "json_managed_route_evidence",
       "sha256_lf": "0a2acd42d9c67da348419e5e7de6b5df2efdc12e1f682dec82fabfe5f5f4b6f6",
       "record_count": 8
+    },
+    {
+      "path": "data/seo/evidence/priority-guides-private-canary.0.4.0.json",
+      "kind": "json_authenticated_private_canary_evidence",
+      "sha256_lf": "cc428a54d1605157c18e255d0c0bf0aacae36186dc09d51be9b59e11cc2ed0bb",
+      "record_count": 7
     }
   ],
   "scope": {
@@ -131,7 +137,8 @@
     "excluded_released_draft_ids": [
       841
     ],
-    "planned_hub_count": 11,
+    "planned_hub_count": 9,
+    "promoted_hub_count": 2,
     "platform_managed_original_surfaces": [
       {
         "url": "/",
@@ -6264,7 +6271,7 @@
       "source_modified_display": "עודכן לאחרונה18/02/2025 בשעה 8:55",
       "canonical_owner_id": "thailand-law-and-tax",
       "candidate_owner_id": null,
-      "owner_assignment_state": "registered_planned",
+      "owner_assignment_state": "registered_live",
       "hierarchy_parent_owner_id": "home",
       "hierarchy_path_owner_ids": [
         "home",
@@ -6276,7 +6283,7 @@
         "wave_id": "wave-04-draft-consolidation",
         "target_owner_id": "thailand-law-and-tax",
         "target_url": "/חוקים-ומסים-בתאילנד/",
-        "target_state": "registered_planned",
+        "target_state": "registered_live",
         "target_kind": "canonical_content_integration",
         "blocked": false,
         "hierarchy_path_owner_ids": [
@@ -7666,7 +7673,7 @@
       "source_modified_display": "עודכן לאחרונה 27/05/2026 בשעה 5:03",
       "canonical_owner_id": "thailand-visas",
       "candidate_owner_id": null,
-      "owner_assignment_state": "registered_planned",
+      "owner_assignment_state": "registered_live",
       "hierarchy_parent_owner_id": "home",
       "hierarchy_path_owner_ids": [
         "home",
@@ -7678,7 +7685,7 @@
         "wave_id": "wave-04-draft-consolidation",
         "target_owner_id": "thailand-visas",
         "target_url": "/ויזות-לתאילנד/",
-        "target_state": "registered_planned",
+        "target_state": "registered_live",
         "target_kind": "canonical_content_integration",
         "blocked": true,
         "hierarchy_path_owner_ids": [
@@ -8140,71 +8147,6 @@
       }
     },
     {
-      "record_id": "hub:thailand-law-and-tax",
-      "owner_id": "thailand-law-and-tax",
-      "canonical_url": "/חוקים-ומסים-בתאילנד/",
-      "primary_keyword": "חוקים בתאילנד לישראלים",
-      "hierarchy_parent_owner_id": "home",
-      "hierarchy_path_owner_ids": [
-        "home",
-        "thailand-law-and-tax"
-      ],
-      "disposition": "create",
-      "migration_status": "identity_created_content_pending",
-      "release_target": {
-        "wave_id": "wave-02-parent-hubs",
-        "target_owner_id": "thailand-law-and-tax",
-        "target_url": "/חוקים-ומסים-בתאילנד/",
-        "target_state": "production_draft_identity",
-        "target_kind": "parent_hub_release",
-        "blocked": false,
-        "hierarchy_path_owner_ids": [
-          "home",
-          "thailand-law-and-tax"
-        ],
-        "system_enrichment_wave_id": null
-      },
-      "source_material_status": "partial_sources_body_retrieval_required",
-      "supporting_legacy_record_ids": [
-        "legacy:route-thailand-cannabis-law"
-      ],
-      "supporting_draft_record_ids": [
-        "draft:722"
-      ],
-      "evidence": {
-        "ownership_registry_path": "data/seo/ownership-registry.json",
-        "owner_review_state": "planned",
-        "owner_source_evidence": [
-          "research/serp/2026-08-08-hebrew-thailand-serp.md"
-        ],
-        "structured_source_paths": [],
-        "draft_identity_review_path": "data/content/migration/urgent-source-review.2026-08-10.json",
-        "draft_identity_post_id": 848,
-        "draft_identity_slug": "חוקים-ומסים-בתאילנד",
-        "draft_identity_status": "draft",
-        "draft_identity_content_sha256": "63f1df0a58c0d5016bfe94ab84f664a6db45cc7a41c7e021b125a2bef9b12ad4"
-      },
-      "completion_profile": "planned_hub_release",
-      "completion_evidence": {
-        "content_migration_receipt_path": null,
-        "source_material_receipt_path": null,
-        "disposition_receipt_path": null,
-        "target_content_sha256": null,
-        "release_version": null,
-        "release_receipt_path": null,
-        "live_url": null,
-        "http_status": null,
-        "canonical_verified": false,
-        "breadcrumb_verified": false,
-        "internal_links_verified": false,
-        "structured_data_verified": false,
-        "indexability_verified": false,
-        "desktop_qa_artifact": null,
-        "mobile_qa_artifact": null,
-        "verified_at": null
-      }
-    },
-    {
       "record_id": "hub:thailand-map",
       "owner_id": "thailand-map",
       "canonical_url": "/מפת-תאילנד/",
@@ -8337,74 +8279,6 @@
       }
     },
     {
-      "record_id": "hub:thailand-visas",
-      "owner_id": "thailand-visas",
-      "canonical_url": "/ויזות-לתאילנד/",
-      "primary_keyword": "ויזות לתאילנד",
-      "hierarchy_parent_owner_id": "home",
-      "hierarchy_path_owner_ids": [
-        "home",
-        "thailand-visas"
-      ],
-      "disposition": "create",
-      "migration_status": "identity_created_content_pending",
-      "release_target": {
-        "wave_id": "wave-02-parent-hubs",
-        "target_owner_id": "thailand-visas",
-        "target_url": "/ויזות-לתאילנד/",
-        "target_state": "production_draft_identity",
-        "target_kind": "parent_hub_release",
-        "blocked": false,
-        "hierarchy_path_owner_ids": [
-          "home",
-          "thailand-visas"
-        ],
-        "system_enrichment_wave_id": null
-      },
-      "source_material_status": "partial_sources_body_retrieval_required",
-      "supporting_legacy_record_ids": [
-        "legacy:route-thailand-entry-april-2022",
-        "legacy:route-thailand-entry-requirements",
-        "legacy:route-thailand-permanent-residence",
-        "legacy:route-thailand-tourist-visa"
-      ],
-      "supporting_draft_record_ids": [
-        "draft:831"
-      ],
-      "evidence": {
-        "ownership_registry_path": "data/seo/ownership-registry.json",
-        "owner_review_state": "planned",
-        "owner_source_evidence": [
-          "research/serp/2026-08-08-hebrew-thailand-serp.md"
-        ],
-        "structured_source_paths": [],
-        "draft_identity_review_path": "data/content/migration/urgent-source-review.2026-08-10.json",
-        "draft_identity_post_id": 846,
-        "draft_identity_slug": "ויזות-לתאילנד",
-        "draft_identity_status": "draft",
-        "draft_identity_content_sha256": "9ac40dd3b9a4533c6fe5de50594b5e8f26cc9ff52c3d51cb6ee74a9c721939ae"
-      },
-      "completion_profile": "planned_hub_release",
-      "completion_evidence": {
-        "content_migration_receipt_path": null,
-        "source_material_receipt_path": null,
-        "disposition_receipt_path": null,
-        "target_content_sha256": null,
-        "release_version": null,
-        "release_receipt_path": null,
-        "live_url": null,
-        "http_status": null,
-        "canonical_verified": false,
-        "breadcrumb_verified": false,
-        "internal_links_verified": false,
-        "structured_data_verified": false,
-        "indexability_verified": false,
-        "desktop_qa_artifact": null,
-        "mobile_qa_artifact": null,
-        "verified_at": null
-      }
-    },
-    {
       "record_id": "hub:transport-in-thailand",
       "owner_id": "transport-in-thailand",
       "canonical_url": "/תחבורה-בתאילנד/",
@@ -8444,6 +8318,141 @@
         "draft_identity_slug": null,
         "draft_identity_status": null,
         "draft_identity_content_sha256": null
+      },
+      "completion_profile": "planned_hub_release",
+      "completion_evidence": {
+        "content_migration_receipt_path": null,
+        "source_material_receipt_path": null,
+        "disposition_receipt_path": null,
+        "target_content_sha256": null,
+        "release_version": null,
+        "release_receipt_path": null,
+        "live_url": null,
+        "http_status": null,
+        "canonical_verified": false,
+        "breadcrumb_verified": false,
+        "internal_links_verified": false,
+        "structured_data_verified": false,
+        "indexability_verified": false,
+        "desktop_qa_artifact": null,
+        "mobile_qa_artifact": null,
+        "verified_at": null
+      }
+    }
+  ],
+  "promoted_hubs": [
+    {
+      "record_id": "hub:thailand-law-and-tax",
+      "owner_id": "thailand-law-and-tax",
+      "canonical_url": "/חוקים-ומסים-בתאילנד/",
+      "primary_keyword": "חוקים בתאילנד לישראלים",
+      "hierarchy_parent_owner_id": "home",
+      "hierarchy_path_owner_ids": [
+        "home",
+        "thailand-law-and-tax"
+      ],
+      "disposition": "create",
+      "migration_status": "evidence_update_pending",
+      "release_target": {
+        "wave_id": "wave-02-parent-hubs",
+        "target_owner_id": "thailand-law-and-tax",
+        "target_url": "/חוקים-ומסים-בתאילנד/",
+        "target_state": "registered_live_owner_private_canary_passed_publication_pending",
+        "target_kind": "parent_hub_public_release",
+        "blocked": false,
+        "hierarchy_path_owner_ids": [
+          "home",
+          "thailand-law-and-tax"
+        ],
+        "system_enrichment_wave_id": null
+      },
+      "source_material_status": "managed_content_private_canary_passed_publication_pending",
+      "supporting_legacy_record_ids": [
+        "legacy:route-thailand-cannabis-law"
+      ],
+      "supporting_draft_record_ids": [
+        "draft:722"
+      ],
+      "evidence": {
+        "ownership_registry_path": "data/seo/ownership-registry.json",
+        "owner_review_state": "upgrade_required",
+        "owner_source_evidence": [
+          "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
+        ],
+        "structured_source_paths": [],
+        "draft_identity_review_path": "data/content/migration/urgent-source-review.2026-08-10.json",
+        "draft_identity_post_id": 848,
+        "draft_identity_slug": "חוקים-ומסים-בתאילנד",
+        "draft_identity_status": "draft",
+        "draft_identity_content_sha256": "63f1df0a58c0d5016bfe94ab84f664a6db45cc7a41c7e021b125a2bef9b12ad4"
+      },
+      "completion_profile": "planned_hub_release",
+      "completion_evidence": {
+        "content_migration_receipt_path": null,
+        "source_material_receipt_path": null,
+        "disposition_receipt_path": null,
+        "target_content_sha256": null,
+        "release_version": null,
+        "release_receipt_path": null,
+        "live_url": null,
+        "http_status": null,
+        "canonical_verified": false,
+        "breadcrumb_verified": false,
+        "internal_links_verified": false,
+        "structured_data_verified": false,
+        "indexability_verified": false,
+        "desktop_qa_artifact": null,
+        "mobile_qa_artifact": null,
+        "verified_at": null
+      }
+    },
+    {
+      "record_id": "hub:thailand-visas",
+      "owner_id": "thailand-visas",
+      "canonical_url": "/ויזות-לתאילנד/",
+      "primary_keyword": "ויזות לתאילנד",
+      "hierarchy_parent_owner_id": "home",
+      "hierarchy_path_owner_ids": [
+        "home",
+        "thailand-visas"
+      ],
+      "disposition": "create",
+      "migration_status": "evidence_update_pending",
+      "release_target": {
+        "wave_id": "wave-02-parent-hubs",
+        "target_owner_id": "thailand-visas",
+        "target_url": "/ויזות-לתאילנד/",
+        "target_state": "registered_live_owner_private_canary_passed_publication_pending",
+        "target_kind": "parent_hub_public_release",
+        "blocked": false,
+        "hierarchy_path_owner_ids": [
+          "home",
+          "thailand-visas"
+        ],
+        "system_enrichment_wave_id": null
+      },
+      "source_material_status": "managed_content_private_canary_passed_publication_pending",
+      "supporting_legacy_record_ids": [
+        "legacy:route-thailand-entry-april-2022",
+        "legacy:route-thailand-entry-requirements",
+        "legacy:route-thailand-permanent-residence",
+        "legacy:route-thailand-tourist-visa"
+      ],
+      "supporting_draft_record_ids": [
+        "draft:831"
+      ],
+      "evidence": {
+        "ownership_registry_path": "data/seo/ownership-registry.json",
+        "owner_review_state": "upgrade_required",
+        "owner_source_evidence": [
+          "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
+        ],
+        "structured_source_paths": [],
+        "draft_identity_review_path": "data/content/migration/urgent-source-review.2026-08-10.json",
+        "draft_identity_post_id": 846,
+        "draft_identity_slug": "ויזות-לתאילנד",
+        "draft_identity_status": "draft",
+        "draft_identity_content_sha256": "9ac40dd3b9a4533c6fe5de50594b5e8f26cc9ff52c3d51cb6ee74a9c721939ae"
       },
       "completion_profile": "planned_hub_release",
       "completion_evidence": {

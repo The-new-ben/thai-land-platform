@@ -38,14 +38,14 @@
       "label": "ויזות וכניסה לתאילנד",
       "primary_keyword": "ויזות לתאילנד",
       "path": "/ויזות-לתאילנד/",
-      "availability": "managed_draft"
+      "availability": "live"
     },
     {
       "owner_id": "thailand-law-and-tax",
       "label": "חוקים ומסים בתאילנד",
       "primary_keyword": "חוקים בתאילנד לישראלים",
       "path": "/חוקים-ומסים-בתאילנד/",
-      "availability": "managed_draft"
+      "availability": "live"
     }
   ],
   "source_catalog": [
@@ -276,7 +276,7 @@
         {
           "label": "ויזות לתאילנד",
           "path": "/ויזות-לתאילנד/",
-          "availability": "managed_draft",
+          "availability": "live",
           "current": true
         }
       ],
@@ -554,7 +554,7 @@
         {
           "label": "חוקים ומסים בתאילנד",
           "path": "/חוקים-ומסים-בתאילנד/",
-          "availability": "managed_draft",
+          "availability": "live",
           "current": true
         }
       ],
@@ -822,7 +822,7 @@
         {
           "label": "ויזות וכניסה לתאילנד",
           "path": "/ויזות-לתאילנד/",
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false
         },
         {
@@ -1107,7 +1107,7 @@
         {
           "label": "ויזות וכניסה לתאילנד",
           "path": "/ויזות-לתאילנד/",
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false
         },
         {
@@ -1342,7 +1342,7 @@
         {
           "label": "חוקים ומסים בתאילנד",
           "path": "/חוקים-ומסים-בתאילנד/",
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false
         },
         {
@@ -1605,7 +1605,7 @@
         {
           "label": "ויזות וכניסה לתאילנד",
           "path": "/ויזות-לתאילנד/",
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false
         },
         {
@@ -1880,7 +1880,7 @@
         {
           "label": "ויזות וכניסה לתאילנד",
           "path": "/ויזות-לתאילנד/",
-          "availability": "managed_draft",
+          "availability": "live",
           "current": false
         },
         {

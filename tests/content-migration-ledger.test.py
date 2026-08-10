@@ -23,10 +23,12 @@ from build_content_migration_ledger import (  # noqa: E402
     CANDIDATE_OWNERS,
     DRAFT_DISPOSITION_PATH,
     DRAFT_METADATA_PATH,
+    GUIDES_CANARY_EVIDENCE_PATH,
     LEDGER_PATH,
     MANAGED_ROUTES_PATH,
     OWNERSHIP_REGISTRY_PATH,
     PUBLIC_INVENTORY_PATH,
+    PROMOTED_GUIDE_HUB_IDS,
     RELEASED_DRAFT_IDS,
     SCHEMA_PATH,
     SOURCE_REVIEW_PATH,
@@ -158,6 +160,7 @@ class ContentMigrationLedgerTest(unittest.TestCase):
         cls.validator = SchemaValidator(cls.schema)
         cls.registry = load_json(OWNERSHIP_REGISTRY_PATH)
         cls.managed = load_json(MANAGED_ROUTES_PATH)
+        cls.guides_canary = load_json(GUIDES_CANARY_EVIDENCE_PATH)
         cls.owners = {
             item["owner_id"]: item for item in cls.registry["intent_owners"]
         }
@@ -171,6 +174,7 @@ class ContentMigrationLedgerTest(unittest.TestCase):
         cls.legacy = cls.ledger["legacy_public_surfaces"]
         cls.drafts = cls.ledger["draft_records"]
         cls.hubs = cls.ledger["planned_hubs"]
+        cls.promoted_hubs = cls.ledger["promoted_hubs"]
 
     def test_ledger_validates_against_schema(self) -> None:
         errors = self.validator.validate(self.ledger)
@@ -203,9 +207,13 @@ class ContentMigrationLedgerTest(unittest.TestCase):
         )
         self.assertEqual(35, len(self.legacy))
         self.assertEqual(63, len(self.drafts))
-        self.assertEqual(11, len(self.hubs))
+        self.assertEqual(9, len(self.hubs))
+        self.assertEqual(2, len(self.promoted_hubs))
+        self.assertEqual(9, self.ledger["scope"]["planned_hub_count"])
+        self.assertEqual(2, self.ledger["scope"]["promoted_hub_count"])
         record_ids = [
-            item["record_id"] for item in [*self.legacy, *self.drafts, *self.hubs]
+            item["record_id"]
+            for item in [*self.legacy, *self.drafts, *self.hubs, *self.promoted_hubs]
         ]
         self.assertEqual(len(record_ids), len(set(record_ids)))
 
@@ -364,7 +372,7 @@ class ContentMigrationLedgerTest(unittest.TestCase):
         }
         actual = {item["owner_id"] for item in self.hubs}
         self.assertEqual(expected, actual)
-        self.assertEqual(11, len(actual))
+        self.assertEqual(9, len(actual))
         for hub in self.hubs:
             owner = self.owners[hub["owner_id"]]
             self.assertEqual(owner["canonical_url"], hub["canonical_url"])
@@ -382,16 +390,12 @@ class ContentMigrationLedgerTest(unittest.TestCase):
                 expected_enrichment,
                 hub["release_target"]["system_enrichment_wave_id"],
             )
-        identity_hubs = {
-            item["owner_id"]: item for item in self.hubs
-            if item["migration_status"] == "identity_created_content_pending"
-        }
-        self.assertEqual({"thailand-visas", "thailand-law-and-tax"}, set(identity_hubs))
-        self.assertEqual(846, identity_hubs["thailand-visas"]["evidence"]["draft_identity_post_id"])
-        self.assertEqual(848, identity_hubs["thailand-law-and-tax"]["evidence"]["draft_identity_post_id"])
-        for hub in identity_hubs.values():
-            self.assertEqual("production_draft_identity", hub["release_target"]["target_state"])
-            self.assertEqual("draft", hub["evidence"]["draft_identity_status"])
+        self.assertFalse(
+            any(
+                item["migration_status"] == "identity_created_content_pending"
+                for item in self.hubs
+            )
+        )
         map_hub = next(item for item in self.hubs if item["owner_id"] == "thailand-map")
         self.assertEqual(
             "structured_geography_available_content_required",
@@ -399,8 +403,50 @@ class ContentMigrationLedgerTest(unittest.TestCase):
         )
         self.assertEqual(3, len(map_hub["evidence"]["structured_source_paths"]))
 
+    def test_promoted_hubs_are_live_owners_with_private_canary_only(self) -> None:
+        by_owner = {item["owner_id"]: item for item in self.promoted_hubs}
+        self.assertEqual(PROMOTED_GUIDE_HUB_IDS, set(by_owner))
+        self.assertFalse(self.guides_canary["public_live_verified"])
+        self.assertFalse(
+            self.guides_canary["acceptance"]["public_live_verified"]
+        )
+        self.assertFalse(
+            self.guides_canary["privacy"]["screenshots_claimed"]
+        )
+        self.assertFalse(
+            self.guides_canary["privacy"]["acceptance_artifact_claimed"]
+        )
+        expected_post_ids = {
+            "thailand-visas": 846,
+            "thailand-law-and-tax": 848,
+        }
+        evidence_path = "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
+        for owner_id, hub in by_owner.items():
+            owner = self.owners[owner_id]
+            self.assertEqual("live", owner["lifecycle"], owner_id)
+            self.assertEqual([evidence_path], owner["source_evidence"], owner_id)
+            self.assertEqual("evidence_update_pending", hub["migration_status"])
+            self.assertEqual(
+                "registered_live_owner_private_canary_passed_publication_pending",
+                hub["release_target"]["target_state"],
+            )
+            self.assertEqual(
+                "managed_content_private_canary_passed_publication_pending",
+                hub["source_material_status"],
+            )
+            self.assertEqual("upgrade_required", hub["evidence"]["owner_review_state"])
+            self.assertEqual([evidence_path], hub["evidence"]["owner_source_evidence"])
+            self.assertEqual(
+                expected_post_ids[owner_id],
+                hub["evidence"]["draft_identity_post_id"],
+            )
+            self.assertEqual("draft", hub["evidence"]["draft_identity_status"])
+            self.assertTrue(
+                all(value in (None, False) for value in hub["completion_evidence"].values())
+            )
+
     def test_no_route_or_source_is_falsely_complete(self) -> None:
-        records = [*self.legacy, *self.drafts, *self.hubs]
+        records = [*self.legacy, *self.drafts, *self.hubs, *self.promoted_hubs]
         self.assertTrue(all(item["migration_status"] != "complete" for item in records))
         for record in records:
             values = record["completion_evidence"].values()
@@ -418,7 +464,7 @@ class ContentMigrationLedgerTest(unittest.TestCase):
             self.assertEqual(source["sha256_lf"], sha256_lf(path))
         for item in self.ledger["scope"]["platform_managed_original_surfaces"]:
             self.assertTrue((ROOT / item["evidence_path"]).is_file(), item)
-        for hub in self.hubs:
+        for hub in [*self.hubs, *self.promoted_hubs]:
             for path in hub["evidence"]["structured_source_paths"]:
                 self.assertTrue((ROOT / path).is_file(), path)
 
@@ -429,7 +475,7 @@ class ContentMigrationLedgerTest(unittest.TestCase):
         for index, wave in enumerate(waves):
             previous = {item["wave_id"] for item in waves[:index]}
             self.assertTrue(set(wave["depends_on"]).issubset(previous), wave["wave_id"])
-        for record in [*self.legacy, *self.drafts, *self.hubs]:
+        for record in [*self.legacy, *self.drafts, *self.hubs, *self.promoted_hubs]:
             target = record["release_target"]
             self.assertIn(target["wave_id"], wave_ids)
             if target["system_enrichment_wave_id"] is not None:
@@ -446,7 +492,14 @@ class ContentMigrationLedgerTest(unittest.TestCase):
             "&#" + "8211;",
             "&#" + "8212;",
         )
-        for path in (LEDGER_PATH, SCHEMA_PATH, BUILDER_PATH, README_PATH, Path(__file__)):
+        for path in (
+            LEDGER_PATH,
+            SCHEMA_PATH,
+            BUILDER_PATH,
+            README_PATH,
+            GUIDES_CANARY_EVIDENCE_PATH,
+            Path(__file__),
+        ):
             text = path.read_text(encoding="utf-8")
             for character in forbidden_characters:
                 self.assertNotIn(character, text, str(path))

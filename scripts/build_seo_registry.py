@@ -33,6 +33,14 @@ MANAGED_LIVE_EVIDENCE_RELATIVE = (
     "data/seo/evidence/managed-live-routes.0.3.5.json"
 )
 MANAGED_LIVE_EVIDENCE = ROOT / MANAGED_LIVE_EVIDENCE_RELATIVE
+GUIDES_PRIVATE_CANARY_EVIDENCE_RELATIVE = (
+    "data/seo/evidence/priority-guides-private-canary.0.4.0.json"
+)
+GUIDES_PRIVATE_CANARY_EVIDENCE = ROOT / GUIDES_PRIVATE_CANARY_EVIDENCE_RELATIVE
+
+FROZEN_ROUTE_INDEXING_OVERRIDES = {
+    "thailand-entry-april-2022": "noindex",
+}
 
 EXPECTED_MANAGED_ROUTES = [
     {
@@ -92,6 +100,81 @@ EXPECTED_MANAGED_ROUTES = [
         "post_type": "post",
     },
 ]
+
+EXPECTED_GUIDES_CANARY_ROUTES = [
+    {
+        "route_id": "thailand-cannabis-law",
+        "seo_owner_id": "thailand-cannabis-law",
+        "expected_canonical_path": "/תאילנד-וחוק-אי-הפללת-קנאביס-פנאי/",
+        "post_id": 102,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article",
+    },
+    {
+        "route_id": "thailand-entry-april-2022",
+        "seo_owner_id": "thailand-entry-april-2022",
+        "expected_canonical_path": "/החל-מאפריל-2022-מטיילים-יורשו-להיכנס-לתאי/",
+        "post_id": 62,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article",
+    },
+    {
+        "route_id": "thailand-entry-requirements",
+        "seo_owner_id": "thailand-entry-requirements",
+        "expected_canonical_path": "/hello-world/",
+        "post_id": 1,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article",
+    },
+    {
+        "route_id": "thailand-law-and-tax",
+        "seo_owner_id": "thailand-law-and-tax",
+        "expected_canonical_path": "/חוקים-ומסים-בתאילנד/",
+        "post_id": 848,
+        "post_type": "page",
+        "wordpress_status_at_observation": "draft",
+        "page_schema_type": "CollectionPage",
+    },
+    {
+        "route_id": "thailand-permanent-residence",
+        "seo_owner_id": "thailand-permanent-residence",
+        "expected_canonical_path": "/permanent-residence-thailand/",
+        "post_id": 132,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article",
+    },
+    {
+        "route_id": "thailand-tourist-visa",
+        "seo_owner_id": "thailand-tourist-visa",
+        "expected_canonical_path": "/ויזת-תיירים-תאילנד/",
+        "post_id": 243,
+        "post_type": "post",
+        "wordpress_status_at_observation": "publish",
+        "page_schema_type": "Article",
+    },
+    {
+        "route_id": "thailand-visas",
+        "seo_owner_id": "thailand-visas",
+        "expected_canonical_path": "/ויזות-לתאילנד/",
+        "post_id": 846,
+        "post_type": "page",
+        "wordpress_status_at_observation": "draft",
+        "page_schema_type": "CollectionPage",
+    },
+]
+
+GUIDES_PARENT_OWNER_IDS = ("thailand-visas", "thailand-law-and-tax")
+GUIDES_CHILD_OWNER_IDS = (
+    "thailand-entry-requirements",
+    "thailand-entry-april-2022",
+    "thailand-cannabis-law",
+    "thailand-tourist-visa",
+    "thailand-permanent-residence",
+)
 
 SNAPSHOTS = (
     {
@@ -880,8 +963,17 @@ PLANNED = {
 }
 
 
-MANAGED_LIVE_PATH = "/נדלן-בתאילנד/"
-MANAGED_LIVE = {MANAGED_LIVE_PATH: PLANNED[MANAGED_LIVE_PATH]}
+MANAGED_LIVE_PATHS = (
+    "/נדלן-בתאילנד/",
+    "/ויזות-לתאילנד/",
+    "/חוקים-ומסים-בתאילנד/",
+)
+MANAGED_LIVE = {path: PLANNED[path] for path in MANAGED_LIVE_PATHS}
+MANAGED_LIVE_EVIDENCE_BY_OWNER = {
+    "thailand-real-estate": MANAGED_LIVE_EVIDENCE_RELATIVE,
+    "thailand-visas": GUIDES_PRIVATE_CANARY_EVIDENCE_RELATIVE,
+    "thailand-law-and-tax": GUIDES_PRIVATE_CANARY_EVIDENCE_RELATIVE,
+}
 PLANNED = {
     url: definition
     for url, definition in PLANNED.items()
@@ -955,8 +1047,13 @@ CONFLICTS = {
     "thailand-first-trip-guide": ["thailand-tourism", "home"],
     "thailand-flights": ["flight-booking-myths", "cheap-flight-tips-legacy"],
     "cheap-flight-tips-legacy": ["thailand-flights", "flight-booking-myths"],
-    "thailand-entry-requirements": ["thailand-entry-april-2022", "thailand-tourist-visa"],
-    "thailand-tourist-visa": ["thailand-entry-requirements", "thailand-visa-service"],
+    "thailand-entry-requirements": ["thailand-visas", "thailand-entry-april-2022", "thailand-tourist-visa"],
+    "thailand-tourist-visa": ["thailand-visas", "thailand-entry-requirements", "thailand-visa-service"],
+    "thailand-visas": ["thailand-entry-requirements", "thailand-entry-april-2022", "thailand-tourist-visa", "thailand-permanent-residence"],
+    "thailand-entry-april-2022": ["thailand-visas", "thailand-entry-requirements"],
+    "thailand-permanent-residence": ["thailand-visas"],
+    "thailand-law-and-tax": ["thailand-cannabis-law"],
+    "thailand-cannabis-law": ["thailand-law-and-tax"],
     "business-in-thailand": ["thailand-economy", "thailand-work-permit", "thai-lawyer-hebrew-service"],
     "thai-lawyer-hebrew-service": ["business-in-thailand", "thailand-tourist-visa", "buy-property-thailand"],
     "thailand-real-estate": ["buy-property-thailand", "thailand-property-prices"],
@@ -1140,6 +1237,153 @@ def validate_managed_live_evidence() -> dict[str, Any]:
     return evidence
 
 
+def validate_guides_private_canary_evidence() -> dict[str, Any]:
+    """Validate the redacted private Canary record without claiming public release."""
+    evidence = read_json(GUIDES_PRIVATE_CANARY_EVIDENCE)
+    if set(evidence) != {
+        "schema_version",
+        "evidence_id",
+        "origin",
+        "recorded_at",
+        "evidence_scope",
+        "public_live_verified",
+        "privacy",
+        "release",
+        "production_state",
+        "acceptance",
+    }:
+        raise ValueError("Guides private Canary evidence shape mismatch")
+    expected_recorded_at = "2026-08-10T17:37:37+03:00"
+    for key, expected in (
+        ("schema_version", 1),
+        ("evidence_id", "thailand-platform-priority-guides-0.4.0-private-canary"),
+        ("origin", "https://thai-land.co.il"),
+        ("recorded_at", expected_recorded_at),
+        ("evidence_scope", "authenticated_manual_canary"),
+        ("public_live_verified", False),
+    ):
+        if evidence.get(key) != expected:
+            raise ValueError(f"Guides private Canary evidence mismatch: {key}")
+
+    expected_privacy = {
+        "authenticated_request_locator": "redacted",
+        "cookies_recorded": False,
+        "credentials_recorded": False,
+        "screenshots_claimed": False,
+        "acceptance_artifact_claimed": False,
+    }
+    if evidence.get("privacy") != expected_privacy:
+        raise ValueError("Guides private Canary redaction contract mismatch")
+
+    expected_release = {
+        "version": "0.4.0",
+        "receipt_path": "plugin-dist/0.4.0/thailand-platform-0.4.0.receipt.json",
+        "receipt_bytes": 21933,
+        "receipt_sha256": "d8424e85f80a47ba0f536c1066ddacfa192cac0ff4ec8f1c233c177e9cf46146",
+        "artifact_path": "plugin-dist/0.4.0/thailand-platform-0.4.0.zip",
+        "artifact_bytes": 1340922,
+        "artifact_sha256": "26f5f289be5cdfcd0a3ce840a511e91803fdaf6d0ace10b54b11f8a776ffbe19",
+        "source_commit": "1ec757d2455921f164358f10d234a181cf794b51",
+    }
+    release = evidence.get("release")
+    if release != expected_release:
+        raise ValueError("Guides private Canary release claim mismatch")
+    receipt_path = validate_file_claim(
+        release, "receipt_path", "receipt_bytes", "receipt_sha256"
+    )
+    validate_file_claim(release, "artifact_path", "artifact_bytes", "artifact_sha256")
+    receipt = read_json(receipt_path)
+    for key, expected in (
+        ("version", release["version"]),
+        ("source_commit", release["source_commit"]),
+        ("bytes", release["artifact_bytes"]),
+        ("sha256", release["artifact_sha256"]),
+        ("deterministic_zip", True),
+    ):
+        if receipt.get(key) != expected:
+            raise ValueError(f"Guides private Canary receipt field mismatch: {key}")
+
+    expected_production_state = {
+        "health": {
+            "url": "https://thai-land.co.il/wp-json/thailand-platform/v1/health",
+            "observed_at": expected_recorded_at,
+            "http_status": 200,
+            "cache_control": "no-store",
+            "response": {
+                "name": "thailand-platform",
+                "version": "0.4.0",
+                "status": "ok",
+            },
+        },
+        "active_plugin_basename": "thailand-platform-live-040/thailand-platform.php",
+        "inactive_predecessor_basename": "thailand-platform-live-036/thailand-platform.php",
+        "guides_mode": "canary",
+    }
+    if evidence.get("production_state") != expected_production_state:
+        raise ValueError("Guides private Canary production state mismatch")
+
+    acceptance = evidence.get("acceptance")
+    if not isinstance(acceptance, dict) or set(acceptance) != {
+        "method",
+        "observed_at",
+        "passed",
+        "route_count",
+        "public_live_verified",
+        "robots",
+        "canonical_behavior",
+        "assertions",
+        "routes",
+        "anonymous_isolation",
+    }:
+        raise ValueError("Guides private Canary acceptance shape mismatch")
+    expected_acceptance_fields = {
+        "method": "authenticated_manual_canary",
+        "observed_at": expected_recorded_at,
+        "passed": True,
+        "route_count": 7,
+        "public_live_verified": False,
+        "robots": "noindex,nofollow",
+        "canonical_behavior": "intentionally_absent_in_private_canary",
+    }
+    for key, expected in expected_acceptance_fields.items():
+        if acceptance.get(key) != expected:
+            raise ValueError(f"Guides private Canary acceptance mismatch: {key}")
+    expected_assertions = {
+        "exact_route_and_owner_markers": True,
+        "one_h1": True,
+        "one_main": True,
+        "one_current_breadcrumb": True,
+        "breadcrumb_count_min": 2,
+        "breadcrumb_count_max": 3,
+        "section_count_min": 5,
+        "section_count_max": 7,
+        "contextual_target_count_min": 1,
+        "contextual_target_count_max": 3,
+        "unlinked_contextual_target_count": 0,
+        "official_source_link_count_min": 2,
+        "official_source_link_count_max": 8,
+        "breadcrumb_schema_present": True,
+        "versioned_css_and_javascript_present": True,
+        "hero_image_loaded": True,
+        "duplicate_id_count": 0,
+        "unnamed_link_count": 0,
+        "horizontal_overflow": False,
+    }
+    if acceptance.get("assertions") != expected_assertions:
+        raise ValueError("Guides private Canary assertions mismatch")
+    if acceptance.get("routes") != EXPECTED_GUIDES_CANARY_ROUTES:
+        raise ValueError("Guides private Canary route bindings changed")
+    expected_isolation = {
+        "published_route_canary_probe_http_status": 404,
+        "draft_route_canary_probe_http_status": 404,
+        "normal_published_route_http_status": 200,
+        "normal_published_route_guides_marker_present": False,
+    }
+    if acceptance.get("anonymous_isolation") != expected_isolation:
+        raise ValueError("Guides private Canary anonymous isolation mismatch")
+    return evidence
+
+
 def review_state(action: str, lifecycle: str) -> str:
     if lifecycle == "planned":
         return "planned"
@@ -1168,6 +1412,7 @@ def source_for_path(path: str, snapshot_paths: dict[str, set[str]]) -> tuple[lis
 
 def build_registry() -> dict[str, Any]:
     validate_managed_live_evidence()
+    validate_guides_private_canary_evidence()
     snapshot_files = {
         "yoast-sitemaps-2026-08-08": SITEMAP_INVENTORY,
         "indexable-category-surfaces-2026-08-08": CATEGORY_INVENTORY,
@@ -1345,6 +1590,14 @@ def build_registry() -> dict[str, Any]:
         "contextual_body",
         ["מדריך בנגקוק"],
     )
+    for owner_id in GUIDES_CHILD_OWNER_IDS:
+        add_link(
+            owner_id,
+            "home",
+            "support",
+            "contextual_body",
+            [definitions["home"]["primary_keyword"]],
+        )
     add_link(
         "thailand-entry-april-2022",
         "thailand-entry-requirements",
@@ -1364,7 +1617,7 @@ def build_registry() -> dict[str, Any]:
         elif canonical_url in PUBLIC:
             _, source_evidence = source_for_path(canonical_url, snapshot_paths)
         elif canonical_url in MANAGED_LIVE:
-            source_evidence = [MANAGED_LIVE_EVIDENCE_RELATIVE]
+            source_evidence = [MANAGED_LIVE_EVIDENCE_BY_OWNER[owner_id]]
         else:
             source_evidence = ["README.md"]
 
@@ -1460,7 +1713,9 @@ def build_registry() -> dict[str, Any]:
                 "url": url,
                 "route_kind": "exact",
                 "lifecycle": "live",
-                "indexing_policy": "index",
+                "indexing_policy": FROZEN_ROUTE_INDEXING_OVERRIDES.get(
+                    definition["owner_id"], "index"
+                ),
                 "observed_in": observed,
                 "source_evidence": evidence,
                 "assignment": assignment,
@@ -1476,7 +1731,9 @@ def build_registry() -> dict[str, Any]:
                 "lifecycle": "live",
                 "indexing_policy": "index",
                 "observed_in": [],
-                "source_evidence": [MANAGED_LIVE_EVIDENCE_RELATIVE],
+                "source_evidence": [
+                    MANAGED_LIVE_EVIDENCE_BY_OWNER[definition["owner_id"]]
+                ],
                 "assignment": {
                     "kind": "canonical_owner",
                     "owner_id": definition["owner_id"],

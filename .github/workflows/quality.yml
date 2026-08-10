@@ -89,7 +89,12 @@ jobs:
           node --check assets/content/bangkok-rental.js
           node --check assets/guides/guides.js
           node --check scripts/live_guides_acceptance.cjs
+          node --check scripts/live_homepage_acceptance.cjs
           node --check scripts/live_real_estate_acceptance.cjs
+          node --check scripts/live_seo_migration_acceptance.cjs
+          node --check scripts/live_sitewide_acceptance.cjs
+          node --check tests/live-sitewide-acceptance.test.cjs
+          node tests/live-sitewide-acceptance.test.cjs
           node tests/tawk-state.test.js
 
       - name: Lint PHP
