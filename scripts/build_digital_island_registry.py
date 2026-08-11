@@ -29,6 +29,8 @@ SOURCE_ID_RE = re.compile(r"^source:[a-z0-9]+(?:[.:_-][a-z0-9]+)*$")
 ENTITY_ID_RE = re.compile(r"^[a-z_]+:th:[a-z0-9]+(?::[a-z0-9-]+)+$")
 LAYER_ID_RE = re.compile(r"^layer:[a-z0-9]+(?:[.:_-][a-z0-9]+)*$")
 TOOL_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+RENDERER_ID_RE = re.compile(r"^(?:immersive_3d|practical_2d)$")
+SATELLITE_SOURCE_ID = "source:copernicus.sentinel2.s2b_47ppl_20260326_0_l2a"
 
 ACCURACY_CAPS = {
     "official_point": 50,
@@ -49,6 +51,98 @@ FORBIDDEN_KEYS = {
     "cookie",
     "password",
     "token",
+}
+
+EXPECTED_RENDERERS = {
+    "immersive_3d": {
+        "role": "primary_capable_device",
+        "library": "MapLibre GL JS",
+        "library_version": "5.18.0",
+        "delivery": "self_hosted_pinned",
+        "capabilities": [
+            "camera_presets",
+            "entity_focus",
+            "globe",
+            "hillshade",
+            "terrain",
+            "building_extrusion",
+            "satellite_imagery",
+        ],
+        "fallback_triggers": ["webgl_unavailable", "data_saver", "user_choice"],
+        "source_ids": [
+            "source:maplibre.docs",
+            "source:protomaps.basemap",
+            "source:mapzen.terrain",
+            "source:usgs.srtm",
+            "source:usgs.gmted2010",
+            "source:noaa.etopo1",
+            "source:esa.worldcover.2021",
+            SATELLITE_SOURCE_ID,
+        ],
+    },
+    "practical_2d": {
+        "role": "fallback_and_operational",
+        "library": "MapLibre GL JS",
+        "library_version": "5.18.0",
+        "delivery": "self_hosted_pinned",
+        "capabilities": [
+            "camera_presets",
+            "entity_focus",
+            "filters",
+            "keyboard_list",
+            "vector_basemap",
+        ],
+        "fallback_triggers": [],
+        "source_ids": [
+            "source:maplibre.docs",
+            "source:protomaps.basemap",
+            "source:esa.worldcover.2021",
+        ],
+    },
+}
+
+FORBIDDEN_RENDERER_CLAIMS = {
+    "measurement",
+    "offline",
+    "parcel",
+    "buildability",
+    "photorealism",
+    "walking",
+}
+
+EXPECTED_SATELLITE_SOURCE = {
+    "source_id": SATELLITE_SOURCE_ID,
+    "publisher": "European Union Copernicus programme; COG access via AWS Open Data",
+    "title": "Sentinel-2 L2A true-colour item S2B_47PPL_20260326_0_L2A",
+    "url": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/47/P/PL/2026/3/S2B_47PPL_20260326_0_L2A/TCI.tif",
+    "authority_tier": "licensed_registry",
+    "source_type": "official_dataset",
+    "checked_on": "2026-08-12",
+    "effective_on": "2026-03-26",
+    "access_state": "current",
+    "permitted_reuse": "attribute_and_geometry",
+    "geometry_use": "orientation_only",
+    "next_review_on": "2027-03-26",
+    "imagery": {
+        "item_id": "S2B_47PPL_20260326_0_L2A",
+        "observed_at": "2026-03-26T03:55:36.171000Z",
+        "tile_cloud_cover_percent": 14.307985,
+        "tile_cloud_metadata_scope": "source_tile_not_cropped_island",
+        "registry_url": "https://registry.opendata.aws/sentinel-2-l2a-cogs/",
+        "legal_notice_url": "https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice",
+        "processed_bounds": {"west": 99.92, "south": 9.63, "east": 100.12, "north": 9.84},
+        "processing": ["cropped_to_bounds", "reprojected_to_epsg_3857", "compressed_to_webp"],
+        "processed_projection": "EPSG:3857",
+        "processed_format": "webp",
+        "usage_scope": "orientation_only",
+        "limitations": [
+            "not_current_evidence",
+            "not_parcel_evidence",
+            "not_title_evidence",
+            "not_buildability_evidence",
+        ],
+        "attribution": "Contains modified Copernicus Sentinel data 2026",
+    },
 }
 
 
@@ -289,6 +383,31 @@ def validate_source_ids(ids: Any, sources: dict[str, dict[str, Any]], label: str
     for source_id in ids:
         require(isinstance(source_id, str) and SOURCE_ID_RE.fullmatch(source_id) is not None, f"{label} has invalid source ID")
         require(source_id in sources, f"{label} references unknown source: {source_id}")
+
+
+def validate_renderer_contract(records: Any, sources: dict[str, dict[str, Any]]) -> None:
+    renderers = unique_index(records, "renderer_id", "renderer", RENDERER_ID_RE)
+    require(set(renderers) == set(EXPECTED_RENDERERS), "renderer set is incomplete or unexpected")
+    for renderer_id, expected in EXPECTED_RENDERERS.items():
+        renderer = renderers[renderer_id]
+        for field, value in expected.items():
+            require(renderer.get(field) == value, f"renderer contract mismatch: {renderer_id}.{field}")
+        validate_source_ids(renderer.get("source_ids"), sources, renderer_id)
+        claims = " ".join(renderer.get("capabilities", [])).lower()
+        require(
+            not any(forbidden in claims for forbidden in FORBIDDEN_RENDERER_CLAIMS),
+            f"renderer contains a prohibited capability claim: {renderer_id}",
+        )
+
+
+def validate_satellite_source(sources: dict[str, dict[str, Any]]) -> None:
+    source = sources.get(SATELLITE_SOURCE_ID)
+    require(source == EXPECTED_SATELLITE_SOURCE, "approved Sentinel-2 source contract differs from review")
+    for source_id, candidate in sources.items():
+        require(
+            source_id == SATELLITE_SOURCE_ID or "imagery" not in candidate,
+            f"unreviewed imagery metadata is public: {source_id}",
+        )
 
 
 def validate_layer(layer: dict[str, Any], sources: dict[str, dict[str, Any]]) -> None:
@@ -560,6 +679,9 @@ def build() -> BuildResult:
     sources = unique_index(source.get("source_catalog"), "source_id", "source", SOURCE_ID_RE)
     for record in sources.values():
         validate_source(record)
+    require("source:cesiumjs.docs" not in sources, "retired Cesium renderer evidence remains in the MapLibre contract")
+    validate_satellite_source(sources)
+    validate_renderer_contract(source.get("renderer_contract"), sources)
     required_dimensions = set(source["land_decision_policy"]["required_dimensions"])
     official_tools = unique_index(source.get("official_tools"), "tool_id", "official tool", TOOL_ID_RE)
     require(

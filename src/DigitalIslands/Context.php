@@ -20,7 +20,7 @@ final class Context {
 				return self::is_authorized_canary() && Renderer::ready_for_canary();
 			}
 
-			return self::is_live_request() && Renderer::ready_for_public();
+			return self::is_live_request();
 		} catch ( \Throwable $exception ) {
 			unset( $exception );
 			return false;
@@ -54,8 +54,8 @@ final class Context {
 	/** @return bool */
 	public static function is_live_request() {
 		if (
-			! self::public_api_ready()
-			|| ! self::live_identity_matches_request()
+			! self::live_identity_matches_request()
+			|| ! self::public_api_ready()
 		) {
 			return false;
 		}

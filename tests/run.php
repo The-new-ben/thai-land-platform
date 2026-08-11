@@ -388,7 +388,7 @@ use Thailand_Platform\Content\FeatureFlag as Content_FeatureFlag;
 use Thailand_Platform\Guides\FeatureFlag as Guides_FeatureFlag;
 use Thailand_Platform\DigitalIslands\FeatureFlag as Digital_Islands_FeatureFlag;
 
-tl_test_assert( '0.5.0' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.5.1' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -733,6 +733,7 @@ $digital_islands_runtime_files = array(
 	'assets/digital-islands/digital-islands.js',
 	'resources/digital-islands/manifest.json',
 	'resources/digital-islands/registry.php',
+	'resources/digital-islands/renderer-manifest.json',
 	'src/DigitalIslands/ArtifactVerifier.php',
 	'src/DigitalIslands/Assets.php',
 	'src/DigitalIslands/Context.php',
@@ -742,6 +743,7 @@ $digital_islands_runtime_files = array(
 	'src/DigitalIslands/Privacy.php',
 	'src/DigitalIslands/PublicView.php',
 	'src/DigitalIslands/Renderer.php',
+	'src/DigitalIslands/RendererAssets.php',
 	'src/DigitalIslands/Repository.php',
 	'src/DigitalIslands/RestController.php',
 	'src/DigitalIslands/Schema.php',
@@ -755,6 +757,129 @@ foreach ( $digital_islands_runtime_files as $runtime_file ) {
 	tl_test_assert( in_array( $runtime_file, $package_entries, true ), 'Digital Islands runtime file is not packaged: ' . $runtime_file );
 	tl_test_assert( is_file( $root . '/' . $runtime_file ), 'Digital Islands runtime file is missing: ' . $runtime_file );
 }
+
+$renderer_manifest_payload = file_get_contents( $root . '/resources/digital-islands/renderer-manifest.json' );
+tl_test_assert( false !== $renderer_manifest_payload, 'Renderer manifest is unreadable.' );
+tl_test_assert( 15395 === strlen( $renderer_manifest_payload ), 'Renderer manifest pinned byte count mismatch.' );
+tl_test_assert( '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb' === hash( 'sha256', $renderer_manifest_payload ), 'Renderer manifest pinned SHA-256 mismatch.' );
+$renderer_assets_source = file_get_contents( $root . '/src/DigitalIslands/RendererAssets.php' );
+tl_test_assert( false !== $renderer_assets_source, 'Renderer asset verifier source is unreadable.' );
+tl_test_assert( false !== strpos( $renderer_assets_source, "const MANIFEST_SHA256 = '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb';" ), 'Renderer manifest SHA-256 constant mismatch.' );
+$renderer_manifest = json_decode( $renderer_manifest_payload, true );
+tl_test_assert( JSON_ERROR_NONE === json_last_error() && is_array( $renderer_manifest ), 'Renderer manifest is not valid JSON.' );
+$renderer_manifest_keys = array_keys( $renderer_manifest );
+sort( $renderer_manifest_keys, SORT_STRING );
+tl_test_assert(
+	array(
+		'attribution',
+		'basemap',
+		'contract_id',
+		'dependencies',
+		'inventory',
+		'island_id',
+		'release_version',
+		'satellite',
+		'schema_version',
+		'terrain',
+	) === $renderer_manifest_keys,
+	'Renderer manifest fields are missing or unexpected.'
+);
+tl_test_assert( 'thailand-digital-islands-renderer-v1' === $renderer_manifest['contract_id'], 'Renderer contract identity mismatch.' );
+tl_test_assert( 1 === $renderer_manifest['schema_version'], 'Renderer schema version mismatch.' );
+tl_test_assert( 'geo:th:island:ko-pha-ngan' === $renderer_manifest['island_id'], 'Renderer island identity mismatch.' );
+tl_test_assert( '0.5.1' === THAILAND_PLATFORM_VERSION && THAILAND_PLATFORM_VERSION === $renderer_manifest['release_version'], 'Renderer release version mismatch.' );
+tl_test_assert( '5.18.0' === $renderer_manifest['dependencies']['maplibre']['version'], 'MapLibre release pin mismatch.' );
+tl_test_assert( '4.5.0' === $renderer_manifest['dependencies']['pmtiles']['version'], 'PMTiles release pin mismatch.' );
+tl_test_assert( 65 === count( $renderer_manifest['inventory'] ), 'Renderer asset inventory must contain exactly 65 files.' );
+tl_test_assert( 58 === $renderer_manifest['terrain']['tile_count'], 'Renderer terrain inventory must contain exactly 58 tiles.' );
+tl_test_assert( 1092999 === $renderer_manifest['terrain']['total_bytes'], 'Renderer terrain byte total mismatch.' );
+tl_test_assert( 'cde017fa9a5443e60d0dfba32984e9fcbdec357644b558b0fa128eb935444918' === $renderer_manifest['terrain']['inventory_sha256'], 'Renderer terrain digest mismatch.' );
+tl_test_assert( 58 === count( $renderer_manifest['terrain']['tiles'] ), 'Renderer terrain tile list count mismatch.' );
+
+$renderer_package_prefixes = array(
+	'assets/digital-islands/data/',
+	'assets/digital-islands/imagery/',
+	'assets/digital-islands/terrain/',
+	'assets/digital-islands/vendor/',
+);
+$packaged_renderer_assets = array();
+foreach ( $package_entries as $package_entry ) {
+	foreach ( $renderer_package_prefixes as $renderer_prefix ) {
+		if ( 0 === strpos( $package_entry, $renderer_prefix ) ) {
+			$packaged_renderer_assets[] = $package_entry;
+			break;
+		}
+	}
+}
+$manifest_renderer_assets = array_keys( $renderer_manifest['inventory'] );
+sort( $packaged_renderer_assets, SORT_STRING );
+sort( $manifest_renderer_assets, SORT_STRING );
+tl_test_assert( $manifest_renderer_assets === $packaged_renderer_assets, 'Packaged renderer assets disagree with the exact manifest inventory.' );
+
+$terrain_receipts = array();
+$terrain_total_bytes = 0;
+foreach ( $renderer_manifest['inventory'] as $renderer_relative_path => $renderer_receipt ) {
+	tl_test_assert( in_array( $renderer_relative_path, $package_entries, true ), 'Manifested renderer asset is not packaged: ' . $renderer_relative_path );
+	tl_test_assert( array( 'bytes', 'sha256' ) === array_keys( $renderer_receipt ), 'Renderer receipt fields changed: ' . $renderer_relative_path );
+	$renderer_absolute_path = $root . '/' . $renderer_relative_path;
+	tl_test_assert( is_file( $renderer_absolute_path ) && ! is_link( $renderer_absolute_path ), 'Renderer asset is missing or unsafe: ' . $renderer_relative_path );
+	tl_test_assert( $renderer_receipt['bytes'] === filesize( $renderer_absolute_path ), 'Renderer asset byte count mismatch: ' . $renderer_relative_path );
+	tl_test_assert( $renderer_receipt['sha256'] === hash_file( 'sha256', $renderer_absolute_path ), 'Renderer asset SHA-256 mismatch: ' . $renderer_relative_path );
+	if ( 0 === strpos( $renderer_relative_path, 'assets/digital-islands/terrain/20260811/' ) ) {
+		$terrain_header = file_get_contents( $renderer_absolute_path, false, null, 0, 8 );
+		tl_test_assert( "\x89PNG\r\n\x1a\n" === $terrain_header, 'Renderer terrain asset is not a PNG: ' . $renderer_relative_path );
+		$terrain_receipts[ $renderer_relative_path ] = $renderer_receipt;
+		$terrain_total_bytes += $renderer_receipt['bytes'];
+	}
+}
+ksort( $terrain_receipts, SORT_STRING );
+$terrain_receipt_canonical = '';
+foreach ( $terrain_receipts as $terrain_path => $terrain_receipt ) {
+	$terrain_receipt_canonical .= $terrain_path . "\0" . $terrain_receipt['bytes'] . "\0" . $terrain_receipt['sha256'] . "\n";
+}
+tl_test_assert( 58 === count( $terrain_receipts ), 'Renderer terrain receipt count mismatch.' );
+tl_test_assert( $renderer_manifest['terrain']['total_bytes'] === $terrain_total_bytes, 'Renderer terrain receipt bytes mismatch.' );
+tl_test_assert( $renderer_manifest['terrain']['inventory_sha256'] === hash( 'sha256', $terrain_receipt_canonical ), 'Renderer terrain canonical receipt digest mismatch.' );
+
+$renderer_pinned_receipts = array(
+	'assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles' => array( 'bytes' => 1205287, 'sha256' => '9a8614610ea58d282989346763cd5900ad02d54d8bc7104eda799bea79799ded' ),
+	'assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp' => array( 'bytes' => 621958, 'sha256' => '9ee99de2269a040c35be113bad44d444fc76c4dc136b36d4afe5cb57b5e3de2a' ),
+	'assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt' => array( 'bytes' => 5984, 'sha256' => 'ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2' ),
+	'assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css' => array( 'bytes' => 69541, 'sha256' => 'e4711ce4f6225070a859c7a40dc4d2e4e1ab76a5c71a12b4a65227ed2bf362fd' ),
+	'assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js' => array( 'bytes' => 1022148, 'sha256' => 'bc7101606a893f9018ac4a0d27f7de07d00fb3852231951fcf3dd900796ddfd7' ),
+	'assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt' => array( 'bytes' => 2879, 'sha256' => '4ca0c13e0b394eebfefc94cc1ba825b99b120283d98dd5ee2f6bc733bb8a5f77' ),
+	'assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js' => array( 'bytes' => 20229, 'sha256' => 'caf981bc46f6327ee7e65d5dc964d89d38a69f60edca2bd4c5c890c21b554c6c' ),
+);
+foreach ( $renderer_pinned_receipts as $renderer_relative_path => $expected_renderer_receipt ) {
+	tl_test_assert( $expected_renderer_receipt === $renderer_manifest['inventory'][ $renderer_relative_path ], 'Pinned renderer receipt changed: ' . $renderer_relative_path );
+}
+$third_party_notice_source = file_get_contents( $root . '/THIRD-PARTY-DATA-NOTICES.md' );
+tl_test_assert( false !== $third_party_notice_source, 'Third-party software and data notices are unreadable.' );
+foreach (
+	array(
+		'fflate 0.8.2',
+		'MIT License',
+		'Copyright (c) 2023 Arjun Barrett',
+		'https://github.com/101arrowz/fflate/blob/v0.8.2/LICENSE',
+	) as $fflate_notice_marker
+) {
+	tl_test_assert( false !== strpos( $third_party_notice_source, $fflate_notice_marker ), 'Bundled fflate notice marker is missing: ' . $fflate_notice_marker );
+}
+$pmtiles_license_source = file_get_contents( $root . '/assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt' );
+tl_test_assert( false !== $pmtiles_license_source, 'Bundled PMTiles license notice is unreadable.' );
+foreach (
+	array(
+		'fflate 0.8.2',
+		'MIT License',
+		'Copyright (c) 2023 Arjun Barrett',
+		'The above copyright notice and this permission notice shall be included in all',
+		'copies or substantial portions of the Software.',
+	) as $fflate_license_marker
+) {
+	tl_test_assert( false !== strpos( $pmtiles_license_source, $fflate_license_marker ), 'Bundled fflate license marker is missing: ' . $fflate_license_marker );
+}
+$satellite_payload = file_get_contents( $root . '/assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp' );
+tl_test_assert( false !== $satellite_payload && 'RIFF' === substr( $satellite_payload, 0, 4 ) && 'WEBP' === substr( $satellite_payload, 8, 4 ), 'Renderer satellite image is not a WebP container.' );
 
 $content_runtime_files = array(
 	'assets/content/bangkok-rental.css',

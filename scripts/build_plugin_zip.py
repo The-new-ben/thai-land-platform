@@ -14,13 +14,35 @@ import subprocess
 import sys
 import tempfile
 import zipfile
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
 
 
 PLUGIN_SLUG = "thailand-platform"
 FIXED_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
+RENDERER_MANIFEST_PATH = "resources/digital-islands/renderer-manifest.json"
+RENDERER_LOADER_PATH = "src/DigitalIslands/RendererAssets.php"
+RENDERER_BOUNDS = {"east": 100.12, "north": 9.84, "south": 9.63, "west": 99.92}
+RENDERER_BROWSER_SCRIPT = "scripts/local_digital_island_browser_acceptance.cjs"
+RENDERER_BROWSER_PASS = "PASS: Digital Islands real-browser acceptance (7 scenarios)."
+RENDERER_BROWSER_SCENARIOS = [
+    "desktop-3d",
+    "desktop-2d",
+    "mobile-2d",
+    "reduced-motion",
+    "data-saver",
+    "no-webgl",
+    "asset-failure",
+]
+RENDERER_TERRAIN_RANGES = {
+    "8": {"count": 2, "max_x": 199, "max_y": 121, "min_x": 199, "min_y": 120},
+    "9": {"count": 2, "max_x": 398, "max_y": 242, "min_x": 398, "min_y": 241},
+    "10": {"count": 2, "max_x": 796, "max_y": 484, "min_x": 796, "min_y": 483},
+    "11": {"count": 4, "max_x": 1593, "max_y": 968, "min_x": 1592, "min_y": 967},
+    "12": {"count": 12, "max_x": 3187, "max_y": 1937, "min_x": 3184, "min_y": 1935},
+    "13": {"count": 36, "max_x": 6374, "max_y": 3875, "min_x": 6369, "min_y": 3870},
+}
 FORBIDDEN_NAMES = {
     ".env",
     ".npmrc",
@@ -180,7 +202,294 @@ def geography_evidence(root: Path) -> dict[str, Any]:
     }
 
 
-def digital_islands_evidence(root: Path) -> dict[str, Any]:
+def expected_renderer_terrain_tiles() -> list[str]:
+    tiles: list[str] = []
+    for zoom in ("8", "9", "10", "11", "12", "13"):
+        tile_range = RENDERER_TERRAIN_RANGES[zoom]
+        for x in range(tile_range["min_x"], tile_range["max_x"] + 1):
+            for y in range(tile_range["min_y"], tile_range["max_y"] + 1):
+                tiles.append(f"assets/digital-islands/terrain/20260811/{zoom}/{x}/{y}.png")
+    return tiles
+
+
+def renderer_evidence(root: Path, entries: list[str], release_version: str) -> dict[str, Any]:
+    """Validate every self-hosted renderer byte and freeze it in the receipt."""
+    manifest_path = root / RENDERER_MANIFEST_PATH
+    loader_path = root / RENDERER_LOADER_PATH
+    manifest_payload = manifest_path.read_bytes()
+    if (
+        len(manifest_payload) != 15395
+        or sha256_bytes(manifest_payload) != "463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb"
+    ):
+        raise ValueError("renderer manifest pinned receipt mismatch")
+    manifest = json_no_duplicates(manifest_path)
+    expected_manifest_keys = {
+        "attribution",
+        "basemap",
+        "contract_id",
+        "dependencies",
+        "inventory",
+        "island_id",
+        "release_version",
+        "satellite",
+        "schema_version",
+        "terrain",
+    }
+    if set(manifest) != expected_manifest_keys:
+        raise ValueError("renderer manifest fields are missing or unexpected")
+    if (
+        manifest.get("contract_id") != "thailand-digital-islands-renderer-v1"
+        or manifest.get("schema_version") != 1
+        or manifest.get("island_id") != "geo:th:island:ko-pha-ngan"
+        or manifest.get("release_version") != release_version
+        or release_version != "0.5.1"
+    ):
+        raise ValueError("renderer manifest identity or release version mismatch")
+
+    expected_attribution = {
+        "basemap": "Protomaps © OpenStreetMap contributors",
+        "terrain": (
+            "Mapzen Terrain Tiles; SRTM and GMTED2010 data courtesy of the U.S. Geological Survey; "
+            "ETOPO1 courtesy of NOAA/NCEI. Not for navigation."
+        ),
+    }
+    if manifest.get("attribution") != expected_attribution:
+        raise ValueError("renderer attribution contract mismatch")
+
+    expected_dependencies = {
+        "maplibre": {
+            "license_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt",
+            "script_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js",
+            "style_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css",
+            "version": "5.18.0",
+        },
+        "pmtiles": {
+            "license_path": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt",
+            "script_path": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js",
+            "version": "4.5.0",
+        },
+    }
+    if manifest.get("dependencies") != expected_dependencies:
+        raise ValueError("renderer dependency contract mismatch")
+
+    expected_basemap = {
+        "bounds": RENDERER_BOUNDS,
+        "format": "pmtiles",
+        "path": "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles",
+    }
+    if manifest.get("basemap") != expected_basemap:
+        raise ValueError("renderer basemap contract mismatch")
+
+    expected_satellite = {
+        "attribution": "Contains modified Copernicus Sentinel data 2026",
+        "bounds": RENDERER_BOUNDS,
+        "format": "webp",
+        "height": 2372,
+        "observed_at": "2026-03-26T03:55:36.171000Z",
+        "path": "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp",
+        "projection": "EPSG:3857",
+        "source_item_id": "S2B_47PPL_20260326_0_L2A",
+        "width": 2227,
+    }
+    if manifest.get("satellite") != expected_satellite:
+        raise ValueError("renderer satellite contract mismatch")
+
+    expected_tiles = expected_renderer_terrain_tiles()
+    terrain = manifest.get("terrain")
+    expected_terrain_keys = {
+        "base_path",
+        "bounds",
+        "format",
+        "inventory_sha256",
+        "max_zoom",
+        "min_zoom",
+        "tile_count",
+        "tile_ranges",
+        "tiles",
+        "total_bytes",
+        "url_template",
+    }
+    if not isinstance(terrain, dict) or set(terrain) != expected_terrain_keys:
+        raise ValueError("renderer terrain fields are missing or unexpected")
+    if (
+        terrain.get("base_path") != "assets/digital-islands/terrain/20260811"
+        or terrain.get("bounds") != RENDERER_BOUNDS
+        or terrain.get("format") != "terrarium_png"
+        or terrain.get("inventory_sha256") != "cde017fa9a5443e60d0dfba32984e9fcbdec357644b558b0fa128eb935444918"
+        or terrain.get("max_zoom") != 13
+        or terrain.get("min_zoom") != 8
+        or terrain.get("tile_count") != 58
+        or terrain.get("tile_ranges") != RENDERER_TERRAIN_RANGES
+        or terrain.get("tiles") != expected_tiles
+        or terrain.get("total_bytes") != 1092999
+        or terrain.get("url_template") != "assets/digital-islands/terrain/20260811/{z}/{x}/{y}.png"
+    ):
+        raise ValueError("renderer terrain contract mismatch")
+
+    inventory = manifest.get("inventory")
+    if not isinstance(inventory, dict):
+        raise ValueError("renderer inventory must be an object")
+    expected_inventory_paths = sorted(
+        {
+            expected_basemap["path"],
+            expected_satellite["path"],
+            expected_dependencies["maplibre"]["license_path"],
+            expected_dependencies["maplibre"]["script_path"],
+            expected_dependencies["maplibre"]["style_path"],
+            expected_dependencies["pmtiles"]["license_path"],
+            expected_dependencies["pmtiles"]["script_path"],
+            *expected_tiles,
+        }
+    )
+    if sorted(inventory) != expected_inventory_paths or len(inventory) != 65:
+        raise ValueError("renderer inventory boundary mismatch")
+
+    important_receipts = {
+        "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles": (
+            1205287,
+            "9a8614610ea58d282989346763cd5900ad02d54d8bc7104eda799bea79799ded",
+        ),
+        "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp": (
+            621958,
+            "9ee99de2269a040c35be113bad44d444fc76c4dc136b36d4afe5cb57b5e3de2a",
+        ),
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt": (
+            5984,
+            "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2",
+        ),
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css": (
+            69541,
+            "e4711ce4f6225070a859c7a40dc4d2e4e1ab76a5c71a12b4a65227ed2bf362fd",
+        ),
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js": (
+            1022148,
+            "bc7101606a893f9018ac4a0d27f7de07d00fb3852231951fcf3dd900796ddfd7",
+        ),
+        "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt": (
+            2879,
+            "4ca0c13e0b394eebfefc94cc1ba825b99b120283d98dd5ee2f6bc733bb8a5f77",
+        ),
+        "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js": (
+            20229,
+            "caf981bc46f6327ee7e65d5dc964d89d38a69f60edca2bd4c5c890c21b554c6c",
+        ),
+    }
+    terrain_receipts: dict[str, dict[str, Any]] = {}
+    terrain_total_bytes = 0
+    for relative, record in inventory.items():
+        posix = PurePosixPath(relative)
+        if posix.is_absolute() or ".." in posix.parts or "\\" in relative:
+            raise ValueError(f"unsafe renderer inventory path: {relative}")
+        if not isinstance(record, dict) or set(record) != {"bytes", "sha256"}:
+            raise ValueError(f"renderer receipt is malformed: {relative}")
+        if (
+            type(record["bytes"]) is not int
+            or record["bytes"] <= 0
+            or not isinstance(record["sha256"], str)
+            or re.fullmatch(r"[0-9a-f]{64}", record["sha256"]) is None
+        ):
+            raise ValueError(f"renderer receipt value is invalid: {relative}")
+        source = root / Path(*posix.parts)
+        if not source.is_file() or source.is_symlink():
+            raise ValueError(f"renderer asset is missing or unsafe: {relative}")
+        payload = source.read_bytes()
+        if record["bytes"] != len(payload) or record["sha256"] != sha256_bytes(payload):
+            raise ValueError(f"renderer asset receipt mismatch: {relative}")
+        if relative not in entries:
+            raise ValueError(f"renderer asset is absent from package-files.txt: {relative}")
+        if relative in expected_tiles:
+            if not payload.startswith(b"\x89PNG\r\n\x1a\n"):
+                raise ValueError(f"renderer terrain tile is not PNG: {relative}")
+            terrain_receipts[relative] = record
+            terrain_total_bytes += record["bytes"]
+
+    for relative, (expected_bytes, expected_hash) in important_receipts.items():
+        if inventory.get(relative) != {"bytes": expected_bytes, "sha256": expected_hash}:
+            raise ValueError(f"renderer pinned receipt changed: {relative}")
+
+    satellite_payload = (root / expected_satellite["path"]).read_bytes()
+    if satellite_payload[:4] != b"RIFF" or satellite_payload[8:12] != b"WEBP":
+        raise ValueError("renderer satellite asset is not a WebP container")
+    terrain_canonical = "".join(
+        f"{relative}\0{terrain_receipts[relative]['bytes']}\0{terrain_receipts[relative]['sha256']}\n"
+        for relative in sorted(terrain_receipts)
+    ).encode("utf-8")
+    if (
+        len(terrain_receipts) != 58
+        or terrain_total_bytes != terrain["total_bytes"]
+        or sha256_bytes(terrain_canonical) != terrain["inventory_sha256"]
+    ):
+        raise ValueError("renderer terrain receipt digest mismatch")
+
+    bounded_directories = (
+        "assets/digital-islands/data",
+        "assets/digital-islands/imagery",
+        "assets/digital-islands/terrain/20260811",
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0",
+        "assets/digital-islands/vendor/pmtiles/4.5.0",
+    )
+    actual_inventory: list[str] = []
+    for relative_directory in bounded_directories:
+        directory = root / relative_directory
+        if not directory.is_dir() or directory.is_symlink():
+            raise ValueError(f"renderer inventory directory is missing or unsafe: {relative_directory}")
+        for candidate in directory.rglob("*"):
+            if candidate.is_symlink():
+                raise ValueError(f"renderer inventory contains a symbolic link: {candidate}")
+            if candidate.is_file():
+                actual_inventory.append(candidate.relative_to(root).as_posix())
+            elif not candidate.is_dir():
+                raise ValueError(f"renderer inventory contains an invalid entry: {candidate}")
+    if sorted(actual_inventory) != expected_inventory_paths:
+        raise ValueError("renderer filesystem inventory disagrees with its manifest")
+
+    for required_path in (RENDERER_MANIFEST_PATH, RENDERER_LOADER_PATH):
+        if required_path not in entries:
+            raise ValueError(f"renderer contract file is absent from package-files.txt: {required_path}")
+        required_file = root / required_path
+        if not required_file.is_file() or required_file.is_symlink():
+            raise ValueError(f"renderer contract file is missing or unsafe: {required_path}")
+
+    loader_text = loader_path.read_text(encoding="utf-8")
+    for marker in (
+        "const CONTRACT_ID  = 'thailand-digital-islands-renderer-v1';",
+        "const MANIFEST_SHA256 = '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb';",
+        "const RELEASE_VERSION = '0.5.1';",
+        "const MAPLIBRE_VERSION = '5.18.0';",
+        "const PMTILES_VERSION = '4.5.0';",
+        "const TERRAIN_TILE_COUNT = 58;",
+    ):
+        if marker not in loader_text:
+            raise ValueError(f"renderer loader contract marker is missing: {marker}")
+
+    loader_payload = loader_path.read_bytes()
+    return {
+        "attribution": manifest["attribution"],
+        "basemap": manifest["basemap"],
+        "contract_id": manifest["contract_id"],
+        "dependencies": manifest["dependencies"],
+        "inventory": inventory,
+        "inventory_count": len(inventory),
+        "island_id": manifest["island_id"],
+        "loader": {
+            "bytes": len(loader_payload),
+            "path": RENDERER_LOADER_PATH,
+            "sha256": sha256_bytes(loader_payload),
+        },
+        "manifest": {
+            "bytes": len(manifest_payload),
+            "path": RENDERER_MANIFEST_PATH,
+            "sha256": sha256_bytes(manifest_payload),
+        },
+        "parity": "pass",
+        "release_version": manifest["release_version"],
+        "satellite": manifest["satellite"],
+        "schema_version": manifest["schema_version"],
+        "terrain": manifest["terrain"],
+    }
+
+
+def digital_islands_evidence(root: Path, entries: list[str], release_version: str) -> dict[str, Any]:
     """Validate and freeze the public-only Koh Phangan artifact lineage."""
     source_path = root / "data" / "digital-islands" / "koh-phangan.json"
     schema_path = root / "data" / "digital-islands" / "island-world.schema.json"
@@ -238,7 +547,7 @@ def digital_islands_evidence(root: Path) -> dict[str, Any]:
         or counts["public_map_entities"] != 49
         or counts["layers"] != 24
         or counts["official_tools"] != 3
-        or counts["sources"] != 32
+        or counts["sources"] != 38
     ):
         raise ValueError("Digital Islands reviewed public counts mismatch")
     entity_types = counts.get("entity_types")
@@ -290,14 +599,38 @@ def digital_islands_evidence(root: Path) -> dict[str, Any]:
 
     notice_payload = notice_path.read_bytes()
     notice_text = notice_payload.decode("utf-8")
+    notice_normalized = re.sub(r"\s+", " ", notice_text)
     for required in (
         "© OpenStreetMap contributors",
         "Open Data Commons Open Database License 1.0 (ODbL)",
         "https://opendatacommons.org/licenses/odbl/1-0/",
         "https://www.openstreetmap.org/copyright",
+        "MapLibre GL JS 5.18.0",
+        "PMTiles JavaScript 4.5.0",
+        "fflate 0.8.2",
+        "MIT License",
+        "Copyright (c) 2023 Arjun Barrett",
+        "https://github.com/101arrowz/fflate/blob/v0.8.2/LICENSE",
+        "https://docs.protomaps.com/basemaps/attribution",
+        "Natural Earth data, which is in the public domain",
+        "https://www.naturalearthdata.com/about/terms-of-use/",
+        "ESA WorldCover 2021",
+        "https://creativecommons.org/licenses/by/4.0/",
+        "https://esa-worldcover.org/en/data-access",
+        "Mapzen Terrain Tiles",
+        "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+        "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm",
+        "https://www.usgs.gov/coastal-changes-and-impacts/gmted2010",
+        "https://www.ncei.noaa.gov/products/etopo-global-relief-model",
+        "Contains modified Copernicus Sentinel data 2026",
+        "S2B_47PPL_20260326_0_L2A",
+        "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/47/P/PL/2026/3/S2B_47PPL_20260326_0_L2A/TCI.tif",
+        "https://registry.opendata.aws/sentinel-2-l2a-cogs/",
+        "https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice",
+        "orientation-only historical imagery, not current parcel, title, or buildability evidence",
     ):
-        if required not in notice_text:
-            raise ValueError(f"OpenStreetMap data notice is incomplete: {required}")
+        if required not in notice_normalized:
+            raise ValueError(f"third-party software or data notice is incomplete: {required}")
     template_text = template_path.read_text(encoding="utf-8")
     public_view_text = public_view_path.read_text(encoding="utf-8")
     if "https://www.openstreetmap.org/copyright" not in template_text:
@@ -307,6 +640,13 @@ def digital_islands_evidence(root: Path) -> dict[str, Any]:
         or "https://www.openstreetmap.org/copyright" not in public_view_text
     ):
         raise ValueError("Digital Islands REST attribution contract is missing")
+    if (
+        "Contains modified Copernicus Sentinel data 2026. Image observed 26.03.2026."
+        not in public_view_text
+        or 'datetime="2026-03-26T03:55:36.171000Z"' not in template_text
+        or "26.03.2026" not in template_text
+    ):
+        raise ValueError("Digital Islands visible Sentinel observation date is missing")
 
     return {
         "artifacts": artifacts,
@@ -323,6 +663,7 @@ def digital_islands_evidence(root: Path) -> dict[str, Any]:
         },
         "parity": "pass",
         "publication_state": manifest["publication_state"],
+        "renderer": renderer_evidence(root, entries, release_version),
         "schema": {
             "bytes": len(schema_payload),
             "path": "data/digital-islands/island-world.schema.json",
@@ -524,19 +865,611 @@ def resolve_node_binary(requested: str | None) -> Path:
     return resolved
 
 
-def run_checked(command: list[str], cwd: Path, environment: dict[str, str] | None = None) -> str:
-    completed = subprocess.run(
-        command,
-        cwd=cwd,
-        capture_output=True,
-        text=True,
-        check=False,
-        env=environment,
-    )
+def run_checked(
+    command: list[str],
+    cwd: Path,
+    environment: dict[str, str] | None = None,
+    timeout_seconds: float | None = None,
+) -> str:
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            check=False,
+            env=environment,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired as error:
+        stdout = error.stdout.decode("utf-8", "replace") if isinstance(error.stdout, bytes) else (error.stdout or "")
+        stderr = error.stderr.decode("utf-8", "replace") if isinstance(error.stderr, bytes) else (error.stderr or "")
+        output = (stdout + stderr).strip()
+        raise ValueError(
+            f"QA command timed out after {timeout_seconds:g} seconds: {' '.join(command)}\n{output}"
+        ) from error
     output = (completed.stdout + completed.stderr).strip()
     if completed.returncode != 0:
         raise ValueError(f"QA command failed ({completed.returncode}): {' '.join(command)}\n{output}")
     return output
+
+
+def renderer_browser_evidence(root: Path, node_bin: Path) -> tuple[str, dict[str, Any]]:
+    """Run the real local browser contract and retain a bounded receipt summary."""
+    with tempfile.TemporaryDirectory(prefix="thp-di-browser-acceptance-") as temporary:
+        output_root = Path(temporary).resolve()
+        output = run_checked(
+            [
+                str(node_bin),
+                str(root / RENDERER_BROWSER_SCRIPT),
+                "--output",
+                str(output_root),
+            ],
+            root,
+            timeout_seconds=600,
+        )
+        output_lines = [line.strip() for line in output.splitlines() if line.strip()]
+        if output_lines.count(RENDERER_BROWSER_PASS) != 1:
+            raise ValueError(f"Unexpected real-browser acceptance output: {output}")
+        report_lines = [line for line in output_lines if line.startswith("Report: ")]
+        if len(report_lines) != 1:
+            raise ValueError("Real-browser acceptance did not emit one report path")
+        reported_path = Path(report_lines[0][len("Report: ") :]).resolve()
+        report_path = output_root / "acceptance-report.json"
+        if reported_path != report_path or not report_path.is_file() or report_path.is_symlink():
+            raise ValueError("Real-browser acceptance report escaped its bounded output")
+
+        report = json_no_duplicates(report_path)
+        expected_report_keys = {
+            "assertions",
+            "contract_id",
+            "finished_at",
+            "fixture",
+            "playwright_cli",
+            "release",
+            "results",
+            "reviewed_assets",
+            "started_at",
+        }
+        if set(report) != expected_report_keys:
+            raise ValueError("Real-browser acceptance report fields are missing or unexpected")
+        if (
+            report.get("contract_id") != "thp-digital-islands-maplibre-browser-v1"
+            or report.get("release") != "0.5.1"
+            or report.get("playwright_cli")
+            != {"package": "@playwright/cli@0.1.18", "version": "0.1.18"}
+        ):
+            raise ValueError("Real-browser acceptance identity or Playwright pin mismatch")
+        expected_assertion_keys = {
+            "all_scenarios_passed",
+            "asset_failure_fail_closed",
+            "data_saver_list_only",
+            "no_third_party_requests",
+            "real_maplibre_execution",
+        }
+        assertions = report.get("assertions")
+        if (
+            not isinstance(assertions, dict)
+            or set(assertions) != expected_assertion_keys
+            or not all(value is True for value in assertions.values())
+        ):
+            raise ValueError("Real-browser aggregate assertions did not all pass")
+        expected_fixture = {
+            "contract_id": "thp-digital-islands-maplibre-browser-v1",
+            "coordinate_entity_count": 27,
+            "entity_count": 49,
+            "island_id": "geo:th:island:ko-pha-ngan",
+            "playwright_cli_package": "@playwright/cli@0.1.18",
+            "status": "ready",
+        }
+        if report.get("fixture") != expected_fixture:
+            raise ValueError("Real-browser fixture identity mismatch")
+
+        try:
+            started_at = datetime.fromisoformat(str(report["started_at"]).replace("Z", "+00:00"))
+            finished_at = datetime.fromisoformat(str(report["finished_at"]).replace("Z", "+00:00"))
+        except ValueError as error:
+            raise ValueError("Real-browser acceptance timestamps are invalid") from error
+        if (
+            started_at.tzinfo is None
+            or finished_at.tzinfo is None
+            or finished_at < started_at
+            or finished_at - started_at > timedelta(minutes=15)
+        ):
+            raise ValueError("Real-browser acceptance duration is invalid")
+
+        results = report.get("results")
+        if not isinstance(results, list) or [result.get("scenario") for result in results if isinstance(result, dict)] != RENDERER_BROWSER_SCENARIOS:
+            raise ValueError("Real-browser acceptance scenario inventory mismatch")
+        expected_reviewed_assets = {
+            "client": "assets/digital-islands/digital-islands.js",
+            "maplibre": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js",
+            "pmtiles": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js",
+            "satellite": "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp",
+            "vector": "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles",
+        }
+        reviewed_assets = report.get("reviewed_assets")
+        if not isinstance(reviewed_assets, dict) or set(reviewed_assets) != set(expected_reviewed_assets):
+            raise ValueError("Real-browser reviewed asset inventory mismatch")
+        reviewed_asset_receipts: dict[str, dict[str, Any]] = {}
+        for label, relative in expected_reviewed_assets.items():
+            record = reviewed_assets[label]
+            if not isinstance(record, dict) or set(record) != {"bytes", "path", "sha256"}:
+                raise ValueError(f"Real-browser reviewed asset receipt is malformed: {label}")
+            source = (root / relative).resolve()
+            if Path(str(record["path"])).resolve() != source or not source.is_file() or source.is_symlink():
+                raise ValueError(f"Real-browser reviewed asset path mismatch: {label}")
+            payload = source.read_bytes()
+            if (
+                type(record["bytes"]) is not int
+                or record["bytes"] != len(payload)
+                or record["sha256"] != sha256_bytes(payload)
+            ):
+                raise ValueError(f"Real-browser reviewed asset receipt mismatch: {label}")
+            reviewed_asset_receipts[label] = {
+                "bytes": record["bytes"],
+                "path": relative,
+                "sha256": record["sha256"],
+            }
+
+        expected_evidence_keys = {
+            "active_renderer",
+            "canvas",
+            "coordinate_entity_count",
+            "csp_violations",
+            "data_saver",
+            "drawer",
+            "entity_count",
+            "hash",
+            "map_count",
+            "map_errors",
+            "map_idle_event",
+            "map_load_event",
+            "map_loaded",
+            "maplibre_asset_url",
+            "maplibre_attribution_text",
+            "maplibre_constructor",
+            "maplibre_runtime_version",
+            "marker_count",
+            "orientation_canvas",
+            "poster_hidden",
+            "projection",
+            "promise_rejections",
+            "reduced_motion",
+            "scenario",
+            "selected_card_count",
+            "status",
+            "style_layers",
+            "style_loaded",
+            "style_sources",
+            "terrain",
+            "visible_attribution_text",
+            "webgl2",
+            "window_errors",
+        }
+        expected_network_keys = {
+            "broken_asset_requests",
+            "camera_transition_abortions",
+            "pmtiles_range_requests",
+            "pmtiles_requests",
+            "request_budget",
+            "request_count",
+            "rest_requests",
+            "satellite_requests",
+            "terrain_requests",
+            "third_party_requests",
+            "unexpected_failed_requests",
+        }
+        scenario_contracts = {
+            "desktop-3d": {
+                "active_renderer": "3d",
+                "data_saver": False,
+                "drawer_visible": True,
+                "map_count": 3,
+                "map_rendered": True,
+                "marker_count": 27,
+                "orientation_canvas": False,
+                "pmtiles": True,
+                "poster_hidden": True,
+                "projection": "globe",
+                "reduced_motion": False,
+                "satellite": True,
+                "selected_card_count": 1,
+                "terrain": True,
+                "webgl2": True,
+            },
+            "desktop-2d": {
+                "active_renderer": "2d",
+                "data_saver": False,
+                "drawer_visible": True,
+                "map_count": 1,
+                "map_rendered": True,
+                "marker_count": 27,
+                "orientation_canvas": False,
+                "pmtiles": True,
+                "poster_hidden": True,
+                "projection": "mercator",
+                "reduced_motion": False,
+                "satellite": False,
+                "selected_card_count": 1,
+                "terrain": False,
+                "webgl2": True,
+            },
+            "mobile-2d": {
+                "active_renderer": "2d",
+                "data_saver": False,
+                "drawer_visible": True,
+                "map_count": 1,
+                "map_rendered": True,
+                "marker_count": 27,
+                "orientation_canvas": False,
+                "pmtiles": True,
+                "poster_hidden": True,
+                "projection": "mercator",
+                "reduced_motion": False,
+                "satellite": False,
+                "selected_card_count": 1,
+                "terrain": False,
+                "webgl2": True,
+            },
+            "reduced-motion": {
+                "active_renderer": "2d",
+                "data_saver": False,
+                "drawer_visible": False,
+                "map_count": 1,
+                "map_rendered": True,
+                "marker_count": 27,
+                "orientation_canvas": False,
+                "pmtiles": True,
+                "poster_hidden": True,
+                "projection": "mercator",
+                "reduced_motion": True,
+                "satellite": False,
+                "selected_card_count": 0,
+                "terrain": False,
+                "webgl2": True,
+            },
+            "data-saver": {
+                "active_renderer": "list",
+                "data_saver": True,
+                "drawer_visible": False,
+                "map_count": 0,
+                "map_rendered": False,
+                "marker_count": 0,
+                "orientation_canvas": False,
+                "pmtiles": False,
+                "poster_hidden": False,
+                "projection": "",
+                "reduced_motion": False,
+                "satellite": False,
+                "selected_card_count": 0,
+                "terrain": False,
+                "webgl2": False,
+            },
+            "no-webgl": {
+                "active_renderer": "preview",
+                "data_saver": False,
+                "drawer_visible": False,
+                "map_count": 0,
+                "map_rendered": False,
+                "marker_count": 0,
+                "orientation_canvas": True,
+                "pmtiles": False,
+                "poster_hidden": True,
+                "projection": "",
+                "reduced_motion": False,
+                "satellite": False,
+                "selected_card_count": 0,
+                "terrain": False,
+                "webgl2": False,
+            },
+            "asset-failure": {
+                "active_renderer": "preview",
+                "data_saver": False,
+                "drawer_visible": False,
+                "map_count": 2,
+                "map_rendered": False,
+                "marker_count": 0,
+                "orientation_canvas": True,
+                "pmtiles": False,
+                "poster_hidden": True,
+                "projection": "",
+                "reduced_motion": False,
+                "satellite": False,
+                "selected_card_count": 0,
+                "terrain": False,
+                "webgl2": False,
+            },
+        }
+        artifact_receipts: dict[str, dict[str, dict[str, Any]]] = {}
+        scenario_evidence: dict[str, dict[str, Any]] = {}
+        for result in results:
+            if not isinstance(result, dict) or set(result) != {
+                "artifacts",
+                "assertions",
+                "browser",
+                "console_errors",
+                "evidence",
+                "network",
+                "passed",
+                "scenario",
+            }:
+                raise ValueError("Real-browser scenario fields are missing or unexpected")
+            scenario = result["scenario"]
+            if result.get("passed") is not True:
+                raise ValueError(f"Real-browser scenario did not pass: {scenario}")
+            console_errors = result.get("console_errors")
+            if (
+                not isinstance(console_errors, list)
+                or (scenario != "asset-failure" and console_errors)
+                or (
+                    scenario == "asset-failure"
+                    and (
+                        not console_errors
+                        or not all(isinstance(message, str) and "503" in message for message in console_errors)
+                    )
+                )
+            ):
+                raise ValueError(f"Real-browser console error boundary mismatch: {scenario}")
+            scenario_assertions = result.get("assertions")
+            if (
+                not isinstance(scenario_assertions, dict)
+                or set(scenario_assertions) != {
+                    "asset_failure_fail_closed",
+                    "data_saver_list_only",
+                    "entity_interaction",
+                    "no_third_party_requests",
+                    "real_maplibre_execution",
+                }
+                or not all(value is True for value in scenario_assertions.values())
+            ):
+                raise ValueError(f"Real-browser scenario assertions failed: {scenario}")
+            evidence = result.get("evidence")
+            network = result.get("network")
+            browser = result.get("browser")
+            contract = scenario_contracts[scenario]
+            if (
+                not isinstance(evidence, dict)
+                or set(evidence) != expected_evidence_keys
+                or evidence.get("entity_count") != 49
+                or evidence.get("coordinate_entity_count") != 27
+                or evidence.get("csp_violations") != []
+                or evidence.get("window_errors") != []
+                or evidence.get("promise_rejections") != []
+                or evidence.get("scenario") != scenario
+                or evidence.get("active_renderer") != contract["active_renderer"]
+                or evidence.get("data_saver") is not contract["data_saver"]
+                or type(evidence.get("map_count")) is not int
+                or (
+                    evidence["map_count"] < contract["map_count"]
+                    if scenario == "desktop-3d"
+                    else evidence["map_count"] != contract["map_count"]
+                )
+                or evidence.get("marker_count") != contract["marker_count"]
+                or evidence.get("orientation_canvas") is not contract["orientation_canvas"]
+                or evidence.get("poster_hidden") is not contract["poster_hidden"]
+                or evidence.get("projection") != contract["projection"]
+                or evidence.get("reduced_motion") is not contract["reduced_motion"]
+                or evidence.get("selected_card_count") != contract["selected_card_count"]
+                or evidence.get("webgl2") is not contract["webgl2"]
+                or evidence.get("maplibre_constructor") is not True
+                or not isinstance(evidence.get("status"), str)
+                or not evidence["status"]
+                or not isinstance(network, dict)
+                or set(network) != expected_network_keys
+                or network.get("third_party_requests") != []
+            ):
+                raise ValueError(f"Real-browser scenario evidence is incomplete: {scenario}")
+            browser_viewport = browser.get("viewport") if isinstance(browser, dict) else None
+            if (
+                not isinstance(browser, dict)
+                or set(browser) != {"user_agent", "viewport"}
+                or not isinstance(browser.get("user_agent"), str)
+                or not browser["user_agent"]
+                or not isinstance(browser_viewport, dict)
+                or set(browser_viewport) != {"height", "width"}
+                or type(browser_viewport.get("height")) is not int
+                or type(browser_viewport.get("width")) is not int
+                or browser_viewport["height"] <= 0
+                or browser_viewport["width"] <= 0
+            ):
+                raise ValueError(f"Real-browser identity is incomplete: {scenario}")
+
+            map_state_fields = ("map_idle_event", "map_load_event", "map_loaded", "style_loaded")
+            if any(type(evidence.get(field)) is not bool for field in map_state_fields):
+                raise ValueError(f"Real-browser load events mismatch: {scenario}")
+            if contract["map_rendered"]:
+                if evidence["map_load_event"] is not True:
+                    raise ValueError(f"Real-browser MapLibre load event is missing: {scenario}")
+            elif any(evidence[field] for field in map_state_fields):
+                raise ValueError(f"Real-browser fallback unexpectedly reported a map load: {scenario}")
+            expected_style_sources = (
+                ["basemap", "satellite", "terrain"]
+                if scenario == "desktop-3d"
+                else (["basemap"] if contract["map_rendered"] else [])
+            )
+            if evidence.get("style_sources") != expected_style_sources:
+                raise ValueError(f"Real-browser style sources mismatch: {scenario}")
+            if scenario == "desktop-3d" and not {
+                "satellite-orientation-20260326",
+                "terrain-hillshade",
+                "buildings-extruded-reviewed-height",
+            }.issubset(set(evidence.get("style_layers", []))):
+                raise ValueError("Real-browser 3D renderer layers are incomplete")
+            expected_terrain = {"exaggeration": 1.28, "source": "terrain"} if contract["terrain"] else None
+            if evidence.get("terrain") != expected_terrain:
+                raise ValueError(f"Real-browser terrain evidence mismatch: {scenario}")
+            if contract["map_rendered"]:
+                canvas = evidence.get("canvas")
+                if (
+                    not isinstance(canvas, dict)
+                    or set(canvas) != {"height", "width"}
+                    or type(canvas.get("height")) is not int
+                    or type(canvas.get("width")) is not int
+                    or canvas["height"] <= 0
+                    or canvas["width"] <= 0
+                    or "Protomaps © OpenStreetMap contributors" not in evidence.get("maplibre_attribution_text", "")
+                ):
+                    raise ValueError(f"Real-browser canvas or MapLibre attribution mismatch: {scenario}")
+            elif evidence.get("canvas") is not None or evidence.get("style_layers") != []:
+                raise ValueError(f"Real-browser fallback unexpectedly retained a map: {scenario}")
+
+            drawer = evidence.get("drawer")
+            visible_attribution = evidence.get("visible_attribution_text")
+            if (
+                not isinstance(drawer, dict)
+                or set(drawer) != {"text", "visible"}
+                or not isinstance(drawer.get("text"), str)
+                or drawer.get("visible") is not contract["drawer_visible"]
+                or not isinstance(visible_attribution, str)
+                or "Contains modified Copernicus Sentinel data 2026. Image observed 26.03.2026."
+                not in visible_attribution
+            ):
+                raise ValueError(f"Real-browser disclosure evidence mismatch: {scenario}")
+            if contract["drawer_visible"] and "300 מטר" not in drawer["text"]:
+                raise ValueError(f"Real-browser coordinate-accuracy disclosure is missing: {scenario}")
+
+            numeric_network_fields = (
+                "broken_asset_requests",
+                "pmtiles_range_requests",
+                "pmtiles_requests",
+                "request_budget",
+                "request_count",
+                "rest_requests",
+                "satellite_requests",
+                "terrain_requests",
+            )
+            if any(type(network.get(field)) is not int or network[field] < 0 for field in numeric_network_fields):
+                raise ValueError(f"Real-browser network counts are invalid: {scenario}")
+            if (
+                network["request_budget"] <= 0
+                or network["request_count"] <= 0
+                or network["request_count"] > network["request_budget"]
+                or network["rest_requests"] != 3
+                or network["pmtiles_range_requests"] != network["pmtiles_requests"]
+                or (contract["pmtiles"] and network["pmtiles_requests"] <= 0)
+                or (not contract["pmtiles"] and network["pmtiles_requests"] != 0)
+                or (contract["terrain"] and network["terrain_requests"] <= 0)
+                or (not contract["terrain"] and network["terrain_requests"] != 0)
+                or (contract["satellite"] and network["satellite_requests"] <= 0)
+                or (not contract["satellite"] and network["satellite_requests"] != 0)
+            ):
+                raise ValueError(f"Real-browser local request contract mismatch: {scenario}")
+            camera_abortions = network.get("camera_transition_abortions")
+            unexpected_failures = network.get("unexpected_failed_requests")
+            if not isinstance(camera_abortions, list) or not isinstance(unexpected_failures, list):
+                raise ValueError(f"Real-browser failure receipts are invalid: {scenario}")
+            for failure in camera_abortions:
+                failure_url = failure.get("url", "") if isinstance(failure, dict) else ""
+                failure_range = failure.get("range", "") if isinstance(failure, dict) else ""
+                same_origin_renderer_asset = (
+                    re.match(
+                        r"^http://127\.0\.0\.1:[0-9]+/wp-content/plugins/thailand-platform/assets/digital-islands/",
+                        failure_url,
+                    )
+                    is not None
+                )
+                expected_terrain_abortion = (
+                    "/terrain/20260811/" in failure_url
+                    and re.search(r"\.png(?:[?#]|$)", failure_url) is not None
+                )
+                expected_pmtiles_abortion = (
+                    "koh-phangan-basemap-20260811.pmtiles" in failure_url
+                    and re.match(r"^bytes=[0-9]+-", failure_range, re.IGNORECASE) is not None
+                )
+                if (
+                    not isinstance(failure, dict)
+                    or set(failure) != {"error", "range", "url"}
+                    or failure.get("error") != "net::ERR_ABORTED"
+                    or not same_origin_renderer_asset
+                    or not (expected_terrain_abortion or expected_pmtiles_abortion)
+                ):
+                    raise ValueError(f"Unexpected camera-transition request failure: {scenario}")
+            if scenario == "asset-failure":
+                if network["broken_asset_requests"] <= 0 or not unexpected_failures:
+                    raise ValueError("Real-browser asset-failure probe did not observe its blocked asset")
+                for failure in unexpected_failures:
+                    if (
+                        not isinstance(failure, dict)
+                        or set(failure) != {"error", "range", "url"}
+                        or "__acceptance_missing__" not in failure.get("url", "")
+                    ):
+                        raise ValueError("Real-browser asset-failure receipt is unexpected")
+            elif network["broken_asset_requests"] != 0 or unexpected_failures:
+                raise ValueError(f"Real-browser observed an unexpected asset failure: {scenario}")
+
+            map_errors = evidence.get("map_errors")
+            if (
+                not isinstance(map_errors, list)
+                or (scenario != "asset-failure" and map_errors)
+                or (
+                    scenario == "asset-failure"
+                    and (not map_errors or not all(isinstance(message, str) and "503" in message for message in map_errors))
+                )
+            ):
+                raise ValueError(f"Real-browser MapLibre error boundary mismatch: {scenario}")
+            scenario_evidence[scenario] = {
+                "accuracy_radius_m": 300 if contract["drawer_visible"] else None,
+                "active_renderer": evidence["active_renderer"],
+                "broken_asset_requests": network["broken_asset_requests"],
+                "camera_transition_abortions": len(camera_abortions),
+                "map_count": evidence["map_count"],
+                "marker_count": evidence["marker_count"],
+                "pmtiles_range_requests": network["pmtiles_range_requests"],
+                "pmtiles_requests": network["pmtiles_requests"],
+                "projection": evidence["projection"],
+                "request_budget": network["request_budget"],
+                "request_count": network["request_count"],
+                "satellite_observation_date_visible": True,
+                "satellite_requests": network["satellite_requests"],
+                "terrain_requests": network["terrain_requests"],
+                "unexpected_failed_requests": len(unexpected_failures),
+                "webgl2": evidence["webgl2"],
+            }
+
+            artifacts = result.get("artifacts")
+            if not isinstance(artifacts, dict) or set(artifacts) != {"console", "screenshot"}:
+                raise ValueError(f"Real-browser artifacts are incomplete: {scenario}")
+            artifact_receipts[scenario] = {}
+            for label, record in artifacts.items():
+                if not isinstance(record, dict) or set(record) != {"bytes", "path", "sha256"}:
+                    raise ValueError(f"Real-browser artifact receipt is malformed: {scenario}/{label}")
+                artifact_path = Path(str(record["path"])).resolve()
+                try:
+                    artifact_path.relative_to(output_root)
+                except ValueError as error:
+                    raise ValueError(f"Real-browser artifact escaped its output: {scenario}/{label}") from error
+                if not artifact_path.is_file() or artifact_path.is_symlink():
+                    raise ValueError(f"Real-browser artifact is missing or unsafe: {scenario}/{label}")
+                payload = artifact_path.read_bytes()
+                if (
+                    type(record["bytes"]) is not int
+                    or record["bytes"] != len(payload)
+                    or not isinstance(record["sha256"], str)
+                    or record["sha256"] != sha256_bytes(payload)
+                ):
+                    raise ValueError(f"Real-browser artifact receipt mismatch: {scenario}/{label}")
+                if label == "screenshot" and (
+                    record["bytes"] <= 0 or not payload.startswith(b"\x89PNG\r\n\x1a\n")
+                ):
+                    raise ValueError(f"Real-browser screenshot is not a PNG: {scenario}")
+                artifact_receipts[scenario][label] = {
+                    "bytes": record["bytes"],
+                    "sha256": record["sha256"],
+                }
+
+        return RENDERER_BROWSER_PASS, {
+            "artifacts": artifact_receipts,
+            "assertions": assertions,
+            "contract_id": report["contract_id"],
+            "fixture": report["fixture"],
+            "playwright_cli": report["playwright_cli"],
+            "release": report["release"],
+            "result": "pass",
+            "reviewed_assets": reviewed_asset_receipts,
+            "scenario_evidence": scenario_evidence,
+            "scenarios": RENDERER_BROWSER_SCENARIOS,
+        }
 
 
 def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dict[str, Any]:
@@ -553,9 +1486,14 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
             "scripts/live_digital_island_acceptance.cjs",
             "scripts/live_guides_acceptance.cjs",
             "scripts/live_homepage_acceptance.cjs",
+            "scripts/local_digital_island_browser_acceptance.cjs",
             "scripts/live_real_estate_acceptance.cjs",
             "scripts/live_seo_migration_acceptance.cjs",
             "scripts/live_sitewide_acceptance.cjs",
+            "tests/digital-island-live-acceptance.test.cjs",
+            "tests/fixtures/digital-islands-browser-probe.js",
+            "tests/fixtures/digital-islands-browser-server.cjs",
+            "tests/fixtures/digital-islands-live-browser-probe.js",
         ]
     )
     for entry in javascript_files:
@@ -592,12 +1530,26 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
             f"Unexpected Digital Islands acceptance contract output: {digital_island_acceptance_output}"
         )
 
+    digital_island_live_source_output = run_checked(
+        [str(node_bin), str(root / "scripts" / "live_digital_island_acceptance.cjs"), "--source-only"],
+        root,
+    )
+    expected_digital_island_live_source_output = (
+        "PASS: Digital Islands source gates; 49 Canary entities, 49 public entities, state live."
+    )
+    if digital_island_live_source_output != expected_digital_island_live_source_output:
+        raise ValueError(
+            f"Unexpected Digital Islands live source-gate output: {digital_island_live_source_output}"
+        )
+
     digital_island_adapter_output = run_checked(
         [str(node_bin), str(root / "tests" / "digital-islands-adapters.test.js")],
         root,
     )
     if digital_island_adapter_output != "PASS: Digital Islands browser adapters":
         raise ValueError(f"Unexpected Digital Islands adapter output: {digital_island_adapter_output}")
+
+    digital_island_browser_output, digital_island_browser = renderer_browser_evidence(root, node_bin)
 
     run_checked([sys.executable, str(root / "scripts" / "build_homepage_assets.py"), "--check"], root)
     run_checked([sys.executable, str(root / "scripts" / "build_bangkok_rental_assets.py"), "--check"], root)
@@ -692,8 +1644,13 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
         "sitewide_acceptance_contract_test_output": sitewide_acceptance_output,
         "digital_island_acceptance_contract_tests": "pass",
         "digital_island_acceptance_contract_test_output": digital_island_acceptance_output,
+        "digital_island_live_source_tests": "pass",
+        "digital_island_live_source_test_output": digital_island_live_source_output,
         "digital_island_adapter_tests": "pass",
         "digital_island_adapter_test_output": digital_island_adapter_output,
+        "digital_island_browser_acceptance": digital_island_browser,
+        "digital_island_browser_acceptance_tests": "pass",
+        "digital_island_browser_acceptance_test_output": digital_island_browser_output,
         "digital_island_compiler": "pass",
         "digital_island_data_tests": "pass",
         "digital_island_runtime_tests": "pass",
@@ -810,7 +1767,7 @@ def main() -> int:
     node_bin = resolve_node_binary(args.node_bin)
     qa = run_qa(root, entries, php_bin, node_bin)
     geography = geography_evidence(root)
-    digital_islands = digital_islands_evidence(root)
+    digital_islands = digital_islands_evidence(root, entries, contract["version"])
     output = (args.out or root / "plugin-dist" / f"{PLUGIN_SLUG}-{contract['version']}.zip").resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
 

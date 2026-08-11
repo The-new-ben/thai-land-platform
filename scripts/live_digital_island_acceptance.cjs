@@ -15,19 +15,25 @@
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
+const { spawn } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
+const WORK_ROOT = path.dirname(ROOT);
 const EXPECTED_PUBLIC_ENTITY_COUNT = 49;
 const PAGE_ID_ENV = 'THP_DIGITAL_ISLAND_PAGE_ID';
 const DEFAULT_BASE_URL = 'https://thai-land.co.il/';
 const ISLAND_ID = 'geo:th:island:ko-pha-ngan';
 const REST_PREFIX = `/wp-json/thailand-platform/v1/digital-islands/${ISLAND_ID}`;
 const MAX_RESPONSE_BYTES = 12 * 1024 * 1024;
+const PLAYWRIGHT_CLI_PACKAGE = '@playwright/cli@0.1.18';
+const RENDERER_CONTRACT_ID = 'thailand-digital-islands-renderer-v1';
+const EXPECTED_RENDERER_INVENTORY_COUNT = 65;
 
 const FILES = {
   source: path.join(ROOT, 'data', 'digital-islands', 'koh-phangan.json'),
   schema: path.join(ROOT, 'data', 'digital-islands', 'island-world.schema.json'),
   manifest: path.join(ROOT, 'resources', 'digital-islands', 'manifest.json'),
+  rendererManifest: path.join(ROOT, 'resources', 'digital-islands', 'renderer-manifest.json'),
   registry: path.join(ROOT, 'resources', 'digital-islands', 'registry.php'),
   context: path.join(ROOT, 'src', 'DigitalIslands', 'Context.php'),
   publicView: path.join(ROOT, 'src', 'DigitalIslands', 'PublicView.php'),
@@ -37,6 +43,7 @@ const FILES = {
   client: path.join(ROOT, 'assets', 'digital-islands', 'digital-islands.js'),
   settings: path.join(ROOT, 'src', 'DigitalIslands', 'Settings.php'),
   module: path.join(ROOT, 'src', 'DigitalIslands', 'Module.php'),
+  liveBrowserProbe: path.join(ROOT, 'tests', 'fixtures', 'digital-islands-live-browser-probe.js'),
   seoRegistry: path.join(ROOT, 'data', 'seo', 'ownership-registry.json')
 };
 
@@ -83,6 +90,18 @@ const REVIEWED_ASSETS = Object.freeze({
   javascript: Object.freeze({
     filename: FILES.client,
     pathnameSuffix: '/assets/digital-islands/digital-islands.js'
+  }),
+  maplibre_css: Object.freeze({
+    filename: path.join(ROOT, 'assets', 'digital-islands', 'vendor', 'maplibre-gl', '5.18.0', 'maplibre-gl.css'),
+    pathnameSuffix: '/assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css'
+  }),
+  maplibre_javascript: Object.freeze({
+    filename: path.join(ROOT, 'assets', 'digital-islands', 'vendor', 'maplibre-gl', '5.18.0', 'maplibre-gl.js'),
+    pathnameSuffix: '/assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js'
+  }),
+  pmtiles_javascript: Object.freeze({
+    filename: path.join(ROOT, 'assets', 'digital-islands', 'vendor', 'pmtiles', '4.5.0', 'pmtiles.js'),
+    pathnameSuffix: '/assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js'
   })
 });
 
@@ -116,6 +135,145 @@ function verifyReviewedAssetBytes(assetType, liveBytes) {
     live_sha256: liveSha256,
     exact_bytes_match: true,
     sha256_match: true
+  };
+}
+
+function safeRendererPath(value) {
+  return typeof value === 'string'
+    && /^[a-zA-Z0-9][a-zA-Z0-9._{}-]*(?:\/[a-zA-Z0-9][a-zA-Z0-9._{}-]*)+$/.test(value)
+    && !value.includes('\\')
+    && !value.includes('/./')
+    && !value.includes('../')
+    && !value.includes('/..');
+}
+
+function rendererManifestContract(candidate = readJson(FILES.rendererManifest)) {
+  const expectedTopKeys = ['attribution', 'basemap', 'contract_id', 'dependencies', 'inventory', 'island_id', 'release_version', 'satellite', 'schema_version', 'terrain'];
+  invariant(candidate && typeof candidate === 'object' && !Array.isArray(candidate), 'Renderer manifest must be an object');
+  invariant(JSON.stringify(Object.keys(candidate).sort()) === JSON.stringify(expectedTopKeys.sort()), 'Renderer manifest top-level boundary changed');
+  invariant(candidate.contract_id === RENDERER_CONTRACT_ID, 'Renderer manifest contract ID changed');
+  invariant(candidate.schema_version === 1, 'Renderer manifest schema version changed');
+  invariant(candidate.release_version === '0.5.1', 'Renderer manifest release version changed');
+  invariant(candidate.island_id === ISLAND_ID, 'Renderer manifest island identity changed');
+  invariant(candidate.dependencies && candidate.dependencies.maplibre && candidate.dependencies.pmtiles, 'Renderer dependency contract is missing');
+  invariant(candidate.dependencies.maplibre.version === '5.18.0', 'Reviewed MapLibre version changed');
+  invariant(candidate.dependencies.pmtiles.version === '4.5.0', 'Reviewed PMTiles version changed');
+  invariant(candidate.basemap && candidate.basemap.format === 'pmtiles', 'Reviewed PMTiles basemap contract is missing');
+  invariant(candidate.satellite && candidate.satellite.observed_at === '2026-03-26T03:55:36.171000Z', 'Reviewed Sentinel observation identity changed');
+  invariant(candidate.satellite.attribution === 'Contains modified Copernicus Sentinel data 2026', 'Reviewed Sentinel attribution changed');
+  invariant(candidate.terrain && candidate.terrain.format === 'terrarium_png' && candidate.terrain.tile_count === 58, 'Reviewed Terrarium inventory changed');
+  invariant(candidate.inventory && typeof candidate.inventory === 'object' && !Array.isArray(candidate.inventory), 'Renderer manifest inventory is missing');
+
+  const dependencyPaths = [
+    candidate.dependencies.maplibre.script_path,
+    candidate.dependencies.maplibre.style_path,
+    candidate.dependencies.maplibre.license_path,
+    candidate.dependencies.pmtiles.script_path,
+    candidate.dependencies.pmtiles.license_path
+  ];
+  const referencedPaths = [candidate.basemap.path, candidate.satellite.path, ...dependencyPaths, ...(candidate.terrain.tiles || [])];
+  invariant(referencedPaths.length === EXPECTED_RENDERER_INVENTORY_COUNT, 'Renderer manifest references the wrong number of static assets');
+  invariant(new Set(referencedPaths).size === EXPECTED_RENDERER_INVENTORY_COUNT, 'Renderer manifest repeats a static asset path');
+  const inventoryPaths = Object.keys(candidate.inventory).sort();
+  invariant(inventoryPaths.length === EXPECTED_RENDERER_INVENTORY_COUNT, `Renderer inventory must contain exactly ${EXPECTED_RENDERER_INVENTORY_COUNT} files`);
+  invariant(JSON.stringify([...referencedPaths].sort()) === JSON.stringify(inventoryPaths), 'Renderer inventory and referenced static assets disagree');
+
+  for (const relativePath of inventoryPaths) {
+    invariant(safeRendererPath(relativePath), `Unsafe renderer inventory path: ${relativePath}`);
+    const receipt = candidate.inventory[relativePath];
+    invariant(receipt && JSON.stringify(Object.keys(receipt).sort()) === JSON.stringify(['bytes', 'sha256']), `Renderer receipt shape changed: ${relativePath}`);
+    invariant(Number.isSafeInteger(receipt.bytes) && receipt.bytes > 0, `Renderer byte receipt is invalid: ${relativePath}`);
+    invariant(typeof receipt.sha256 === 'string' && /^[a-f0-9]{64}$/.test(receipt.sha256), `Renderer SHA-256 receipt is invalid: ${relativePath}`);
+    const local = fileReceipt(path.join(ROOT, ...relativePath.split('/')));
+    invariant(local.bytes === receipt.bytes && local.sha256 === receipt.sha256, `Local renderer asset disagrees with its manifest: ${relativePath}`);
+  }
+
+  return candidate;
+}
+
+function rendererAssetReceipts() {
+  const manifest = rendererManifestContract();
+  return {
+    contract_id: manifest.contract_id,
+    inventory_count: Object.keys(manifest.inventory).length,
+    inventory: manifest.inventory,
+    manifest: fileReceipt(FILES.rendererManifest),
+    release_version: manifest.release_version
+  };
+}
+
+function verifyRendererInventoryBytes(relativePath, liveBytes) {
+  const manifest = rendererManifestContract();
+  invariant(Object.prototype.hasOwnProperty.call(manifest.inventory, relativePath), `Unreviewed renderer asset path: ${relativePath}`);
+  invariant(Buffer.isBuffer(liveBytes), `Live renderer asset is not a byte buffer: ${relativePath}`);
+  const expected = manifest.inventory[relativePath];
+  const liveSha256 = sha256(liveBytes);
+  invariant(liveBytes.length === expected.bytes, `Live renderer asset byte count changed: ${relativePath}`);
+  invariant(liveSha256 === expected.sha256, `Live renderer asset SHA-256 changed: ${relativePath}`);
+  const localBytes = readBytes(path.join(ROOT, ...relativePath.split('/')));
+  invariant(liveBytes.equals(localBytes), `Live renderer asset bytes differ from local review: ${relativePath}`);
+  return {
+    bytes: liveBytes.length,
+    exact_bytes_match: true,
+    path: relativePath,
+    sha256: liveSha256
+  };
+}
+
+function pluginBaseFromAssetUrl(value, baseUrl) {
+  const assetUrl = new URL(value, baseUrl);
+  const suffix = '/assets/digital-islands/digital-islands.js';
+  const cleanPath = decodedPath(assetUrl);
+  invariant(assetUrl.origin === new URL(baseUrl).origin, 'Digital Islands plugin asset is not same-origin');
+  invariant(cleanPath.endsWith(suffix), 'Cannot resolve plugin base from the reviewed client asset');
+  assetUrl.pathname = assetUrl.pathname.slice(0, -suffix.length + 1);
+  assetUrl.search = '';
+  assetUrl.hash = '';
+  return assetUrl;
+}
+
+function parseContentRange(value) {
+  const match = /^bytes (\d+)-(\d+)\/(\d+)$/.exec(String(value || '').trim());
+  if (!match) return null;
+  const parsed = { start: Number(match[1]), end: Number(match[2]), total: Number(match[3]) };
+  return Object.values(parsed).every(Number.isSafeInteger)
+    && parsed.start >= 0
+    && parsed.end >= parsed.start
+    && parsed.end < parsed.total
+    ? parsed
+    : null;
+}
+
+function staticAssetHeaderContract(relativePath, headers) {
+  invariant(headers && typeof headers === 'object' && !Array.isArray(headers), `Static response headers are missing: ${relativePath}`);
+  const extension = path.extname(relativePath).toLowerCase();
+  const allowedMimeTypes = {
+    '.css': new Set(['text/css']),
+    '.js': new Set(['application/javascript', 'text/javascript']),
+    '.json': new Set(['application/json', 'text/json']),
+    '.pmtiles': new Set(['application/vnd.pmtiles', 'application/octet-stream']),
+    '.png': new Set(['image/png']),
+    '.txt': new Set(['text/plain']),
+    '.webp': new Set(['image/webp'])
+  };
+  invariant(allowedMimeTypes[extension], `No reviewed MIME policy exists for ${relativePath}`);
+  const contentType = String(headers['content-type'] || '').split(';', 1)[0].trim().toLowerCase();
+  invariant(allowedMimeTypes[extension].has(contentType), `Unsafe or unexpected Content-Type for ${relativePath}: ${contentType || '(missing)'}`);
+  const nosniff = String(headers['x-content-type-options'] || '').trim().toLowerCase();
+  invariant(nosniff === 'nosniff', `Static asset lacks X-Content-Type-Options: nosniff: ${relativePath}`);
+  const cacheControl = String(headers['cache-control'] || '').trim().toLowerCase();
+  invariant(/(?:^|,)\s*public(?:\s*(?:,|$))/.test(cacheControl), `Static asset cache is not public: ${relativePath}`);
+  invariant(!/(?:^|,)\s*(?:private|no-cache|no-store)(?:\s*(?:,|$|=))/.test(cacheControl), `Static asset cache is private or disabled: ${relativePath}`);
+  const maxAgeMatch = /(?:^|,)\s*max-age=(\d+)(?:\s*(?:,|$))/.exec(cacheControl);
+  const maxAgeSeconds = maxAgeMatch ? Number(maxAgeMatch[1]) : 0;
+  invariant(Number.isSafeInteger(maxAgeSeconds) && maxAgeSeconds >= 604800, `Static asset max-age must be at least seven days: ${relativePath}`);
+  invariant(/(?:^|,)\s*immutable(?:\s*(?:,|$))/.test(cacheControl), `Static asset cache is not immutable: ${relativePath}`);
+  return {
+    cache_control: headers['cache-control'],
+    content_type: headers['content-type'],
+    immutable: true,
+    max_age_seconds: maxAgeSeconds,
+    nosniff: true
   };
 }
 
@@ -193,6 +351,7 @@ function structuralSourceGates(options = {}) {
   const requireLive = options.requireLive === true;
   const source = sourceContract();
   const manifest = readJson(FILES.manifest);
+  const rendererReceipts = rendererAssetReceipts();
   const schemaReceipt = fileReceipt(FILES.schema);
   const sourceReceipt = fileReceipt(FILES.source);
   const manifestReceipt = fileReceipt(FILES.manifest);
@@ -242,6 +401,7 @@ function structuralSourceGates(options = {}) {
   const restController = readUtf8(FILES.restController);
   const template = readUtf8(FILES.template);
   const client = readUtf8(FILES.client);
+  const liveBrowserProbe = readUtf8(FILES.liveBrowserProbe);
   const settings = readUtf8(FILES.settings);
   const module = readUtf8(FILES.module);
 
@@ -253,6 +413,10 @@ function structuralSourceGates(options = {}) {
   invariant(publicView.includes('Repository::public_ready()'), 'The public representation lacks its repository readiness guard');
   invariant(template.includes('PublicView::REPRESENTATION_CANARY === $representation ? wp_create_nonce'), 'The template nonce is not Canary-only');
   invariant(template.includes("if ( '' !== $rest_nonce )"), 'The public template cannot omit the REST nonce attribute');
+  invariant(template.includes('datetime="2026-03-26T03:55:36.171000Z"') && template.includes('26.03.2026'), 'The visible Sentinel observation date contract is missing');
+  invariant(liveBrowserProbe.includes("root.dataset.activeRenderer === '3d'") && liveBrowserProbe.includes("'@playwright/cli@0.1.18'"), 'The pinned real-browser 3D live acceptance contract is missing');
+  invariant(liveBrowserProbe.includes('pmtilesRequests.every') && liveBrowserProbe.includes('request_budget'), 'The live browser PMTiles Range/request budget contract is missing');
+  invariant(liveBrowserProbe.includes('2026-03-26T03:55:36.171000Z') && liveBrowserProbe.includes('300\\s*מטר'), 'The live browser date/location-uncertainty contract is missing');
   invariant(client.includes("credentials: nonce ? 'same-origin' : 'omit'"), 'The public client does not explicitly omit credentials');
   invariant(client.includes("if (nonce) headers['X-WP-Nonce'] = nonce"), 'The client nonce header is not conditional');
   invariant(restController.includes("'Cache-Control', 'public, max-age=300, stale-while-revalidate=60'"), 'The public REST cache contract is missing');
@@ -282,6 +446,7 @@ function structuralSourceGates(options = {}) {
     public_map_entity_count: manifest.counts.public_map_entities,
     receipts: [sourceReceipt, schemaReceipt, manifestReceipt, registryReceipt],
     reviewed_asset_receipts: reviewedAssetReceipts(),
+    renderer_asset_receipts: rendererReceipts,
     gates: {
       configured_page_id_identity: true,
       raw_password_identity: true,
@@ -475,7 +640,8 @@ async function fetchBytes(url, options = {}) {
       headers: {
         Accept: options.accept || '*/*',
         'Cache-Control': 'no-cache',
-        'User-Agent': 'ThailandPlatformDigitalIslandAcceptance/1'
+        'User-Agent': 'ThailandPlatformDigitalIslandAcceptance/1',
+        ...(options.headers || {})
       },
       signal: controller.signal
     });
@@ -651,7 +817,7 @@ async function validateMapPage(baseUrl, pageId, canonicalUrl, nonce, timeoutMs) 
 
 async function validateAssets(assetUrls, canonicalUrl, baseUrl, nonce, timeoutMs) {
   const unique = [...new Set(assetUrls.map((value) => new URL(value, canonicalUrl).toString()))];
-  invariant(unique.length >= 2, 'Expected both Digital Islands CSS and JavaScript asset URLs');
+  invariant(unique.length === Object.keys(REVIEWED_ASSETS).length, `Expected exactly ${Object.keys(REVIEWED_ASSETS).length} reviewed Digital Islands dependency URLs`);
   const results = [];
   const observedTypes = new Set();
   for (const [index, url] of unique.entries()) {
@@ -666,24 +832,206 @@ async function validateAssets(assetUrls, canonicalUrl, baseUrl, nonce, timeoutMs
     invariant(response.status === 200, `Digital Islands asset returned HTTP ${response.status}: ${url}`);
     invariant(response.bytes.length > 0, `Digital Islands asset is empty: ${url}`);
     const integrity = verifyReviewedAssetBytes(assetType, response.bytes);
+    const headerContract = staticAssetHeaderContract(
+      path.relative(ROOT, REVIEWED_ASSETS[assetType].filename).replace(/\\/g, '/'),
+      response.headers
+    );
     results.push({
       url,
       status: response.status,
-      content_type: response.headers['content-type'] || '',
       bytes: response.bytes.length,
       sha256: response.sha256,
+      headers: headerContract,
       ...integrity
     });
   }
   invariant(observedTypes.has('css'), 'Digital Islands CSS asset was not verified');
   invariant(observedTypes.has('javascript'), 'Digital Islands JavaScript asset was not verified');
   invariant(observedTypes.size === Object.keys(REVIEWED_ASSETS).length, 'Digital Islands live assets do not match the complete reviewed local set');
+  const clientUrl = unique.find((url) => decodedPath(new URL(url)).endsWith(REVIEWED_ASSETS.javascript.pathnameSuffix));
+  invariant(clientUrl, 'Reviewed Digital Islands client URL is missing');
   return {
     reviewed_local: reviewedAssetReceipts(),
     live: results,
+    plugin_base_url: pluginBaseFromAssetUrl(clientUrl, baseUrl).toString(),
     exact_bytes_match: results.every((item) => item.exact_bytes_match),
     sha256_match: results.every((item) => item.sha256_match)
   };
+}
+
+async function mapWithConcurrency(items, limit, callback) {
+  invariant(Array.isArray(items) && Number.isInteger(limit) && limit > 0, 'Invalid bounded-concurrency input');
+  const results = new Array(items.length);
+  let cursor = 0;
+  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (cursor < items.length) {
+      const index = cursor;
+      cursor += 1;
+      results[index] = await callback(items[index], index);
+    }
+  });
+  await Promise.all(workers);
+  return results;
+}
+
+async function validateRendererAssets(pluginBaseUrl, baseUrl, nonce, timeoutMs) {
+  const manifest = rendererManifestContract();
+  const pluginBase = new URL(pluginBaseUrl);
+  invariant(pluginBase.origin === baseUrl.origin, 'Renderer plugin base is not same-origin');
+  const manifestUrl = cacheBusted(new URL('resources/digital-islands/renderer-manifest.json', pluginBase), nonce, 'renderer-manifest');
+  const liveManifest = await fetchBytes(manifestUrl, { timeoutMs, accept: 'application/json,*/*' });
+  invariant(liveManifest.status === 200, `Renderer manifest returned HTTP ${liveManifest.status}`);
+  invariant(liveManifest.bytes.equals(readBytes(FILES.rendererManifest)), 'Live renderer manifest bytes differ from local review');
+  invariant(liveManifest.sha256 === fileReceipt(FILES.rendererManifest).sha256, 'Live renderer manifest SHA-256 differs from local review');
+  const liveManifestHeaders = staticAssetHeaderContract('resources/digital-islands/renderer-manifest.json', liveManifest.headers);
+  let parsedLiveManifest;
+  try { parsedLiveManifest = JSON.parse(liveManifest.text); } catch (error) { throw new Error(`Live renderer manifest is invalid JSON: ${error.message}`); }
+  invariant(JSON.stringify(parsedLiveManifest) === JSON.stringify(manifest), 'Live renderer manifest semantics differ from local review');
+
+  const paths = Object.keys(manifest.inventory).sort();
+  const liveFiles = await mapWithConcurrency(paths, 6, async (relativePath, index) => {
+    const url = cacheBusted(new URL(relativePath, pluginBase), nonce, `renderer-${index}`);
+    invariant(url.origin === baseUrl.origin, `Renderer inventory URL is not same-origin: ${relativePath}`);
+    const response = await fetchBytes(url, { timeoutMs, accept: '*/*' });
+    invariant(response.status === 200, `Renderer asset returned HTTP ${response.status}: ${relativePath}`);
+    const integrity = verifyRendererInventoryBytes(relativePath, response.bytes);
+    const headerContract = staticAssetHeaderContract(relativePath, response.headers);
+    return {
+      ...integrity,
+      headers: headerContract,
+      status: response.status,
+      url: response.final_url
+    };
+  });
+
+  return {
+    contract_id: manifest.contract_id,
+    exact_bytes_match: liveFiles.every((file) => file.exact_bytes_match),
+    inventory_count: liveFiles.length,
+    live_files: liveFiles,
+    manifest: {
+      bytes: liveManifest.bytes.length,
+      exact_bytes_match: true,
+      headers: liveManifestHeaders,
+      local_path: fileReceipt(FILES.rendererManifest).path,
+      sha256: liveManifest.sha256,
+      status: liveManifest.status,
+      url: liveManifest.final_url
+    },
+    release_version: manifest.release_version
+  };
+}
+
+async function validatePmtilesRange(pluginBaseUrl, baseUrl, nonce, timeoutMs) {
+  const manifest = rendererManifestContract();
+  const relativePath = manifest.basemap.path;
+  const localBytes = readBytes(path.join(ROOT, ...relativePath.split('/')));
+  const expectedStart = 0;
+  const expectedEnd = Math.min(16383, localBytes.length - 1);
+  const url = cacheBusted(new URL(relativePath, pluginBaseUrl), nonce, 'pmtiles-range');
+  invariant(url.origin === baseUrl.origin, 'PMTiles Range URL is not same-origin');
+  const response = await fetchBytes(url, {
+    timeoutMs,
+    accept: 'application/vnd.pmtiles,application/octet-stream,*/*',
+    headers: { Range: `bytes=${expectedStart}-${expectedEnd}` }
+  });
+  invariant(response.status === 206, `PMTiles Range request expected HTTP 206, received ${response.status}`);
+  const contentRange = parseContentRange(response.headers['content-range']);
+  invariant(contentRange, 'PMTiles Range response has no valid Content-Range');
+  invariant(contentRange.start === expectedStart && contentRange.end === expectedEnd && contentRange.total === localBytes.length, 'PMTiles Content-Range does not match the reviewed archive');
+  invariant((response.headers['accept-ranges'] || '').toLowerCase().includes('bytes'), 'PMTiles response does not advertise byte ranges');
+  const expectedBytes = localBytes.subarray(expectedStart, expectedEnd + 1);
+  invariant(response.bytes.equals(expectedBytes), 'PMTiles Range bytes differ from the reviewed archive');
+  const headerContract = staticAssetHeaderContract(relativePath, response.headers);
+  return {
+    accept_ranges: response.headers['accept-ranges'],
+    bytes: response.bytes.length,
+    content_range: response.headers['content-range'],
+    exact_bytes_match: true,
+    headers: headerContract,
+    requested_range: `bytes=${expectedStart}-${expectedEnd}`,
+    sha256: response.sha256,
+    status: response.status,
+    url: response.final_url
+  };
+}
+
+function npxInvocation() {
+  if (process.platform !== 'win32') return { command: 'npx', prefix: [] };
+  const cli = path.join(path.dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npx-cli.js');
+  invariant(fs.existsSync(cli), `Bundled npx CLI was not found beside Node.js: ${cli}`);
+  return { command: process.execPath, prefix: [cli] };
+}
+
+function runCommand(command, args, options = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+      cwd: options.cwd || ROOT,
+      env: { ...process.env, ...(options.env || {}) },
+      stdio: ['ignore', 'pipe', 'pipe'],
+      windowsHide: true
+    });
+    let stdout = '';
+    let stderr = '';
+    let settled = false;
+    let timedOut = false;
+    child.stdout.setEncoding('utf8');
+    child.stderr.setEncoding('utf8');
+    child.stdout.on('data', (chunk) => { stdout += chunk; });
+    child.stderr.on('data', (chunk) => { stderr += chunk; });
+    const timer = setTimeout(() => {
+      if (settled) return;
+      timedOut = true;
+      child.kill();
+    }, options.timeoutMs || 120000);
+    child.on('error', (error) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      reject(error);
+    });
+    child.on('close', (code) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      if (timedOut) reject(new Error(`Command timed out: ${command} ${args.join(' ')}`));
+      else if (code === 0 || options.allowFailure) resolve({ code, stderr, stdout });
+      else reject(new Error(`Command failed (${code}): ${command} ${args.join(' ')}\n${stderr || stdout}`));
+    });
+  });
+}
+
+async function validateLiveBrowser(canonicalUrl, nonce, timeoutMs, workingDirectory) {
+  invariant(fs.existsSync(FILES.liveBrowserProbe), 'Live Digital Islands browser probe is missing');
+  fs.mkdirSync(workingDirectory, { recursive: true });
+  const npx = npxInvocation();
+  const cliPrefix = [...npx.prefix, '--yes', '--package', PLAYWRIGHT_CLI_PACKAGE, 'playwright-cli'];
+  const commandTimeout = Math.min(240000, Math.max(120000, timeoutMs * 2));
+  const version = await runCommand(npx.command, [...cliPrefix, '--version'], { cwd: workingDirectory, allowFailure: true, timeoutMs: commandTimeout });
+  const cliVersion = version.stdout.trim();
+  invariant(cliVersion === '0.1.18', `Expected Playwright CLI 0.1.18, received ${cliVersion || '(missing)'}`);
+  const session = `thp-di-live-${process.pid}-${nonce.slice(0, 20)}`;
+  const cli = (args, options = {}) => runCommand(
+    npx.command,
+    [...cliPrefix, '--session', session, ...args],
+    { cwd: workingDirectory, allowFailure: options.allowFailure === true, timeoutMs: commandTimeout }
+  );
+  try {
+    await cli(['open', cacheBusted(canonicalUrl, nonce, 'real-browser').toString()]);
+    await cli(['resize', '1440', '1000']);
+    await cli(['snapshot']);
+    const probe = await cli(['--raw', 'run-code', '--filename', FILES.liveBrowserProbe]);
+    let evidence;
+    try { evidence = JSON.parse(probe.stdout.trim()); } catch (error) { throw new Error(`Live browser probe returned invalid JSON: ${probe.stdout}\n${probe.stderr}`); }
+    invariant(evidence && evidence.passed === true, 'Live browser probe did not pass');
+    invariant(evidence.contract_id === 'thp-digital-islands-live-browser-v1', 'Live browser contract ID changed');
+    invariant(evidence.playwright_cli_package === PLAYWRIGHT_CLI_PACKAGE, 'Live browser Playwright package pin changed');
+    invariant(evidence.default_3d && evidence.default_3d.state.active_renderer === '3d', 'Live browser did not prove activeRenderer=3d');
+    invariant(evidence.fallback && ['preview', 'list'].includes(evidence.fallback.state.active_renderer), 'Live browser did not prove fail-closed fallback');
+    return { ...evidence, playwright_cli_version: cliVersion };
+  } finally {
+    await cli(['close'], { allowFailure: true }).catch(() => {});
+  }
 }
 
 async function validateHomepage(baseUrl, canonicalUrl, nonce, timeoutMs) {
@@ -786,7 +1134,13 @@ function buildContract(options = {}) {
       'WebPage, Dataset and BreadcrumbList JSON-LD',
       'direct homepage edge and reciprocal Home edge',
       'child-only sitemap inclusion with planned parent omitted',
-      'same-origin Digital Islands CSS and JavaScript exact-byte equality with reviewed local SHA-256 receipts'
+      'same-origin Digital Islands CSS, JavaScript and reviewed vendor dependencies exact-byte equality with local SHA-256 receipts',
+      'exact renderer manifest and all 65 reviewed PMTiles, Sentinel, Terrarium and vendor static assets',
+      'nosniff-safe MIME types plus public seven-day immutable caching for renderer static assets',
+      'PMTiles byte Range transport with HTTP 206, exact Content-Range and reviewed bytes',
+      'real MapLibre WebGL2 activeRenderer=3d execution with 27 markers, local-only requests and entity interaction',
+      'visible Sentinel observation time 2026-03-26T03:55:36.171000Z and 300m location uncertainty',
+      'intentional local renderer asset failure fails closed to preview/list without third-party requests'
     ]
   };
 }
@@ -802,12 +1156,23 @@ async function runLive(options = {}) {
   const canonicalUrl = new URL(contract.canonical_url);
   const parentCanonicalUrl = new URL(contract.parent_owner.canonical_url);
   const local = structuralSourceGates({ requireLive: true });
+  const outputPath = process.env.THP_DIGITAL_ISLAND_ACCEPTANCE_OUTPUT
+    ? path.resolve(process.env.THP_DIGITAL_ISLAND_ACCEPTANCE_OUTPUT)
+    : path.join(WORK_ROOT, 'output', 'acceptance', `digital-island-live-${local.dataset_version}.json`);
+  const browserWorkingDirectory = path.join(
+    path.dirname(outputPath),
+    `.digital-island-live-browser-${nonce.replace(/[^A-Za-z0-9_-]/g, '-').slice(0, 80)}`
+  );
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
 
   const pageObject = await validateWordPressPage(baseUrl, contract.configured_page_id, canonicalUrl, nonce, timeoutMs);
   const mapPage = await validateMapPage(baseUrl, contract.configured_page_id, canonicalUrl, nonce, timeoutMs);
   const rest = await validateRest(baseUrl, nonce, timeoutMs);
   invariant(mapPage.identity.entity_ids_sha256 === rest.entities.entity_ids_sha256, 'Server HTML and REST public entity identities disagree');
   const assets = await validateAssets(mapPage.assetUrls, canonicalUrl, baseUrl, nonce, timeoutMs);
+  const rendererAssets = await validateRendererAssets(new URL(assets.plugin_base_url), baseUrl, nonce, timeoutMs);
+  const pmtilesRange = await validatePmtilesRange(new URL(assets.plugin_base_url), baseUrl, nonce, timeoutMs);
+  const liveBrowser = await validateLiveBrowser(canonicalUrl, nonce, timeoutMs, browserWorkingDirectory);
   const homepage = await validateHomepage(baseUrl, canonicalUrl, nonce, timeoutMs);
   const sitemaps = await validateSitemaps(baseUrl, canonicalUrl, parentCanonicalUrl, nonce, timeoutMs);
 
@@ -824,12 +1189,11 @@ async function runLive(options = {}) {
     public_rest: rest,
     homepage,
     sitemaps,
-    assets
+    assets,
+    renderer_assets: rendererAssets,
+    pmtiles_range: pmtilesRange,
+    live_browser: liveBrowser
   };
-  const outputPath = process.env.THP_DIGITAL_ISLAND_ACCEPTANCE_OUTPUT
-    ? path.resolve(process.env.THP_DIGITAL_ISLAND_ACCEPTANCE_OUTPUT)
-    : path.join(ROOT, 'output', 'acceptance', `digital-island-live-${local.dataset_version}.json`);
-  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   fs.writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
   return { report, outputPath };
 }
@@ -843,6 +1207,27 @@ function runSelfTest() {
   invariant(forbidden.length === 1 && forbidden[0].endsWith('.holds'), 'Self-test private-field scanner failed');
   const contract = buildContract({ pageId: '' });
   invariant(contract.configured_page_id === null && contract.configured_page_id_has_fallback === false, 'Acceptance contract introduced a fallback page ID');
+  const contentRange = parseContentRange('bytes 0-16383/1205287');
+  invariant(contentRange && contentRange.start === 0 && contentRange.end === 16383 && contentRange.total === 1205287, 'Self-test Content-Range parsing failed');
+  invariant(parseContentRange('bytes 10-20/20') === null && parseContentRange('not-a-range') === null, 'Self-test accepted an invalid Content-Range');
+  const pluginBase = pluginBaseFromAssetUrl(
+    'https://thai-land.co.il/wp-content/plugins/thailand-platform/assets/digital-islands/digital-islands.js?ver=0.5.1',
+    new URL('https://thai-land.co.il/')
+  );
+  invariant(pluginBase.toString() === 'https://thai-land.co.il/wp-content/plugins/thailand-platform/', 'Self-test plugin base derivation failed');
+  const headerReceipt = staticAssetHeaderContract('assets/digital-islands/data/example.pmtiles', {
+    'cache-control': 'public, max-age=31536000, immutable',
+    'content-type': 'application/vnd.pmtiles',
+    'x-content-type-options': 'nosniff'
+  });
+  invariant(headerReceipt.max_age_seconds === 31536000 && headerReceipt.immutable && headerReceipt.nosniff, 'Self-test static header contract failed');
+  const rendererManifest = rendererManifestContract();
+  const sampleRendererPath = rendererManifest.dependencies.pmtiles.script_path;
+  const sampleRendererBytes = readBytes(path.join(ROOT, ...sampleRendererPath.split('/')));
+  invariant(verifyRendererInventoryBytes(sampleRendererPath, sampleRendererBytes).exact_bytes_match, 'Self-test renderer inventory verification failed');
+  let tamperedRendererRejected = false;
+  try { verifyRendererInventoryBytes(sampleRendererPath, Buffer.from('tampered-renderer-asset', 'utf8')); } catch { tamperedRendererRejected = true; }
+  invariant(tamperedRendererRejected, 'Self-test accepted tampered renderer bytes');
   const local = structuralSourceGates({ requireLive: false });
   invariant(local.canary_map_entity_count === EXPECTED_PUBLIC_ENTITY_COUNT, 'Self-test source projection count failed');
   return { contract, local };
@@ -871,20 +1256,28 @@ async function main() {
 }
 
 module.exports = {
+  EXPECTED_RENDERER_INVENTORY_COUNT,
   EXPECTED_PUBLIC_ENTITY_COUNT,
   PAGE_ID_ENV,
+  PLAYWRIGHT_CLI_PACKAGE,
   buildContract,
   decodeEntities,
   graphNodes,
   inspectDocument,
+  parseContentRange,
   parseAttributes,
   parsePageId,
+  pluginBaseFromAssetUrl,
   recursiveForbiddenKeys,
+  rendererAssetReceipts,
+  rendererManifestContract,
   reviewedAssetReceipts,
   runSelfTest,
   sameCanonical,
+  staticAssetHeaderContract,
   structuralSourceGates,
   validatePublicPayload,
+  verifyRendererInventoryBytes,
   verifyReviewedAssetBytes,
   xmlLocations
 };

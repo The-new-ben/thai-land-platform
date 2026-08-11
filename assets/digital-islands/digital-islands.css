@@ -459,6 +459,37 @@ body.thp-di-document {
 	pointer-events: none;
 }
 
+.thp-di-attribution {
+	display: grid;
+	gap: 6px;
+	margin-block-start: 12px;
+	padding: 12px 14px;
+	border: 1px solid var(--thp-di-line);
+	border-radius: 12px;
+	background: #f7faf7;
+	color: var(--thp-di-muted);
+	font-size: 0.75rem;
+	line-height: 1.5;
+}
+
+.thp-di-attribution p,
+.thp-di-attribution ul {
+	margin: 0;
+}
+
+.thp-di-attribution ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 18px;
+	padding-inline-start: 20px;
+}
+
+.thp-di-attribution a {
+	color: var(--thp-di-sea-dark);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+}
+
 .thp-di-map-poster {
 	position: absolute;
 	inset: 0;

@@ -87,6 +87,43 @@
       "uniqueItems": true,
       "items": { "$ref": "#/$defs/source_id" }
     },
+    "imagery_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["item_id", "observed_at", "tile_cloud_cover_percent", "tile_cloud_metadata_scope", "registry_url", "legal_notice_url", "processed_bounds", "processing", "processed_projection", "processed_format", "usage_scope", "limitations", "attribution"],
+      "properties": {
+        "item_id": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
+        "observed_at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{6}Z$" },
+        "tile_cloud_cover_percent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "tile_cloud_metadata_scope": { "const": "source_tile_not_cropped_island" },
+        "registry_url": { "type": "string", "pattern": "^https://" },
+        "legal_notice_url": { "type": "string", "pattern": "^https://" },
+        "processed_bounds": { "$ref": "#/$defs/bounds" },
+        "processing": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "cropped_to_bounds" },
+            { "const": "reprojected_to_epsg_3857" },
+            { "const": "compressed_to_webp" }
+          ],
+          "items": false
+        },
+        "processed_projection": { "const": "EPSG:3857" },
+        "processed_format": { "const": "webp" },
+        "usage_scope": { "const": "orientation_only" },
+        "limitations": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "not_current_evidence" },
+            { "const": "not_parcel_evidence" },
+            { "const": "not_title_evidence" },
+            { "const": "not_buildability_evidence" }
+          ],
+          "items": false
+        },
+        "attribution": { "const": "Contains modified Copernicus Sentinel data 2026" }
+      }
+    },
     "geo_id": {
       "type": "string",
       "pattern": "^geo:th:[a-z_]+:[a-z0-9-]+$"
@@ -197,12 +234,13 @@
     "renderer": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["renderer_id", "role", "library", "delivery", "capabilities", "fallback_triggers", "source_ids"],
+      "required": ["renderer_id", "role", "library", "library_version", "delivery", "capabilities", "fallback_triggers", "source_ids"],
       "properties": {
         "renderer_id": { "enum": ["immersive_3d", "practical_2d"] },
         "role": { "enum": ["primary_capable_device", "fallback_and_operational"] },
-        "library": { "enum": ["CesiumJS", "MapLibre GL JS"] },
-        "delivery": { "enum": ["dependency_pending", "self_hosted_pinned", "reviewed_provider"] },
+        "library": { "const": "MapLibre GL JS" },
+        "library_version": { "const": "5.18.0" },
+        "delivery": { "const": "self_hosted_pinned" },
         "capabilities": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_]+$" } },
         "fallback_triggers": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_]+$" } },
         "source_ids": { "$ref": "#/$defs/source_ids" }
@@ -299,7 +337,8 @@
         "access_state": { "enum": ["current", "stale", "unreachable", "retracted"] },
         "permitted_reuse": { "enum": ["link_only", "public_fact_with_attribution", "attribute_and_geometry"] },
         "geometry_use": { "enum": ["none", "orientation_only", "official_boundary", "official_point", "first_party_pin"] },
-        "next_review_on": { "$ref": "#/$defs/date" }
+        "next_review_on": { "$ref": "#/$defs/date" },
+        "imagery": { "$ref": "#/$defs/imagery_source" }
       }
     },
     "layer": {

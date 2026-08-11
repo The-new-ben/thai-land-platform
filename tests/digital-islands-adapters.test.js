@@ -64,6 +64,7 @@ const sandbox = {
 	console,
 	document,
 	window,
+	URL,
 	Promise,
 	Map,
 	Set,
@@ -72,6 +73,10 @@ const sandbox = {
 	Number,
 	Math,
 };
+window.location = { href: 'https://thai-land.co.il/מפת-קופנגן/', origin: 'https://thai-land.co.il' };
+window.devicePixelRatio = 3;
+window.setTimeout = setTimeout;
+window.clearTimeout = clearTimeout;
 const source = fs.readFileSync(
 	path.join(__dirname, '..', 'assets', 'digital-islands', 'digital-islands.js'),
 	'utf8',
@@ -82,14 +87,17 @@ const stylesheet = fs.readFileSync(
 );
 vm.runInNewContext(source, sandbox, { filename: 'digital-islands.js' });
 
-assert.equal(typeof window.ThailandDigitalIslandsAdapters.cesium.mount, 'function');
 assert.equal(typeof window.ThailandDigitalIslandsAdapters.maplibre.mount, 'function');
+assert.equal(source.includes('Cesium'), false);
 assert.equal(/https?:\/\//i.test(source), false);
 assert.equal(source.includes('Ion.defaultAccessToken'), false);
 assert.equal(source.includes('innerHTML'), false);
 assert.equal(source.includes("classList.add('is-enhanced')"), true);
 assert.equal(source.includes('measurement_supported: false'), true);
 assert.equal(source.includes('class OrientationSceneAdapter'), true);
+assert.equal(source.includes('if (this.instance !== instance)'), true);
+assert.equal(source.includes('אי־ודאות מיקומית מתועדת'), true);
+assert.equal(/generation !== viewGeneration[\s\S]{0,80}candidate\.destroy\(\)/.test(source), false);
 assert.equal(source.includes("shell.scrollIntoView({ block: 'center'"), true);
 assert.equal(source.includes("stage.focus({ preventScroll: true })"), true);
 assert.equal(stylesheet.includes('outline: 3px solid #fff;'), true);
@@ -125,105 +133,7 @@ const invalidEntity = {
 	entity_id: 'unsafe',
 };
 
-let cesiumViewer;
-let cesiumClickHandler;
-class CesiumViewer {
-	constructor(host, options) {
-		this.host = host;
-		this.options = options;
-		this.added = [];
-		this.entities = {
-			add: (entity) => {
-				const added = { ...entity, id: entity.id };
-				this.added.push(added);
-				return added;
-			},
-		};
-		this.camera = {
-			setViews: [],
-			flyTos: [],
-			setView: (value) => this.camera.setViews.push(value),
-			flyTo: (value) => this.camera.flyTos.push(value),
-		};
-		this.scene = {
-			canvas: {},
-			picked: null,
-			pick: () => this.scene.picked,
-			primitives: { add: (primitive) => primitive },
-			requestRender: () => { this.renderRequested = true; },
-		};
-		this.destroyed = false;
-		cesiumViewer = this;
-	}
-
-	destroy() {
-		this.destroyed = true;
-	}
-
-	isDestroyed() {
-		return this.destroyed;
-	}
-}
-class ScreenSpaceEventHandler {
-	constructor() {
-		cesiumClickHandler = this;
-	}
-
-	setInputAction(callback) {
-		this.callback = callback;
-	}
-
-	destroy() {
-		this.destroyed = true;
-	}
-}
-window.Cesium = {
-	Viewer: CesiumViewer,
-	Cartesian2: class Cartesian2 {},
-	Cartesian3: { fromDegrees: (longitude, latitude, height) => ({ longitude, latitude, height }) },
-	Color: {
-		BLACK: { name: 'black' },
-		WHITE: { name: 'white' },
-		fromCssColorString: (value) => ({ value, withAlpha: (alpha) => ({ value, alpha }) }),
-	},
-	EllipsoidTerrainProvider: class EllipsoidTerrainProvider {},
-	LabelStyle: { FILL_AND_OUTLINE: 'fill-outline' },
-	Math: { toRadians: (degrees) => degrees * Math.PI / 180 },
-	Rectangle: { fromDegrees: (...values) => values },
-	ScreenSpaceEventHandler,
-	ScreenSpaceEventType: { LEFT_CLICK: 'left-click' },
-};
-
 let selected = '';
-const cesiumContainer = document.createElement('div');
-const cesiumInstance = window.ThailandDigitalIslandsAdapters.cesium.mount({
-	container: cesiumContainer,
-	island,
-	cameraPresets,
-	entities: [safeEntity, outsideEntity, invalidEntity],
-	visibleLayerIds: ['layer:settlements'],
-	reducedMotion: false,
-	selectEntity: (entityId) => { selected = entityId; },
-});
-assert.ok(cesiumInstance);
-assert.equal(cesiumViewer.options.baseLayer, false);
-assert.equal(cesiumViewer.options.imageryProvider, false);
-assert.equal(cesiumViewer.added.length, 1);
-assert.equal(cesiumViewer.camera.setViews.length, 1);
-assert.equal(cesiumInstance.capabilities.measurement_supported, false);
-cesiumViewer.scene.picked = { id: cesiumViewer.added[0] };
-cesiumClickHandler.callback({ position: {} });
-assert.equal(selected, safeEntity.entity_id);
-cesiumInstance.setVisibleLayers([]);
-assert.equal(cesiumViewer.added[0].show, false);
-cesiumInstance.setVisibleLayers(['layer:settlements']);
-assert.equal(cesiumViewer.added[0].show, true);
-assert.equal(cesiumInstance.focusEntity(safeEntity.entity_id, { animate: true }), true);
-assert.equal(cesiumViewer.camera.flyTos.length, 1);
-cesiumInstance.destroy();
-assert.equal(cesiumViewer.destroyed, true);
-assert.equal(cesiumContainer.children.length, 0);
-
 let mapLibreMap;
 const mapLibreMarkers = [];
 class MapLibreMap {
@@ -233,7 +143,33 @@ class MapLibreMap {
 		this.jumpTos = [];
 		this.controls = [];
 		this.removed = false;
+		this.canvas = new TestElement('canvas', document);
 		mapLibreMap = this;
+	}
+
+	once(name, callback) {
+		if (name === 'load') callback();
+	}
+
+	on(name, callback) {
+		this.listeners = this.listeners || {};
+		this.listeners[name] = callback;
+	}
+
+	off(name) {
+		if (this.listeners) delete this.listeners[name];
+	}
+
+	setProjection(value) {
+		this.projection = value;
+	}
+
+	setTerrain(value) {
+		this.terrain = value;
+	}
+
+	getCanvas() {
+		return this.canvas;
 	}
 
 	addControl(control, position) {
@@ -278,11 +214,39 @@ class Marker {
 		this.removed = true;
 	}
 }
+let protocolAdds = 0;
+window.pmtiles = {
+	Protocol: class Protocol {
+		tile() {}
+	},
+};
 window.maplibregl = {
 	Map: MapLibreMap,
 	Marker,
 	NavigationControl: class NavigationControl {},
 	ScaleControl: class ScaleControl {},
+	addProtocol(name, handler) {
+		assert.equal(name, 'pmtiles');
+		assert.equal(typeof handler, 'function');
+		protocolAdds += 1;
+	},
+};
+
+window.ThailandDigitalIslandsConfig = {
+	reviewed: true,
+	contractId: 'thailand-digital-islands-renderer-v1',
+	islandGeoId: island.geo_id,
+	maplibre: {
+		vectorPmtilesUrl: 'https://thai-land.co.il/wp-content/plugins/thailand-platform-live-051/assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles',
+		terrainUrlTemplate: 'https://thai-land.co.il/wp-content/plugins/thailand-platform-live-051/assets/digital-islands/terrain/20260811/{z}/{x}/{y}.png',
+		terrainMinZoom: 8,
+		terrainMaxZoom: 13,
+		satelliteUrl: 'https://thai-land.co.il/wp-content/plugins/thailand-platform-live-051/assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp',
+		satelliteBounds: { south: 9.63, north: 9.84, west: 99.92, east: 100.12 },
+		satelliteAttribution: 'Contains modified Copernicus Sentinel data 2026',
+		basemapAttribution: 'Protomaps © OpenStreetMap contributors',
+		terrainAttribution: 'Mapzen terrain · USGS · NOAA/NCEI',
+	},
 };
 
 selected = '';
@@ -298,7 +262,13 @@ const mapLibreInstance = window.ThailandDigitalIslandsAdapters.maplibre.mount({
 });
 assert.ok(mapLibreInstance);
 assert.equal(mapLibreMap.options.style.version, 8);
-assert.deepEqual(Object.keys(mapLibreMap.options.style.sources), []);
+assert.deepEqual(Object.keys(mapLibreMap.options.style.sources), ['basemap']);
+assert.match(mapLibreMap.options.style.sources.basemap.url, /^pmtiles:\/\//);
+assert.equal(mapLibreMap.options.pixelRatio, 2);
+assert.equal(mapLibreMap.options.minZoom, 8);
+assert.equal(mapLibreMap.options.maxZoom, 16);
+assert.equal(mapLibreMap.options.maxPitch, 60);
+assert.equal(protocolAdds, 1);
 assert.equal(mapLibreMarkers.length, 1);
 mapLibreMarkers[0].element.listeners.click({ preventDefault() {}, stopPropagation() {} });
 assert.equal(selected, safeEntity.entity_id);
@@ -314,12 +284,8 @@ assert.equal(mapLibreMap.removed, true);
 assert.equal(mapLibreMarkers[0].removed, true);
 assert.equal(mapLibreContainer.children.length, 0);
 
-window.ThailandDigitalIslandsConfig = {
-	reviewed: true,
-	islandGeoId: island.geo_id,
-	maplibre: { style: 'reviewed-map-style' },
-};
 const configuredContainer = document.createElement('div');
+const rendererFailures = [];
 const configuredInstance = window.ThailandDigitalIslandsAdapters.maplibre.mount({
 	container: configuredContainer,
 	island,
@@ -327,9 +293,35 @@ const configuredInstance = window.ThailandDigitalIslandsAdapters.maplibre.mount(
 	entities: [],
 	visibleLayerIds: [],
 	reducedMotion: true,
+	rendererMode: '3d',
+	onFailure: (reason) => rendererFailures.push(reason),
 });
 assert.ok(configuredInstance);
-assert.equal(mapLibreMap.options.style, 'reviewed-map-style');
+assert.equal(mapLibreMap.options.style.projection.type, 'globe');
+assert.deepEqual(Object.keys(mapLibreMap.options.style.sources), ['basemap', 'satellite', 'terrain']);
+assert.equal(mapLibreMap.options.style.sources.terrain.encoding, 'terrarium');
+assert.equal(
+	JSON.stringify(mapLibreMap.options.style.sources.terrain.bounds),
+	JSON.stringify([99.92, 9.63, 100.12, 9.84]),
+);
+assert.equal(mapLibreMap.options.style.sources.satellite.coordinates.length, 4);
+assert.equal(mapLibreMap.options.customAttribution, 'Contains modified Copernicus Sentinel data 2026');
+assert.equal(mapLibreMap.options.style.projection.type, 'globe');
+assert.equal(mapLibreMap.options.style.terrain.source, 'terrain');
+assert.equal(mapLibreMap.options.style.terrain.exaggeration, 1.28);
+assert.equal(
+	JSON.stringify(mapLibreMap.options.style.layers.find((layer) => layer.id === 'buildings-extruded-reviewed-height').filter),
+	JSON.stringify(['all', ['in', 'kind', 'building', 'building_part'], ['has', 'height'], ['>', 'height', 0]]),
+);
+assert.equal(configuredInstance.capabilities.globe_supported, true);
+assert.equal(configuredInstance.capabilities.terrain_supported, true);
+assert.equal(protocolAdds, 1);
+let contextLossPrevented = false;
+mapLibreMap.canvas.listeners.webglcontextlost({ preventDefault: () => { contextLossPrevented = true; } });
+assert.equal(contextLossPrevented, true);
+assert.deepEqual(rendererFailures, ['webgl_context_lost']);
+mapLibreMap.listeners.error();
+assert.deepEqual(rendererFailures, ['webgl_context_lost', 'map_source_error']);
 configuredInstance.destroy();
 
 window.ThailandDigitalIslandsConfig = {
@@ -346,27 +338,24 @@ const unreviewedInstance = window.ThailandDigitalIslandsAdapters.maplibre.mount(
 	visibleLayerIds: [],
 	reducedMotion: true,
 });
-assert.ok(unreviewedInstance);
-assert.equal(mapLibreMap.options.style.version, 8);
-unreviewedInstance.destroy();
+assert.equal(unreviewedInstance, null);
 
-const WorkingViewer = window.Cesium.Viewer;
-window.Cesium.Viewer = class FailingViewer {
-	constructor() {
-		throw new Error('expected-constructor-failure');
-	}
+window.ThailandDigitalIslandsConfig = {
+	reviewed: true,
+	contractId: 'thailand-digital-islands-renderer-v1',
+	islandGeoId: island.geo_id,
+	maplibre: {
+		vectorPmtilesUrl: 'https://tiles.example.test/koh-phangan.pmtiles',
+	},
 };
-const failedContainer = document.createElement('div');
-const failedInstance = window.ThailandDigitalIslandsAdapters.cesium.mount({
-	container: failedContainer,
+const externalAssetInstance = window.ThailandDigitalIslandsAdapters.maplibre.mount({
+	container: document.createElement('div'),
 	island,
 	cameraPresets,
-	entities: [safeEntity],
-	visibleLayerIds: ['layer:settlements'],
+	entities: [],
+	visibleLayerIds: [],
 	reducedMotion: true,
 });
-assert.equal(failedInstance, null);
-assert.equal(failedContainer.children.length, 0);
-window.Cesium.Viewer = WorkingViewer;
+assert.equal(externalAssetInstance, null);
 
 process.stdout.write('PASS: Digital Islands browser adapters\n');

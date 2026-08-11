@@ -117,202 +117,147 @@
 		return host;
 	};
 
-	const cesiumFactory = Object.freeze({
-		mount(context) {
-			const Cesium = window.Cesium;
-			const bounds = safeBounds(context && context.island);
-			if (!Cesium || typeof Cesium.Viewer !== 'function' || !Cesium.Cartesian3 || !bounds) return null;
-
-			const records = safeEntities(context.entities, bounds);
-			const presets = safePresets(context.cameraPresets);
-			const initialPreset = preferredIslandPreset(presets, bounds);
-			const config = reviewedConfig('cesium', context.island);
-			const host = makeHost(context.container, 'thp-di-map-canvas-cesium', 'מפת התמצאות תלת ממדית של קופנגן');
-			if (!host) return null;
-
-			let viewer = null;
-			let clickHandler = null;
-			let destroyed = false;
-			const mapEntities = new Map();
-			const primitives = [];
-			try {
-				const options = {
-					animation: false,
-					baseLayer: false,
-					baseLayerPicker: false,
-					fullscreenButton: false,
-					geocoder: false,
-					homeButton: false,
-					imageryProvider: false,
-					infoBox: false,
-					navigationHelpButton: false,
-					requestRenderMode: true,
-					sceneModePicker: false,
-					selectionIndicator: false,
-					timeline: false,
-				};
-				if (typeof Cesium.EllipsoidTerrainProvider === 'function') {
-					options.terrainProvider = new Cesium.EllipsoidTerrainProvider();
-				}
-				if (config && isObject(config.baseLayer)) options.baseLayer = config.baseLayer;
-				if (config && isObject(config.imageryProvider)) options.imageryProvider = config.imageryProvider;
-				if (config && isObject(config.terrainProvider) && typeof config.terrainProvider.then !== 'function') {
-					options.terrainProvider = config.terrainProvider;
-				}
-
-				viewer = new Cesium.Viewer(host, options);
-				if (!viewer || !viewer.entities || !viewer.camera || !viewer.scene) throw new Error('cesium-viewer-incomplete');
-
-				if (config && config.terrainProvider && typeof config.terrainProvider.then === 'function') {
-					Promise.resolve(config.terrainProvider).then((provider) => {
-						if (!destroyed && isObject(provider)) {
-							viewer.terrainProvider = provider;
-							if (viewer.scene && typeof viewer.scene.requestRender === 'function') viewer.scene.requestRender();
-						}
-					}).catch(() => {});
-				}
-				if (config && Array.isArray(config.tilesets) && viewer.scene.primitives && typeof viewer.scene.primitives.add === 'function') {
-					config.tilesets.forEach((tileset) => {
-						if (isObject(tileset) && typeof tileset.then !== 'function') primitives.push(viewer.scene.primitives.add(tileset));
-					});
-				}
-
-				let visibleLayers = requestedLayers(context.visibleLayerIds);
-				records.forEach((record) => {
-					const color = Cesium.Color && typeof Cesium.Color.fromCssColorString === 'function'
-						? Cesium.Color.fromCssColorString(markerColor(record.entityType))
-						: (Cesium.Color ? Cesium.Color.WHITE : undefined);
-					const outlineColor = Cesium.Color ? Cesium.Color.WHITE : undefined;
-					const entityOptions = {
-						id: record.entityId,
-						name: record.name,
-						position: Cesium.Cartesian3.fromDegrees(record.longitude, record.latitude, 12),
-						point: {
-							color,
-							outlineColor,
-							outlineWidth: 2,
-							pixelSize: record.entityType === 'property_project' ? 15 : 11,
-						},
-						label: {
-							fillColor: outlineColor,
-							font: '600 14px Arial, sans-serif',
-							outlineColor: Cesium.Color ? Cesium.Color.BLACK : undefined,
-							outlineWidth: 3,
-							pixelOffset: Cesium.Cartesian2 ? new Cesium.Cartesian2(0, -24) : undefined,
-							showBackground: true,
-							style: Cesium.LabelStyle ? Cesium.LabelStyle.FILL_AND_OUTLINE : undefined,
-							text: record.name,
-						},
-						show: recordIsVisible(record, visibleLayers),
-					};
-					if (record.accuracyM && color && typeof color.withAlpha === 'function') {
-						entityOptions.ellipse = {
-							material: color.withAlpha(0.16),
-							semiMajorAxis: record.accuracyM,
-							semiMinorAxis: record.accuracyM,
-						};
-					}
-					const mapEntity = viewer.entities.add(entityOptions);
-					mapEntities.set(record.entityId, { mapEntity, record });
-				});
-
-				const setCameraPreset = (presetId, animate) => {
-					const preset = presets.find((candidate) => candidate.id === presetId);
-					if (!preset) return false;
-					const destination = Cesium.Cartesian3.fromDegrees(preset.longitude, preset.latitude, preset.height);
-					const orientation = Cesium.Math && typeof Cesium.Math.toRadians === 'function'
-						? {
-							heading: Cesium.Math.toRadians(preset.heading),
-							pitch: Cesium.Math.toRadians(preset.pitch),
-							roll: Cesium.Math.toRadians(preset.roll),
-						}
-						: undefined;
-					const movement = { destination, orientation };
-					if (animate && !context.reducedMotion && typeof viewer.camera.flyTo === 'function') {
-						viewer.camera.flyTo({ ...movement, duration: 1.8 });
-					} else if (typeof viewer.camera.setView === 'function') {
-						viewer.camera.setView(movement);
-					}
-					return true;
-				};
-
-				if (initialPreset) {
-					setCameraPreset(initialPreset.id, false);
-				} else if (Cesium.Rectangle && typeof Cesium.Rectangle.fromDegrees === 'function') {
-					const rectangle = Cesium.Rectangle.fromDegrees(bounds.west, bounds.south, bounds.east, bounds.north);
-					if (typeof viewer.camera.setView === 'function') viewer.camera.setView({ destination: rectangle });
-				}
-
-				if (
-					Cesium.ScreenSpaceEventHandler
-					&& Cesium.ScreenSpaceEventType
-					&& viewer.scene.canvas
-					&& typeof viewer.scene.pick === 'function'
-				) {
-					clickHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-					clickHandler.setInputAction((movement) => {
-						const picked = viewer.scene.pick(movement && movement.position);
-						const pickedEntity = picked && picked.id;
-						const entityId = typeof pickedEntity === 'string'
-							? pickedEntity
-							: (pickedEntity && typeof pickedEntity.id === 'string' ? pickedEntity.id : '');
-						if (mapEntities.has(entityId) && typeof context.selectEntity === 'function') context.selectEntity(entityId);
-					}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-				}
-
-				return {
-					capabilities: Object.freeze({ measurement_supported: false }),
-					focusEntity(entityId, options = {}) {
-						const item = mapEntities.get(entityId);
-						if (!item || destroyed) return false;
-						const destination = Cesium.Cartesian3.fromDegrees(item.record.longitude, item.record.latitude, 1900);
-						const movement = { destination };
-						if (options.animate && !context.reducedMotion && typeof viewer.camera.flyTo === 'function') {
-							viewer.camera.flyTo({ ...movement, duration: 0.9 });
-						} else if (typeof viewer.camera.setView === 'function') {
-							viewer.camera.setView(movement);
-						}
-						return true;
-					},
-					setCameraPreset,
-					setVisibleLayers(layerIds) {
-						visibleLayers = requestedLayers(layerIds);
-						mapEntities.forEach((item) => {
-							item.mapEntity.show = recordIsVisible(item.record, visibleLayers);
-						});
-						if (viewer.scene && typeof viewer.scene.requestRender === 'function') viewer.scene.requestRender();
-					},
-					destroy() {
-						if (destroyed) return;
-						destroyed = true;
-						if (clickHandler && typeof clickHandler.destroy === 'function') clickHandler.destroy();
-						if (viewer && typeof viewer.isDestroyed === 'function' && !viewer.isDestroyed() && typeof viewer.destroy === 'function') viewer.destroy();
-						else if (viewer && typeof viewer.destroy === 'function') viewer.destroy();
-						primitives.length = 0;
-						mapEntities.clear();
-						if (host.parentNode) host.parentNode.removeChild(host);
-					},
-				};
-			} catch (error) {
-				if (clickHandler && typeof clickHandler.destroy === 'function') clickHandler.destroy();
-				if (viewer && typeof viewer.destroy === 'function') {
-					try { viewer.destroy(); } catch (destroyError) { /* Fail closed. */ }
-				}
-				if (host.parentNode) host.parentNode.removeChild(host);
-				return null;
-			}
-		},
-	});
-
-	const offlineMapLibreStyle = () => ({
-		version: 8,
-		sources: {},
-		layers: [{
-			id: 'private-orientation-background',
-			type: 'background',
-			paint: { 'background-color': '#cfe7e2' },
-		}],
-	});
+	const sameOriginAssetUrl = (value) => {
+		if (typeof value !== 'string' || !value || /[\u0000-\u001f\u007f\\]/.test(value)) return '';
+		try {
+			const base = new URL(window.location.href);
+			const candidate = new URL(value, base);
+			if (candidate.origin !== base.origin || candidate.username || candidate.password) return '';
+			if (candidate.search || candidate.hash || !candidate.pathname.startsWith('/wp-content/plugins/')) return '';
+			return candidate.href.replace(/%7B([xyz])%7D/gi, '{$1}');
+		} catch (error) {
+			return '';
+		}
+	};
+	const safeAttribution = (value) => (
+		typeof value === 'string' && value.length > 0 && value.length <= 500 && !/[<>]/.test(value)
+			? value
+			: ''
+	);
+	const safeImageBounds = (value) => {
+		if (!isObject(value)) return null;
+		const { south, north, west, east } = value;
+		if (![south, north, west, east].every(isFiniteNumber)) return null;
+		if (south < -90 || north > 90 || west < -180 || east > 180 || south >= north || west >= east) return null;
+		return { south, north, west, east };
+	};
+	const ensurePmtilesProtocol = (maplibregl) => {
+		const library = window.pmtiles;
+		if (!library || typeof library.Protocol !== 'function' || typeof maplibregl.addProtocol !== 'function') return false;
+		if (!window.ThailandDigitalIslandsPmtilesProtocol) {
+			const protocol = new library.Protocol();
+			if (!protocol || typeof protocol.tile !== 'function') return false;
+			maplibregl.addProtocol('pmtiles', protocol.tile);
+			window.ThailandDigitalIslandsPmtilesProtocol = protocol;
+		}
+		return true;
+	};
+	const basemapLayers = (is3d) => {
+		const layers = [
+			{ id: 'background', type: 'background', paint: { 'background-color': '#b9dde4' } },
+			{ id: 'earth', type: 'fill', source: 'basemap', 'source-layer': 'earth', filter: ['==', '$type', 'Polygon'], paint: { 'fill-color': '#e6dfc9' } },
+			{ id: 'landuse-forest', type: 'fill', source: 'basemap', 'source-layer': 'landuse', filter: ['in', 'kind', 'forest', 'wood', 'national_park', 'nature_reserve', 'protected_area'], paint: { 'fill-color': '#7fae79', 'fill-opacity': 0.72 } },
+			{ id: 'landuse-green', type: 'fill', source: 'basemap', 'source-layer': 'landuse', filter: ['in', 'kind', 'park', 'grass', 'grassland', 'scrub', 'golf_course'], paint: { 'fill-color': '#a8c98f', 'fill-opacity': 0.65 } },
+			{ id: 'landuse-beach', type: 'fill', source: 'basemap', 'source-layer': 'landuse', filter: ['==', 'kind', 'beach'], paint: { 'fill-color': '#f2d8a0' } },
+			{ id: 'landuse-civic', type: 'fill', source: 'basemap', 'source-layer': 'landuse', filter: ['in', 'kind', 'hospital', 'school', 'university', 'college'], paint: { 'fill-color': '#dfc9bf', 'fill-opacity': 0.78 } },
+			{ id: 'landuse-industrial', type: 'fill', source: 'basemap', 'source-layer': 'landuse', filter: ['==', 'kind', 'industrial'], paint: { 'fill-color': '#c8c5bf', 'fill-opacity': 0.72 } },
+		];
+		if (is3d) {
+			layers.push({
+				id: 'satellite-orientation-20260326',
+				type: 'raster',
+				source: 'satellite',
+				paint: { 'raster-fade-duration': 0, 'raster-opacity': 0.94, 'raster-resampling': 'linear' },
+			});
+			layers.push({
+				id: 'terrain-hillshade',
+				type: 'hillshade',
+				source: 'terrain',
+				paint: {
+					'hillshade-accent-color': '#385746',
+					'hillshade-exaggeration': 0.42,
+					'hillshade-highlight-color': '#f7efd9',
+					'hillshade-shadow-color': '#29423e',
+				},
+			});
+		}
+		layers.push(
+			{ id: 'water', type: 'fill', source: 'basemap', 'source-layer': 'water', filter: ['==', '$type', 'Polygon'], paint: { 'fill-color': '#7ec8d4', 'fill-opacity': 0.94 } },
+			{ id: 'water-lines', type: 'line', source: 'basemap', 'source-layer': 'water', filter: ['in', 'kind', 'river', 'stream'], paint: { 'line-color': '#62b7ca', 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.4, 15, 1.6] } },
+			{ id: 'buildings-flat', type: 'fill', source: 'basemap', 'source-layer': 'buildings', filter: ['in', 'kind', 'building', 'building_part'], paint: { 'fill-color': '#d0bda7', 'fill-opacity': is3d ? 0.28 : 0.68, 'fill-outline-color': '#a28e79' } },
+		);
+		if (is3d) {
+			layers.push({
+				id: 'buildings-extruded-reviewed-height',
+				type: 'fill-extrusion',
+				source: 'basemap',
+				'source-layer': 'buildings',
+				minzoom: 13,
+				filter: ['all', ['in', 'kind', 'building', 'building_part'], ['has', 'height'], ['>', 'height', 0]],
+				paint: {
+					'fill-extrusion-base': ['coalesce', ['get', 'min_height'], 0],
+					'fill-extrusion-color': '#c5a98e',
+					'fill-extrusion-height': ['get', 'height'],
+					'fill-extrusion-opacity': 0.84,
+				},
+			});
+		}
+		layers.push(
+			{ id: 'roads-paths', type: 'line', source: 'basemap', 'source-layer': 'roads', filter: ['in', 'kind', 'path', 'other'], paint: { 'line-color': '#9b8067', 'line-dasharray': [1.5, 1.5], 'line-width': ['interpolate', ['linear'], ['zoom'], 12, 0.3, 16, 2.2] } },
+			{ id: 'roads-minor-casing', type: 'line', source: 'basemap', 'source-layer': 'roads', filter: ['==', 'kind', 'minor_road'], paint: { 'line-color': '#8d7969', 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.4, 16, 5.4] } },
+			{ id: 'roads-minor', type: 'line', source: 'basemap', 'source-layer': 'roads', filter: ['==', 'kind', 'minor_road'], paint: { 'line-color': '#f6efe2', 'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.25, 16, 3.6] } },
+			{ id: 'roads-major-casing', type: 'line', source: 'basemap', 'source-layer': 'roads', filter: ['in', 'kind', 'major_road', 'highway'], paint: { 'line-color': '#7b6757', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.8, 16, 8.6] } },
+			{ id: 'roads-major', type: 'line', source: 'basemap', 'source-layer': 'roads', filter: ['in', 'kind', 'major_road', 'highway'], paint: { 'line-color': '#f4b866', 'line-width': ['interpolate', ['linear'], ['zoom'], 8, 0.5, 16, 6.2] } },
+			{ id: 'boundaries', type: 'line', source: 'basemap', 'source-layer': 'boundaries', paint: { 'line-color': '#45675e', 'line-dasharray': [3, 2], 'line-opacity': 0.58, 'line-width': 0.8 } },
+		);
+		return layers;
+	};
+	const selfHostedMapLibreStyle = (config, mode) => {
+		const vectorUrl = sameOriginAssetUrl(config && config.vectorPmtilesUrl);
+		const terrainUrl = sameOriginAssetUrl(config && config.terrainUrlTemplate);
+		const satelliteUrl = sameOriginAssetUrl(config && config.satelliteUrl);
+		const satelliteBounds = safeImageBounds(config && config.satelliteBounds);
+		const is3d = mode === '3d';
+		if (!vectorUrl || (is3d && (!terrainUrl || !satelliteUrl || !satelliteBounds))) return null;
+		const sources = {
+			basemap: {
+				type: 'vector',
+				url: `pmtiles://${vectorUrl}`,
+				attribution: safeAttribution(config.basemapAttribution),
+			},
+		};
+		if (is3d) {
+			sources.satellite = {
+				type: 'image',
+				url: satelliteUrl,
+				coordinates: [
+					[satelliteBounds.west, satelliteBounds.north],
+					[satelliteBounds.east, satelliteBounds.north],
+					[satelliteBounds.east, satelliteBounds.south],
+					[satelliteBounds.west, satelliteBounds.south],
+				],
+			};
+			sources.terrain = {
+				type: 'raster-dem',
+				tiles: [terrainUrl],
+				tileSize: 256,
+				bounds: [satelliteBounds.west, satelliteBounds.south, satelliteBounds.east, satelliteBounds.north],
+				minzoom: Number.isInteger(config.terrainMinZoom) ? config.terrainMinZoom : 8,
+				maxzoom: Number.isInteger(config.terrainMaxZoom) ? config.terrainMaxZoom : 13,
+				encoding: 'terrarium',
+				attribution: safeAttribution(config.terrainAttribution),
+			};
+		}
+		const style = {
+			version: 8,
+			name: is3d ? 'Koh Phangan reviewed terrain' : 'Koh Phangan reviewed vector map',
+			projection: { type: is3d ? 'globe' : 'mercator' },
+			sources,
+			layers: basemapLayers(is3d),
+		};
+		if (is3d) style.terrain = { source: 'terrain', exaggeration: 1.28 };
+		return style;
+	};
 	const heightToZoom = (height, latitude) => {
 		const worldMeters = 40075016.686 * Math.max(0.2, Math.cos(latitude * Math.PI / 180));
 		return clamp(Math.log2(worldMeters / Math.max(250, height * 1.4)), 8, 16);
@@ -323,20 +268,27 @@
 			const maplibregl = window.maplibregl;
 			const bounds = safeBounds(context && context.island);
 			if (!maplibregl || typeof maplibregl.Map !== 'function' || typeof maplibregl.Marker !== 'function' || !bounds) return null;
+			const rendererMode = context && context.rendererMode === '3d' ? '3d' : '2d';
 			const records = safeEntities(context.entities, bounds);
 			const presets = safePresets(context.cameraPresets);
 			const initialPreset = preferredIslandPreset(presets, bounds);
 			const config = reviewedConfig('maplibre', context.island);
+			if (!config || !ensurePmtilesProtocol(maplibregl)) return null;
+			const reviewedStyle = selfHostedMapLibreStyle(config, rendererMode);
+			if (!reviewedStyle) return null;
 			const host = makeHost(context.container, 'thp-di-map-canvas-maplibre', 'מפת התמצאות שימושית של קופנגן');
 			if (!host) return null;
+			host.dataset.rendererMode = rendererMode;
 
 			let map = null;
 			let destroyed = false;
+			let contextLostHandler = null;
+			let mapErrorHandler = null;
+			let readyTimer = 0;
+			let readySettled = false;
+			let settleReady = null;
 			const markers = new Map();
 			try {
-				const style = config && (typeof config.style === 'string' || isObject(config.style))
-					? config.style
-					: offlineMapLibreStyle();
 				const center = initialPreset
 					? [initialPreset.longitude, initialPreset.latitude]
 					: [(bounds.west + bounds.east) / 2, (bounds.south + bounds.north) / 2];
@@ -345,14 +297,52 @@
 					bearing: initialPreset ? initialPreset.heading : 0,
 					center,
 					container: host,
+					customAttribution: rendererMode === '3d' ? safeAttribution(config.satelliteAttribution) : '',
 					fadeDuration: context.reducedMotion ? 0 : 300,
 					maxBounds: [[bounds.west, bounds.south], [bounds.east, bounds.north]],
-					pitch: context.reducedMotion || !initialPreset ? 0 : clamp(Math.abs(initialPreset.pitch), 0, 70),
+					maxZoom: 16,
+					maxPitch: 60,
+					minZoom: 8,
+					pixelRatio: Math.min(isFiniteNumber(window.devicePixelRatio) ? window.devicePixelRatio : 1, 2),
+					pitch: rendererMode === '3d' && !context.reducedMotion && initialPreset
+						? clamp(Math.abs(initialPreset.pitch), 0, 60)
+						: 0,
+					pitchWithRotate: rendererMode === '3d',
 					renderWorldCopies: false,
-					style,
+					style: reviewedStyle,
+					touchPitch: rendererMode === '3d',
 					zoom: initialPreset ? heightToZoom(initialPreset.height, initialPreset.latitude) : 11,
 				});
 				if (!map || typeof map.remove !== 'function') throw new Error('maplibre-map-incomplete');
+				if (typeof map.getCanvas === 'function') {
+					const canvas = map.getCanvas();
+					if (canvas && typeof canvas.addEventListener === 'function') {
+						contextLostHandler = (event) => {
+							if (event && typeof event.preventDefault === 'function') event.preventDefault();
+							if (typeof context.onFailure === 'function') context.onFailure('webgl_context_lost');
+						};
+						canvas.addEventListener('webglcontextlost', contextLostHandler, { once: true });
+					}
+				}
+				const ready = new Promise((resolve) => {
+					settleReady = (available) => {
+						if (readySettled) return;
+						readySettled = true;
+						if (readyTimer) window.clearTimeout(readyTimer);
+						readyTimer = 0;
+						resolve(available === true);
+					};
+				});
+				readyTimer = window.setTimeout(() => settleReady(false), 8000);
+				if (typeof map.once === 'function') map.once('load', () => settleReady(true));
+				else settleReady(true);
+				if (typeof map.on === 'function') {
+					mapErrorHandler = () => {
+						if (!readySettled) settleReady(false);
+						else if (typeof context.onFailure === 'function') context.onFailure('map_source_error');
+					};
+					map.on('error', mapErrorHandler);
+				}
 
 				if (typeof maplibregl.NavigationControl === 'function' && typeof map.addControl === 'function') {
 					map.addControl(new maplibregl.NavigationControl({ showCompass: true, showZoom: true }), 'top-left');
@@ -387,7 +377,7 @@
 					const camera = {
 						bearing: preset.heading,
 						center: [preset.longitude, preset.latitude],
-						pitch: context.reducedMotion ? 0 : clamp(Math.abs(preset.pitch), 0, 70),
+						pitch: rendererMode === '3d' && !context.reducedMotion ? clamp(Math.abs(preset.pitch), 0, 60) : 0,
 						zoom: heightToZoom(preset.height, preset.latitude),
 					};
 					if (animate && !context.reducedMotion && typeof map.easeTo === 'function') map.easeTo({ ...camera, duration: 900 });
@@ -396,13 +386,19 @@
 				};
 
 				return {
-					capabilities: Object.freeze({ measurement_supported: false }),
+					ready,
+					capabilities: Object.freeze({
+						building_extrusion_supported: rendererMode === '3d',
+						globe_supported: rendererMode === '3d',
+						measurement_supported: false,
+						terrain_supported: rendererMode === '3d',
+					}),
 					focusEntity(entityId, options = {}) {
 						const item = markers.get(entityId);
 						if (!item || destroyed) return false;
 						const camera = {
 							center: [item.record.longitude, item.record.latitude],
-							pitch: context.reducedMotion ? 0 : 48,
+							pitch: rendererMode === '3d' && !context.reducedMotion ? 48 : 0,
 							zoom: Math.max(typeof map.getZoom === 'function' ? map.getZoom() : 13, 14),
 						};
 						if (options.animate && !context.reducedMotion && typeof map.easeTo === 'function') map.easeTo({ ...camera, duration: 700 });
@@ -420,6 +416,14 @@
 					destroy() {
 						if (destroyed) return;
 						destroyed = true;
+						if (readyTimer) window.clearTimeout(readyTimer);
+						readyTimer = 0;
+						if (!readySettled && settleReady) settleReady(false);
+						if (mapErrorHandler && typeof map.off === 'function') map.off('error', mapErrorHandler);
+						if (contextLostHandler && typeof map.getCanvas === 'function') {
+							const canvas = map.getCanvas();
+							if (canvas && typeof canvas.removeEventListener === 'function') canvas.removeEventListener('webglcontextlost', contextLostHandler);
+						}
 						markers.forEach((item) => {
 							if (item.marker && typeof item.marker.remove === 'function') item.marker.remove();
 						});
@@ -444,7 +448,6 @@
 	const adapters = isObject(window.ThailandDigitalIslandsAdapters)
 		? window.ThailandDigitalIslandsAdapters
 		: {};
-	if (!isObject(adapters.cesium) || typeof adapters.cesium.mount !== 'function') adapters.cesium = cesiumFactory;
 	if (!isObject(adapters.maplibre) || typeof adapters.maplibre.mount !== 'function') adapters.maplibre = mapLibreFactory;
 	window.ThailandDigitalIslandsAdapters = adapters;
 })();
@@ -532,19 +535,17 @@
 		}
 
 		available() {
-			const libraryReady = this.factoryKey === 'cesium'
-				? Boolean(window.Cesium)
-				: Boolean(window.maplibregl);
-			return supportsWebGL() && libraryReady && Boolean(this.factory());
+			return supportsWebGL() && Boolean(window.maplibregl) && Boolean(this.factory());
 		}
 
-		mount(context) {
+		async mount(context) {
 			const factory = this.factory();
 			if (!factory) return false;
 			this.destroy();
 			context.stage.replaceChildren();
+			let instance = null;
 			try {
-				this.instance = factory.mount({
+				instance = factory.mount({
 					container: context.stage,
 					island: context.island,
 					layers: context.layers,
@@ -552,13 +553,35 @@
 					cameraPresets: context.cameraPresets,
 					visibleLayerIds: context.visibleLayerIds,
 					reducedMotion: reducedMotion(),
+					rendererMode: this.id,
+					onFailure: context.onFailure,
 					selectEntity: context.selectEntity,
 				});
 			} catch (error) {
-				this.instance = null;
+				instance = null;
 			}
-			context.poster.hidden = Boolean(this.instance);
-			return Boolean(this.instance);
+			if (!instance) return false;
+			this.instance = instance;
+			context.poster.hidden = false;
+			if (instance.ready && typeof instance.ready.then === 'function') {
+				let ready = false;
+				try { ready = await instance.ready; } catch (error) { ready = false; }
+				if (this.instance !== instance) {
+					if (typeof instance.destroy === 'function') instance.destroy();
+					return false;
+				}
+				if (!ready) {
+					if (typeof instance.destroy === 'function') instance.destroy();
+					if (this.instance === instance) this.instance = null;
+					return false;
+				}
+			}
+			if (this.instance !== instance) {
+				if (typeof instance.destroy === 'function') instance.destroy();
+				return false;
+			}
+			context.poster.hidden = true;
+			return true;
 		}
 
 		focusEntity(entityId) {
@@ -587,15 +610,9 @@
 		}
 	}
 
-	class CesiumAdapter extends ExternalMapAdapter {
-		constructor() {
-			super('3d', 'cesium');
-		}
-	}
-
 	class MapLibreAdapter extends ExternalMapAdapter {
-		constructor() {
-			super('2d', 'maplibre');
+		constructor(id) {
+			super(id === '3d' ? '3d' : '2d', 'maplibre');
 		}
 	}
 
@@ -958,10 +975,10 @@
 	};
 
 	const adapterCandidates = (requested, adapters) => {
-		if (requested === 'list' || dataSaver() || reducedMotion()) return [adapters.list];
+		if (requested === 'list' || dataSaver()) return [adapters.list];
 		const candidates = [];
-		if (supportsWebGL() && requested === '3d' && adapters.cesium.available()) candidates.push(adapters.cesium);
-		if (supportsWebGL() && adapters.maplibre.available()) candidates.push(adapters.maplibre);
+		if (supportsWebGL() && requested === '3d' && !reducedMotion() && adapters.maplibre3d.available()) candidates.push(adapters.maplibre3d);
+		if (supportsWebGL() && adapters.maplibre2d.available()) candidates.push(adapters.maplibre2d);
 		if (requested === '3d' && adapters.orientation.available()) candidates.push(adapters.orientation);
 		candidates.push(adapters.list);
 		return candidates;
@@ -976,14 +993,16 @@
 		if (!stage || !poster || !status || !restBase) return;
 
 		const adapters = {
-			cesium: new CesiumAdapter(),
-			maplibre: new MapLibreAdapter(),
+			maplibre3d: new MapLibreAdapter('3d'),
+			maplibre2d: new MapLibreAdapter('2d'),
 			orientation: new OrientationSceneAdapter(),
 			list: new AccessibleListAdapter(),
 		};
 		let activeAdapter = adapters.list;
 		let payload = { island: null, cameraPresets: [], layers: [], entities: [] };
 		let drawer = null;
+		let rendererFailurePending = false;
+		let viewGeneration = 0;
 
 		const selectedLayerIds = () => Array.from(
 			root.querySelectorAll('[data-layer-filter]:checked'),
@@ -1079,9 +1098,15 @@
 			});
 			const coordinates = entity.coordinates;
 			const basis = coordinates && typeof coordinates.basis_label === 'string' ? coordinates.basis_label.trim() : '';
+			const accuracyM = coordinates && Number.isInteger(coordinates.accuracy_m) && coordinates.accuracy_m > 0
+				? Math.min(coordinates.accuracy_m, 5000)
+				: null;
+			const accuracy = accuracyM
+				? ` אי־ודאות מיקומית מתועדת: עד ${accuracyM.toLocaleString('he-IL')} מטר.`
+				: '';
 			detail.caveat.textContent = basis
-				? `בסיס הנקודה: ${basis}. הנקודה מיועדת להתמצאות ואינה אימות של חלקה, בעלות או זכויות בנייה.`
-				: 'הנקודה מיועדת להתמצאות בלבד ואינה אימות של חלקה, בעלות או זכויות בנייה.';
+				? `בסיס הנקודה: ${basis}.${accuracy} הנקודה מיועדת להתמצאות ואינה אימות של חלקה, בעלות או זכויות בנייה.`
+				: `${accuracy.trim()} הנקודה מיועדת להתמצאות בלבד ואינה אימות של חלקה, בעלות או זכויות בנייה.`.trim();
 			detail.openCard.onclick = () => {
 				const card = root.querySelector(`[data-entity-card][data-entity-id="${entityId}"]`);
 				if (!card) return;
@@ -1105,18 +1130,34 @@
 			layers: payload.layers,
 			entities: payload.entities,
 			visibleLayerIds: selectedLayerIds(),
+			onFailure: () => {
+				if (rendererFailurePending) return;
+				rendererFailurePending = true;
+				const fallback = activeAdapter.id === '3d' ? '2d' : 'list';
+				window.setTimeout(() => {
+					activateView(fallback);
+					rendererFailurePending = false;
+				}, 0);
+			},
 			selectEntity: (entityId) => selectEntity(entityId),
 		});
 
-		const activateView = (requested) => {
+		const activateView = async (requested) => {
+			const generation = ++viewGeneration;
 			activeAdapter.destroy();
 			const candidates = adapterCandidates(requested, adapters);
 			activeAdapter = adapters.list;
+			status.textContent = 'טוען את מפת קופנגן…';
 			for (const candidate of candidates) {
-				if (candidate.mount(context())) {
-					activeAdapter = candidate;
+				activeAdapter = candidate;
+				const mounted = await candidate.mount(context());
+				if (generation !== viewGeneration) {
+					return;
+				}
+				if (mounted) {
 					break;
 				}
+				if (activeAdapter === candidate) activeAdapter = adapters.list;
 			}
 			root.dataset.activeRenderer = activeAdapter.id;
 			root.dataset.measurementSupported = String(activeAdapter.measurementSupported());
@@ -1252,7 +1293,7 @@
 			});
 		}
 		if (searchInput) searchInput.value = initial.get('q') || '';
-		activateView(initial.get('view') || '3d');
+		await activateView(initial.get('view') || '3d');
 		applyFilters();
 		selectEntity(initial.get('entity'));
 

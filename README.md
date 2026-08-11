@@ -2,14 +2,31 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.5.0 boundary
+## Release 0.5.1 boundary
 
-Version 0.5.0 adds the first Digital Islands pilot: a searchable, interactive
-Koh Phangan world with 49 reviewed public records for settlements, roads,
-landmarks, government services, infrastructure and three map-only project
-identities. Private research candidates, held offers, internal review notes and
-unlicensed professional-service leads are not part of the public source,
-runtime or plugin package.
+Version 0.5.1 gives the Koh Phangan Digital Islands pilot a self-hosted map
+renderer. MapLibre GL JS 5.18.0 and PMTiles 4.5.0 load only on the exact map
+route. The 2D view uses a local Protomaps vector archive. The rotatable 3D view
+adds a local Sentinel-2 orientation image observed on 26 March 2026, local
+Terrarium elevation, terrain and hillshade. Data-saver requests keep the
+list-only view, reduced motion starts in 2D, and the accessible static list
+remains available when the graphical renderer cannot start.
+
+The renderer release boundary contains exactly 65 immutable assets: five
+pinned vendor files including complete MapLibre, PMTiles and bundled fflate
+license notices, one vector archive, one Sentinel WebP derivative and 58
+terrain PNG tiles at zoom levels 8 through 13. `renderer-manifest.json` records
+the exact identity, bounds, attribution, byte count and SHA-256 hash of every
+file. Runtime readiness, package construction and release-receipt verification
+all fail closed when the manifest, filesystem or ZIP differs.
+
+The pilot still contains exactly 49 reviewed public records for settlements,
+roads, landmarks, government services, infrastructure and three map-only
+project identities. Twenty-seven records currently have reviewed coordinates;
+the remaining reviewed records stay discoverable in the list instead of being
+given invented pins. Private research candidates, held offers, internal review
+notes and unlicensed professional-service leads are not part of the public
+source, runtime or plugin package.
 
 The release expands the canonical geography spine with seven districts, 34
 subdistricts and six physical islands. The Koh Phangan page has one SEO owner,
@@ -20,11 +37,10 @@ is publicly ready.
 
 Digital Islands has an independent Off, Canary and Live control plus an exact
 WordPress page-ID binding. Live mode requires the reviewed artifact, a
-published password-free page at the exact path and all local assets. CesiumJS
-and MapLibre adapters are present for a future pinned terrain release, but
-their external engines and terrain data are deliberately marked pending in
-0.5.0. The current release keeps an accessible interactive orientation world
-and full static list available without those dependencies.
+published password-free page at the exact path and every manifested local
+renderer asset. The map is an orientation interface, not parcel, title,
+buildability, boundary, measurement or navigation evidence. It does not claim
+photorealistic buildings or walking-level coverage.
 
 The public healthcheck confirms that the compiled geography artifact can be
 loaded. Upgrade and activation still create no content, options, tables,
@@ -69,16 +85,48 @@ node --check scripts/live_real_estate_acceptance.cjs
 node --check scripts/live_seo_migration_acceptance.cjs
 node --check scripts/live_sitewide_acceptance.cjs
 node --check scripts/live_digital_island_acceptance.cjs
+node --check scripts/local_digital_island_browser_acceptance.cjs
+node --check tests/fixtures/digital-islands-browser-probe.js
+node --check tests/fixtures/digital-islands-browser-server.cjs
+node --check tests/fixtures/digital-islands-live-browser-probe.js
 node tests/live-sitewide-acceptance.test.cjs
 node tests/digital-islands-adapters.test.js
 node tests/digital-island-live-acceptance.test.cjs
+node scripts/live_digital_island_acceptance.cjs --source-only
+node scripts/local_digital_island_browser_acceptance.cjs
 ```
+
+The local browser acceptance command uses the pinned
+`@playwright/cli@0.1.18` runner to execute seven real-browser scenarios against
+the vendored MapLibre/PMTiles stack. It verifies 3D and 2D rendering, mobile,
+reduced motion, data saver, no-WebGL and source-failure behavior; it writes its
+report, screenshots and console receipts outside the repository under the
+sibling `work/output/` directory. A release build repeats this gate and records
+a bounded evidence summary in its strict receipt, while the QA harness and
+fixtures remain outside the plugin ZIP.
+
+After a candidate is deployed, the separate live acceptance requires the
+reviewed WordPress page ID and must be run against that exact origin:
+
+```powershell
+$env:THP_BASE_URL = 'https://thai-land.co.il/'
+$env:THP_DIGITAL_ISLAND_PAGE_ID = '<reviewed WordPress page ID>'
+node scripts/live_digital_island_acceptance.cjs
+```
+
+That live gate compares the served plugin and all 65 renderer assets with the
+reviewed local bytes, checks safe MIME, cache and `nosniff` headers, requires a
+PMTiles Range response with HTTP 206 and an exact `Content-Range`, and drives a
+real browser until `activeRenderer=3d` with local terrain, Sentinel imagery and
+entity interaction. Its source-only mode and dependency-free contract test are
+release checks, but neither is recorded as proof that production passed.
 
 The deterministic builder includes only the exact sorted inventory in
 `package-files.txt`, validates the plugin/readme/manifest release contract,
-runs PHP lint and the dependency-free contract tests, applies a named secret
-scan, reopens the ZIP, compares every packaged byte with source, and writes a
-SHA-256 receipt bound to the reviewed Git commit.
+verifies all 65 renderer receipts and source notices, runs PHP lint and the
+dependency-free contract tests, repeats the pinned real-browser renderer gate,
+applies a named secret scan, reopens the ZIP, compares every packaged byte with
+source, and writes a SHA-256 receipt bound to the reviewed Git commit.
 
 From a clean, reviewed commit, use the trusted release wrapper:
 

@@ -98,14 +98,19 @@ jobs:
           node --check scripts/live_digital_island_acceptance.cjs
           node --check scripts/live_guides_acceptance.cjs
           node --check scripts/live_homepage_acceptance.cjs
+          node --check scripts/local_digital_island_browser_acceptance.cjs
           node --check scripts/live_real_estate_acceptance.cjs
           node --check scripts/live_seo_migration_acceptance.cjs
           node --check scripts/live_sitewide_acceptance.cjs
           node --check tests/live-sitewide-acceptance.test.cjs
           node --check tests/digital-island-live-acceptance.test.cjs
+          node --check tests/fixtures/digital-islands-browser-probe.js
+          node --check tests/fixtures/digital-islands-browser-server.cjs
+          node --check tests/fixtures/digital-islands-live-browser-probe.js
           node tests/live-sitewide-acceptance.test.cjs
           node tests/digital-islands-adapters.test.js
           node tests/digital-island-live-acceptance.test.cjs
+          node scripts/live_digital_island_acceptance.cjs --source-only
           node tests/tawk-state.test.js
 
       - name: Lint PHP
@@ -122,9 +127,25 @@ jobs:
 
       - name: Build release candidate on minimum PHP
         if: matrix.php == '7.4'
-        run: >-
-          python scripts/build_plugin_zip.py
-          --root .
-          --out "$RUNNER_TEMP/thailand-platform.zip"
-          --php-bin "$(command -v php)"
-          --source-commit "$GITHUB_SHA"
+        run: |
+          version="$(python scripts/read_release_version.py release.json)"
+          artifact="$RUNNER_TEMP/thailand-platform.zip"
+          receipt="$RUNNER_TEMP/thailand-platform.receipt.json"
+          expected_path="plugin-dist/$version/thailand-platform-$version.zip"
+          python scripts/build_plugin_zip.py \
+            --root . \
+            --out "$artifact" \
+            --php-bin "$(command -v php)" \
+            --node-bin "$(command -v node)" \
+            --source-commit "$GITHUB_SHA" \
+            --receipt-artifact-path "$expected_path"
+          python scripts/verify_release_receipt.py \
+            --receipt "$receipt" \
+            --artifact "$artifact" \
+            --source-root . \
+            --source-commit "$GITHUB_SHA" \
+            --version "$version" \
+            --expected-path "$expected_path" \
+            --python-bin "$(command -v python)" \
+            --php-bin "$(command -v php)" \
+            --node-bin "$(command -v node)"

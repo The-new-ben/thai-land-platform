@@ -20,6 +20,7 @@ SCHEMA = ROOT / "data" / "digital-islands" / "island-world.schema.json"
 REGISTRY = ROOT / "resources" / "digital-islands" / "registry.php"
 MANIFEST = ROOT / "resources" / "digital-islands" / "manifest.json"
 BUILDER = ROOT / "scripts" / "build_digital_island_registry.py"
+NOTICES = ROOT / "THIRD-PARTY-DATA-NOTICES.md"
 
 spec = importlib.util.spec_from_file_location("digital_island_builder", BUILDER)
 if spec is None or spec.loader is None:
@@ -70,7 +71,7 @@ class DigitalIslandDataTest(unittest.TestCase):
     def test_live_projection_is_exact_and_manifest_bound(self) -> None:
         self.assertEqual("live", self.data["publication_state"])
         self.assertEqual("index", self.data["canonical"]["indexing_policy"])
-        self.assertEqual(32, self.manifest["counts"]["sources"])
+        self.assertEqual(38, self.manifest["counts"]["sources"])
         self.assertEqual(49, self.manifest["counts"]["entities"])
         self.assertEqual(49, self.manifest["counts"]["canary_map_entities"])
         self.assertEqual(49, self.manifest["counts"]["public_map_entities"])
@@ -84,13 +85,76 @@ class DigitalIslandDataTest(unittest.TestCase):
     def test_two_renderer_contract_is_shared(self) -> None:
         renderers = {item["renderer_id"]: item for item in self.data["renderer_contract"]}
         self.assertEqual({"immersive_3d", "practical_2d"}, set(renderers))
-        self.assertEqual("CesiumJS", renderers["immersive_3d"]["library"])
-        self.assertEqual("MapLibre GL JS", renderers["practical_2d"]["library"])
-        self.assertTrue(all(item["delivery"] == "dependency_pending" for item in renderers.values()))
-        self.assertIn("keyboard_list", renderers["practical_2d"]["capabilities"])
-        self.assertIn("reduced_motion", renderers["immersive_3d"]["fallback_triggers"])
+        self.assertTrue(all(item["library"] == "MapLibre GL JS" for item in renderers.values()))
+        self.assertTrue(all(item["library_version"] == "5.18.0" for item in renderers.values()))
+        self.assertTrue(all(item["delivery"] == "self_hosted_pinned" for item in renderers.values()))
+        self.assertEqual(
+            ["camera_presets", "entity_focus", "globe", "hillshade", "terrain", "building_extrusion", "satellite_imagery"],
+            renderers["immersive_3d"]["capabilities"],
+        )
+        self.assertEqual(
+            ["camera_presets", "entity_focus", "filters", "keyboard_list", "vector_basemap"],
+            renderers["practical_2d"]["capabilities"],
+        )
+        self.assertEqual(
+            ["webgl_unavailable", "data_saver", "user_choice"],
+            renderers["immersive_3d"]["fallback_triggers"],
+        )
+        self.assertEqual([], renderers["practical_2d"]["fallback_triggers"])
         for item in renderers.values():
-            self.assertTrue({"terrain", "3d_tiles", "measurement"}.isdisjoint(item["capabilities"]))
+            claims = " ".join(item["capabilities"])
+            for forbidden in ("measurement", "offline", "parcel", "buildability", "photorealism", "walking"):
+                self.assertNotIn(forbidden, claims)
+        self.assertIn("satellite_imagery", renderers["immersive_3d"]["capabilities"])
+        self.assertNotIn("satellite_imagery", renderers["practical_2d"]["capabilities"])
+        self.assertIn(builder.SATELLITE_SOURCE_ID, renderers["immersive_3d"]["source_ids"])
+        self.assertNotIn(builder.SATELLITE_SOURCE_ID, renderers["practical_2d"]["source_ids"])
+        self.assertNotIn("source:cesiumjs.docs", self.sources)
+        builder.validate_renderer_contract(self.data["renderer_contract"], self.sources)
+
+    def test_renderer_overclaim_fails_closed(self) -> None:
+        mutated = copy.deepcopy(self.data["renderer_contract"])
+        mutated[0]["capabilities"].append("measurement")
+        with self.assertRaises(builder.BuildError):
+            builder.validate_renderer_contract(mutated, self.sources)
+
+    def test_local_map_attributions_and_licenses_are_preserved(self) -> None:
+        notices = NOTICES.read_text(encoding="utf-8")
+        self.assertIn("Protomaps © OpenStreetMap contributors", notices)
+        self.assertIn(
+            "Mapzen Terrain Tiles; SRTM and GMTED2010 data courtesy of the U.S. Geological",
+            notices,
+        )
+        self.assertIn("ETOPO1 courtesy of NOAA/NCEI. Not for navigation.", notices)
+        self.assertIn("ESA WorldCover 2021", notices)
+        self.assertIn("CC BY 4.0", notices)
+        self.assertIn("maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt", notices)
+        self.assertIn("pmtiles/4.5.0/pmtiles.LICENSE.txt", notices)
+
+    def test_satellite_source_is_exact_historical_orientation_evidence(self) -> None:
+        source = self.sources[builder.SATELLITE_SOURCE_ID]
+        self.assertEqual(builder.EXPECTED_SATELLITE_SOURCE, source)
+        imagery = source["imagery"]
+        self.assertEqual("S2B_47PPL_20260326_0_L2A", imagery["item_id"])
+        self.assertEqual("2026-03-26T03:55:36.171000Z", imagery["observed_at"])
+        self.assertEqual(14.307985, imagery["tile_cloud_cover_percent"])
+        self.assertEqual("source_tile_not_cropped_island", imagery["tile_cloud_metadata_scope"])
+        self.assertEqual({"west": 99.92, "south": 9.63, "east": 100.12, "north": 9.84}, imagery["processed_bounds"])
+        self.assertEqual("orientation_only", imagery["usage_scope"])
+        self.assertEqual(
+            ["not_current_evidence", "not_parcel_evidence", "not_title_evidence", "not_buildability_evidence"],
+            imagery["limitations"],
+        )
+        notices = NOTICES.read_text(encoding="utf-8")
+        self.assertIn("Contains modified Copernicus Sentinel data 2026", notices)
+        self.assertIn("https://registry.opendata.aws/sentinel-2-l2a-cogs/", notices)
+        self.assertIn("https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice", notices)
+        builder.validate_satellite_source(self.sources)
+
+        mutated = copy.deepcopy(self.sources)
+        mutated[builder.SATELLITE_SOURCE_ID]["imagery"]["tile_cloud_cover_percent"] = 1.0
+        with self.assertRaises(builder.BuildError):
+            builder.validate_satellite_source(mutated)
 
     def test_land_safety_policy_cannot_emit_a_verdict(self) -> None:
         policy = self.data["land_decision_policy"]
