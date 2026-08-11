@@ -1789,8 +1789,8 @@ def main() -> int:
             "deterministic_zip": True,
             "builder": {
                 "python_executable": {
-                    "name": Path(sys.executable).name,
-                    "sha256": sha256_bytes(Path(sys.executable).read_bytes()),
+                    "name": Path(sys.executable).resolve().name,
+                    "sha256": sha256_bytes(Path(sys.executable).resolve().read_bytes()),
                 },
                 "python_runtime": sys.version.splitlines()[0],
                 "script_sha256": sha256_bytes(Path(__file__).read_bytes()),
