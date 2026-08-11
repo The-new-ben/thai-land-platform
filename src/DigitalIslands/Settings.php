@@ -285,7 +285,7 @@ final class Settings {
 			return $status;
 		}
 		$page_uri = function_exists( 'get_page_uri' ) ? get_page_uri( $page_id ) : '';
-		if ( ! is_string( $page_uri ) || Context::normalize_path( '/' . trim( $page_uri, '/' ) . '/' ) !== $canonical_path ) {
+		if ( ! is_string( $page_uri ) || Context::stored_page_uri_path( $page_uri ) !== $canonical_path ) {
 			$status['code']    = 'wrong_permalink';
 			$status['message'] = 'ID ' . $page_id . ' does not own the exact page URI ' . $canonical_path . '.';
 			return $status;
@@ -344,7 +344,7 @@ final class Settings {
 			return $status;
 		}
 		$page_uri = function_exists( 'get_page_uri' ) ? get_page_uri( $page_id ) : '';
-		if ( ! is_string( $page_uri ) || Context::normalize_path( '/' . trim( $page_uri, '/' ) . '/' ) !== $canonical_path ) {
+		if ( ! is_string( $page_uri ) || Context::stored_page_uri_path( $page_uri ) !== $canonical_path ) {
 			$status['code']    = 'wrong_permalink';
 			$status['message'] = 'ID ' . $page_id . ' does not own the exact page URI ' . $canonical_path . '.';
 			return $status;
@@ -399,15 +399,7 @@ final class Settings {
 
 	/** @param string $url Absolute or relative URL. @return string */
 	private static function safe_path( $url ) {
-		$path = wp_parse_url( (string) $url, PHP_URL_PATH );
-		if ( ! is_string( $path ) || '' === $path || preg_match( '/%(?:2f|5c)/i', $path ) ) {
-			return '';
-		}
-		$path = rawurldecode( $path );
-		if ( false !== strpos( $path, '\\' ) || false !== strpos( $path, '//' ) || false !== strpos( $path, "\0" ) ) {
-			return '';
-		}
-		return Context::normalize_path( $path );
+		return Context::safe_url_path( $url );
 	}
 
 	/** @return void */

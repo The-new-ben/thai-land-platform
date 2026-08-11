@@ -13,6 +13,7 @@ $test_post = array(
 	'status'   => 'publish',
 	'password' => '',
 	'required' => false,
+	'page_uri' => '%d7%9e%d7%a4%d7%aa-%d7%a7%d7%95%d7%a4%d7%a0%d7%92%d7%9f',
 	'permalink' => 'https://thai-land.co.il/%D7%9E%D7%A4%D7%AA-%D7%A7%D7%95%D7%A4%D7%A0%D7%92%D7%9F/?utm_source=test',
 );
 
@@ -58,7 +59,7 @@ function get_permalink( $post_id ) {
 }
 function get_page_uri( $post_id ) {
 	global $test_post;
-	return $post_id === $test_post['id'] ? 'מפת-קופנגן' : false;
+	return $post_id === $test_post['id'] ? $test_post['page_uri'] : false;
 }
 
 require_once $root . '/src/DigitalIslands/StrictJson.php';
@@ -68,6 +69,7 @@ require_once $root . '/src/DigitalIslands/Context.php';
 require_once $root . '/src/DigitalIslands/FeatureFlag.php';
 require_once $root . '/src/DigitalIslands/Settings.php';
 
+use Thailand_Platform\DigitalIslands\Context;
 use Thailand_Platform\DigitalIslands\FeatureFlag;
 use Thailand_Platform\DigitalIslands\Settings;
 
@@ -102,10 +104,28 @@ $assert( 0 === $submitted_page_id->invoke( null, array( 731 ) ), 'A non-scalar p
 $page_status = $reflection->getMethod( 'page_status' );
 $page_status->setAccessible( true );
 $ready = $page_status->invoke( null, 731 );
-$assert( true === $ready['ready'] && 'ready' === $ready['code'], 'A matching published page with a UTM query should pass exact path identity.' );
+$assert( true === $ready['ready'] && 'ready' === $ready['code'], 'A percent-encoded Hebrew page URI with the exact permalink should pass identity.' );
+$assert( $ready['canonical_path'] === Context::stored_page_uri_path( $test_post['page_uri'] ), 'The real WordPress-style encoded page URI did not normalize to the reviewed canonical.' );
 $canary_page_status = $reflection->getMethod( 'canary_page_status' );
 $canary_page_status->setAccessible( true );
-$assert( true === $canary_page_status->invoke( null, 731 )['ready'], 'A matching published page should pass Canary identity.' );
+$assert( true === $canary_page_status->invoke( null, 731 )['ready'], 'A matching encoded page URI should pass Canary identity.' );
+
+$safe_page_uri = $test_post['page_uri'];
+foreach (
+	array(
+		$safe_page_uri . '%zz',
+		$safe_page_uri . '%2fchild',
+		'%2e%2e/' . $safe_page_uri,
+		$safe_page_uri . '%00',
+		str_replace( '%', '%25', $safe_page_uri ),
+		$safe_page_uri . chr( 1 ),
+	) as $unsafe_page_uri
+) {
+	$test_post['page_uri'] = $unsafe_page_uri;
+	$assert( 'wrong_permalink' === $page_status->invoke( null, 731 )['code'], 'Live settings accepted an unsafe stored page URI.' );
+	$assert( 'wrong_permalink' === $canary_page_status->invoke( null, 731 )['code'], 'Canary settings accepted an unsafe stored page URI.' );
+}
+$test_post['page_uri'] = $safe_page_uri;
 
 $test_post['type'] = 'post';
 $assert( 'wrong_type' === $page_status->invoke( null, 731 )['code'], 'A non-page object must be rejected.' );

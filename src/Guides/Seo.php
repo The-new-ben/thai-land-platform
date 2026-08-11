@@ -8,6 +8,9 @@
 namespace Thailand_Platform\Guides;
 
 final class Seo {
+	/** @var bool */
+	private $canonical_emitted = false;
+
 	/**
 	 * @return void
 	 */
@@ -33,14 +36,15 @@ final class Seo {
 		add_filter( 'wpseo_twitter_image', array( $this, 'image' ) );
 		add_filter( 'wpseo_schema_graph', array( $this, 'yoast_schema_graph' ) );
 		add_filter( 'wp_headers', array( $this, 'headers' ) );
+		add_action( 'wp_head', array( $this, 'canonical_meta' ), 1 );
 		add_action( 'wp_head', array( $this, 'modified_time_meta' ), 18 );
 	}
 
 	/**
-	 * Remove Yoast's database-backed modified-time tag for managed documents.
+	 * Remove Yoast metadata presenters owned by the managed document.
 	 *
-	 * The reviewed guide artifact owns freshness while stored post bodies remain
-	 * untouched for immediate Off-mode recovery.
+	 * The reviewed guide artifact owns its canonical URL and freshness while
+	 * stored post bodies remain untouched for immediate Off-mode recovery.
 	 *
 	 * @param array $presenters Yoast presenter instances.
 	 * @return array
@@ -54,13 +58,35 @@ final class Seo {
 			array_filter(
 				$presenters,
 				static function ( $presenter ) {
-					return ! is_object( $presenter ) || ! is_a(
-						$presenter,
-						'Yoast\\WP\\SEO\\Presenters\\Open_Graph\\Article_Modified_Time_Presenter'
-					);
+					if ( ! is_object( $presenter ) ) {
+						return true;
+					}
+
+					return ! is_a( $presenter, 'Yoast\\WP\\SEO\\Presenters\\Canonical_Presenter' )
+						&& ! is_a( $presenter, 'Yoast\\WP\\SEO\\Presenters\\Open_Graph\\Article_Modified_Time_Presenter' );
 				}
 			)
 		);
+	}
+
+	/**
+	 * Emit the one canonical owned by the reviewed route.
+	 *
+	 * This runs before core's singular canonical callback. Yoast's equivalent is
+	 * removed through the presenter filter above, including on noindex routes
+	 * where Yoast may omit the presenter on its own.
+	 *
+	 * @return void
+	 */
+	public function canonical_meta() {
+		$route = Context::route();
+		if ( $this->canonical_emitted || ! is_array( $route ) || ! Context::should_render() ) {
+			return;
+		}
+
+		remove_action( 'wp_head', 'rel_canonical' );
+		$this->canonical_emitted = true;
+		echo '<link rel="canonical" href="' . esc_url( home_url( $route['path'] ) ) . '">' . "\n";
 	}
 
 	/**

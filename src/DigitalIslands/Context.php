@@ -137,7 +137,7 @@ final class Context {
 
 		$canonical = self::normalize_path( Repository::canonical_path() );
 		$page_uri  = function_exists( 'get_page_uri' ) ? get_page_uri( $post_id ) : '';
-		if ( ! is_string( $page_uri ) || $canonical !== self::normalize_path( '/' . trim( $page_uri, '/' ) . '/' ) ) {
+		if ( ! is_string( $page_uri ) || $canonical !== self::stored_page_uri_path( $page_uri ) ) {
 			return false;
 		}
 
@@ -169,7 +169,7 @@ final class Context {
 		) {
 			return false;
 		}
-		return self::url_path( $permalink ) === $canonical;
+		return self::safe_url_path( $permalink ) === $canonical;
 	}
 
 	/** @param int $post_id WordPress page ID. @return bool */
@@ -237,19 +237,72 @@ final class Context {
 	/** @return string */
 	public static function request_path() {
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
-		return self::url_path( $request_uri );
+		return self::safe_url_path( $request_uri );
 	}
 
-	/** @param string $url Absolute or site-relative URL. @return string */
-	private static function url_path( $url ) {
+	/**
+	 * Decode a URL path once and reject ambiguous or unsafe encodings.
+	 *
+	 * @param string $url Absolute or site-relative URL.
+	 * @return string
+	 */
+	public static function safe_url_path( $url ) {
 		$path = wp_parse_url( (string) $url, PHP_URL_PATH );
-		if ( ! is_string( $path ) || preg_match( '/%(?:2f|5c)/i', $path ) ) {
+		if ( ! is_string( $path ) ) {
+			return '';
+		}
+		return self::decode_path( $path );
+	}
+
+	/**
+	 * WordPress stores non-ASCII post_name values URI-encoded. Decode that one
+	 * relative page URI without accepting encoded separators or traversal.
+	 *
+	 * @param string $page_uri Raw get_page_uri() value.
+	 * @return string
+	 */
+	public static function stored_page_uri_path( $page_uri ) {
+		if (
+			! is_string( $page_uri )
+			|| '' === $page_uri
+			|| '/' === substr( $page_uri, 0, 1 )
+			|| '/' === substr( $page_uri, -1 )
+			|| false !== strpos( $page_uri, '?' )
+			|| false !== strpos( $page_uri, '#' )
+		) {
+			return '';
+		}
+		return self::decode_path( '/' . $page_uri . '/' );
+	}
+
+	/** @param string $path Raw URL path. @return string */
+	private static function decode_path( $path ) {
+		if (
+			'' === $path
+			|| preg_match( '/%(?![0-9a-f]{2})/i', $path )
+			|| preg_match( '/%(?:2f|5c)/i', $path )
+		) {
 			return '';
 		}
 
 		$path = rawurldecode( $path );
-		if ( false !== strpos( $path, '\\' ) || false !== strpos( $path, '//' ) || false !== strpos( $path, "\0" ) ) {
+		if (
+			1 !== preg_match( '//u', $path )
+			|| preg_match( '/[\x00-\x1f\x7f]/', $path )
+			|| false !== strpos( $path, '\\' )
+			|| false !== strpos( $path, '//' )
+			|| false !== strpos( $path, '%' )
+		) {
 			return '';
+		}
+
+		$trimmed = trim( $path, '/' );
+		if ( '' !== $trimmed ) {
+			foreach ( explode( '/', $trimmed ) as $segment ) {
+				if ( '' === $segment || '.' === $segment || '..' === $segment ) {
+					return '';
+				}
+			}
 		}
 
 		return self::normalize_path( $path );

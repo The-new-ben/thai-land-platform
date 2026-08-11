@@ -28,6 +28,7 @@ $GLOBALS['thp_guides_test_script_data']  = array();
 $GLOBALS['thp_guides_test_status_headers'] = array();
 $GLOBALS['thp_guides_test_nocache_calls']  = 0;
 $GLOBALS['thp_guides_test_cache_flush_calls'] = 0;
+$GLOBALS['thp_guides_test_removed_actions'] = array();
 
 function thp_guides_assert( $condition, $message ) {
 	if ( ! $condition ) {
@@ -53,6 +54,11 @@ function add_action( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
 
 function add_filter( $hook, $callback, $priority = 10, $accepted_args = 1 ) {
 	thp_guides_register_hook( 'thp_guides_test_filters', $hook, $callback, $priority, $accepted_args );
+}
+
+function remove_action( $hook, $callback, $priority = 10 ) {
+	$GLOBALS['thp_guides_test_removed_actions'][] = compact( 'hook', 'callback', 'priority' );
+	return true;
 }
 
 function thp_guides_apply_filters( $hook, $value ) {
@@ -270,9 +276,14 @@ use Thailand_Platform\Guides\Settings as Guide_Settings;
 use Thailand_Platform\Guides\View as Guide_View;
 
 class Thp_Guides_Test_Modified_Time_Presenter {}
+class Thp_Guides_Test_Canonical_Presenter {}
 class_alias(
 	'Thp_Guides_Test_Modified_Time_Presenter',
 	'Yoast\\WP\\SEO\\Presenters\\Open_Graph\\Article_Modified_Time_Presenter'
+);
+class_alias(
+	'Thp_Guides_Test_Canonical_Presenter',
+	'Yoast\\WP\\SEO\\Presenters\\Canonical_Presenter'
 );
 
 ( new Guide_Module() )->register();
@@ -466,11 +477,24 @@ $robots = $seo->robots( array( 'noindex' => true, 'nofollow' => true ) );
 thp_guides_assert( isset( $robots['index'], $robots['follow'] ) && ! isset( $robots['noindex'], $robots['nofollow'] ), 'live robots mismatch' );
 $presenters = $seo->yoast_frontend_presenters(
 	array(
+		new Thp_Guides_Test_Canonical_Presenter(),
 		new Thp_Guides_Test_Modified_Time_Presenter(),
 		new stdClass(),
 	)
 );
-thp_guides_assert( 1 === count( $presenters ) && $presenters[0] instanceof stdClass, 'stale Yoast modified-time presenter was not removed' );
+thp_guides_assert( 1 === count( $presenters ) && $presenters[0] instanceof stdClass, 'Yoast-owned canonical or modified-time presenter was not removed' );
+$removed_actions_before = count( $GLOBALS['thp_guides_test_removed_actions'] );
+ob_start();
+$seo->canonical_meta();
+$seo->canonical_meta();
+$entry_canonical_markup = ob_get_clean();
+thp_guides_assert(
+	'<link rel="canonical" href="' . esc_url( home_url( $entry['path'] ) ) . '">' . "\n" === $entry_canonical_markup,
+	'indexed route did not emit exactly one escaped route canonical'
+);
+thp_guides_assert( $removed_actions_before + 1 === count( $GLOBALS['thp_guides_test_removed_actions'] ), 'indexed route did not suppress core canonical exactly once' );
+$removed_canonical_action = $GLOBALS['thp_guides_test_removed_actions'][ $removed_actions_before ];
+thp_guides_assert( 'wp_head' === $removed_canonical_action['hook'] && 'rel_canonical' === $removed_canonical_action['callback'], 'indexed route removed the wrong core callback' );
 ob_start();
 $seo->modified_time_meta();
 $modified_time_markup = ob_get_clean();
@@ -511,9 +535,28 @@ thp_guides_assert(
 );
 $GLOBALS['thp_guides_test_permalinks'][1] = home_url( $entry['path'] );
 
-thp_guides_set_request( Guide_FeatureFlag::MODE_LIVE, 62, '/החל-מאפריל-2022-מטיילים-יורשו-להיכנס-לתאי/' );
-$historical_robots = $seo->robots( array() );
+$historical = Guide_Repository::route_by_id( 'thailand-entry-april-2022' );
+thp_guides_set_request( Guide_FeatureFlag::MODE_LIVE, 62, $historical['path'] );
+$historical_seo = new Guide_Seo();
+$historical_robots = $historical_seo->robots( array() );
 thp_guides_assert( isset( $historical_robots['noindex'], $historical_robots['follow'] ) && ! isset( $historical_robots['index'] ), 'historical noindex/follow mismatch' );
+$historical_presenters = $historical_seo->yoast_frontend_presenters(
+	array(
+		new Thp_Guides_Test_Canonical_Presenter(),
+		new stdClass(),
+	)
+);
+thp_guides_assert( 1 === count( $historical_presenters ) && $historical_presenters[0] instanceof stdClass, 'historical noindex route retained Yoast canonical presenter' );
+$removed_actions_before = count( $GLOBALS['thp_guides_test_removed_actions'] );
+ob_start();
+$historical_seo->canonical_meta();
+$historical_seo->canonical_meta();
+$historical_canonical_markup = ob_get_clean();
+thp_guides_assert(
+	'<link rel="canonical" href="' . esc_url( home_url( $historical['path'] ) ) . '">' . "\n" === $historical_canonical_markup,
+	'historical noindex route did not emit exactly one escaped route canonical'
+);
+thp_guides_assert( $removed_actions_before + 1 === count( $GLOBALS['thp_guides_test_removed_actions'] ), 'historical noindex route did not suppress core canonical exactly once' );
 
 thp_guides_set_request( Guide_FeatureFlag::MODE_LIVE, 1, '/hello-world-extra/' );
 thp_guides_assert( null === Guide_Context::route(), 'near-prefix path matched' );
@@ -533,8 +576,13 @@ $off_exclusions = array( 9001 );
 thp_guides_assert( $off_exclusions === $seo->sitemap_excluded_post_ids( $off_exclusions ), 'Off mode changed Yoast sitemap exclusions' );
 $off_entry = array( 'loc' => home_url( $entry['path'] ), 'mod' => 'legacy' );
 thp_guides_assert( $off_entry === $seo->sitemap_entry( $off_entry, 'post', (object) array( 'ID' => 1, 'post_type' => 'post' ) ), 'Off mode changed a Yoast sitemap entry' );
-$off_presenters = array( new Thp_Guides_Test_Modified_Time_Presenter() );
+$off_presenters = array( new Thp_Guides_Test_Canonical_Presenter(), new Thp_Guides_Test_Modified_Time_Presenter() );
 thp_guides_assert( $off_presenters === $seo->yoast_frontend_presenters( $off_presenters ), 'Off mode removed a Yoast presenter' );
+$removed_actions_before = count( $GLOBALS['thp_guides_test_removed_actions'] );
+ob_start();
+( new Guide_Seo() )->canonical_meta();
+$off_canonical_markup = ob_get_clean();
+thp_guides_assert( '' === $off_canonical_markup && $removed_actions_before === count( $GLOBALS['thp_guides_test_removed_actions'] ), 'Off mode changed canonical ownership' );
 ob_start();
 $seo->modified_time_meta();
 $off_modified_time_markup = ob_get_clean();
@@ -605,7 +653,6 @@ Guide_View::sources( $entry );
 $sources_markup = ob_get_clean();
 thp_guides_assert( false !== strpos( $sources_markup, '<bdi dir="auto">' ) && false !== strpos( $sources_markup, 'dir="ltr"' ), 'mixed-script source markup mismatch' );
 
-$historical = Guide_Repository::route_by_id( 'thailand-entry-april-2022' );
 $law_hub    = Guide_Repository::route_by_id( 'thailand-law-and-tax' );
 $GLOBALS['thp_guides_test_statuses'][1]   = 'publish';
 $GLOBALS['thp_guides_test_statuses'][846] = 'draft';

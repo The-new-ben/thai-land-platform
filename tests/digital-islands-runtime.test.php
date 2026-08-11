@@ -368,9 +368,24 @@ di_assert( FeatureFlag::MODE_LIVE === FeatureFlag::sanitize( 'live' ), 'Live sta
 di_assert( FeatureFlag::MODE_OFF === FeatureFlag::mode(), 'Default mode is not Off.' );
 
 $canonical_path = Repository::canonical_path();
-$GLOBALS['di_page']['page_uri'] = trim( $canonical_path, '/' );
+$encoded_page_uri = strtolower( rawurlencode( trim( $canonical_path, '/' ) ) );
+$GLOBALS['di_page']['page_uri'] = $encoded_page_uri;
 $GLOBALS['di_options'][ FeatureFlag::PAGE_ID_OPTION ] = $GLOBALS['di_page']['ID'];
 $GLOBALS['di_options'][ FeatureFlag::OPTION ] = FeatureFlag::MODE_CANARY;
+di_assert( false !== strpos( $encoded_page_uri, '%d7' ), 'The page URI fixture does not emulate WordPress UTF-8 slug storage.' );
+di_assert( $canonical_path === Context::stored_page_uri_path( $encoded_page_uri ), 'A WordPress-encoded Hebrew page URI did not decode to the canonical path.' );
+foreach (
+	array(
+		$encoded_page_uri . '%zz',
+		$encoded_page_uri . '%2fchild',
+		'%2e%2e/' . $encoded_page_uri,
+		$encoded_page_uri . '%00',
+		str_replace( '%', '%25', $encoded_page_uri ),
+		$encoded_page_uri . chr( 1 ),
+	) as $unsafe_page_uri
+) {
+	di_assert( '' === Context::stored_page_uri_path( $unsafe_page_uri ), 'An unsafe stored page URI was accepted: ' . bin2hex( $unsafe_page_uri ) );
+}
 $_SERVER['REQUEST_URI'] = $canonical_path . '?preview=true';
 $GLOBALS['di_admin'] = false;
 di_assert( ! FeatureFlag::request_is_authorized(), 'A non-administrator entered Canary.' );
