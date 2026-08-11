@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import hashlib
 import io
@@ -143,7 +144,56 @@ EXPECTED_PROVINCE_REGION = {
     "95": "southern",
     "96": "southern",
 }
-EXPECTED_SCHEMA_SHA256 = "8073eea58c0b06821c8235f0b4f09fc8beecb697ebb2a1dee089b1b715135957"
+EXPECTED_PLACE_IDS = (
+    "geo:th:district:2307",
+    "geo:th:district:8103",
+    "geo:th:district:8301",
+    "geo:th:district:8302",
+    "geo:th:district:8303",
+    "geo:th:district:8404",
+    "geo:th:district:8405",
+    "geo:th:island:ko-chang-trat",
+    "geo:th:island:ko-lanta-yai",
+    "geo:th:island:ko-pha-ngan",
+    "geo:th:island:ko-samui",
+    "geo:th:island:ko-tao",
+    "geo:th:island:phuket",
+    "geo:th:subdistrict:230701",
+    "geo:th:subdistrict:230702",
+    "geo:th:subdistrict:810301",
+    "geo:th:subdistrict:810302",
+    "geo:th:subdistrict:810303",
+    "geo:th:subdistrict:810304",
+    "geo:th:subdistrict:810305",
+    "geo:th:subdistrict:830101",
+    "geo:th:subdistrict:830102",
+    "geo:th:subdistrict:830103",
+    "geo:th:subdistrict:830104",
+    "geo:th:subdistrict:830105",
+    "geo:th:subdistrict:830106",
+    "geo:th:subdistrict:830107",
+    "geo:th:subdistrict:830108",
+    "geo:th:subdistrict:830201",
+    "geo:th:subdistrict:830202",
+    "geo:th:subdistrict:830203",
+    "geo:th:subdistrict:830301",
+    "geo:th:subdistrict:830302",
+    "geo:th:subdistrict:830303",
+    "geo:th:subdistrict:830304",
+    "geo:th:subdistrict:830305",
+    "geo:th:subdistrict:830306",
+    "geo:th:subdistrict:840401",
+    "geo:th:subdistrict:840402",
+    "geo:th:subdistrict:840403",
+    "geo:th:subdistrict:840404",
+    "geo:th:subdistrict:840405",
+    "geo:th:subdistrict:840406",
+    "geo:th:subdistrict:840407",
+    "geo:th:subdistrict:840501",
+    "geo:th:subdistrict:840502",
+    "geo:th:subdistrict:840503",
+)
+EXPECTED_SCHEMA_SHA256 = "4dfa60a026a37f74de0b64867f78d38f2e425e804c3f2c5627b1a8bfd70240ed"
 REGISTRY_KEYS = {
     "$schema",
     "schema_version",
@@ -158,6 +208,7 @@ INPUT_NAMES = {
     "aliases",
     "geometry",
     "normalization_vectors",
+    "places",
     "provinces",
     "regions",
     "relations",
@@ -214,6 +265,11 @@ class BuildResult:
     artifacts: dict[str, bytes]
     registry: dict[str, Any]
     manifest: dict[str, Any]
+
+
+@dataclass(frozen=True)
+class PhpEmptyObject:
+    """Marker for a JSON object that must remain an object in generated PHP."""
 
 
 def require(condition: bool, message: str) -> None:
@@ -627,6 +683,77 @@ def load_entities(
         seen_slugs.add(slug)
         region_counts[row["region_id"]] += 1
     require(region_counts == EXPECTED_REGION_COUNTS, "province statistical membership totals are invalid")
+
+    places_path = source_dir / contract["inputs"]["places"]["path"]
+    _, place_rows = read_csv(
+        places_path,
+        [
+            "entity_id",
+            "type",
+            "slug",
+            "name_he",
+            "name_en",
+            "name_th",
+            "external_id_namespace",
+            "external_id",
+            "priority",
+            "source_id",
+        ],
+    )
+    require(len(place_rows) == len(EXPECTED_PLACE_IDS), "reviewed place registry row count is invalid")
+    require(tuple(row["entity_id"] for row in place_rows) == EXPECTED_PLACE_IDS, "reviewed place IDs or ordering are invalid")
+    declared_place_sources = set(contract["inputs"]["places"]["source_ids"])
+    used_place_sources: set[str] = set()
+    expected_type_counts = {"district": 7, "island": 6, "subdistrict": 34}
+    actual_type_counts = {place_type: 0 for place_type in expected_type_counts}
+    for row_number, row in enumerate(place_rows, start=2):
+        entity_id = validate_geo_id(row["entity_id"], f"places.csv:{row_number}:entity_id")
+        entity_type = validate_text(row["type"], f"places.csv:{row_number}:type", trimmed=True)
+        require(entity_type in expected_type_counts, f"places.csv contains an unsupported type: {entity_id}")
+        require(entity_id.startswith(f"geo:th:{entity_type}:"), f"place ID and type disagree: {entity_id}")
+        require(entity_id not in entities, f"duplicate place entity ID: {entity_id}")
+        slug = validate_identifier(row["slug"], f"places.csv:{row_number}:slug")
+        names = {
+            "he": validate_text(row["name_he"], f"place {entity_id} Hebrew name", trimmed=True),
+            "en": validate_text(row["name_en"], f"place {entity_id} English name", trimmed=True),
+            "th": validate_text(row["name_th"], f"place {entity_id} Thai name", trimmed=True),
+        }
+        namespace = row["external_id_namespace"]
+        external_id = row["external_id"]
+        require(bool(namespace) == bool(external_id), f"place external ID pair is incomplete: {entity_id}")
+        external_ids: dict[str, str] = {}
+        if namespace:
+            validate_text(namespace, f"places.csv:{row_number}:external_id_namespace", trimmed=True)
+            require(bool(re.fullmatch(r"[a-z][a-z0-9]*(?:_[a-z0-9]+)*", namespace)), f"place external ID namespace is invalid: {entity_id}")
+            validate_text(external_id, f"places.csv:{row_number}:external_id", trimmed=True)
+            external_ids[namespace] = external_id
+        if entity_type == "district":
+            require(namespace == "moi_district_code" and bool(re.fullmatch(r"[0-9]{4}", external_id)), f"district code is invalid: {entity_id}")
+            require(entity_id == f"geo:th:district:{external_id}", f"district ID does not match its code: {entity_id}")
+            require(f"geo:th:province:{external_id[:2]}" in entities, f"district province is missing: {entity_id}")
+        elif entity_type == "subdistrict":
+            require(namespace == "moi_subdistrict_code" and bool(re.fullmatch(r"[0-9]{6}", external_id)), f"subdistrict code is invalid: {entity_id}")
+            require(entity_id == f"geo:th:subdistrict:{external_id}", f"subdistrict ID does not match its code: {entity_id}")
+            require(f"geo:th:district:{external_id[:4]}" in EXPECTED_PLACE_IDS, f"subdistrict district is missing: {entity_id}")
+        else:
+            require(not namespace and not external_id, f"island must not borrow an administrative code: {entity_id}")
+        require(row["priority"] in {"0", "1"}, f"place priority is invalid: {entity_id}")
+        source_id = validate_identifier(row["source_id"], f"places.csv:{row_number}:source_id")
+        require(source_id in indexes["sources"], f"place source is unknown: {entity_id}")
+        require(source_id in declared_place_sources, f"place source is not declared for its input: {entity_id}")
+        entities[entity_id] = entity_record(
+            entity_id,
+            entity_type,
+            slug,
+            names,
+            external_ids,
+            row["priority"] == "1",
+        )
+        source_fields[entity_id] = {"slug": slug}
+        used_place_sources.add(source_id)
+        actual_type_counts[entity_type] += 1
+    require(actual_type_counts == expected_type_counts, "reviewed place type counts are invalid")
+    require(used_place_sources == declared_place_sources, "places input source declarations do not match used sources")
     return entities, source_fields, province_region, {
         "metadata": metadata,
         "region_lookup": region_lookup,
@@ -901,10 +1028,14 @@ def load_aliases(
     used_sources: set[str] = set()
     seen_rows: set[tuple[str, ...]] = set()
     primary_parent: dict[str, str] = {}
+    primary_location: dict[str, str] = {}
     for subject_id, subject_relations in relations.items():
         parents = [relation["object_id"] for relation in subject_relations if relation["type"] == "admin_parent" and relation["is_primary"]]
         if len(parents) == 1:
             primary_parent[subject_id] = parents[0]
+        locations = [relation["object_id"] for relation in subject_relations if relation["type"] == "located_in" and relation["is_primary"]]
+        if len(locations) == 1:
+            primary_location[subject_id] = locations[0]
 
     def canonical_context(entity_id: str) -> str | None:
         entity_type = entities[entity_id]["type"]
@@ -912,6 +1043,8 @@ def load_aliases(
             return None
         if entity_type == "statistical_region":
             return contract["country_id"]
+        if entity_type == "island":
+            return primary_location.get(entity_id)
         return primary_parent.get(entity_id)
 
     def add_candidate(
@@ -1048,6 +1181,7 @@ def build_public_payload(
 ) -> dict[str, Any]:
     region_ids = sorted(entity_id for entity_id, entity in entities.items() if entity["type"] == "statistical_region")
     province_ids = sorted(entity_id for entity_id, entity in entities.items() if entity["type"] == "province")
+    place_ids = sorted(entity_id for entity_id, entity in entities.items() if entity["type"] in {"district", "island", "subdistrict"})
     schemes = []
     for scheme in contract["classification_schemes"]:
         scheme_region_ids = region_ids if scheme["id"] == region_data["region_model"]["id"] else []
@@ -1074,6 +1208,30 @@ def build_public_payload(
         entity["admin_parent_id"] = admin_parent[0]
         entity["memberships"] = memberships
         provinces.append(entity)
+    places = []
+    for entity_id in place_ids:
+        entity = public_entity(entities[entity_id])
+        subject_relations = indexes["relations_by_subject"].get(entity_id, [])
+        admin_parent = [
+            relation["object_id"]
+            for relation in subject_relations
+            if relation["type"] == "admin_parent" and relation["is_primary"]
+        ]
+        located_in_relations = sorted(
+            (relation for relation in subject_relations if relation["type"] == "located_in"),
+            key=lambda relation: (not relation["is_primary"], relation["object_id"]),
+        )
+        located_in = [relation["object_id"] for relation in located_in_relations]
+        if entity["type"] in {"district", "subdistrict"}:
+            require(len(admin_parent) == 1, f"public administrative place lacks one parent: {entity_id}")
+        else:
+            require(not admin_parent, f"public island acquired an administrative parent: {entity_id}")
+            require(len(located_in) >= 1, f"public island lacks a location: {entity_id}")
+        entity["admin_parent_id"] = admin_parent[0] if admin_parent else None
+        entity["located_in_ids"] = located_in
+        entity["center"] = entity["geometry"]["center"] if entity["geometry"] is not None else None
+        entity["bounds"] = entity["geometry"]["bounds"] if entity["geometry"] is not None else None
+        places.append(entity)
     return {
         "schema_version": contract["schema_version"],
         "dataset_version": contract["dataset_version"],
@@ -1081,6 +1239,7 @@ def build_public_payload(
         "classification_schemes": schemes,
         "regions": [public_entity(entities[entity_id]) for entity_id in region_ids],
         "provinces": provinces,
+        "places": places,
     }
 
 
@@ -1095,6 +1254,8 @@ def php_quote(value: str) -> str:
 def php_export(value: Any, level: int = 0) -> str:
     indent = "\t" * level
     child_indent = "\t" * (level + 1)
+    if isinstance(value, PhpEmptyObject):
+        return "(object) array()"
     if value is None:
         return "null"
     if value is True:
@@ -1125,6 +1286,10 @@ def php_export(value: Any, level: int = 0) -> str:
 
 
 def registry_php_bytes(registry: dict[str, Any]) -> bytes:
+    php_registry = copy.deepcopy(registry)
+    for place in php_registry["public_payload"]["places"]:
+        if place["external_ids"] == {}:
+            place["external_ids"] = PhpEmptyObject()
     header = (
         "<?php\n"
         "/**\n"
@@ -1134,7 +1299,7 @@ def registry_php_bytes(registry: dict[str, Any]) -> bytes:
         " */\n\n"
         "return "
     )
-    return (header + php_export(registry) + ";\n").encode("utf-8")
+    return (header + php_export(php_registry) + ";\n").encode("utf-8")
 
 
 def compile_registry(source_dir: Path) -> BuildResult:
@@ -1193,6 +1358,7 @@ def compile_registry(source_dir: Path) -> BuildResult:
             "entities": len(entities_by_id),
             "provinces": entity_type_counts.get("province", 0),
             "regions": entity_type_counts.get("statistical_region", 0),
+            "places": sum(entity_type_counts.get(place_type, 0) for place_type in ("district", "island", "subdistrict")),
             "relations": relation_count,
         },
         "entity_type_counts": dict(sorted(entity_type_counts.items())),
@@ -1242,7 +1408,8 @@ def main() -> int:
         f"Geography artifacts {action}: "
         f"dataset {result.registry['dataset_version']}, "
         f"{result.manifest['counts']['provinces']} provinces, "
-        f"{result.manifest['counts']['regions']} regions"
+        f"{result.manifest['counts']['regions']} regions, "
+        f"{result.manifest['counts']['places']} reviewed places"
     )
     return 0
 

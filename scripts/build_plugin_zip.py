@@ -98,24 +98,38 @@ def geography_evidence(root: Path) -> dict[str, Any]:
         "alias_candidates",
         "alias_keys",
         "entities",
+        "places",
         "provinces",
         "regions",
         "relations",
     }:
         raise ValueError("geography counts are missing or unexpected")
-    if counts["entities"] != 85 or counts["provinces"] != 77 or counts["regions"] != 7:
+    if (
+        counts["entities"] != 132
+        or counts["places"] != 47
+        or counts["provinces"] != 77
+        or counts["regions"] != 7
+    ):
         raise ValueError("geography entity counts do not match the national spine")
-    if counts["relations"] != 154 or counts["alias_candidates"] < counts["alias_keys"]:
+    if counts["relations"] != 220 or counts["alias_candidates"] < counts["alias_keys"]:
         raise ValueError("geography relation or alias counts are invalid")
 
     entity_type_counts = manifest.get("entity_type_counts")
-    if entity_type_counts != {"country": 1, "province": 77, "statistical_region": 7}:
+    if entity_type_counts != {
+        "country": 1,
+        "district": 7,
+        "island": 6,
+        "province": 77,
+        "statistical_region": 7,
+        "subdistrict": 34,
+    }:
         raise ValueError("geography entity type counts are invalid")
 
     expected_sources = {
         "aliases.csv",
         "geometry.json",
         "normalization-vectors.json",
+        "places.csv",
         "provinces.csv",
         "regions.json",
         "registry.json",
@@ -163,6 +177,164 @@ def geography_evidence(root: Path) -> dict[str, Any]:
         "schema_version": manifest["schema_version"],
         "source_inputs": source_inputs,
         "source_manifest_sha256": manifest["source_manifest_sha256"],
+    }
+
+
+def digital_islands_evidence(root: Path) -> dict[str, Any]:
+    """Validate and freeze the public-only Koh Phangan artifact lineage."""
+    source_path = root / "data" / "digital-islands" / "koh-phangan.json"
+    schema_path = root / "data" / "digital-islands" / "island-world.schema.json"
+    manifest_path = root / "resources" / "digital-islands" / "manifest.json"
+    registry_path = root / "resources" / "digital-islands" / "registry.php"
+    notice_path = root / "THIRD-PARTY-DATA-NOTICES.md"
+    template_path = root / "templates" / "digital-islands" / "koh-phangan.php"
+    public_view_path = root / "src" / "DigitalIslands" / "PublicView.php"
+
+    source = json_no_duplicates(source_path)
+    manifest = json_no_duplicates(manifest_path)
+    expected_manifest_keys = {
+        "artifacts",
+        "checked_on",
+        "contract_id",
+        "counts",
+        "dataset_version",
+        "publication_state",
+        "schema_sha256",
+        "schema_version",
+        "source_digest",
+    }
+    if set(manifest) != expected_manifest_keys:
+        raise ValueError("Digital Islands manifest fields are missing or unexpected")
+    if manifest.get("contract_id") != "thailand-digital-island-world-v1":
+        raise ValueError("Digital Islands contract ID mismatch")
+    if manifest.get("schema_version") != 1:
+        raise ValueError("Digital Islands schema version mismatch")
+    if manifest.get("publication_state") != "live":
+        raise ValueError("Digital Islands artifact is not approved for Live publication")
+    if source.get("publication_state") != "live":
+        raise ValueError("Digital Islands source is not approved for Live publication")
+    if source.get("contract_id") != manifest["contract_id"]:
+        raise ValueError("Digital Islands source and manifest contract IDs disagree")
+    if source.get("dataset_version") != manifest.get("dataset_version"):
+        raise ValueError("Digital Islands source and manifest dataset versions disagree")
+    if source.get("checked_on") != manifest.get("checked_on"):
+        raise ValueError("Digital Islands source and manifest review dates disagree")
+
+    counts = manifest.get("counts")
+    expected_count_keys = {
+        "canary_map_entities",
+        "entities",
+        "entity_types",
+        "layers",
+        "official_tools",
+        "public_map_entities",
+        "sources",
+    }
+    if not isinstance(counts, dict) or set(counts) != expected_count_keys:
+        raise ValueError("Digital Islands counts are missing or unexpected")
+    if (
+        counts["entities"] != 49
+        or counts["canary_map_entities"] != 49
+        or counts["public_map_entities"] != 49
+        or counts["layers"] != 24
+        or counts["official_tools"] != 3
+        or counts["sources"] != 32
+    ):
+        raise ValueError("Digital Islands reviewed public counts mismatch")
+    entity_types = counts.get("entity_types")
+    if (
+        not isinstance(entity_types, dict)
+        or not entity_types
+        or not all(type(value) is int and value > 0 for value in entity_types.values())
+        or sum(entity_types.values()) != 49
+    ):
+        raise ValueError("Digital Islands entity type counts mismatch")
+
+    entities = source.get("entities")
+    if not isinstance(entities, list) or len(entities) != 49:
+        raise ValueError("Digital Islands source entity count mismatch")
+    forbidden_entity_types = {"legal_overlay", "professional_service", "property_offer"}
+    forbidden_record_keys = {"conflicts", "holds"}
+    for entity in entities:
+        if not isinstance(entity, dict):
+            raise ValueError("Digital Islands source contains a malformed entity")
+        if forbidden_record_keys.intersection(entity):
+            raise ValueError("Digital Islands source contains internal review fields")
+        if entity.get("entity_type") in forbidden_entity_types:
+            raise ValueError("Digital Islands source contains a private entity type")
+        if entity.get("public_state") != "map_only" or entity.get("indexing_policy") != "map_only":
+            raise ValueError("Digital Islands source contains a non-public entity")
+
+    schema_payload = schema_path.read_bytes()
+    if manifest.get("schema_sha256") != sha256_bytes(schema_payload):
+        raise ValueError("Digital Islands schema hash mismatch")
+    canonical_source = (
+        json.dumps(source, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
+    ).encode("utf-8")
+    if manifest.get("source_digest") != sha256_bytes(canonical_source):
+        raise ValueError("Digital Islands source digest mismatch")
+
+    artifacts = manifest.get("artifacts")
+    expected_artifacts = {"resources/digital-islands/registry.php"}
+    if not isinstance(artifacts, dict) or set(artifacts) != expected_artifacts:
+        raise ValueError("Digital Islands artifact inventory mismatch")
+    artifact_record = artifacts["resources/digital-islands/registry.php"]
+    if not isinstance(artifact_record, dict) or set(artifact_record) != {"bytes", "sha256"}:
+        raise ValueError("Digital Islands registry evidence is malformed")
+    registry_payload = registry_path.read_bytes()
+    if (
+        artifact_record["bytes"] != len(registry_payload)
+        or artifact_record["sha256"] != sha256_bytes(registry_payload)
+    ):
+        raise ValueError("Digital Islands registry evidence mismatch")
+
+    notice_payload = notice_path.read_bytes()
+    notice_text = notice_payload.decode("utf-8")
+    for required in (
+        "© OpenStreetMap contributors",
+        "Open Data Commons Open Database License 1.0 (ODbL)",
+        "https://opendatacommons.org/licenses/odbl/1-0/",
+        "https://www.openstreetmap.org/copyright",
+    ):
+        if required not in notice_text:
+            raise ValueError(f"OpenStreetMap data notice is incomplete: {required}")
+    template_text = template_path.read_text(encoding="utf-8")
+    public_view_text = public_view_path.read_text(encoding="utf-8")
+    if "https://www.openstreetmap.org/copyright" not in template_text:
+        raise ValueError("Digital Islands visible OpenStreetMap attribution is missing")
+    if (
+        "'attribution'" not in public_view_text
+        or "https://www.openstreetmap.org/copyright" not in public_view_text
+    ):
+        raise ValueError("Digital Islands REST attribution contract is missing")
+
+    return {
+        "artifacts": artifacts,
+        "checked_on": manifest["checked_on"],
+        "contract_id": manifest["contract_id"],
+        "counts": counts,
+        "dataset_version": manifest["dataset_version"],
+        "manifest": "resources/digital-islands/manifest.json",
+        "manifest_sha256": sha256_bytes(manifest_path.read_bytes()),
+        "license_notice": {
+            "bytes": len(notice_payload),
+            "path": "THIRD-PARTY-DATA-NOTICES.md",
+            "sha256": sha256_bytes(notice_payload),
+        },
+        "parity": "pass",
+        "publication_state": manifest["publication_state"],
+        "schema": {
+            "bytes": len(schema_payload),
+            "path": "data/digital-islands/island-world.schema.json",
+            "sha256": manifest["schema_sha256"],
+        },
+        "schema_version": manifest["schema_version"],
+        "source": {
+            "bytes": len(source_path.read_bytes()),
+            "path": "data/digital-islands/koh-phangan.json",
+            "sha256": sha256_bytes(source_path.read_bytes()),
+        },
+        "source_digest": manifest["source_digest"],
     }
 
 
@@ -378,6 +550,7 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
     javascript_files = sorted(
         [entry for entry in entries if entry.lower().endswith(".js")]
         + [
+            "scripts/live_digital_island_acceptance.cjs",
             "scripts/live_guides_acceptance.cjs",
             "scripts/live_homepage_acceptance.cjs",
             "scripts/live_real_estate_acceptance.cjs",
@@ -406,6 +579,25 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
     )
     if sitewide_acceptance_output != "PASS: sitewide acceptance contract":
         raise ValueError(f"Unexpected sitewide acceptance contract test output: {sitewide_acceptance_output}")
+
+    digital_island_acceptance_output = run_checked(
+        [str(node_bin), str(root / "tests" / "digital-island-live-acceptance.test.cjs")],
+        root,
+    )
+    if not re.fullmatch(
+        r"PASS: Digital Islands live acceptance contract and privacy parsers \([1-9][0-9]* assertions\)\.",
+        digital_island_acceptance_output,
+    ):
+        raise ValueError(
+            f"Unexpected Digital Islands acceptance contract output: {digital_island_acceptance_output}"
+        )
+
+    digital_island_adapter_output = run_checked(
+        [str(node_bin), str(root / "tests" / "digital-islands-adapters.test.js")],
+        root,
+    )
+    if digital_island_adapter_output != "PASS: Digital Islands browser adapters":
+        raise ValueError(f"Unexpected Digital Islands adapter output: {digital_island_adapter_output}")
 
     run_checked([sys.executable, str(root / "scripts" / "build_homepage_assets.py"), "--check"], root)
     run_checked([sys.executable, str(root / "scripts" / "build_bangkok_rental_assets.py"), "--check"], root)
@@ -449,6 +641,23 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
         raise ValueError(f"Unexpected priority guides runtime test output: {guides_runtime_output}")
     run_checked([sys.executable, str(root / "scripts" / "build_geography_registry.py"), "--check"], root)
     run_checked([sys.executable, str(root / "tests" / "geography-builder.test.py")], root)
+    run_checked([sys.executable, str(root / "scripts" / "build_digital_island_registry.py"), "--check"], root)
+    run_checked([sys.executable, str(root / "tests" / "digital-island-data.test.py")], root)
+    digital_island_runtime_output = run_checked(
+        [str(php_bin), str(root / "tests" / "digital-islands-runtime.test.php")],
+        root,
+    )
+    if digital_island_runtime_output != "PASS: Digital Islands runtime (Canary and Live)":
+        raise ValueError(f"Unexpected Digital Islands runtime output: {digital_island_runtime_output}")
+    digital_island_settings_output = run_checked(
+        [str(php_bin), str(root / "tests" / "digital-islands-settings.test.php")],
+        root,
+    )
+    if not re.fullmatch(
+        r"PASS: digital islands administrator settings security gates \([1-9][0-9]* assertions\)\.",
+        digital_island_settings_output,
+    ):
+        raise ValueError(f"Unexpected Digital Islands settings output: {digital_island_settings_output}")
     run_checked([sys.executable, str(root / "scripts" / "build_seo_registry.py"), "--check"], root)
     run_checked([sys.executable, str(root / "scripts" / "build_seo_runtime.py"), "--check"], root)
     run_checked([sys.executable, str(root / "tests" / "seo-ownership-registry.test.py")], root)
@@ -481,6 +690,16 @@ def run_qa(root: Path, entries: list[str], php_bin: Path, node_bin: Path) -> dic
         "tawk_state_test_output": tawk_output,
         "sitewide_acceptance_contract_tests": "pass",
         "sitewide_acceptance_contract_test_output": sitewide_acceptance_output,
+        "digital_island_acceptance_contract_tests": "pass",
+        "digital_island_acceptance_contract_test_output": digital_island_acceptance_output,
+        "digital_island_adapter_tests": "pass",
+        "digital_island_adapter_test_output": digital_island_adapter_output,
+        "digital_island_compiler": "pass",
+        "digital_island_data_tests": "pass",
+        "digital_island_runtime_tests": "pass",
+        "digital_island_runtime_test_output": digital_island_runtime_output,
+        "digital_island_settings_tests": "pass",
+        "digital_island_settings_test_output": digital_island_settings_output,
         "contract_tests": "pass",
         "contract_test_output": test_output,
         "homepage_asset_compiler": "pass",
@@ -591,6 +810,7 @@ def main() -> int:
     node_bin = resolve_node_binary(args.node_bin)
     qa = run_qa(root, entries, php_bin, node_bin)
     geography = geography_evidence(root)
+    digital_islands = digital_islands_evidence(root)
     output = (args.out or root / "plugin-dist" / f"{PLUGIN_SLUG}-{contract['version']}.zip").resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
 
@@ -619,6 +839,7 @@ def main() -> int:
                 "script_sha256": sha256_bytes(Path(__file__).read_bytes()),
             },
             "geography": geography,
+            "digital_islands": digital_islands,
             "qa": qa,
             "release_contract": contract,
             "secret_scan": {

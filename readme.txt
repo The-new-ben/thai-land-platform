@@ -4,24 +4,37 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.4.1
+Stable tag: 0.5.0
 License: Proprietary
 
-Geography, search, homepage, real-estate, and priority guide runtime for thai-land.co.il.
+Geography, search, homepage, real-estate, priority guides, and Digital Islands runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.4.1 completes the parent-hub lifecycle and public activation release
-after successful administrator-only Canary verification of version 0.4.0. The
-visa and law-and-tax hubs now own their released hierarchy, parent availability,
-breadcrumb ancestry, and homepage link expectations. Desktop navigation,
-mobile navigation, and the footer expose both hubs only when both exact
-WordPress pages satisfy their public identity, path, and asset gates. Stored
-WordPress bodies and canonical URLs remain unchanged. The isolated guide
-runtime retains separate Off, Canary, and Live controls and fails closed if a
-required binding or asset is unavailable.
+Version 0.5.0 adds the first Digital Islands pilot for Koh Phangan. It provides
+49 reviewed public map records for settlements, roads, landmarks, government
+services, infrastructure, and three map-only project identities. The runtime is
+bound to one exact WordPress page and stays under independent Off, Canary, and
+Live controls. Private research candidates, held offers, internal review notes,
+and unverified professional-service leads are excluded from the public source
+and plugin package. Advanced CesiumJS and MapLibre terrain dependencies remain
+explicitly pending; the accessible interactive orientation world and full
+static list work without them.
 
 == Changelog ==
+
+= 0.5.0 =
+* Add the Koh Phangan Digital Islands pilot with exactly 49 reviewed public
+  records and source-bound facts.
+* Expand geography with seven districts, 34 subdistricts, and six physical
+  islands while preserving all national province and region identities.
+* Bind the map to one exact WordPress page, one SEO owner, one canonical path,
+  one breadcrumb path, and a fail-closed homepage discovery link.
+* Add independent Off, Canary, and Live controls, public-only REST output,
+  accessible no-JavaScript content, and deterministic privacy and release
+  gates.
+* Keep unreleased terrain engines and private research outside the public
+  package and describe those capabilities as pending.
 
 = 0.4.1 =
 * Complete the public lifecycle transition for the visa and law-and-tax parent

@@ -52,6 +52,7 @@
         "aliases",
         "geometry",
         "normalization_vectors",
+        "places",
         "provinces",
         "regions",
         "relations"
@@ -60,6 +61,7 @@
         "aliases": { "$ref": "#/$defs/input" },
         "geometry": { "$ref": "#/$defs/input" },
         "normalization_vectors": { "$ref": "#/$defs/input" },
+        "places": { "$ref": "#/$defs/input" },
         "provinces": { "$ref": "#/$defs/input" },
         "regions": { "$ref": "#/$defs/input" },
         "relations": { "$ref": "#/$defs/input" }

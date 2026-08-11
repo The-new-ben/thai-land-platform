@@ -40,7 +40,1001 @@
     "status": "active",
     "type": "country"
   },
-  "dataset_version": "2026.08.08.1",
+  "dataset_version": "2026.08.11.1",
+  "places": [
+    {
+      "admin_parent_id": "geo:th:province:23",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_district_code": "2307"
+      },
+      "geometry": null,
+      "id": "geo:th:district:2307",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Chang District",
+        "he": "נפת קו צ'אנג",
+        "th": "อำเภอเกาะช้าง"
+      },
+      "priority": false,
+      "slug": "ko-chang",
+      "status": "active",
+      "type": "district"
+    },
+    {
+      "admin_parent_id": "geo:th:province:81",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_district_code": "8103"
+      },
+      "geometry": null,
+      "id": "geo:th:district:8103",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Lanta District",
+        "he": "נפת קו לנטה",
+        "th": "อำเภอเกาะลันตา"
+      },
+      "priority": false,
+      "slug": "ko-lanta",
+      "status": "active",
+      "type": "district"
+    },
+    {
+      "admin_parent_id": "geo:th:province:83",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_district_code": "8301"
+      },
+      "geometry": null,
+      "id": "geo:th:district:8301",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Mueang Phuket District",
+        "he": "נפת מואנג פוקט",
+        "th": "อำเภอเมืองภูเก็ต"
+      },
+      "priority": false,
+      "slug": "mueang-phuket",
+      "status": "active",
+      "type": "district"
+    },
+    {
+      "admin_parent_id": "geo:th:province:83",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_district_code": "8302"
+      },
+      "geometry": null,
+      "id": "geo:th:district:8302",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Kathu District",
+        "he": "נפת קאטו",
+        "th": "อำเภอกะทู้"
+      },
+      "priority": false,
+      "slug": "kathu",
+      "status": "active",
+      "type": "district"
+    },
+    {
+      "admin_parent_id": "geo:th:province:83",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_district_code": "8303"
+      },
+      "geometry": null,
+      "id": "geo:th:district:8303",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Thalang District",
+        "he": "נפת תאלאנג",
+        "th": "อำเภอถลาง"
+      },
+      "priority": false,
+      "slug": "thalang",
+      "status": "active",
+      "type": "district"
+    },
+    {
+      "admin_parent_id": "geo:th:province:84",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_district_code": "8404"
+      },
+      "geometry": null,
+      "id": "geo:th:district:8404",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Samui District",
+        "he": "נפת קוסמוי",
+        "th": "อำเภอเกาะสมุย"
+      },
+      "priority": false,
+      "slug": "ko-samui",
+      "status": "active",
+      "type": "district"
+    },
+    {
+      "admin_parent_id": "geo:th:province:84",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_district_code": "8405"
+      },
+      "geometry": null,
+      "id": "geo:th:district:8405",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Pha-ngan District",
+        "he": "נפת קופנגן",
+        "th": "อำเภอเกาะพะงัน"
+      },
+      "priority": false,
+      "slug": "ko-pha-ngan",
+      "status": "active",
+      "type": "district"
+    },
+    {
+      "admin_parent_id": null,
+      "bounds": null,
+      "center": null,
+      "external_ids": {},
+      "geometry": null,
+      "id": "geo:th:island:ko-chang-trat",
+      "kind": "geography",
+      "located_in_ids": [
+        "geo:th:province:23",
+        "geo:th:district:2307"
+      ],
+      "names": {
+        "en": "Ko Chang Island in Trat",
+        "he": "קו צ'אנג",
+        "th": "เกาะช้าง จังหวัดตราด"
+      },
+      "priority": true,
+      "slug": "ko-chang-trat",
+      "status": "active",
+      "type": "island"
+    },
+    {
+      "admin_parent_id": null,
+      "bounds": null,
+      "center": null,
+      "external_ids": {},
+      "geometry": null,
+      "id": "geo:th:island:ko-lanta-yai",
+      "kind": "geography",
+      "located_in_ids": [
+        "geo:th:province:81",
+        "geo:th:district:8103"
+      ],
+      "names": {
+        "en": "Ko Lanta Yai Island",
+        "he": "קו לנטה",
+        "th": "เกาะลันตาใหญ่"
+      },
+      "priority": true,
+      "slug": "ko-lanta-yai",
+      "status": "active",
+      "type": "island"
+    },
+    {
+      "admin_parent_id": null,
+      "bounds": null,
+      "center": null,
+      "external_ids": {},
+      "geometry": null,
+      "id": "geo:th:island:ko-pha-ngan",
+      "kind": "geography",
+      "located_in_ids": [
+        "geo:th:province:84",
+        "geo:th:district:8405"
+      ],
+      "names": {
+        "en": "Ko Pha-ngan Island",
+        "he": "קופנגן",
+        "th": "เกาะพะงัน"
+      },
+      "priority": true,
+      "slug": "ko-pha-ngan",
+      "status": "active",
+      "type": "island"
+    },
+    {
+      "admin_parent_id": null,
+      "bounds": null,
+      "center": null,
+      "external_ids": {},
+      "geometry": null,
+      "id": "geo:th:island:ko-samui",
+      "kind": "geography",
+      "located_in_ids": [
+        "geo:th:province:84",
+        "geo:th:district:8404"
+      ],
+      "names": {
+        "en": "Ko Samui Island",
+        "he": "קוסמוי",
+        "th": "เกาะสมุย"
+      },
+      "priority": true,
+      "slug": "ko-samui",
+      "status": "active",
+      "type": "island"
+    },
+    {
+      "admin_parent_id": null,
+      "bounds": null,
+      "center": null,
+      "external_ids": {},
+      "geometry": null,
+      "id": "geo:th:island:ko-tao",
+      "kind": "geography",
+      "located_in_ids": [
+        "geo:th:province:84",
+        "geo:th:district:8405"
+      ],
+      "names": {
+        "en": "Ko Tao Island",
+        "he": "קו טאו",
+        "th": "เกาะเต่า"
+      },
+      "priority": true,
+      "slug": "ko-tao",
+      "status": "active",
+      "type": "island"
+    },
+    {
+      "admin_parent_id": null,
+      "bounds": null,
+      "center": null,
+      "external_ids": {},
+      "geometry": null,
+      "id": "geo:th:island:phuket",
+      "kind": "geography",
+      "located_in_ids": [
+        "geo:th:province:83"
+      ],
+      "names": {
+        "en": "Phuket Island",
+        "he": "האי פוקט",
+        "th": "เกาะภูเก็ต"
+      },
+      "priority": true,
+      "slug": "phuket-island",
+      "status": "active",
+      "type": "island"
+    },
+    {
+      "admin_parent_id": "geo:th:district:2307",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "230701"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:230701",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Chang Subdistrict",
+        "he": "תת נפת קו צ'אנג",
+        "th": "ตำบลเกาะช้าง"
+      },
+      "priority": false,
+      "slug": "ko-chang",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:2307",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "230702"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:230702",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Chang Tai Subdistrict",
+        "he": "תת נפת קו צ'אנג דרום",
+        "th": "ตำบลเกาะช้างใต้"
+      },
+      "priority": false,
+      "slug": "ko-chang-tai",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8103",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "810301"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:810301",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Lanta Yai Subdistrict",
+        "he": "תת נפת קו לנטה יאי",
+        "th": "ตำบลเกาะลันตาใหญ่"
+      },
+      "priority": false,
+      "slug": "ko-lanta-yai",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8103",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "810302"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:810302",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Lanta Noi Subdistrict",
+        "he": "תת נפת קו לנטה נוי",
+        "th": "ตำบลเกาะลันตาน้อย"
+      },
+      "priority": false,
+      "slug": "ko-lanta-noi",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8103",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "810303"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:810303",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Klang Subdistrict",
+        "he": "תת נפת קו קלאנג",
+        "th": "ตำบลเกาะกลาง"
+      },
+      "priority": false,
+      "slug": "ko-klang",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8103",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "810304"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:810304",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Khlong Yang Subdistrict",
+        "he": "תת נפת קלונג יאנג",
+        "th": "ตำบลคลองยาง"
+      },
+      "priority": false,
+      "slug": "khlong-yang",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8103",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "810305"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:810305",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Sala Dan Subdistrict",
+        "he": "תת נפת סאלה דאן",
+        "th": "ตำบลศาลาด่าน"
+      },
+      "priority": false,
+      "slug": "sala-dan",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8301",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830101"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830101",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Talat Yai Subdistrict",
+        "he": "תת נפת טאלאט יאי",
+        "th": "ตำบลตลาดใหญ่"
+      },
+      "priority": false,
+      "slug": "talat-yai",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8301",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830102"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830102",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Talat Nuea Subdistrict",
+        "he": "תת נפת טאלאט נואה",
+        "th": "ตำบลตลาดเหนือ"
+      },
+      "priority": false,
+      "slug": "talat-nuea",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8301",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830103"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830103",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Kaeo Subdistrict",
+        "he": "תת נפת קו קאו",
+        "th": "ตำบลเกาะแก้ว"
+      },
+      "priority": false,
+      "slug": "ko-kaeo",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8301",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830104"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830104",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ratsada Subdistrict",
+        "he": "תת נפת ראטסאדה",
+        "th": "ตำบลรัษฎา"
+      },
+      "priority": false,
+      "slug": "ratsada",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8301",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830105"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830105",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Wichit Subdistrict",
+        "he": "תת נפת ויצ'יט",
+        "th": "ตำบลวิชิต"
+      },
+      "priority": false,
+      "slug": "wichit",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8301",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830106"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830106",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Chalong Subdistrict",
+        "he": "תת נפת צ'אלונג",
+        "th": "ตำบลฉลอง"
+      },
+      "priority": false,
+      "slug": "chalong",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8301",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830107"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830107",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Rawai Subdistrict",
+        "he": "תת נפת ראוואי",
+        "th": "ตำบลราไวย์"
+      },
+      "priority": false,
+      "slug": "rawai",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8301",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830108"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830108",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Karon Subdistrict",
+        "he": "תת נפת קארון",
+        "th": "ตำบลกะรน"
+      },
+      "priority": false,
+      "slug": "karon",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8302",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830201"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830201",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Kathu Subdistrict",
+        "he": "תת נפת קאטו",
+        "th": "ตำบลกะทู้"
+      },
+      "priority": false,
+      "slug": "kathu",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8302",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830202"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830202",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Pa Tong Subdistrict",
+        "he": "תת נפת פאטונג",
+        "th": "ตำบลป่าตอง"
+      },
+      "priority": false,
+      "slug": "pa-tong",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8302",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830203"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830203",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Kamala Subdistrict",
+        "he": "תת נפת קאמאלה",
+        "th": "ตำบลกมลา"
+      },
+      "priority": false,
+      "slug": "kamala",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8303",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830301"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830301",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Thepkrasattri Subdistrict",
+        "he": "תת נפת תפקראסאטרי",
+        "th": "ตำบลเทพกระษัตรี"
+      },
+      "priority": false,
+      "slug": "thepkrasattri",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8303",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830302"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830302",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Sisunthon Subdistrict",
+        "he": "תת נפת סי סונתון",
+        "th": "ตำบลศรีสุนทร"
+      },
+      "priority": false,
+      "slug": "sisunthon",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8303",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830303"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830303",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Choeng Thale Subdistrict",
+        "he": "תת נפת צ'ואנג תאלה",
+        "th": "ตำบลเชิงทะเล"
+      },
+      "priority": false,
+      "slug": "choeng-thale",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8303",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830304"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830304",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Pa Khlok Subdistrict",
+        "he": "תת נפת פה קלוק",
+        "th": "ตำบลป่าคลอก"
+      },
+      "priority": false,
+      "slug": "pa-khlok",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8303",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830305"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830305",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Mai Khao Subdistrict",
+        "he": "תת נפת מאי קאו",
+        "th": "ตำบลไม้ขาว"
+      },
+      "priority": false,
+      "slug": "mai-khao",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8303",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "830306"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:830306",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Sakhu Subdistrict",
+        "he": "תת נפת סאקו",
+        "th": "ตำบลสาคู"
+      },
+      "priority": false,
+      "slug": "sakhu",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8404",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840401"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840401",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ang Thong Subdistrict",
+        "he": "תת נפת אנג תונג",
+        "th": "ตำบลอ่างทอง"
+      },
+      "priority": false,
+      "slug": "ang-thong",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8404",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840402"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840402",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Lipa Noi Subdistrict",
+        "he": "תת נפת ליפה נוי",
+        "th": "ตำบลลิปะน้อย"
+      },
+      "priority": false,
+      "slug": "lipa-noi",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8404",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840403"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840403",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Taling Ngam Subdistrict",
+        "he": "תת נפת טאלינג נגאם",
+        "th": "ตำบลตลิ่งงาม"
+      },
+      "priority": false,
+      "slug": "taling-ngam",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8404",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840404"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840404",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Na Mueang Subdistrict",
+        "he": "תת נפת נה מואנג",
+        "th": "ตำบลหน้าเมือง"
+      },
+      "priority": false,
+      "slug": "na-mueang",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8404",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840405"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840405",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Maret Subdistrict",
+        "he": "תת נפת מארט",
+        "th": "ตำบลมะเร็ต"
+      },
+      "priority": false,
+      "slug": "maret",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8404",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840406"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840406",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Bo Phut Subdistrict",
+        "he": "תת נפת בו פוט",
+        "th": "ตำบลบ่อผุด"
+      },
+      "priority": false,
+      "slug": "bo-phut",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8404",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840407"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840407",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Mae Nam Subdistrict",
+        "he": "תת נפת מא נאם",
+        "th": "ตำบลแม่น้ำ"
+      },
+      "priority": false,
+      "slug": "mae-nam",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8405",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840501"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840501",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Pha-ngan Subdistrict",
+        "he": "תת נפת קופנגן",
+        "th": "ตำบลเกาะพะงัน"
+      },
+      "priority": false,
+      "slug": "ko-pha-ngan",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8405",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840502"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840502",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ban Tai Subdistrict",
+        "he": "תת נפת באן טאי",
+        "th": "ตำบลบ้านใต้"
+      },
+      "priority": false,
+      "slug": "ban-tai",
+      "status": "active",
+      "type": "subdistrict"
+    },
+    {
+      "admin_parent_id": "geo:th:district:8405",
+      "bounds": null,
+      "center": null,
+      "external_ids": {
+        "moi_subdistrict_code": "840503"
+      },
+      "geometry": null,
+      "id": "geo:th:subdistrict:840503",
+      "kind": "geography",
+      "located_in_ids": [],
+      "names": {
+        "en": "Ko Tao Subdistrict",
+        "he": "תת נפת קו טאו",
+        "th": "ตำบลเกาะเต่า"
+      },
+      "priority": false,
+      "slug": "ko-tao",
+      "status": "active",
+      "type": "subdistrict"
+    }
+  ],
   "provinces": [
     {
       "admin_parent_id": "geo:th:country",

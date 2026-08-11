@@ -230,6 +230,23 @@ final class WP_REST_Response {
 	}
 }
 
+class WP_REST_Controller {
+	protected $namespace = '';
+	protected $rest_base = '';
+}
+
+final class WP_Error {
+	private $code;
+	private $message;
+	private $data;
+
+	public function __construct( $code = '', $message = '', $data = null ) {
+		$this->code    = $code;
+		$this->message = $message;
+		$this->data    = $data;
+	}
+}
+
 final class WP_REST_Server {
 	const READABLE = 'GET';
 }
@@ -369,8 +386,9 @@ use Thailand_Platform\Homepage\Seo;
 use Thailand_Platform\Geography\Repository as Geography_Repository;
 use Thailand_Platform\Content\FeatureFlag as Content_FeatureFlag;
 use Thailand_Platform\Guides\FeatureFlag as Guides_FeatureFlag;
+use Thailand_Platform\DigitalIslands\FeatureFlag as Digital_Islands_FeatureFlag;
 
-tl_test_assert( '0.4.1' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.5.0' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -384,39 +402,41 @@ $GLOBALS['tl_test_cache_flush_calls'] = 0;
 tl_test_do_action( 'plugins_loaded' );
 tl_test_do_action( 'plugins_loaded' );
 
-tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'rest_api_init' ), 'REST hook registration count mismatch.' );
+tl_test_assert( 3 === tl_test_hook_count( 'tl_test_actions', 'rest_api_init' ), 'REST hook registration count mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'init' ), 'Duplicate update hook registered.' );
-tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'template_redirect' ), 'Canary protection hook mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_actions', 'wp_enqueue_scripts' ), 'Presentation enqueue hook count mismatch.' );
-tl_test_assert( 5 === tl_test_hook_count( 'tl_test_actions', 'wp_head' ), 'Presentation head hook count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_actions', 'admin_init' ), 'Presentation setting hook count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_actions', 'admin_menu' ), 'Presentation settings page hook count mismatch.' );
+tl_test_assert( 3 === tl_test_hook_count( 'tl_test_actions', 'template_redirect' ), 'Canary protection hook mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_actions', 'wp_enqueue_scripts' ), 'Presentation enqueue hook count mismatch.' );
+tl_test_assert( 7 === tl_test_hook_count( 'tl_test_actions', 'wp_head' ), 'Presentation head hook count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_actions', 'admin_init' ), 'Presentation setting hook count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_actions', 'admin_menu' ), 'Presentation settings page hook count mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'add_option_thailand_platform_homepage_mode' ), 'Homepage add-option cache hook mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'update_option_thailand_platform_homepage_mode' ), 'Homepage update-option cache hook mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'template_include' ), 'Presentation template filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'body_class' ), 'Presentation body-class filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wp_robots' ), 'Presentation robots filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_robots' ), 'Yoast robots filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'pre_get_document_title' ), 'Core title filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_title' ), 'Yoast title filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_metadesc' ), 'Yoast description filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_title' ), 'Open Graph title filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_desc' ), 'Open Graph description filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'template_include' ), 'Presentation template filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'body_class' ), 'Presentation body-class filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'wp_robots' ), 'Presentation robots filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'wpseo_robots' ), 'Yoast robots filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'pre_get_document_title' ), 'Core title filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'wpseo_title' ), 'Yoast title filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'wpseo_metadesc' ), 'Yoast description filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_title' ), 'Open Graph title filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_desc' ), 'Open Graph description filter count mismatch.' );
 tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image' ), 'Open Graph image filter count mismatch.' );
-tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_canonical' ), 'Managed canonical filter count mismatch.' );
-tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_url' ), 'Managed Open Graph URL filter count mismatch.' );
+tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_canonical' ), 'Managed canonical filter count mismatch.' );
+tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_url' ), 'Managed Open Graph URL filter count mismatch.' );
 tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image_width' ), 'Open Graph image width filter count mismatch.' );
 tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_opengraph_image_height' ), 'Open Graph image height filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_title' ), 'Twitter title filter count mismatch.' );
-tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_description' ), 'Twitter description filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_title' ), 'Twitter title filter count mismatch.' );
+tl_test_assert( 4 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_description' ), 'Twitter description filter count mismatch.' );
 tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wpseo_twitter_image' ), 'Twitter image filter count mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_schema_graph' ), 'Guide schema suppression filter mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_schema_graph' ), 'Managed schema suppression filter mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_frontend_presenters' ), 'Guide modified-time presenter filter mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_exclude_from_sitemap_by_post_ids' ), 'Guide sitemap exclusion filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'wpseo_sitemap_entry' ), 'Guide sitemap freshness filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'thailand_platform_homepage_markup' ), 'Guide homepage navigation filter mismatch.' );
-tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'transition_post_status' ), 'Guide homepage cache-purge hook mismatch.' );
-tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wp_headers' ), 'Private response header filter count mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'wpseo_sitemap_entry' ), 'Managed sitemap freshness filter mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_filters', 'thailand_platform_homepage_markup' ), 'Managed homepage navigation filter mismatch.' );
+tl_test_assert( 2 === tl_test_hook_count( 'tl_test_actions', 'transition_post_status' ), 'Managed homepage cache-purge hook mismatch.' );
+tl_test_assert( 3 === tl_test_hook_count( 'tl_test_filters', 'wp_headers' ), 'Private response header filter count mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'rest_post_dispatch' ), 'Digital Islands REST privacy filter mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_filters', 'saswp_filter_comparison_logic_checker' ), 'Digital Islands SASWP schema gate mismatch.' );
 tl_test_assert( 5 === $GLOBALS['tl_test_actions']['init'][0]['priority'], 'Update checker priority mismatch.' );
 tl_test_assert( 99 === $GLOBALS['tl_test_filters']['template_include'][0]['priority'], 'Template filter priority mismatch.' );
 tl_test_assert( 2 === $GLOBALS['tl_test_actions']['add_option_thailand_platform_homepage_mode'][0]['accepted_args'], 'Add-option cache hook argument count mismatch.' );
@@ -427,6 +447,12 @@ tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'add_option_thailan
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'update_option_thailand_platform_guides_mode' ), 'Guides update-option cache hook mismatch.' );
 tl_test_assert( 2 === $GLOBALS['tl_test_actions']['add_option_thailand_platform_guides_mode'][0]['accepted_args'], 'Guides add-option cache hook argument count mismatch.' );
 tl_test_assert( 3 === $GLOBALS['tl_test_actions']['update_option_thailand_platform_guides_mode'][0]['accepted_args'], 'Guides update-option cache hook argument count mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'add_option_thailand_platform_digital_islands_mode' ), 'Digital Islands add-option cache hook mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'update_option_thailand_platform_digital_islands_mode' ), 'Digital Islands update-option cache hook mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'add_option_thailand_platform_digital_islands_page_id' ), 'Digital Islands page-ID add-option cache hook mismatch.' );
+tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'update_option_thailand_platform_digital_islands_page_id' ), 'Digital Islands page-ID update-option cache hook mismatch.' );
+tl_test_assert( 2 === $GLOBALS['tl_test_actions']['add_option_thailand_platform_digital_islands_mode'][0]['accepted_args'], 'Digital Islands add-option argument count mismatch.' );
+tl_test_assert( 3 === $GLOBALS['tl_test_actions']['update_option_thailand_platform_digital_islands_mode'][0]['accepted_args'], 'Digital Islands update-option argument count mismatch.' );
 
 tl_test_do_action( 'init' );
 tl_test_assert( false === THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER, 'Canary update checker must remain disabled.' );
@@ -455,7 +481,7 @@ tl_test_assert( 'ok' === $data['status'], 'Health response state mismatch.' );
 tl_test_assert( 'no-store' === $headers['Cache-Control'], 'Health response cache policy mismatch.' );
 tl_test_assert( 3 === count( $data ), 'Health response exposed unexpected fields.' );
 
-/* The public geography API must expose only the compiled 77-province spine. */
+/* The public geography API exposes the reviewed province and island place spine. */
 $geography_route_key = 'thailand-platform/v1/geography';
 tl_test_assert( isset( $GLOBALS['tl_test_routes'][ $geography_route_key ] ), 'Geography route missing.' );
 $geography_route = $GLOBALS['tl_test_routes'][ $geography_route_key ];
@@ -466,7 +492,7 @@ $geography_response      = call_user_func( $geography_route['callback'] );
 $geography_data          = $geography_response->get_data();
 $geography_headers       = $geography_response->get_headers();
 $geography_actual_keys   = array_keys( $geography_data );
-$geography_expected_keys = array( 'schema_version', 'dataset_version', 'country', 'classification_schemes', 'regions', 'provinces' );
+$geography_expected_keys = array( 'schema_version', 'dataset_version', 'country', 'classification_schemes', 'regions', 'provinces', 'places' );
 sort( $geography_actual_keys );
 sort( $geography_expected_keys );
 tl_test_assert( 200 === $geography_response->get_status(), 'Geography response status mismatch.' );
@@ -478,6 +504,11 @@ tl_test_assert(
 tl_test_assert( 'geo:th:country' === $geography_data['country']['id'], 'Geography country identity mismatch.' );
 tl_test_assert( 77 === count( $geography_data['provinces'] ), 'Geography payload does not contain 77 provinces.' );
 tl_test_assert( 7 === count( $geography_data['regions'] ), 'Geography payload does not contain seven statistical regions.' );
+tl_test_assert( 47 === count( $geography_data['places'] ), 'Geography payload does not contain the reviewed island place set.' );
+$geography_place_types = array_count_values( array_column( $geography_data['places'], 'type' ) );
+tl_test_assert( 7 === ( $geography_place_types['district'] ?? 0 ), 'Geography payload district count mismatch.' );
+tl_test_assert( 34 === ( $geography_place_types['subdistrict'] ?? 0 ), 'Geography payload subdistrict count mismatch.' );
+tl_test_assert( 6 === ( $geography_place_types['island'] ?? 0 ), 'Geography payload island count mismatch.' );
 tl_test_assert( 1 === preg_match( '/^"[0-9a-f]{64}"$/', $geography_headers['ETag'] ), 'Geography ETag is invalid.' );
 tl_test_assert( false !== strpos( $geography_headers['Cache-Control'], 'max-age=86400' ), 'Geography cache policy mismatch.' );
 tl_test_assert( 'nosniff' === $geography_headers['X-Content-Type-Options'], 'Geography content type protection missing.' );
@@ -547,6 +578,17 @@ tl_test_assert(
 	'manage_options' === $GLOBALS['tl_test_options_pages']['thailand-platform-guides']['capability'],
 	'Guides settings page capability mismatch.'
 );
+tl_test_assert( isset( $GLOBALS['tl_test_registered_settings'][ Digital_Islands_FeatureFlag::OPTION ] ), 'Digital Islands mode setting missing.' );
+tl_test_assert( isset( $GLOBALS['tl_test_registered_settings'][ Digital_Islands_FeatureFlag::PAGE_ID_OPTION ] ), 'Digital Islands page-ID setting missing.' );
+$digital_islands_setting = $GLOBALS['tl_test_registered_settings'][ Digital_Islands_FeatureFlag::OPTION ];
+$digital_islands_page_setting = $GLOBALS['tl_test_registered_settings'][ Digital_Islands_FeatureFlag::PAGE_ID_OPTION ];
+tl_test_assert( 'thailand_platform_digital_islands' === $digital_islands_setting['group'], 'Digital Islands setting group mismatch.' );
+tl_test_assert( 'string' === $digital_islands_setting['arguments']['type'], 'Digital Islands mode setting type mismatch.' );
+tl_test_assert( Digital_Islands_FeatureFlag::MODE_OFF === $digital_islands_setting['arguments']['default'], 'Digital Islands mode default is not Off.' );
+tl_test_assert( 'integer' === $digital_islands_page_setting['arguments']['type'], 'Digital Islands page-ID setting type mismatch.' );
+tl_test_assert( 0 === $digital_islands_page_setting['arguments']['default'], 'Digital Islands page-ID default is not zero.' );
+tl_test_assert( isset( $GLOBALS['tl_test_options_pages']['thailand-platform-digital-islands'] ), 'Digital Islands settings page missing.' );
+tl_test_assert( 'manage_options' === $GLOBALS['tl_test_options_pages']['thailand-platform-digital-islands']['capability'], 'Digital Islands settings capability mismatch.' );
 
 $GLOBALS['tl_test_cache_flush_calls'] = 0;
 tl_test_do_action(
@@ -586,6 +628,10 @@ tl_test_assert( Guides_FeatureFlag::MODE_CANARY === Guides_FeatureFlag::sanitize
 tl_test_assert( Guides_FeatureFlag::MODE_LIVE === Guides_FeatureFlag::sanitize( 'live' ), 'Valid guides live mode rejected.' );
 tl_test_assert( Guides_FeatureFlag::MODE_OFF === Guides_FeatureFlag::sanitize( 'publish-now' ), 'Invalid guides mode did not fail closed.' );
 tl_test_assert( Guides_FeatureFlag::MODE_OFF === Guides_FeatureFlag::sanitize( array() ), 'Non-string guides mode did not fail closed.' );
+tl_test_assert( array( 'off', 'canary', 'live' ) === Digital_Islands_FeatureFlag::allowed_modes(), 'Digital Islands mode allowlist mismatch.' );
+tl_test_assert( Digital_Islands_FeatureFlag::MODE_CANARY === Digital_Islands_FeatureFlag::sanitize( 'canary' ), 'Valid Digital Islands Canary mode rejected.' );
+tl_test_assert( Digital_Islands_FeatureFlag::MODE_LIVE === Digital_Islands_FeatureFlag::sanitize( 'live' ), 'Valid Digital Islands Live mode rejected.' );
+tl_test_assert( Digital_Islands_FeatureFlag::MODE_OFF === Digital_Islands_FeatureFlag::sanitize( 'publish-now' ), 'Invalid Digital Islands mode did not fail closed.' );
 
 /* Immutable homepage source and its release inventory. */
 $root           = dirname( __DIR__ );
@@ -679,6 +725,35 @@ $geography_runtime_files = array(
 foreach ( $geography_runtime_files as $runtime_file ) {
 	tl_test_assert( in_array( $runtime_file, $package_entries, true ), 'Geography runtime file is not packaged: ' . $runtime_file );
 	tl_test_assert( is_file( $root . '/' . $runtime_file ), 'Geography runtime file is missing: ' . $runtime_file );
+}
+
+$digital_islands_runtime_files = array(
+	'THIRD-PARTY-DATA-NOTICES.md',
+	'assets/digital-islands/digital-islands.css',
+	'assets/digital-islands/digital-islands.js',
+	'resources/digital-islands/manifest.json',
+	'resources/digital-islands/registry.php',
+	'src/DigitalIslands/ArtifactVerifier.php',
+	'src/DigitalIslands/Assets.php',
+	'src/DigitalIslands/Context.php',
+	'src/DigitalIslands/FeatureFlag.php',
+	'src/DigitalIslands/HomepageNavigation.php',
+	'src/DigitalIslands/Module.php',
+	'src/DigitalIslands/Privacy.php',
+	'src/DigitalIslands/PublicView.php',
+	'src/DigitalIslands/Renderer.php',
+	'src/DigitalIslands/Repository.php',
+	'src/DigitalIslands/RestController.php',
+	'src/DigitalIslands/Schema.php',
+	'src/DigitalIslands/Seo.php',
+	'src/DigitalIslands/Settings.php',
+	'src/DigitalIslands/StrictJson.php',
+	'src/DigitalIslands/View.php',
+	'templates/digital-islands/koh-phangan.php',
+);
+foreach ( $digital_islands_runtime_files as $runtime_file ) {
+	tl_test_assert( in_array( $runtime_file, $package_entries, true ), 'Digital Islands runtime file is not packaged: ' . $runtime_file );
+	tl_test_assert( is_file( $root . '/' . $runtime_file ), 'Digital Islands runtime file is missing: ' . $runtime_file );
 }
 
 $content_runtime_files = array(
@@ -794,7 +869,15 @@ tl_test_assert(
 	1 === preg_match( "/delete_option\(\s*'" . preg_quote( Guides_FeatureFlag::OPTION, '/' ) . "'\s*\)\s*;/", $uninstall_source ),
 	'Uninstall does not delete the bounded guides mode option.'
 );
-tl_test_assert( 3 === substr_count( $uninstall_source, 'delete_option(' ), 'Uninstall deletes an unexpected number of options.' );
+tl_test_assert(
+	1 === preg_match( "/delete_option\(\s*'" . preg_quote( Digital_Islands_FeatureFlag::OPTION, '/' ) . "'\s*\)\s*;/", $uninstall_source ),
+	'Uninstall does not delete the bounded Digital Islands mode option.'
+);
+tl_test_assert(
+	1 === preg_match( "/delete_option\(\s*'" . preg_quote( Digital_Islands_FeatureFlag::PAGE_ID_OPTION, '/' ) . "'\s*\)\s*;/", $uninstall_source ),
+	'Uninstall does not delete the bounded Digital Islands page-ID option.'
+);
+tl_test_assert( 5 === substr_count( $uninstall_source, 'delete_option(' ), 'Uninstall deletes an unexpected number of options.' );
 tl_test_assert( false !== strpos( $uninstall_source, 'wp_cache_flush();' ), 'Uninstall no longer purges the WordPress cache.' );
 tl_test_assert( false !== strpos( $uninstall_source, 'clear_cache( false )' ), 'Uninstall no longer purges the Upress page cache.' );
 

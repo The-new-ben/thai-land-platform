@@ -254,6 +254,16 @@ def authoritative_geography_ids() -> set[str]:
         raise AssertionError(f"expected 77 provinces, got {len(provinces)}")
     result.update(f"geo:th:province:{row['code']}" for row in provinces)
 
+    with (ROOT / "data" / "geography" / "places.csv").open(
+        "r", encoding="utf-8-sig", newline=""
+    ) as handle:
+        places = list(csv.DictReader(handle))
+    if len(places) != 47:
+        raise AssertionError(f"expected 47 reviewed places, got {len(places)}")
+    if len({row["entity_id"] for row in places}) != len(places):
+        raise AssertionError("reviewed place identities are not unique")
+    result.update(row["entity_id"] for row in places)
+
     compiled = collect_geo_ids(
         load_json(ROOT / "assets" / "geography" / "core.json")
     )
@@ -569,8 +579,8 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                     len(set(values)),
                     f"duplicate {field}",
                 )
-        self.assertEqual(59, len(self.owners))
-        self.assertEqual(60, len(self.routes))
+        self.assertEqual(60, len(self.owners))
+        self.assertEqual(61, len(self.routes))
 
     def test_canonical_assignments_resolve_and_match_routes(self) -> None:
         for route in self.routes:
@@ -978,9 +988,45 @@ class SeoOwnershipRegistryTest(unittest.TestCase):
                     reachable.add(target)
                     pending.append(target)
 
-        self.assertEqual(45, len(public_owner_ids))
+        self.assertEqual(46, len(public_owner_ids))
         self.assertNotIn("thailand-entry-april-2022", public_owner_ids)
         self.assertTrue(public_owner_ids.issubset(reachable), public_owner_ids - reachable)
+
+    def test_koh_phangan_map_has_one_live_owner_and_planned_direct_parent(self) -> None:
+        owner = self.by_owner["koh-phangan-map"]
+        self.assertEqual("live", owner["lifecycle"])
+        self.assertEqual("/מפת-קופנגן/", owner["canonical_url"])
+        self.assertEqual("thailand-map", owner["parent_owner_id"])
+        self.assertEqual("planned", self.by_owner["thailand-map"]["lifecycle"])
+        self.assertEqual(
+            ["home", "thailand-map", "koh-phangan-map"],
+            [crumb["owner_id"] for crumb in owner["breadcrumb_chain"]],
+        )
+        self.assertTrue(
+            any(
+                edge["target_owner_id"] == "home"
+                and edge["relationship"] == "parent_hub"
+                for edge in owner["internal_link_requirements"]
+            )
+        )
+        self.assertTrue(
+            any(
+                edge["target_owner_id"] == "thailand-map"
+                and edge["relationship"] == "parent_hub"
+                for edge in owner["planned_internal_link_requirements"]
+            )
+        )
+        self.assertTrue(
+            any(
+                edge["target_owner_id"] == "koh-phangan-map"
+                and edge["relationship"] == "child_spoke"
+                for edge in self.by_owner["home"]["internal_link_requirements"]
+            )
+        )
+        route = next(item for item in self.routes if item["route_id"] == "route-koh-phangan-map")
+        self.assertEqual("live", route["lifecycle"])
+        self.assertEqual("index", route["indexing_policy"])
+        self.assertEqual(["data/digital-islands/koh-phangan.json"], route["source_evidence"])
 
     def test_real_estate_spokes_have_hub_and_two_contextual_continuations(self) -> None:
         spokes = {

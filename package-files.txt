@@ -1,3 +1,4 @@
+THIRD-PARTY-DATA-NOTICES.md
 assets/content/bangkok-rental.css
 assets/content/bangkok-rental.js
 assets/content/content.css
@@ -8,6 +9,8 @@ assets/content/images/bangkok-rental-atlas-v1-720.webp
 assets/content/images/real-estate-thailand-atlas-v1-1200.webp
 assets/content/images/real-estate-thailand-atlas-v1-1717.webp
 assets/content/images/real-estate-thailand-atlas-v1-720.webp
+assets/digital-islands/digital-islands.css
+assets/digital-islands/digital-islands.js
 assets/geography/core.json
 assets/guides/guides.css
 assets/guides/guides.js
@@ -144,6 +147,8 @@ readme.txt
 resources/content/bangkok-rental-areas.php
 resources/content/priority-guides.php
 resources/content/real-estate.php
+resources/digital-islands/manifest.json
+resources/digital-islands/registry.php
 resources/geography/manifest.json
 resources/geography/registry.php
 resources/homepage.html
@@ -160,6 +165,22 @@ src/Content/Renderer.php
 src/Content/Repository.php
 src/Content/Seo.php
 src/Content/Settings.php
+src/DigitalIslands/ArtifactVerifier.php
+src/DigitalIslands/Assets.php
+src/DigitalIslands/Context.php
+src/DigitalIslands/FeatureFlag.php
+src/DigitalIslands/HomepageNavigation.php
+src/DigitalIslands/Module.php
+src/DigitalIslands/Privacy.php
+src/DigitalIslands/PublicView.php
+src/DigitalIslands/Renderer.php
+src/DigitalIslands/Repository.php
+src/DigitalIslands/RestController.php
+src/DigitalIslands/Schema.php
+src/DigitalIslands/Seo.php
+src/DigitalIslands/Settings.php
+src/DigitalIslands/StrictJson.php
+src/DigitalIslands/View.php
 src/Geography/Repository.php
 src/Geography/Resolver.php
 src/Geography/Route.php
@@ -186,6 +207,7 @@ src/Support/Compatibility.php
 src/Support/Loader.php
 src/Updates/Checker.php
 templates/content-document.php
+templates/digital-islands/koh-phangan.php
 templates/front-page.php
 templates/guides/document.php
 templates/guides/partials/footer.php

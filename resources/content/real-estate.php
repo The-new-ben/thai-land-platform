@@ -220,7 +220,7 @@ return json_decode(
     "hub_return": "לכל מדריכי הנדל״ן בתאילנד",
     "sources_heading": "מקורות שימושיים"
   },
-  "registry_sha256": "72740427b9cb9016f1f34c9b3669508f5520901e344854f27c648ccf531b18e1",
+  "registry_sha256": "70ae6c76a52724a35e83d21de1e285555dfce0198a67170aff9760f3c0822f41",
   "rendering_owners": {
     "breadcrumb": "content_template_once",
     "h1": "content_template",
@@ -841,7 +841,7 @@ return json_decode(
   },
   "schema_sha256": "47ff52e08576c17e9849889120a77238ba833e8fe5abf715088f76d52a70fa60",
   "schema_version": 1,
-  "seo_registry_sha256": "1a834f9f35e3963e45447ef29c97c2276dbbb2e02b2247b04be584782da233db",
+  "seo_registry_sha256": "c3dda8c5e991e977e46b7694f7e170b1ff4a268875ec29f428766aa66988763e",
   "site": {
     "direction": "rtl",
     "locale": "he-IL",

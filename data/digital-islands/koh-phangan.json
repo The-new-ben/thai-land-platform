@@ -1,0 +1,4073 @@
+{
+  "$schema": "./island-world.schema.json",
+  "schema_version": 1,
+  "contract_id": "thailand-digital-island-world-v1",
+  "dataset_version": "2026.08.11.3",
+  "checked_on": "2026-08-11",
+  "publication_state": "live",
+  "canonical": {
+    "owner_id": "koh-phangan-map",
+    "canonical_path": "/מפת-קופנגן/",
+    "parent_owner_id": "thailand-map",
+    "primary_keyword": "מפת קופנגן",
+    "indexing_policy": "index",
+    "breadcrumb_owner_ids": [
+      "home",
+      "thailand-map",
+      "koh-phangan-map"
+    ]
+  },
+  "island": {
+    "geo_id": "geo:th:island:ko-pha-ngan",
+    "province_geo_id": "geo:th:province:84",
+    "district_geo_id": "geo:th:district:8405",
+    "subdistrict_geo_ids": [
+      "geo:th:subdistrict:840501",
+      "geo:th:subdistrict:840502"
+    ],
+    "excluded_geo_ids": [
+      "geo:th:subdistrict:840503"
+    ],
+    "names": {
+      "he": "קופנגן",
+      "en": "Ko Pha-ngan",
+      "th": "เกาะพะงัน"
+    },
+    "aliases": {
+      "he": [
+        "קו פנגן",
+        "קוה פנגן"
+      ],
+      "en": [
+        "Koh Phangan",
+        "Ko Phangan",
+        "Ko Pha Ngan"
+      ],
+      "th": [
+        "เกาะพงัน"
+      ]
+    },
+    "center": {
+      "latitude": 9.7349503,
+      "longitude": 100.0305711
+    },
+    "bounds": {
+      "south": 9.6656703,
+      "north": 9.8040211,
+      "west": 99.9607358,
+      "east": 100.0817729
+    },
+    "geometry_provenance": "community_mapped_relation",
+    "source_ids": [
+      "source:osm.relation.9443846",
+      "source:cdd.codes.2026"
+    ]
+  },
+  "renderer_contract": [
+    {
+      "renderer_id": "immersive_3d",
+      "role": "primary_capable_device",
+      "library": "CesiumJS",
+      "delivery": "dependency_pending",
+      "capabilities": [
+        "adapter_seam",
+        "entity_focus",
+        "camera_presets"
+      ],
+      "fallback_triggers": [
+        "webgl_unavailable",
+        "data_saver",
+        "reduced_motion",
+        "user_choice"
+      ],
+      "source_ids": [
+        "source:cesiumjs.docs"
+      ]
+    },
+    {
+      "renderer_id": "practical_2d",
+      "role": "fallback_and_operational",
+      "library": "MapLibre GL JS",
+      "delivery": "dependency_pending",
+      "capabilities": [
+        "adapter_seam",
+        "entity_focus",
+        "filters",
+        "keyboard_list"
+      ],
+      "fallback_triggers": [],
+      "source_ids": [
+        "source:maplibre.docs"
+      ]
+    }
+  ],
+  "camera_presets": [
+    {
+      "preset_id": "thailand-arrival",
+      "label_he": "מעל תאילנד",
+      "position": {
+        "latitude": 13.1,
+        "longitude": 101.0
+      },
+      "height_m": 1800000,
+      "heading_deg": 180,
+      "pitch_deg": -70,
+      "roll_deg": 0
+    },
+    {
+      "preset_id": "koh-phangan-orbit",
+      "label_he": "קופנגן ממעוף הציפור",
+      "position": {
+        "latitude": 9.7349503,
+        "longitude": 100.0305711
+      },
+      "height_m": 42000,
+      "heading_deg": 25,
+      "pitch_deg": -55,
+      "roll_deg": 0
+    },
+    {
+      "preset_id": "thong-sala-arrival",
+      "label_he": "נחיתה בטונג סאלה",
+      "position": {
+        "latitude": 9.70896,
+        "longitude": 99.98413
+      },
+      "height_m": 1600,
+      "heading_deg": 20,
+      "pitch_deg": -35,
+      "roll_deg": 0
+    },
+    {
+      "preset_id": "northwest-projects",
+      "label_he": "אזורי המגורים בצפון מערב",
+      "position": {
+        "latitude": 9.7785,
+        "longitude": 99.9735
+      },
+      "height_m": 3400,
+      "heading_deg": 310,
+      "pitch_deg": -42,
+      "roll_deg": 0
+    }
+  ],
+  "land_decision_policy": {
+    "parcel_data_mode": "external_official_lookup_only",
+    "automatic_buildability_verdict": false,
+    "automatic_title_verdict": false,
+    "required_dimensions": [
+      "offer_availability",
+      "asking_price",
+      "parcel_reference_match",
+      "title_document_claim",
+      "seller_authority",
+      "road_access",
+      "utility_access",
+      "planning_classification",
+      "protected_area_overlap",
+      "slope_and_drainage",
+      "coastal_and_environmental_constraints",
+      "ownership_structure",
+      "building_permit"
+    ]
+  },
+  "official_tools": [
+    {
+      "tool_id": "lands-maps-parcel-lookup",
+      "label_he": "בדיקת חלקה במערכת LandsMaps הרשמית",
+      "purpose": "parcel_lookup",
+      "source_id": "source:dol.landsmaps",
+      "url": "https://landsmaps.dol.go.th/",
+      "delivery": "external_official_link",
+      "supports_dimensions": [
+        "parcel_reference_match",
+        "title_document_claim"
+      ],
+      "limitations_he": [
+        "נדרשים פרטי חלקה או מסמך זכות כדי לזהות את המקרקעין בצורה מדויקת.",
+        "התאמה במפה אינה אישור לבעלות, לזכויות בנייה או למצב משפטי נקי."
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "tool_id": "koh-phangan-land-office",
+      "label_he": "סניף משרד הקרקעות בקופנגן",
+      "purpose": "land_office",
+      "source_id": "source:dol.kohphangan",
+      "url": "https://www.dol.go.th/sni-kophangan/",
+      "delivery": "external_official_link",
+      "supports_dimensions": [
+        "title_document_claim",
+        "seller_authority",
+        "ownership_structure"
+      ],
+      "limitations_he": [
+        "בדיקת מסמכים והעברת זכויות נעשות מול משרד הקרקעות ובהתאם לסוג הזכות ולצדדים לעסקה.",
+        "העמוד אינו מחליף בדיקת מסמכים ועורך דין בלתי תלוי מטעם הרוכש."
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "tool_id": "onep-environmental-rules",
+      "label_he": "כללי ההגנה הסביבתית של ONEP",
+      "purpose": "environmental_rules",
+      "source_id": "source:onep.epa.2568",
+      "url": "https://www.onep.go.th/epa-suratthani-2568/",
+      "delivery": "external_official_link",
+      "supports_dimensions": [
+        "planning_classification",
+        "protected_area_overlap",
+        "coastal_and_environmental_constraints",
+        "building_permit"
+      ],
+      "limitations_he": [
+        "ההוראות חלות לפי מיקום, סוג שימוש, גובה, שיפוע ותנאים נוספים שיש לבדוק לכל חלקה.",
+        "הגאומטריה הרשמית עדיין לא הוכנסה למפה ולכן אין כאן קביעה אוטומטית על חפיפה."
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    }
+  ],
+  "source_catalog": [
+    {
+      "source_id": "source:cesiumjs.docs",
+      "publisher": "Cesium",
+      "title": "CesiumJS terrain and 3D Tiles documentation",
+      "url": "https://cesium.com/learn/cesiumjs-learn/cesiumjs-terrain/",
+      "authority_tier": "first_party",
+      "source_type": "official_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "link_only",
+      "geometry_use": "none",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "source_id": "source:maplibre.docs",
+      "publisher": "MapLibre",
+      "title": "MapLibre GL JS documentation",
+      "url": "https://maplibre.org/maplibre-gl-js/docs/",
+      "authority_tier": "first_party",
+      "source_type": "official_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "link_only",
+      "geometry_use": "none",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "source_id": "source:osm.relation.9443846",
+      "publisher": "OpenStreetMap contributors",
+      "title": "Ko Pha-ngan island relation 9443846",
+      "url": "https://www.openstreetmap.org/relation/9443846",
+      "authority_tier": "community_map",
+      "source_type": "map_relation",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "attribute_and_geometry",
+      "geometry_use": "orientation_only",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "source_id": "source:osm.kohphangan.features",
+      "publisher": "OpenStreetMap contributors",
+      "title": "Koh Phangan orientation features",
+      "url": "https://www.openstreetmap.org/relation/9443846",
+      "authority_tier": "community_map",
+      "source_type": "map_feature",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "attribute_and_geometry",
+      "geometry_use": "orientation_only",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "source_id": "source:cdd.codes.2026",
+      "publisher": "Community Development Department",
+      "title": "Current government location codes",
+      "url": "https://www.audit.cdd.go.th/file/get/file/1.20260625567981582fd8e99f826a603c2df13a0e170111.pdf",
+      "authority_tier": "official",
+      "source_type": "official_dataset",
+      "checked_on": "2026-08-11",
+      "effective_on": "2026-06-25",
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2027-06-25"
+    },
+    {
+      "source_id": "source:municipality.kohphangan",
+      "publisher": "Ko Pha-ngan Subdistrict Municipality",
+      "title": "Municipality information and village names",
+      "url": "https://www.kohphangancity.go.th/front/menu/2/81",
+      "authority_tier": "official",
+      "source_type": "official_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:municipality.phetphangan",
+      "publisher": "Phet Pha-ngan Subdistrict Municipality",
+      "title": "Municipality information and village names",
+      "url": "https://www.phetphangan.go.th/front/menu/2/105",
+      "authority_tier": "official",
+      "source_type": "official_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:municipality.bantai",
+      "publisher": "Ban Tai Subdistrict Municipality",
+      "title": "Municipality information and village names",
+      "url": "https://www.baantai.go.th/front/menu/2/142",
+      "authority_tier": "official",
+      "source_type": "official_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:dol.landsmaps",
+      "publisher": "Department of Lands",
+      "title": "LandsMaps official parcel lookup",
+      "url": "https://landsmaps.dol.go.th/",
+      "authority_tier": "official",
+      "source_type": "official_dataset",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "link_only",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:dol.kohphangan",
+      "publisher": "Department of Lands",
+      "title": "Koh Phangan Land Office subbranch",
+      "url": "https://www.dol.go.th/sni-kophangan/",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:immigration.phangan",
+      "publisher": "Surat Thani Immigration",
+      "title": "Phangan Immigration contact",
+      "url": "https://suratthani.imm.police.go.th/contact/",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:police.kohphangan",
+      "publisher": "Royal Thai Police",
+      "title": "Koh Phangan Police Station",
+      "url": "https://kophangan.suratthani.police.go.th/",
+      "authority_tier": "official",
+      "source_type": "official_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:moph.hospital.11359",
+      "publisher": "Ministry of Public Health",
+      "title": "Koh Phangan Hospital record",
+      "url": "https://hcode.moph.go.th/code/19372/",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:moph.hospital.30695",
+      "publisher": "Ministry of Public Health",
+      "title": "Thai International Hospital Phangan record",
+      "url": "https://hcode.moph.go.th/code/30695/",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:moph.hospital.4871",
+      "publisher": "Ministry of Public Health",
+      "title": "Phangan International Hospital record",
+      "url": "https://hcode.moph.go.th/code/4871/",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:pwa.kohphangan",
+      "publisher": "Provincial Waterworks Authority",
+      "title": "PWA Koh Phangan branch",
+      "url": "https://www.pwa.co.th/province/branch/5550233",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "official_point",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:pea.kohphangan",
+      "publisher": "Provincial Electricity Authority",
+      "title": "PEA Ko Pha-ngan branch listing",
+      "url": "https://www.pea.co.th/pea-information-center",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:marine.thong-sala",
+      "publisher": "Marine Department",
+      "title": "Thong Sala pier berth record",
+      "url": "https://nsw.md.go.th/msberthmanagement/PublicBerthStatus.aspx",
+      "authority_tier": "official",
+      "source_type": "official_dataset",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-11-11"
+    },
+    {
+      "source_id": "source:haadrinqueen.pier",
+      "publisher": "Haad Rin Queen",
+      "title": "Haad Rin Queen pier contact",
+      "url": "https://www.haadrinqueen.com/",
+      "authority_tier": "first_party",
+      "source_type": "business_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-08-18"
+    },
+    {
+      "source_id": "source:gsb.kohphangan",
+      "publisher": "Government Savings Bank",
+      "title": "Ko Pha-ngan branch locator",
+      "url": "https://www.gsb.or.th/contacts/gsbbranch/?page=75",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:kbank.kohphangan",
+      "publisher": "Kasikornbank",
+      "title": "Ko Pha-ngan branch locator",
+      "url": "https://www.kasikornbank.com/en/branch/pages/result-branch.aspx",
+      "authority_tier": "first_party",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:thailandpost.kohphangan",
+      "publisher": "Thailand Post",
+      "title": "Koh Phangan Post Office",
+      "url": "https://www.thailandpost.co.th/index.php?addon=product&group_id=83&language=th&page=article_detail&topic_id=31688",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:onep.epa.2568",
+      "publisher": "Office of Natural Resources and Environmental Policy and Planning",
+      "title": "Surat Thani environmental protection area 2568",
+      "url": "https://www.onep.go.th/epa-suratthani-2568/",
+      "authority_tier": "official",
+      "source_type": "law",
+      "checked_on": "2026-08-11",
+      "effective_on": "2025-05-22",
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:nava.kohphangan",
+      "publisher": "NAVA Koh Phangan",
+      "title": "NAVA project and current offers",
+      "url": "https://navakohphangan.com/",
+      "authority_tier": "first_party",
+      "source_type": "project_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-08-25"
+    },
+    {
+      "source_id": "source:pahili.blu",
+      "publisher": "Pahili Development",
+      "title": "BLU project and current offers",
+      "url": "https://www.pahilidevelopment.com/projects/blu",
+      "authority_tier": "first_party",
+      "source_type": "project_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-08-25"
+    },
+    {
+      "source_id": "source:ohana.villas",
+      "publisher": "Ohana Villas",
+      "title": "Ohana Villas project",
+      "url": "https://www.ohanavillas.org/",
+      "authority_tier": "first_party",
+      "source_type": "project_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-08-25"
+    },
+    {
+      "source_id": "source:marine.office.kohphangan",
+      "publisher": "Marine Department",
+      "title": "Regional Marine Office 4 Ko Pha-ngan Branch record",
+      "url": "https://md.go.th/wp-content/uploads/2021/12/T_0047.pdf",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-11-11"
+    },
+    {
+      "source_id": "source:obec.kohphangan.suksa",
+      "publisher": "Office of the Basic Education Commission",
+      "title": "Ko Pha-ngan Suksa School record",
+      "url": "https://plan.obec.go.th/actionplan/files_upload/250328091428am-1084640554.pdf",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-11-11"
+    },
+    {
+      "source_id": "source:ais.kohphangan",
+      "publisher": "AIS",
+      "title": "AIS Shop Tourist Koh Phangan branch",
+      "url": "https://retail.ais.th/south/surat_thani/tourist-shop-koh-phangan/309",
+      "authority_tier": "first_party",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-11"
+    },
+    {
+      "source_id": "source:publichealth.phangan",
+      "publisher": "Ko Pha-ngan District Public Health Office",
+      "title": "District public health contact",
+      "url": "https://pnpho.go.th/contact.html",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "first_party_pin",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:district.kohphangan",
+      "publisher": "Office of the Official Information Commission",
+      "title": "Ko Pha-ngan District Office identity",
+      "url": "https://infocenter.oic.go.th/FILEWEB/CABINFOCENTER12/DRAWER013/GENERAL/DATA0000/00000005.PDF",
+      "authority_tier": "official",
+      "source_type": "official_directory",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "source_id": "source:bangkokhospital.phangan",
+      "publisher": "Bangkok Hospital Samui",
+      "title": "Phangan International Hospital branch",
+      "url": "https://www.bangkokhospital.com/en/samui/branch/phangan-international-hospital",
+      "authority_tier": "first_party",
+      "source_type": "business_page",
+      "checked_on": "2026-08-11",
+      "effective_on": null,
+      "access_state": "current",
+      "permitted_reuse": "public_fact_with_attribution",
+      "geometry_use": "none",
+      "next_review_on": "2026-09-10"
+    }
+  ],
+  "layer_catalog": [
+    {
+      "layer_id": "layer:terrain",
+      "label_he": "תבליט וגובה",
+      "category": "surface",
+      "priority": 1,
+      "coverage_state": "collection_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "terrain",
+      "delivery": "3d_tiles",
+      "source_ids": [],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:imagery",
+      "label_he": "צילום אוויר",
+      "category": "surface",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "raster",
+      "delivery": "raster_tiles",
+      "source_ids": [],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:coastline",
+      "label_he": "קו חוף",
+      "category": "surface",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "line",
+      "delivery": "pmtiles",
+      "source_ids": [
+        "source:osm.relation.9443846"
+      ],
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "layer_id": "layer:roads",
+      "label_he": "כבישים ודרכי גישה",
+      "category": "infrastructure",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "map_only",
+      "geometry_contract": "line",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:municipality.phetphangan",
+        "source:municipality.bantai",
+        "source:osm.kohphangan.features"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:municipalities",
+      "label_he": "רשויות מקומיות",
+      "category": "legal",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "polygon",
+      "delivery": "pmtiles",
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:municipality.bantai",
+        "source:municipality.phetphangan"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:settlements",
+      "label_he": "כפרים ואזורים",
+      "category": "orientation",
+      "priority": 1,
+      "coverage_state": "public_ready",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:municipality.bantai",
+        "source:municipality.phetphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "layer_id": "layer:buildings",
+      "label_he": "מבנים",
+      "category": "surface",
+      "priority": 2,
+      "coverage_state": "collection_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "polygon",
+      "delivery": "3d_tiles",
+      "source_ids": [
+        "source:osm.kohphangan.features"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:parcel-lookup",
+      "label_he": "בדיקת חלקה רשמית",
+      "category": "land",
+      "priority": 1,
+      "coverage_state": "public_ready",
+      "public_state": "map_only",
+      "geometry_contract": "external_lookup",
+      "delivery": "external_lookup",
+      "source_ids": [
+        "source:dol.landsmaps"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:land-offers",
+      "label_he": "קרקעות שמוצעות למכירה",
+      "category": "land",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "none",
+      "delivery": "entity_api",
+      "source_ids": [],
+      "next_review_on": "2026-08-25"
+    },
+    {
+      "layer_id": "layer:property-projects",
+      "label_he": "פרויקטים למגורים",
+      "category": "property",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:nava.kohphangan",
+        "source:pahili.blu",
+        "source:ohana.villas"
+      ],
+      "next_review_on": "2026-08-25"
+    },
+    {
+      "layer_id": "layer:resale-offers",
+      "label_he": "נכסים קיימים למכירה",
+      "category": "property",
+      "priority": 2,
+      "coverage_state": "review_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "none",
+      "delivery": "entity_api",
+      "source_ids": [],
+      "next_review_on": "2026-08-25"
+    },
+    {
+      "layer_id": "layer:planning",
+      "label_he": "תכנון ושימושי קרקע",
+      "category": "legal",
+      "priority": 1,
+      "coverage_state": "source_missing",
+      "public_state": "private_candidate",
+      "geometry_contract": "polygon",
+      "delivery": "pmtiles",
+      "source_ids": [],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:environmental-protection",
+      "label_he": "הגנה סביבתית",
+      "category": "legal",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "polygon",
+      "delivery": "pmtiles",
+      "source_ids": [
+        "source:onep.epa.2568"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:protected-land",
+      "label_he": "יער ושטחים מוגנים",
+      "category": "legal",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "polygon",
+      "delivery": "pmtiles",
+      "source_ids": [
+        "source:municipality.phetphangan",
+        "source:municipality.bantai"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:slope",
+      "label_he": "שיפוע",
+      "category": "risk",
+      "priority": 1,
+      "coverage_state": "collection_in_progress",
+      "public_state": "private_candidate",
+      "geometry_contract": "raster",
+      "delivery": "raster_tiles",
+      "source_ids": [],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:flood-drainage",
+      "label_he": "ניקוז והצפות",
+      "category": "risk",
+      "priority": 1,
+      "coverage_state": "collection_in_progress",
+      "public_state": "private_candidate",
+      "geometry_contract": "mixed",
+      "delivery": "pmtiles",
+      "source_ids": [],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:utilities",
+      "label_he": "מים וחשמל",
+      "category": "infrastructure",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:pwa.kohphangan",
+        "source:pea.kohphangan"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:government",
+      "label_he": "משרדי ממשלה ורשויות",
+      "category": "service",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:municipality.bantai",
+        "source:municipality.phetphangan",
+        "source:dol.kohphangan",
+        "source:immigration.phangan",
+        "source:police.kohphangan",
+        "source:marine.office.kohphangan"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:health",
+      "label_he": "בתי חולים ושירותי בריאות",
+      "category": "service",
+      "priority": 1,
+      "coverage_state": "public_ready",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:moph.hospital.11359",
+        "source:moph.hospital.30695",
+        "source:moph.hospital.4871"
+      ],
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "layer_id": "layer:transport",
+      "label_he": "נמלים ותחבורה",
+      "category": "infrastructure",
+      "priority": 1,
+      "coverage_state": "review_in_progress",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:marine.thong-sala",
+        "source:marine.office.kohphangan",
+        "source:haadrinqueen.pier"
+      ],
+      "next_review_on": "2026-11-11"
+    },
+    {
+      "layer_id": "layer:business-services",
+      "label_he": "שירותים לעסקים ולרוכשים",
+      "category": "service",
+      "priority": 2,
+      "coverage_state": "collection_in_progress",
+      "public_state": "review_required",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:gsb.kohphangan",
+        "source:kbank.kohphangan",
+        "source:thailandpost.kohphangan"
+      ],
+      "next_review_on": "2026-09-11"
+    },
+    {
+      "layer_id": "layer:education",
+      "label_he": "חינוך ומשפחה",
+      "category": "service",
+      "priority": 2,
+      "coverage_state": "public_ready",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:obec.kohphangan.suksa"
+      ],
+      "next_review_on": "2026-11-11"
+    },
+    {
+      "layer_id": "layer:telecom",
+      "label_he": "תקשורת",
+      "category": "infrastructure",
+      "priority": 2,
+      "coverage_state": "public_ready",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:ais.kohphangan"
+      ],
+      "next_review_on": "2026-09-11"
+    },
+    {
+      "layer_id": "layer:landmarks",
+      "label_he": "נקודות התמצאות",
+      "category": "orientation",
+      "priority": 2,
+      "coverage_state": "review_in_progress",
+      "public_state": "map_only",
+      "geometry_contract": "point",
+      "delivery": "entity_api",
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:municipality.phetphangan",
+        "source:municipality.bantai",
+        "source:osm.kohphangan.features"
+      ],
+      "next_review_on": "2027-08-11"
+    }
+  ],
+  "entities": [
+    {
+      "entity_id": "settlement:th:84:840501:muban-1-thong-sala",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן טונג סאלה",
+        "en": "Ban Thong Sala",
+        "th": "บ้านท้องศาลา"
+      },
+      "aliases": {
+        "he": [
+          "טונג סאלה"
+        ],
+        "en": [
+          "Thong Sala"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מובאן 1, טונג סאלה",
+      "coordinates": {
+        "latitude": 9.7105585,
+        "longitude": 99.9863772,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 300,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840501:muban-2-ban-nai-suan",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן נאי סואן",
+        "en": "Ban Nai Suan",
+        "th": "บ้านในสวน"
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "Nai Suan"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מובאן 2, באן נאי סואן",
+      "coordinates": {
+        "latitude": 9.7265342,
+        "longitude": 100.0097937,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 500,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements"
+      ],
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840501:muban-3-ban-maduea-wan",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן מדואה ואן",
+        "en": "Ban Maduea Wan",
+        "th": "บ้านมะเดื่อหวาน"
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "Maduea Wan"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מובאן 3, באן מדואה ואן",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:settlements"
+      ],
+      "source_ids": [
+        "source:municipality.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840501:muban-4-ban-wok-tum",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן ווק טום",
+        "en": "Ban Wok Tum",
+        "th": "บ้านวกตุ่ม"
+      },
+      "aliases": {
+        "he": [
+          "ווק טום"
+        ],
+        "en": [
+          "Wok Tum"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מובאן 4, ווק טום",
+      "coordinates": {
+        "latitude": 9.7378214,
+        "longitude": 99.9819077,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 500,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840501:muban-5-ban-chalok-ban-kao",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן צ'אלוק באן קאו",
+        "en": "Ban Chalok Ban Kao",
+        "th": "บ้านโฉลกบ้านเก่า"
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "Chalok Ban Kao"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מובאן 5, צ'אלוק באן קאו",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:settlements"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840501:muban-6-ban-hin-kong",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן הין קונג",
+        "en": "Ban Hin Kong",
+        "th": "บ้านหินกอง"
+      },
+      "aliases": {
+        "he": [
+          "הין קונג"
+        ],
+        "en": [
+          "Hin Kong"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מובאן 6, הין קונג",
+      "coordinates": {
+        "latitude": 9.7498522,
+        "longitude": 99.9779618,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 500,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840501:muban-7-ban-chalok-lam",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן צ'אלוק לאם",
+        "en": "Ban Chalok Lam",
+        "th": "บ้านโฉลกหลำ"
+      },
+      "aliases": {
+        "he": [
+          "צ'אלוקלום"
+        ],
+        "en": [
+          "Chaloklum",
+          "Chalok Lam"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מובאן 7, צ'אלוק לאם",
+      "coordinates": {
+        "latitude": 9.7852863,
+        "longitude": 100.0069751,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 300,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840501:muban-8-ban-sri-thanu",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן סרי תאנו",
+        "en": "Ban Sri Thanu",
+        "th": "บ้านศรีธนู"
+      },
+      "aliases": {
+        "he": [
+          "סרי תאנו"
+        ],
+        "en": [
+          "Srithanu",
+          "Sri Thanu"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מובאן 8, סרי תאנו",
+      "coordinates": {
+        "latitude": 9.7558326,
+        "longitude": 99.9662053,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 300,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840502:muban-1-ban-tai",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן טאי",
+        "en": "Ban Tai",
+        "th": "บ้านใต้"
+      },
+      "aliases": {
+        "he": [
+          "באן תאי"
+        ],
+        "en": [
+          "Baan Tai"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "מובאן 1, באן טאי",
+      "coordinates": {
+        "latitude": 9.7037631,
+        "longitude": 100.0192422,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 300,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.bantai",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840502:muban-2-ban-nok",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן נוק",
+        "en": "Ban Nok",
+        "th": "บ้านนอก"
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "מובאן 2, באן נוק",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:settlements"
+      ],
+      "source_ids": [
+        "source:municipality.bantai"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840502:muban-3-ban-nuea",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן נואה",
+        "en": "Ban Nuea",
+        "th": "บ้านเหนือ"
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "מובאן 3, באן נואה",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:settlements"
+      ],
+      "source_ids": [
+        "source:municipality.bantai"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840502:muban-4-ban-khai",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן קאי",
+        "en": "Ban Khai",
+        "th": "บ้านค่าย"
+      },
+      "aliases": {
+        "he": [
+          "באן קהאי"
+        ],
+        "en": [
+          "Baan Khai"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "מובאן 4, באן קאי",
+      "coordinates": {
+        "latitude": 9.6994098,
+        "longitude": 100.0365601,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 500,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements"
+      ],
+      "source_ids": [
+        "source:municipality.bantai",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840502:muban-5-ban-thong-nai-pan",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן טונג נאי פאן",
+        "en": "Ban Thong Nai Pan",
+        "th": "บ้านท้องนายปาน"
+      },
+      "aliases": {
+        "he": [
+          "טונג נאי פאן"
+        ],
+        "en": [
+          "Thong Nai Pan"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "מובאן 5, טונג נאי פאן",
+      "coordinates": {
+        "latitude": 9.7747086,
+        "longitude": 100.0546147,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 500,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.bantai",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "settlement:th:84:840502:muban-6-ban-haad-rin",
+      "entity_type": "settlement",
+      "names": {
+        "he": "באן האד רין",
+        "en": "Ban Haad Rin",
+        "th": "บ้านหาดริ้น"
+      },
+      "aliases": {
+        "he": [
+          "האד רין"
+        ],
+        "en": [
+          "Haad Rin"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "מובאן 6, האד רין",
+      "coordinates": {
+        "latitude": 9.6756244,
+        "longitude": 100.065587,
+        "accuracy_class": "area_centroid",
+        "accuracy_m": 300,
+        "basis_label": "מרכז תווית יישוב במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:settlements",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.bantai",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2027-08-11"
+    },
+    {
+      "entity_id": "landmark:th:84:840501:haad-yao-region",
+      "entity_type": "landmark",
+      "names": {
+        "he": "אזור האד יאו",
+        "en": "Haad Yao orientation region",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "האד יאו"
+        ],
+        "en": [
+          "Haad Yao"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "החוף הצפון מערבי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "תווית אזור להתמצאות בלבד. לא מוצג סמן של נכס, עסק או אטרקציה",
+          "source_ids": [
+            "source:municipality.phetphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "landmark:th:84:840501:haad-salad-region",
+      "entity_type": "landmark",
+      "names": {
+        "he": "אזור האד סלאד",
+        "en": "Haad Salad orientation region",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "האד סלאד"
+        ],
+        "en": [
+          "Haad Salad"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "החוף הצפון מערבי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "תווית אזור להתמצאות בלבד. לא מוצג סמן של נכס, עסק או אטרקציה",
+          "source_ids": [
+            "source:municipality.phetphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "landmark:th:84:840501:mae-haad-region",
+      "entity_type": "landmark",
+      "names": {
+        "he": "אזור מאה האד",
+        "en": "Mae Haad orientation region",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "מאה האד"
+        ],
+        "en": [
+          "Mae Haad"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "הקצה הצפון מערבי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "תווית אזור להתמצאות בלבד. לא מוצג סמן של נכס, עסק או אטרקציה",
+          "source_ids": [
+            "source:municipality.phetphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "landmark:th:84:840502:thong-nai-pan-yai-region",
+      "entity_type": "landmark",
+      "names": {
+        "he": "אזור טונג נאי פאן יאי",
+        "en": "Thong Nai Pan Yai orientation region",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "טונג נאי פאן יאי"
+        ],
+        "en": [
+          "Thong Nai Pan Yai"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "החוף הצפון מזרחי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.bantai"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "תווית אזור קצה להתמצאות בלבד. לא מוצג סמן של נכס, עסק או אטרקציה",
+          "source_ids": [
+            "source:municipality.bantai"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "landmark:th:84:840502:thong-nai-pan-noi-region",
+      "entity_type": "landmark",
+      "names": {
+        "he": "אזור טונג נאי פאן נוי",
+        "en": "Thong Nai Pan Noi orientation region",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "טונג נאי פאן נוי"
+        ],
+        "en": [
+          "Thong Nai Pan Noi"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "החוף הצפון מזרחי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.bantai"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "תווית אזור קצה להתמצאות בלבד. לא מוצג סמן של נכס, עסק או אטרקציה",
+          "source_ids": [
+            "source:municipality.bantai"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "landmark:th:84:840501:khao-ra-ridge",
+      "entity_type": "landmark",
+      "names": {
+        "he": "רכס קאו רא",
+        "en": "Khao Ra ridge",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "קאו רא"
+        ],
+        "en": [
+          "Khao Ra"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "רכס מרכז האי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "נקודת ייחוס טופוגרפית להתמצאות בלבד. פסגה, גבול ושיפוע רשמיים אינם מוצגים",
+          "source_ids": [
+            "source:municipality.phetphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "landmark:th:84:8405:than-sadet-national-park",
+      "entity_type": "landmark",
+      "names": {
+        "he": "הפארק הלאומי תאן סאדט - קו פנגאן",
+        "en": "Than Sadet-Ko Pha-ngan National Park",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "תאן סאדט"
+        ],
+        "en": [
+          "Than Sadet National Park"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "אזור מוגן באי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "polygon",
+        "state": "review_required",
+        "uri": null,
+        "source_ids": [
+          "source:municipality.phetphangan",
+          "source:municipality.bantai"
+        ]
+      },
+      "layer_ids": [
+        "layer:landmarks",
+        "layer:protected-land"
+      ],
+      "source_ids": [
+        "source:municipality.bantai",
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "שכבת התמצאות והתרעה על מרחב מוגן, לא מדריך אטרקציות. הגבול הרשמי טרם יובא",
+          "source_ids": [
+            "source:municipality.phetphangan",
+            "source:municipality.bantai"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "road:th:84:8405:thong-sala-ban-tai-haad-rin",
+      "entity_type": "road",
+      "names": {
+        "he": "ציר טונג סאלה - באן טאי - האד רין",
+        "en": "Thong Sala - Ban Tai - Haad Rin corridor",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "ציר החוף הדרומי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "line",
+        "state": "review_required",
+        "uri": null,
+        "source_ids": [
+          "source:municipality.kohphangan",
+          "source:municipality.bantai"
+        ]
+      },
+      "layer_ids": [
+        "layer:roads"
+      ],
+      "source_ids": [
+        "source:municipality.bantai",
+        "source:municipality.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "ציר תפעולי להתמצאות בלבד. תוואי רשמי, מצב דרך וגישה לחלקה אינם מוצגים",
+          "source_ids": [
+            "source:municipality.kohphangan",
+            "source:municipality.bantai"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "road:th:84:840501:thong-sala-chaloklum",
+      "entity_type": "road",
+      "names": {
+        "he": "ציר טונג סאלה - צ'אלוקלום",
+        "en": "Thong Sala - Chaloklum corridor",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "ציר דרום - צפון",
+      "coordinates": null,
+      "geometry": {
+        "kind": "line",
+        "state": "review_required",
+        "uri": null,
+        "source_ids": [
+          "source:municipality.kohphangan",
+          "source:municipality.phetphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:roads"
+      ],
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "ציר תפעולי להתמצאות בלבד. תוואי רשמי, מצב דרך וגישה לחלקה אינם מוצגים",
+          "source_ids": [
+            "source:municipality.kohphangan",
+            "source:municipality.phetphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "road:th:84:840501:west-coast-corridor",
+      "entity_type": "road",
+      "names": {
+        "he": "ציר טונג סאלה - הין קונג - סרי תאנו - מאה האד",
+        "en": "Thong Sala - Hin Kong - Sri Thanu - Mae Haad corridor",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "West coast corridor"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "ציר החוף המערבי והצפון מערבי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "line",
+        "state": "review_required",
+        "uri": null,
+        "source_ids": [
+          "source:municipality.kohphangan",
+          "source:municipality.phetphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:roads"
+      ],
+      "source_ids": [
+        "source:municipality.kohphangan",
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "ציר תפעולי להתמצאות בלבד. תוואי רשמי, מצב דרך וגישה לחלקה אינם מוצגים",
+          "source_ids": [
+            "source:municipality.kohphangan",
+            "source:municipality.phetphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "road:th:84:840502:ban-tai-thong-nai-pan",
+      "entity_type": "road",
+      "names": {
+        "he": "ציר באן טאי - טונג נאי פאן",
+        "en": "Ban Tai - Thong Nai Pan corridor",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "ציר דרום - צפון מזרח",
+      "coordinates": null,
+      "geometry": {
+        "kind": "line",
+        "state": "review_required",
+        "uri": null,
+        "source_ids": [
+          "source:municipality.bantai"
+        ]
+      },
+      "layer_ids": [
+        "layer:roads"
+      ],
+      "source_ids": [
+        "source:municipality.bantai"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "orientation_scope",
+          "label_he": "שימוש במפה",
+          "value_he": "ציר תפעולי להתמצאות בלבד. תוואי רשמי, מצב דרך וגישה לחלקה אינם מוצגים",
+          "source_ids": [
+            "source:municipality.bantai"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:ko-phangan-subdistrict-municipality",
+      "entity_type": "government",
+      "names": {
+        "he": "עיריית נפת קופנגן",
+        "en": "Ko Pha-ngan Subdistrict Municipality",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "Koh Phangan Municipality"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "אזור טונג סאלה",
+      "coordinates": {
+        "latitude": 9.7170694,
+        "longitude": 99.9940304,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 10,
+        "basis_label": "קישור ניווט באתר העירייה",
+        "source_ids": [
+          "source:municipality.kohphangan"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:municipality.kohphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:government"
+      ],
+      "source_ids": [
+        "source:municipality.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-062",
+          "source_ids": [
+            "source:municipality.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "fire_and_disaster",
+          "label_he": "כבאות וחירום עירוני",
+          "value_he": "199",
+          "source_ids": [
+            "source:municipality.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "service_scope",
+          "label_he": "תחומי שירות",
+          "value_he": "שירותים עירוניים, פסולת וסיוע אזרחי בתחום הרשות",
+          "source_ids": [
+            "source:municipality.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:ban-tai-subdistrict-municipality",
+      "entity_type": "government",
+      "names": {
+        "he": "עיריית נפת באן טאי",
+        "en": "Ban Tai Subdistrict Municipality",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "Baan Tai Municipality"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "באן טאי",
+      "coordinates": {
+        "latitude": 9.7019525,
+        "longitude": 100.0317549,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 10,
+        "basis_label": "קישור ניווט באתר העירייה",
+        "source_ids": [
+          "source:municipality.bantai"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:municipality.bantai"
+        ]
+      },
+      "layer_ids": [
+        "layer:government"
+      ],
+      "source_ids": [
+        "source:municipality.bantai"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-694",
+          "source_ids": [
+            "source:municipality.bantai"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "service_scope",
+          "label_he": "תחומי שירות",
+          "value_he": "מים, פסולת, תאורה וסיוע לתושבים בתחום באן טאי",
+          "source_ids": [
+            "source:municipality.bantai"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:phet-pha-ngan-subdistrict-municipality",
+      "entity_type": "government",
+      "names": {
+        "he": "עיריית נפת פט פאנגן",
+        "en": "Phet Pha-ngan Subdistrict Municipality",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "Phet Phangan Municipality"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מרכז קופנגן",
+      "coordinates": {
+        "latitude": 9.7425247,
+        "longitude": 99.9960788,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 10,
+        "basis_label": "קישור ניווט באתר העירייה",
+        "source_ids": [
+          "source:municipality.phetphangan"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:municipality.phetphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:government"
+      ],
+      "source_ids": [
+        "source:municipality.phetphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-527",
+          "source_ids": [
+            "source:municipality.phetphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "service_scope",
+          "label_he": "תחומי שירות",
+          "value_he": "מים, פסולת, תאורה וסיוע לתושבים בתחום הצפוני",
+          "source_ids": [
+            "source:municipality.phetphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:district-public-health-office",
+      "entity_type": "government",
+      "names": {
+        "he": "משרד בריאות הציבור של מחוז קופנגן",
+        "en": "Ko Pha-ngan District Public Health Office",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "טונג סאלה, מו 1",
+      "coordinates": {
+        "latitude": 9.7185561,
+        "longitude": 99.9925838,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 15,
+        "basis_label": "מפה שמוטמעת באתר המשרד",
+        "source_ids": [
+          "source:publichealth.phangan"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:publichealth.phangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:government",
+        "layer:health"
+      ],
+      "source_ids": [
+        "source:publichealth.phangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "228 מו 1",
+          "source_ids": [
+            "source:publichealth.phangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-115",
+          "source_ids": [
+            "source:publichealth.phangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:ko-phangan-district-office",
+      "entity_type": "government",
+      "names": {
+        "he": "משרד מחוז קופנגן",
+        "en": "Ko Pha-ngan District Office",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מתחם משרדי המחוז",
+      "coordinates": {
+        "latitude": 9.7202125,
+        "longitude": 99.9962447,
+        "accuracy_class": "community_mapped_feature",
+        "accuracy_m": 15,
+        "basis_label": "מרכז מבנה במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:government"
+      ],
+      "source_ids": [
+        "source:district.kohphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:land-office-koh-phangan-subbranch",
+      "entity_type": "government",
+      "names": {
+        "he": "לשכת המקרקעין המחוזית סוראט תאני, שלוחת קו פנגאן",
+        "en": "Surat Thani Provincial Land Office, Ko Pha-ngan Sub-branch",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "משרד הטאבו בקופנגן"
+        ],
+        "en": [
+          "Koh Phangan Land Office"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מתחם משרדי המחוז",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:government",
+        "layer:parcel-lookup"
+      ],
+      "source_ids": [
+        "source:dol.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-512",
+          "source_ids": [
+            "source:dol.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "email",
+          "label_he": "אימייל",
+          "value_he": "sni-kophangan@dol.go.th",
+          "source_ids": [
+            "source:dol.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "map_limit",
+          "label_he": "מגבלת המפה",
+          "value_he": "הסמן אינו מוכיח בעלות, גבולות חלקה, איכות מסמך זכות או אפשרות בנייה",
+          "source_ids": [
+            "source:dol.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:phangan-immigration",
+      "entity_type": "government",
+      "names": {
+        "he": "משרד ההגירה קופנגן",
+        "en": "Phangan Immigration",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "Koh Phangan Immigration"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מתחם משרדי המחוז",
+      "coordinates": {
+        "latitude": 9.7193673,
+        "longitude": 99.9951132,
+        "accuracy_class": "community_mapped_feature",
+        "accuracy_m": 15,
+        "basis_label": "מרכז מבנה במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:government"
+      ],
+      "source_ids": [
+        "source:immigration.phangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "13/47 מו 2",
+          "source_ids": [
+            "source:immigration.phangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-947",
+          "source_ids": [
+            "source:immigration.phangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:koh-phangan-police-station",
+      "entity_type": "government",
+      "names": {
+        "he": "תחנת המשטרה המחוזית קו פנגאן",
+        "en": "Ko Pha-ngan Provincial Police Station",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מתחם משרדי המחוז",
+      "coordinates": {
+        "latitude": 9.7199218,
+        "longitude": 99.993165,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 20,
+        "basis_label": "נקודה שמוטמעת באתר התחנה הרשמי",
+        "source_ids": [
+          "source:police.kohphangan"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:police.kohphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:government"
+      ],
+      "source_ids": [
+        "source:police.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון התחנה",
+          "value_he": "077-377-114",
+          "source_ids": [
+            "source:police.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "emergency_phone",
+          "label_he": "מוקד משטרה",
+          "value_he": "191",
+          "source_ids": [
+            "source:police.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "government:th:84:8405:regional-marine-office-4-koh-phangan",
+      "entity_type": "government",
+      "names": {
+        "he": "משרד הים האזורי 4, שלוחת קו פנגאן",
+        "en": "Regional Marine Office 4, Ko Pha-ngan Branch",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "משרד הים בקו פנגאן"
+        ],
+        "en": [
+          "Ko Pha-ngan Marine Office"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "דרך ליאפ צ'אי תאלה, טונג סאלה",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:government",
+        "layer:transport"
+      ],
+      "source_ids": [
+        "source:marine.office.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "28 דרך ליאפ צ'אי תאלה, קו פנגאן 84280",
+          "source_ids": [
+            "source:marine.office.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-783",
+          "source_ids": [
+            "source:marine.office.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "hotline",
+          "label_he": "מוקד משרד הים",
+          "value_he": "1199",
+          "source_ids": [
+            "source:marine.office.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "service_scope",
+          "label_he": "תחומי שירות",
+          "value_he": "מזחים, כלי שיט, נתיבי מים ופעילות עסקית ימית",
+          "source_ids": [
+            "source:marine.office.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-11-11"
+    },
+    {
+      "entity_id": "service:th:84:840501:koh-phangan-hospital",
+      "entity_type": "health",
+      "names": {
+        "he": "בית החולים קו פנגאן",
+        "en": "Ko Pha-ngan Hospital",
+        "th": "โรงพยาบาลเกาะพะงัน"
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "מו 4, קופנגן",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:health"
+      ],
+      "source_ids": [
+        "source:moph.hospital.11359"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "facility_type",
+          "label_he": "סוג",
+          "value_he": "בית חולים קהילתי ממשלתי F1, קוד 11359 וקוד חדש EA0011359",
+          "source_ids": [
+            "source:moph.hospital.11359"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "active_beds",
+          "label_he": "מיטות פעילות",
+          "value_he": "55 ברשומת מאי 2026",
+          "source_ids": [
+            "source:moph.hospital.11359"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "6 מו 4",
+          "source_ids": [
+            "source:moph.hospital.11359"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "education:th:84:840502:ko-phangan-suksa-school",
+      "entity_type": "education",
+      "names": {
+        "he": "בית הספר קו פנגאן סוקסה",
+        "en": "Ko Pha-ngan Suksa School",
+        "th": "โรงเรียนเกาะพะงันศึกษา"
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "Ko Pha-ngan Sueksa School"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "מו 1, באן טאי",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:education"
+      ],
+      "source_ids": [
+        "source:obec.kohphangan.suksa"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "facility_type",
+          "label_he": "סוג",
+          "value_he": "בית ספר תיכון ציבורי של OBEC",
+          "source_ids": [
+            "source:obec.kohphangan.suksa"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "145 מו 1, באן טאי, קו פנגאן 84280",
+          "source_ids": [
+            "source:obec.kohphangan.suksa"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-357",
+          "source_ids": [
+            "source:obec.kohphangan.suksa"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-11-11"
+    },
+    {
+      "entity_id": "service:th:84:840501:thai-international-hospital-phangan",
+      "entity_type": "health",
+      "names": {
+        "he": "בית החולים תאי אינטרנשיונל פאנגן",
+        "en": "Thai International Hospital Phangan",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "פירסט ווסטרן"
+        ],
+        "en": [
+          "First Western Hospital"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "טונג סאלה, מו 1",
+      "coordinates": {
+        "latitude": 9.7081903,
+        "longitude": 99.9974903,
+        "accuracy_class": "community_mapped_feature",
+        "accuracy_m": 15,
+        "basis_label": "נקודת ניווט חיצונית שנבדקה מול כתובת המתקן",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:health"
+      ],
+      "source_ids": [
+        "source:moph.hospital.30695",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "112/44 מו 1",
+          "source_ids": [
+            "source:moph.hospital.30695"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-474",
+          "source_ids": [
+            "source:moph.hospital.30695"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "service:th:84:840502:phangan-international-hospital",
+      "entity_type": "health",
+      "names": {
+        "he": "בית החולים פאנגן אינטרנשיונל",
+        "en": "Phangan International Hospital",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "באן טאי",
+      "coordinates": {
+        "latitude": 9.7061208,
+        "longitude": 100.0086375,
+        "accuracy_class": "community_mapped_feature",
+        "accuracy_m": 20,
+        "basis_label": "מרכז מבנה במפת הקהילה",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:health"
+      ],
+      "source_ids": [
+        "source:bangkokhospital.phangan",
+        "source:moph.hospital.4871",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-429-559",
+          "source_ids": [
+            "source:bangkokhospital.phangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "utility:th:84:8405:pwa-koh-phangan-branch",
+      "entity_type": "utility",
+      "names": {
+        "he": "סניף רשות המים בקופנגן",
+        "en": "PWA Koh Phangan Branch",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "טונג סאלה, מו 3",
+      "coordinates": {
+        "latitude": 9.711537,
+        "longitude": 99.989375,
+        "accuracy_class": "official_point",
+        "accuracy_m": 15,
+        "basis_label": "נקודה שמפורסמת ברשות המים",
+        "source_ids": [
+          "source:pwa.kohphangan"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:pwa.kohphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:utilities"
+      ],
+      "source_ids": [
+        "source:pwa.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "114 מו 3",
+          "source_ids": [
+            "source:pwa.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-477",
+          "source_ids": [
+            "source:pwa.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "utility:th:84:8405:pea-koh-phangan-branch",
+      "entity_type": "utility",
+      "names": {
+        "he": "סניף רשות החשמל בקופנגן",
+        "en": "PEA Koh Phangan Branch",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "טונג סאלה, מו 1",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:utilities"
+      ],
+      "source_ids": [
+        "source:pea.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "101 מו 3, באן טאי",
+          "source_ids": [
+            "source:pea.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "hotline",
+          "label_he": "מוקד PEA",
+          "value_he": "1129",
+          "source_ids": [
+            "source:pea.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "transport:th:84:840501:thong-sala-multipurpose-pier",
+      "entity_type": "transport",
+      "names": {
+        "he": "מזח טונג סאלה",
+        "en": "Thong Sala Multipurpose Pier",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "נמל טונג סאלה"
+        ],
+        "en": [
+          "Thong Sala Pier"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "טונג סאלה",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:transport",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:marine.thong-sala"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "port_code",
+          "label_he": "קוד מעגן",
+          "value_he": "THPHN/SNP01",
+          "source_ids": [
+            "source:marine.thong-sala"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        },
+        {
+          "fact_id": "role",
+          "label_he": "תפקיד",
+          "value_he": "שער ההגעה הראשי לנוסעים ולמטען",
+          "source_ids": [
+            "source:marine.thong-sala"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-11-11"
+    },
+    {
+      "entity_id": "transport:th:84:840502:haad-rin-queen-pier",
+      "entity_type": "transport",
+      "names": {
+        "he": "מזח האד רין קווין",
+        "en": "Haad Rin Queen Pier",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840502"
+      ],
+      "location_label_he": "האד רין, מו 6",
+      "coordinates": {
+        "latitude": 9.674475,
+        "longitude": 100.063668,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 15,
+        "basis_label": "נקודה שמפרסם מפעיל המזח",
+        "source_ids": [
+          "source:haadrinqueen.pier"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:haadrinqueen.pier"
+        ]
+      },
+      "layer_ids": [
+        "layer:transport",
+        "layer:landmarks"
+      ],
+      "source_ids": [
+        "source:haadrinqueen.pier"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "94/2 מו 6, באן טאי",
+          "source_ids": [
+            "source:haadrinqueen.pier"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-18",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-375-113",
+          "source_ids": [
+            "source:haadrinqueen.pier"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-18",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-08-18"
+    },
+    {
+      "entity_id": "telecom:th:84:840501:ais-tourist-shop-koh-phangan",
+      "entity_type": "telecom",
+      "names": {
+        "he": "חנות AIS לתיירים קו פנגאן",
+        "en": "AIS Shop Tourist Koh Phangan",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "AIS קו פנגאן"
+        ],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "53/4 מו 1, סמן מדויק טרם פורסם",
+      "coordinates": null,
+      "geometry": {
+        "kind": "none",
+        "state": "missing",
+        "uri": null,
+        "source_ids": []
+      },
+      "layer_ids": [
+        "layer:telecom"
+      ],
+      "source_ids": [
+        "source:ais.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "53/4 מו 1, קו פנגאן 84280",
+          "source_ids": [
+            "source:ais.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-11",
+          "public": true
+        },
+        {
+          "fact_id": "service_scope",
+          "label_he": "שירותים",
+          "value_he": "שירותי סלולר ו-AIS Fibre לפי עמוד הסניף הרשמי",
+          "source_ids": [
+            "source:ais.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-11",
+          "public": true
+        },
+        {
+          "fact_id": "pin_limit",
+          "label_he": "מגבלת הסמן",
+          "value_he": "העמוד הרשמי אינו מפרסם נקודה חד משמעית, ולכן לא הוצב סמן",
+          "source_ids": [
+            "source:ais.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-11",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-11"
+    },
+    {
+      "entity_id": "service:th:84:840501:government-savings-bank-ko-phangan",
+      "entity_type": "banking",
+      "names": {
+        "he": "בנק החיסכון הממשלתי קופנגן",
+        "en": "Government Savings Bank Ko Pha-ngan",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "GSB קופנגן"
+        ],
+        "en": [
+          "GSB Ko Pha-ngan"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "טונג סאלה, מו 1",
+      "coordinates": {
+        "latitude": 9.7091755,
+        "longitude": 99.9904531,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 15,
+        "basis_label": "מפה שמוטמעת במאתר הסניפים הרשמי",
+        "source_ids": [
+          "source:gsb.kohphangan"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:gsb.kohphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:business-services"
+      ],
+      "source_ids": [
+        "source:gsb.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "50/10-11 מו 1",
+          "source_ids": [
+            "source:gsb.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "hours",
+          "label_he": "שעות",
+          "value_he": "שני עד שישי, 08:30 עד 15:30",
+          "source_ids": [
+            "source:gsb.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-463, 077-377-580",
+          "source_ids": [
+            "source:gsb.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "service:th:84:840501:kasikornbank-ko-pha-ngan",
+      "entity_type": "banking",
+      "names": {
+        "he": "קסיקורן בנק קופנגן",
+        "en": "Kasikornbank Ko Pha-ngan",
+        "th": null
+      },
+      "aliases": {
+        "he": [
+          "KBank קופנגן"
+        ],
+        "en": [
+          "KBank Ko Pha-ngan"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "רחוב טונג סאלה, מו 1",
+      "coordinates": {
+        "latitude": 9.7115757,
+        "longitude": 99.9879217,
+        "accuracy_class": "community_mapped_feature",
+        "accuracy_m": 20,
+        "basis_label": "נקודה במפת הקהילה שנבדקה מול כתובת הסניף",
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:osm.kohphangan.features"
+        ]
+      },
+      "layer_ids": [
+        "layer:business-services"
+      ],
+      "source_ids": [
+        "source:kbank.kohphangan",
+        "source:osm.kohphangan.features"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "161/36-37 מו 1, דרך טונג סאלה",
+          "source_ids": [
+            "source:kbank.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "phone",
+          "label_he": "טלפון",
+          "value_he": "077-377-848",
+          "source_ids": [
+            "source:kbank.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-11-11",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "service:th:84:840501:koh-phangan-post-office",
+      "entity_type": "postal",
+      "names": {
+        "he": "דואר קופנגן",
+        "en": "Koh Phangan Post Office",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "טונג סאלה, מו 1",
+      "coordinates": {
+        "latitude": 9.7090725,
+        "longitude": 99.9882789,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 20,
+        "basis_label": "קישור מפה בעמוד הסניף הרשמי",
+        "source_ids": [
+          "source:thailandpost.kohphangan"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:thailandpost.kohphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:business-services"
+      ],
+      "source_ids": [
+        "source:thailandpost.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "address",
+          "label_he": "כתובת",
+          "value_he": "12/1 מו 1",
+          "source_ids": [
+            "source:thailandpost.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        },
+        {
+          "fact_id": "hours",
+          "label_he": "שעות",
+          "value_he": "שני עד שישי, 08:30 עד 17:00",
+          "source_ids": [
+            "source:thailandpost.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-09-10",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-09-10"
+    },
+    {
+      "entity_id": "property_project:th:84:840501:nava-koh-phangan",
+      "entity_type": "property_project",
+      "names": {
+        "he": "NAVA קופנגן",
+        "en": "NAVA Koh Phangan",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "NAVA"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "ליד האד סאלאד",
+      "coordinates": {
+        "latitude": 9.782175,
+        "longitude": 99.9726902,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 30,
+        "basis_label": "נקודת פרויקט באתר היזם",
+        "source_ids": [
+          "source:nava.kohphangan"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:nava.kohphangan"
+        ]
+      },
+      "layer_ids": [
+        "layer:property-projects"
+      ],
+      "source_ids": [
+        "source:nava.kohphangan"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "market_status",
+          "label_he": "מצב שיווק",
+          "value_he": "הוכרז ומשווק. תחילת בנייה לא הוכחה.",
+          "source_ids": [
+            "source:nava.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-25",
+          "public": true
+        },
+        {
+          "fact_id": "asking_price",
+          "label_he": "מחיר מבוקש",
+          "value_he": "4.7 עד 10.7 מיליון באט. מסים והעברה לא צוינו.",
+          "source_ids": [
+            "source:nava.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-25",
+          "public": true
+        },
+        {
+          "fact_id": "tenure_claim",
+          "label_he": "מבנה החזקה שמשווק",
+          "value_he": "חכירה",
+          "source_ids": [
+            "source:nava.kohphangan"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-25",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-08-25"
+    },
+    {
+      "entity_id": "property_project:th:84:840501:blu-by-pahili-haad-yao",
+      "entity_type": "property_project",
+      "names": {
+        "he": "BLU ביי פאהילי",
+        "en": "BLU by Pahili",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [
+          "BLU Haad Yao"
+        ],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "האד יאו לפי דף הפרויקט",
+      "coordinates": {
+        "latitude": 9.7806707,
+        "longitude": 99.9708428,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 30,
+        "basis_label": "נקודת פרויקט באתר היזם",
+        "source_ids": [
+          "source:pahili.blu"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:pahili.blu"
+        ]
+      },
+      "layer_ids": [
+        "layer:property-projects"
+      ],
+      "source_ids": [
+        "source:pahili.blu"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "unit_count",
+          "label_he": "מספר יחידות",
+          "value_he": "6 דירות חדר שינה אחד",
+          "source_ids": [
+            "source:pahili.blu"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-25",
+          "public": true
+        },
+        {
+          "fact_id": "asking_price",
+          "label_he": "מחיר מבוקש",
+          "value_he": "3.9 עד 4.9 מיליון באט. מסים והעברה לא צוינו.",
+          "source_ids": [
+            "source:pahili.blu"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-25",
+          "public": true
+        },
+        {
+          "fact_id": "area",
+          "label_he": "שטח",
+          "value_he": "55 או 61.5 מ״ר",
+          "source_ids": [
+            "source:pahili.blu"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-25",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-08-25"
+    },
+    {
+      "entity_id": "property_project:th:84:840501:ohana-villas-srithanu",
+      "entity_type": "property_project",
+      "names": {
+        "he": "אוהנה וילות",
+        "en": "Ohana Villas",
+        "th": null
+      },
+      "aliases": {
+        "he": [],
+        "en": [],
+        "th": []
+      },
+      "geo_ids": [
+        "geo:th:island:ko-pha-ngan",
+        "geo:th:subdistrict:840501"
+      ],
+      "location_label_he": "סרי תאנו",
+      "coordinates": {
+        "latitude": 9.7582222,
+        "longitude": 99.9739167,
+        "accuracy_class": "first_party_pin",
+        "accuracy_m": 10,
+        "basis_label": "נקודה שמפרסם אתר הפרויקט",
+        "source_ids": [
+          "source:ohana.villas"
+        ]
+      },
+      "geometry": {
+        "kind": "point",
+        "state": "orientation_only",
+        "uri": null,
+        "source_ids": [
+          "source:ohana.villas"
+        ]
+      },
+      "layer_ids": [
+        "layer:property-projects"
+      ],
+      "source_ids": [
+        "source:ohana.villas"
+      ],
+      "public_state": "map_only",
+      "indexing_policy": "map_only",
+      "facts": [
+        {
+          "fact_id": "unit_count",
+          "label_he": "מספר יחידות",
+          "value_he": "4 וילות עם חדר שינה אחד ובריכה",
+          "source_ids": [
+            "source:ohana.villas"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-25",
+          "public": true
+        },
+        {
+          "fact_id": "area",
+          "label_he": "שטח",
+          "value_he": "107 מ״ר בנוי על מגרשים של 200 עד 250 מ״ר",
+          "source_ids": [
+            "source:ohana.villas"
+          ],
+          "checked_on": "2026-08-11",
+          "next_review_on": "2026-08-25",
+          "public": true
+        }
+      ],
+      "checked_on": "2026-08-11",
+      "next_review_on": "2026-08-25"
+    }
+  ]
+}

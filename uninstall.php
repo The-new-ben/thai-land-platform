@@ -14,6 +14,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 delete_option( 'thailand_platform_homepage_mode' );
 delete_option( 'thailand_platform_real_estate_mode' );
 delete_option( 'thailand_platform_guides_mode' );
+delete_option( 'thailand_platform_digital_islands_mode' );
+delete_option( 'thailand_platform_digital_islands_page_id' );
 
 if ( function_exists( 'wp_cache_flush' ) ) {
 	wp_cache_flush();

@@ -8,6 +8,7 @@
 namespace Thailand_Platform\Support;
 
 use Thailand_Platform\Content\Module as Content_Module;
+use Thailand_Platform\DigitalIslands\Module as Digital_Islands_Module;
 use Thailand_Platform\Geography\Route as Geography_Route;
 use Thailand_Platform\Guides\Module as Guides_Module;
 use Thailand_Platform\Health\Route as Health_Route;
@@ -48,6 +49,9 @@ final class Loader {
 
 		$guides = new Guides_Module();
 		$guides->register();
+
+		$digital_islands = new Digital_Islands_Module();
+		$digital_islands->register();
 
 		Update_Checker::register();
 	}

@@ -1,0 +1,48 @@
+entity_id,type,slug,name_he,name_en,name_th,external_id_namespace,external_id,priority,source_id
+geo:th:district:2307,district,ko-chang,נפת קו צ'אנג,Ko Chang District,อำเภอเกาะช้าง,moi_district_code,2307,0,cdd-admin-units-2026
+geo:th:district:8103,district,ko-lanta,נפת קו לנטה,Ko Lanta District,อำเภอเกาะลันตา,moi_district_code,8103,0,cdd-admin-units-2026
+geo:th:district:8301,district,mueang-phuket,נפת מואנג פוקט,Mueang Phuket District,อำเภอเมืองภูเก็ต,moi_district_code,8301,0,cdd-admin-units-2026
+geo:th:district:8302,district,kathu,נפת קאטו,Kathu District,อำเภอกะทู้,moi_district_code,8302,0,cdd-admin-units-2026
+geo:th:district:8303,district,thalang,נפת תאלאנג,Thalang District,อำเภอถลาง,moi_district_code,8303,0,cdd-admin-units-2026
+geo:th:district:8404,district,ko-samui,נפת קוסמוי,Ko Samui District,อำเภอเกาะสมุย,moi_district_code,8404,0,cdd-admin-units-2026
+geo:th:district:8405,district,ko-pha-ngan,נפת קופנגן,Ko Pha-ngan District,อำเภอเกาะพะงัน,moi_district_code,8405,0,cdd-admin-units-2026
+geo:th:island:ko-chang-trat,island,ko-chang-trat,קו צ'אנג,Ko Chang Island in Trat,เกาะช้าง จังหวัดตราด,,,1,thai-land-editorial-islands
+geo:th:island:ko-lanta-yai,island,ko-lanta-yai,קו לנטה,Ko Lanta Yai Island,เกาะลันตาใหญ่,,,1,thai-land-editorial-islands
+geo:th:island:ko-pha-ngan,island,ko-pha-ngan,קופנגן,Ko Pha-ngan Island,เกาะพะงัน,,,1,thai-land-editorial-islands
+geo:th:island:ko-samui,island,ko-samui,קוסמוי,Ko Samui Island,เกาะสมุย,,,1,thai-land-editorial-islands
+geo:th:island:ko-tao,island,ko-tao,קו טאו,Ko Tao Island,เกาะเต่า,,,1,thai-land-editorial-islands
+geo:th:island:phuket,island,phuket-island,האי פוקט,Phuket Island,เกาะภูเก็ต,,,1,thai-land-editorial-islands
+geo:th:subdistrict:230701,subdistrict,ko-chang,תת נפת קו צ'אנג,Ko Chang Subdistrict,ตำบลเกาะช้าง,moi_subdistrict_code,230701,0,cdd-admin-units-2026
+geo:th:subdistrict:230702,subdistrict,ko-chang-tai,תת נפת קו צ'אנג דרום,Ko Chang Tai Subdistrict,ตำบลเกาะช้างใต้,moi_subdistrict_code,230702,0,cdd-admin-units-2026
+geo:th:subdistrict:810301,subdistrict,ko-lanta-yai,תת נפת קו לנטה יאי,Ko Lanta Yai Subdistrict,ตำบลเกาะลันตาใหญ่,moi_subdistrict_code,810301,0,cdd-admin-units-2026
+geo:th:subdistrict:810302,subdistrict,ko-lanta-noi,תת נפת קו לנטה נוי,Ko Lanta Noi Subdistrict,ตำบลเกาะลันตาน้อย,moi_subdistrict_code,810302,0,cdd-admin-units-2026
+geo:th:subdistrict:810303,subdistrict,ko-klang,תת נפת קו קלאנג,Ko Klang Subdistrict,ตำบลเกาะกลาง,moi_subdistrict_code,810303,0,cdd-admin-units-2026
+geo:th:subdistrict:810304,subdistrict,khlong-yang,תת נפת קלונג יאנג,Khlong Yang Subdistrict,ตำบลคลองยาง,moi_subdistrict_code,810304,0,cdd-admin-units-2026
+geo:th:subdistrict:810305,subdistrict,sala-dan,תת נפת סאלה דאן,Sala Dan Subdistrict,ตำบลศาลาด่าน,moi_subdistrict_code,810305,0,cdd-admin-units-2026
+geo:th:subdistrict:830101,subdistrict,talat-yai,תת נפת טאלאט יאי,Talat Yai Subdistrict,ตำบลตลาดใหญ่,moi_subdistrict_code,830101,0,cdd-admin-units-2026
+geo:th:subdistrict:830102,subdistrict,talat-nuea,תת נפת טאלאט נואה,Talat Nuea Subdistrict,ตำบลตลาดเหนือ,moi_subdistrict_code,830102,0,cdd-admin-units-2026
+geo:th:subdistrict:830103,subdistrict,ko-kaeo,תת נפת קו קאו,Ko Kaeo Subdistrict,ตำบลเกาะแก้ว,moi_subdistrict_code,830103,0,cdd-admin-units-2026
+geo:th:subdistrict:830104,subdistrict,ratsada,תת נפת ראטסאדה,Ratsada Subdistrict,ตำบลรัษฎา,moi_subdistrict_code,830104,0,cdd-admin-units-2026
+geo:th:subdistrict:830105,subdistrict,wichit,תת נפת ויצ'יט,Wichit Subdistrict,ตำบลวิชิต,moi_subdistrict_code,830105,0,cdd-admin-units-2026
+geo:th:subdistrict:830106,subdistrict,chalong,תת נפת צ'אלונג,Chalong Subdistrict,ตำบลฉลอง,moi_subdistrict_code,830106,0,cdd-admin-units-2026
+geo:th:subdistrict:830107,subdistrict,rawai,תת נפת ראוואי,Rawai Subdistrict,ตำบลราไวย์,moi_subdistrict_code,830107,0,cdd-admin-units-2026
+geo:th:subdistrict:830108,subdistrict,karon,תת נפת קארון,Karon Subdistrict,ตำบลกะรน,moi_subdistrict_code,830108,0,cdd-admin-units-2026
+geo:th:subdistrict:830201,subdistrict,kathu,תת נפת קאטו,Kathu Subdistrict,ตำบลกะทู้,moi_subdistrict_code,830201,0,cdd-admin-units-2026
+geo:th:subdistrict:830202,subdistrict,pa-tong,תת נפת פאטונג,Pa Tong Subdistrict,ตำบลป่าตอง,moi_subdistrict_code,830202,0,cdd-admin-units-2026
+geo:th:subdistrict:830203,subdistrict,kamala,תת נפת קאמאלה,Kamala Subdistrict,ตำบลกมลา,moi_subdistrict_code,830203,0,cdd-admin-units-2026
+geo:th:subdistrict:830301,subdistrict,thepkrasattri,תת נפת תפקראסאטרי,Thepkrasattri Subdistrict,ตำบลเทพกระษัตรี,moi_subdistrict_code,830301,0,cdd-admin-units-2026
+geo:th:subdistrict:830302,subdistrict,sisunthon,תת נפת סי סונתון,Sisunthon Subdistrict,ตำบลศรีสุนทร,moi_subdistrict_code,830302,0,cdd-admin-units-2026
+geo:th:subdistrict:830303,subdistrict,choeng-thale,תת נפת צ'ואנג תאלה,Choeng Thale Subdistrict,ตำบลเชิงทะเล,moi_subdistrict_code,830303,0,cdd-admin-units-2026
+geo:th:subdistrict:830304,subdistrict,pa-khlok,תת נפת פה קלוק,Pa Khlok Subdistrict,ตำบลป่าคลอก,moi_subdistrict_code,830304,0,cdd-admin-units-2026
+geo:th:subdistrict:830305,subdistrict,mai-khao,תת נפת מאי קאו,Mai Khao Subdistrict,ตำบลไม้ขาว,moi_subdistrict_code,830305,0,cdd-admin-units-2026
+geo:th:subdistrict:830306,subdistrict,sakhu,תת נפת סאקו,Sakhu Subdistrict,ตำบลสาคู,moi_subdistrict_code,830306,0,cdd-admin-units-2026
+geo:th:subdistrict:840401,subdistrict,ang-thong,תת נפת אנג תונג,Ang Thong Subdistrict,ตำบลอ่างทอง,moi_subdistrict_code,840401,0,cdd-admin-units-2026
+geo:th:subdistrict:840402,subdistrict,lipa-noi,תת נפת ליפה נוי,Lipa Noi Subdistrict,ตำบลลิปะน้อย,moi_subdistrict_code,840402,0,cdd-admin-units-2026
+geo:th:subdistrict:840403,subdistrict,taling-ngam,תת נפת טאלינג נגאם,Taling Ngam Subdistrict,ตำบลตลิ่งงาม,moi_subdistrict_code,840403,0,cdd-admin-units-2026
+geo:th:subdistrict:840404,subdistrict,na-mueang,תת נפת נה מואנג,Na Mueang Subdistrict,ตำบลหน้าเมือง,moi_subdistrict_code,840404,0,cdd-admin-units-2026
+geo:th:subdistrict:840405,subdistrict,maret,תת נפת מארט,Maret Subdistrict,ตำบลมะเร็ต,moi_subdistrict_code,840405,0,cdd-admin-units-2026
+geo:th:subdistrict:840406,subdistrict,bo-phut,תת נפת בו פוט,Bo Phut Subdistrict,ตำบลบ่อผุด,moi_subdistrict_code,840406,0,cdd-admin-units-2026
+geo:th:subdistrict:840407,subdistrict,mae-nam,תת נפת מא נאם,Mae Nam Subdistrict,ตำบลแม่น้ำ,moi_subdistrict_code,840407,0,cdd-admin-units-2026
+geo:th:subdistrict:840501,subdistrict,ko-pha-ngan,תת נפת קופנגן,Ko Pha-ngan Subdistrict,ตำบลเกาะพะงัน,moi_subdistrict_code,840501,0,cdd-admin-units-2026
+geo:th:subdistrict:840502,subdistrict,ban-tai,תת נפת באן טאי,Ban Tai Subdistrict,ตำบลบ้านใต้,moi_subdistrict_code,840502,0,cdd-admin-units-2026
+geo:th:subdistrict:840503,subdistrict,ko-tao,תת נפת קו טאו,Ko Tao Subdistrict,ตำบลเกาะเต่า,moi_subdistrict_code,840503,0,cdd-admin-units-2026

@@ -1,0 +1,37 @@
+{
+  "artifacts": {
+    "resources/digital-islands/registry.php": {
+      "bytes": 349657,
+      "sha256": "ce26253a267c7a222e587e8c67f571d26d15e2eb115fdd8971ac66dded23e985"
+    }
+  },
+  "checked_on": "2026-08-11",
+  "contract_id": "thailand-digital-island-world-v1",
+  "counts": {
+    "canary_map_entities": 49,
+    "entities": 49,
+    "entity_types": {
+      "banking": 2,
+      "education": 1,
+      "government": 9,
+      "health": 3,
+      "landmark": 7,
+      "postal": 1,
+      "property_project": 3,
+      "road": 4,
+      "settlement": 14,
+      "telecom": 1,
+      "transport": 2,
+      "utility": 2
+    },
+    "layers": 24,
+    "official_tools": 3,
+    "public_map_entities": 49,
+    "sources": 32
+  },
+  "dataset_version": "2026.08.11.3",
+  "publication_state": "live",
+  "schema_sha256": "2f7e399ed16c6c8e28d301ad95d1552207a08d50139c251958e8f331601d6bd0",
+  "schema_version": 1,
+  "source_digest": "86e9ccf9adf994f228f672e7f4666fe79660cadaed9a61d756414aa3e731f508"
+}

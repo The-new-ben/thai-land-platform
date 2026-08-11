@@ -56,6 +56,9 @@ jobs:
       - name: Verify generated geography artifacts
         run: python scripts/build_geography_registry.py --check
 
+      - name: Verify generated Digital Islands artifacts
+        run: python scripts/build_digital_island_registry.py --check
+
       - name: Verify generated content and SEO artifacts
         run: |
           python scripts/build_content_registry.py --check
@@ -67,6 +70,9 @@ jobs:
 
       - name: Test geography compiler
         run: python tests/geography-builder.test.py
+
+      - name: Test Digital Islands data contract
+        run: python tests/digital-island-data.test.py
 
       - name: Test SEO ownership registry
         run: |
@@ -88,13 +94,18 @@ jobs:
           node --check assets/homepage/homepage.js
           node --check assets/content/bangkok-rental.js
           node --check assets/guides/guides.js
+          node --check assets/digital-islands/digital-islands.js
+          node --check scripts/live_digital_island_acceptance.cjs
           node --check scripts/live_guides_acceptance.cjs
           node --check scripts/live_homepage_acceptance.cjs
           node --check scripts/live_real_estate_acceptance.cjs
           node --check scripts/live_seo_migration_acceptance.cjs
           node --check scripts/live_sitewide_acceptance.cjs
           node --check tests/live-sitewide-acceptance.test.cjs
+          node --check tests/digital-island-live-acceptance.test.cjs
           node tests/live-sitewide-acceptance.test.cjs
+          node tests/digital-islands-adapters.test.js
+          node tests/digital-island-live-acceptance.test.cjs
           node tests/tawk-state.test.js
 
       - name: Lint PHP
@@ -106,6 +117,8 @@ jobs:
           php -n tests/geography-resolver.test.php
           php tests/real-estate-runtime.test.php
           php tests/guides-runtime.test.php
+          php tests/digital-islands-runtime.test.php
+          php tests/digital-islands-settings.test.php
 
       - name: Build release candidate on minimum PHP
         if: matrix.php == '7.4'

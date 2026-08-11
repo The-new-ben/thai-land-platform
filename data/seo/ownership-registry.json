@@ -922,6 +922,15 @@
           ]
         },
         {
+          "target_owner_id": "koh-phangan-map",
+          "relationship": "child_spoke",
+          "placement": "navigation",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "מפת קופנגן"
+          ]
+        },
+        {
           "target_owner_id": "koh-samui",
           "relationship": "child_spoke",
           "placement": "navigation",
@@ -1260,6 +1269,72 @@
       "unique_contribution": "מענה ייחודי למשימת המשתמש: למצוא קהילות, מקומות ומידע שימושי לישראלים לפי אזור",
       "source_evidence": [
         "research/serp/2026-08-08-hebrew-thailand-serp.md"
+      ],
+      "cannibalization_exclusions": []
+    },
+    {
+      "owner_id": "koh-phangan-map",
+      "lifecycle": "live",
+      "canonical_url": "/מפת-קופנגן/",
+      "intent_id": "he|map|koh-phangan|services-projects|interact",
+      "name": "מפת קופנגן",
+      "primary_intent": "להתמצא בקופנגן ולבדוק יישובים, שירותים רשמיים, תשתיות ופרויקטים על מפה",
+      "primary_keyword": "מפת קופנגן",
+      "intent_synonyms": [
+        "מפה אינטראקטיבית קופנגן",
+        "Koh Phangan map"
+      ],
+      "intent_class": "discovery",
+      "entity_type": "tool",
+      "subject_entity_ids": [
+        "geo:th:island:ko-pha-ngan"
+      ],
+      "parent_owner_id": "thailand-map",
+      "breadcrumb_chain": [
+        {
+          "owner_id": "home",
+          "name": "תאילנד לישראלים",
+          "url": "/"
+        },
+        {
+          "owner_id": "thailand-map",
+          "name": "מפת תאילנד",
+          "url": "/מפת-תאילנד/"
+        },
+        {
+          "owner_id": "koh-phangan-map",
+          "name": "מפת קופנגן",
+          "url": "/מפת-קופנגן/"
+        }
+      ],
+      "internal_link_requirements": [
+        {
+          "target_owner_id": "home",
+          "relationship": "parent_hub",
+          "placement": "contextual_body",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "תאילנד"
+          ]
+        }
+      ],
+      "planned_internal_link_requirements": [
+        {
+          "target_owner_id": "thailand-map",
+          "relationship": "parent_hub",
+          "placement": "contextual_body",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "מפת תאילנד"
+          ]
+        }
+      ],
+      "freshness_class": "generated_daily",
+      "migration_action": "create",
+      "review_state": "upgrade_required",
+      "unique_contribution": "מפת אי מבוקרת המחברת בין יישובים, שירותים, תשתיות ופרויקטים ללא מסקנת קנייה או בנייה אוטומטית",
+      "source_evidence": [
+        "data/digital-islands/koh-phangan.json"
       ],
       "cannibalization_exclusions": []
     },
@@ -3075,6 +3150,15 @@
       ],
       "internal_link_requirements": [],
       "planned_internal_link_requirements": [
+        {
+          "target_owner_id": "koh-phangan-map",
+          "relationship": "child_spoke",
+          "placement": "navigation",
+          "minimum_occurrences": 1,
+          "anchor_terms": [
+            "מפת קופנגן"
+          ]
+        },
         {
           "target_owner_id": "home",
           "relationship": "parent_hub",
@@ -5182,6 +5266,21 @@
       "assignment": {
         "kind": "canonical_owner",
         "owner_id": "relocation-to-thailand"
+      }
+    },
+    {
+      "route_id": "route-koh-phangan-map",
+      "url": "/מפת-קופנגן/",
+      "route_kind": "exact",
+      "lifecycle": "live",
+      "indexing_policy": "index",
+      "observed_in": [],
+      "source_evidence": [
+        "data/digital-islands/koh-phangan.json"
+      ],
+      "assignment": {
+        "kind": "canonical_owner",
+        "owner_id": "koh-phangan-map"
       }
     },
     {

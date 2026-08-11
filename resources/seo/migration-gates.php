@@ -11,7 +11,7 @@ return array(
     'contract_version' => '1.0.0',
     'source' => array(
         'registry_version' => '2.0.0',
-        'sha256' => '1a834f9f35e3963e45447ef29c97c2276dbbb2e02b2247b04be584782da233db',
+        'sha256' => 'c3dda8c5e991e977e46b7694f7e170b1ff4a268875ec29f428766aa66988763e',
     ),
     'migration_gates' => array(
         '/5-טריקים-לטיסות-סופר-זולות-לתאילנד/' => array(

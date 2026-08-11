@@ -1,0 +1,388 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thai-land.co.il/schemas/digital-island-world-v1.json",
+  "title": "Thailand digital island world",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "contract_id",
+    "dataset_version",
+    "checked_on",
+    "publication_state",
+    "canonical",
+    "island",
+    "renderer_contract",
+    "camera_presets",
+    "land_decision_policy",
+    "official_tools",
+    "source_catalog",
+    "layer_catalog",
+    "entities"
+  ],
+  "properties": {
+    "$schema": { "const": "./island-world.schema.json" },
+    "schema_version": { "const": 1 },
+    "contract_id": { "const": "thailand-digital-island-world-v1" },
+    "dataset_version": {
+      "type": "string",
+      "pattern": "^[0-9]{4}\\.[0-9]{2}\\.[0-9]{2}\\.[1-9][0-9]*$"
+    },
+    "checked_on": { "$ref": "#/$defs/date" },
+    "publication_state": { "enum": ["private_review", "canary", "live"] },
+    "canonical": { "$ref": "#/$defs/canonical" },
+    "island": { "$ref": "#/$defs/island" },
+    "renderer_contract": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "$ref": "#/$defs/renderer" }
+    },
+    "camera_presets": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/$defs/camera_preset" }
+    },
+    "land_decision_policy": { "$ref": "#/$defs/land_policy" },
+    "official_tools": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/official_tool" }
+    },
+    "source_catalog": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "layer_catalog": {
+      "type": "array",
+      "minItems": 10,
+      "items": { "$ref": "#/$defs/layer" }
+    },
+    "entities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entity" }
+    }
+  },
+  "$defs": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "nullable_date": {
+      "oneOf": [
+        { "$ref": "#/$defs/date" },
+        { "type": "null" }
+      ]
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^source:[a-z0-9]+(?:[.:_-][a-z0-9]+)*$"
+    },
+    "source_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/source_id" }
+    },
+    "geo_id": {
+      "type": "string",
+      "pattern": "^geo:th:[a-z_]+:[a-z0-9-]+$"
+    },
+    "local_path": {
+      "type": "string",
+      "pattern": "^/(?!/)(?:[^/?#\\\\]+/)+$"
+    },
+    "names": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["he", "en", "th"],
+      "properties": {
+        "he": { "type": "string", "minLength": 2 },
+        "en": { "type": "string", "minLength": 2 },
+        "th": { "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "aliases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["he", "en", "th"],
+      "properties": {
+        "he": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "en": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "th": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "canonical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner_id", "canonical_path", "parent_owner_id", "primary_keyword", "indexing_policy", "breadcrumb_owner_ids"],
+      "properties": {
+        "owner_id": { "const": "koh-phangan-map" },
+        "canonical_path": { "$ref": "#/$defs/local_path" },
+        "parent_owner_id": { "const": "thailand-map" },
+        "primary_keyword": { "type": "string", "minLength": 4 },
+        "indexing_policy": { "enum": ["noindex_follow", "index"] },
+        "breadcrumb_owner_ids": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "home" },
+            { "const": "thailand-map" },
+            { "const": "koh-phangan-map" }
+          ],
+          "items": false
+        }
+      }
+    },
+    "island": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["geo_id", "province_geo_id", "district_geo_id", "subdistrict_geo_ids", "excluded_geo_ids", "names", "aliases", "center", "bounds", "geometry_provenance", "source_ids"],
+      "properties": {
+        "geo_id": { "const": "geo:th:island:ko-pha-ngan" },
+        "province_geo_id": { "const": "geo:th:province:84" },
+        "district_geo_id": { "const": "geo:th:district:8405" },
+        "subdistrict_geo_ids": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "geo:th:subdistrict:840501" },
+            { "const": "geo:th:subdistrict:840502" }
+          ],
+          "items": false
+        },
+        "excluded_geo_ids": {
+          "type": "array",
+          "prefixItems": [ { "const": "geo:th:subdistrict:840503" } ],
+          "items": false
+        },
+        "names": { "$ref": "#/$defs/names" },
+        "aliases": { "$ref": "#/$defs/aliases" },
+        "center": { "$ref": "#/$defs/position" },
+        "bounds": { "$ref": "#/$defs/bounds" },
+        "geometry_provenance": { "enum": ["community_mapped_relation", "official_geometry"] },
+        "source_ids": { "$ref": "#/$defs/source_ids" }
+      }
+    },
+    "position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["latitude", "longitude"],
+      "properties": {
+        "latitude": { "type": "number", "minimum": 9.6, "maximum": 9.9 },
+        "longitude": { "type": "number", "minimum": 99.8, "maximum": 100.2 }
+      }
+    },
+    "camera_position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["latitude", "longitude"],
+      "properties": {
+        "latitude": { "type": "number", "minimum": 5.5, "maximum": 20.6 },
+        "longitude": { "type": "number", "minimum": 97.3, "maximum": 105.7 }
+      }
+    },
+    "bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["south", "north", "west", "east"],
+      "properties": {
+        "south": { "type": "number", "minimum": 9.6, "maximum": 9.9 },
+        "north": { "type": "number", "minimum": 9.6, "maximum": 9.9 },
+        "west": { "type": "number", "minimum": 99.8, "maximum": 100.2 },
+        "east": { "type": "number", "minimum": 99.8, "maximum": 100.2 }
+      }
+    },
+    "renderer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["renderer_id", "role", "library", "delivery", "capabilities", "fallback_triggers", "source_ids"],
+      "properties": {
+        "renderer_id": { "enum": ["immersive_3d", "practical_2d"] },
+        "role": { "enum": ["primary_capable_device", "fallback_and_operational"] },
+        "library": { "enum": ["CesiumJS", "MapLibre GL JS"] },
+        "delivery": { "enum": ["dependency_pending", "self_hosted_pinned", "reviewed_provider"] },
+        "capabilities": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_]+$" } },
+        "fallback_triggers": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z0-9_]+$" } },
+        "source_ids": { "$ref": "#/$defs/source_ids" }
+      }
+    },
+    "camera_preset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preset_id", "label_he", "position", "height_m", "heading_deg", "pitch_deg", "roll_deg"],
+      "properties": {
+        "preset_id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "label_he": { "type": "string", "minLength": 2 },
+        "position": { "$ref": "#/$defs/camera_position" },
+        "height_m": { "type": "integer", "minimum": 50, "maximum": 5000000 },
+        "heading_deg": { "type": "number", "minimum": 0, "maximum": 360 },
+        "pitch_deg": { "type": "number", "minimum": -90, "maximum": 0 },
+        "roll_deg": { "type": "number", "minimum": -180, "maximum": 180 }
+      }
+    },
+    "land_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parcel_data_mode", "automatic_buildability_verdict", "automatic_title_verdict", "required_dimensions"],
+      "properties": {
+        "parcel_data_mode": { "const": "external_official_lookup_only" },
+        "automatic_buildability_verdict": { "const": false },
+        "automatic_title_verdict": { "const": false },
+        "required_dimensions": {
+          "type": "array",
+          "minItems": 10,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/decision_dimension" }
+        }
+      }
+    },
+    "decision_dimension": {
+      "enum": [
+        "offer_availability",
+        "asking_price",
+        "parcel_reference_match",
+        "title_document_claim",
+        "seller_authority",
+        "road_access",
+        "utility_access",
+        "planning_classification",
+        "protected_area_overlap",
+        "slope_and_drainage",
+        "coastal_and_environmental_constraints",
+        "ownership_structure",
+        "building_permit"
+      ]
+    },
+    "official_tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool_id", "label_he", "purpose", "source_id", "url", "delivery", "supports_dimensions", "limitations_he", "checked_on", "next_review_on"],
+      "properties": {
+        "tool_id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "label_he": { "type": "string", "minLength": 4, "maxLength": 160 },
+        "purpose": { "enum": ["parcel_lookup", "land_office", "environmental_rules"] },
+        "source_id": { "$ref": "#/$defs/source_id" },
+        "url": { "type": "string", "pattern": "^https://[^\\s]+$" },
+        "delivery": { "const": "external_official_link" },
+        "supports_dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/decision_dimension" }
+        },
+        "limitations_he": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 8, "maxLength": 320 }
+        },
+        "checked_on": { "$ref": "#/$defs/date" },
+        "next_review_on": { "$ref": "#/$defs/date" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "publisher", "title", "url", "authority_tier", "source_type", "checked_on", "effective_on", "access_state", "permitted_reuse", "geometry_use", "next_review_on"],
+      "properties": {
+        "source_id": { "$ref": "#/$defs/source_id" },
+        "publisher": { "type": "string", "minLength": 2 },
+        "title": { "type": "string", "minLength": 2 },
+        "url": { "type": "string", "pattern": "^https://" },
+        "authority_tier": { "enum": ["official", "licensed_registry", "first_party", "community_map", "commercial_map", "commercial_listing"] },
+        "source_type": { "enum": ["law", "official_dataset", "official_directory", "official_page", "project_page", "business_page", "map_relation", "map_feature", "listing"] },
+        "checked_on": { "$ref": "#/$defs/date" },
+        "effective_on": { "$ref": "#/$defs/nullable_date" },
+        "access_state": { "enum": ["current", "stale", "unreachable", "retracted"] },
+        "permitted_reuse": { "enum": ["link_only", "public_fact_with_attribution", "attribute_and_geometry"] },
+        "geometry_use": { "enum": ["none", "orientation_only", "official_boundary", "official_point", "first_party_pin"] },
+        "next_review_on": { "$ref": "#/$defs/date" }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer_id", "label_he", "category", "priority", "coverage_state", "public_state", "geometry_contract", "delivery", "source_ids", "next_review_on"],
+      "properties": {
+        "layer_id": { "type": "string", "pattern": "^layer:[a-z0-9]+(?:[.:_-][a-z0-9]+)*$" },
+        "label_he": { "type": "string", "minLength": 2 },
+        "category": { "enum": ["surface", "land", "property", "legal", "risk", "infrastructure", "service", "orientation"] },
+        "priority": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "coverage_state": { "enum": ["source_missing", "collection_in_progress", "review_in_progress", "public_ready"] },
+        "public_state": { "enum": ["private_candidate", "review_required", "map_only"] },
+        "geometry_contract": { "enum": ["none", "point", "line", "polygon", "raster", "terrain", "mixed", "external_lookup"] },
+        "delivery": { "enum": ["entity_api", "geojson", "pmtiles", "3d_tiles", "raster_tiles", "external_lookup"] },
+        "source_ids": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/source_id" } },
+        "next_review_on": { "$ref": "#/$defs/date" }
+      }
+    },
+    "coordinates": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["latitude", "longitude", "accuracy_class", "accuracy_m", "basis_label", "source_ids"],
+          "properties": {
+            "latitude": { "type": "number", "minimum": 9.65, "maximum": 9.82 },
+            "longitude": { "type": "number", "minimum": 99.94, "maximum": 100.09 },
+            "accuracy_class": { "enum": ["official_point", "first_party_pin", "community_mapped_feature", "area_centroid"] },
+            "accuracy_m": { "type": "integer", "minimum": 1, "maximum": 5000 },
+            "basis_label": { "type": "string", "minLength": 4 },
+            "source_ids": { "$ref": "#/$defs/source_ids" }
+          }
+        }
+      ]
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "state", "uri", "source_ids"],
+      "properties": {
+        "kind": { "enum": ["none", "point", "line", "polygon", "external_lookup"] },
+        "state": { "enum": ["missing", "orientation_only", "review_required", "authoritative"] },
+        "uri": { "type": ["string", "null"], "pattern": "^(?:https://|/)" },
+        "source_ids": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/source_id" } }
+      }
+    },
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact_id", "label_he", "value_he", "source_ids", "checked_on", "next_review_on", "public"],
+      "properties": {
+        "fact_id": { "type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$" },
+        "label_he": { "type": "string", "minLength": 1 },
+        "value_he": { "type": "string", "minLength": 1 },
+        "source_ids": { "$ref": "#/$defs/source_ids" },
+        "checked_on": { "$ref": "#/$defs/date" },
+        "next_review_on": { "$ref": "#/$defs/date" },
+        "public": { "type": "boolean" }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_id", "entity_type", "names", "aliases", "geo_ids", "location_label_he", "coordinates", "geometry", "layer_ids", "source_ids", "public_state", "indexing_policy", "facts", "checked_on", "next_review_on"],
+      "properties": {
+        "entity_id": { "type": "string", "pattern": "^[a-z_]+:th:[a-z0-9]+(?::[a-z0-9-]+)+$" },
+        "entity_type": { "enum": ["settlement", "government", "health", "utility", "transport", "road", "banking", "postal", "education", "telecom", "property_project", "landmark"] },
+        "names": { "$ref": "#/$defs/names" },
+        "aliases": { "$ref": "#/$defs/aliases" },
+        "geo_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/geo_id" } },
+        "location_label_he": { "type": "string", "minLength": 2 },
+        "coordinates": { "$ref": "#/$defs/coordinates" },
+        "geometry": { "$ref": "#/$defs/geometry" },
+        "layer_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^layer:" } },
+        "source_ids": { "$ref": "#/$defs/source_ids" },
+        "public_state": { "enum": ["map_only", "indexable"] },
+        "indexing_policy": { "enum": ["map_only", "index"] },
+        "facts": { "type": "array", "items": { "$ref": "#/$defs/fact" } },
+        "checked_on": { "$ref": "#/$defs/date" },
+        "next_review_on": { "$ref": "#/$defs/date" }
+      }
+    }
+  }
+}

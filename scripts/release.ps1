@@ -65,9 +65,12 @@ $releaseInputs = @(
     'data/content/migration/migration-ledger.schema.json',
     'data/content/migration/README.md',
     'data/content/migration/urgent-source-review.2026-08-10.json',
+    'data/digital-islands/island-world.schema.json',
+    'data/digital-islands/koh-phangan.json',
     'data/geography/aliases.csv',
     'data/geography/geometry.json',
     'data/geography/normalization-vectors.json',
+    'data/geography/places.csv',
     'data/geography/provinces.csv',
     'data/geography/regions.json',
     'data/geography/registry.json',
@@ -99,6 +102,7 @@ $releaseInputs = @(
     'scripts/build_bangkok_rental_registry.py',
     'scripts/build_content_registry.py',
     'scripts/build_content_migration_ledger.py',
+    'scripts/build_digital_island_registry.py',
     'scripts/build_homepage_assets.py',
     'scripts/build_geography_registry.py',
     'scripts/build_guide_assets.py',
@@ -106,6 +110,7 @@ $releaseInputs = @(
     'scripts/build_seo_runtime.py',
     'scripts/build_priority_guides_registry.py',
     'scripts/build_plugin_zip.py',
+    'scripts/live_digital_island_acceptance.cjs',
     'scripts/live_guides_acceptance.cjs',
     'scripts/live_homepage_acceptance.cjs',
     'scripts/live_real_estate_acceptance.cjs',
@@ -116,6 +121,11 @@ $releaseInputs = @(
     'scripts/verify_release_receipt.py',
     'tests/bangkok-rental-data.test.py',
     'tests/content-migration-ledger.test.py',
+    'tests/digital-island-data.test.py',
+    'tests/digital-island-live-acceptance.test.cjs',
+    'tests/digital-islands-adapters.test.js',
+    'tests/digital-islands-runtime.test.php',
+    'tests/digital-islands-settings.test.php',
     'tests/geography-builder.test.py',
     'tests/draft-content-inventory.test.py',
     'tests/geography-resolver.test.php',
@@ -192,6 +202,7 @@ try {
     $bangkokRegistryBuilder = Join-Path $frozenSource 'scripts\build_bangkok_rental_registry.py'
     $contentBuilder = Join-Path $frozenSource 'scripts\build_content_registry.py'
     $contentMigrationLedgerBuilder = Join-Path $frozenSource 'scripts\build_content_migration_ledger.py'
+    $digitalIslandBuilder = Join-Path $frozenSource 'scripts\build_digital_island_registry.py'
     $geographyBuilder = Join-Path $frozenSource 'scripts\build_geography_registry.py'
     $guideAssetBuilder = Join-Path $frozenSource 'scripts\build_guide_assets.py'
     $priorityGuidesBuilder = Join-Path $frozenSource 'scripts\build_priority_guides_registry.py'
@@ -202,6 +213,11 @@ try {
     $contentRuntimeTest = Join-Path $frozenSource 'tests\real-estate-runtime.test.php'
     $bangkokDataTest = Join-Path $frozenSource 'tests\bangkok-rental-data.test.py'
     $draftContentInventoryTest = Join-Path $frozenSource 'tests\draft-content-inventory.test.py'
+    $digitalIslandDataTest = Join-Path $frozenSource 'tests\digital-island-data.test.py'
+    $digitalIslandRuntimeTest = Join-Path $frozenSource 'tests\digital-islands-runtime.test.php'
+    $digitalIslandSettingsTest = Join-Path $frozenSource 'tests\digital-islands-settings.test.php'
+    $digitalIslandAdaptersTest = Join-Path $frozenSource 'tests\digital-islands-adapters.test.js'
+    $digitalIslandAcceptanceContractTest = Join-Path $frozenSource 'tests\digital-island-live-acceptance.test.cjs'
     $geographyBuilderTest = Join-Path $frozenSource 'tests\geography-builder.test.py'
     $priorityGuidesCompilerTest = Join-Path $frozenSource 'tests\priority-guides-compiler.test.py'
     $queuedExpiredContentTest = Join-Path $frozenSource 'tests\queued-expired-content.test.py'
@@ -238,6 +254,11 @@ try {
         throw "Generated geography registry verification failed.`n$geographyCheckOutput"
     }
 
+    $digitalIslandCheckOutput = & $pythonExecutable $digitalIslandBuilder --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "Generated Digital Islands registry verification failed.`n$digitalIslandCheckOutput"
+    }
+
     $contentCheckOutput = & $pythonExecutable $contentBuilder --check
     if ($LASTEXITCODE -ne 0) {
         throw "Generated content registry verification failed.`n$contentCheckOutput"
@@ -266,6 +287,31 @@ try {
     $geographyTestOutput = & $pythonExecutable $geographyBuilderTest
     if ($LASTEXITCODE -ne 0) {
         throw "Geography builder tests failed.`n$geographyTestOutput"
+    }
+
+    $digitalIslandDataTestOutput = & $pythonExecutable $digitalIslandDataTest
+    if ($LASTEXITCODE -ne 0) {
+        throw "Digital Islands data tests failed.`n$digitalIslandDataTestOutput"
+    }
+
+    $digitalIslandRuntimeTestOutput = & $phpExecutable $digitalIslandRuntimeTest
+    if ($LASTEXITCODE -ne 0 -or ($digitalIslandRuntimeTestOutput -join "`n").Trim() -ne 'PASS: Digital Islands runtime (Canary and Live)') {
+        throw "Digital Islands runtime tests failed.`n$digitalIslandRuntimeTestOutput"
+    }
+
+    $digitalIslandSettingsTestOutput = & $phpExecutable $digitalIslandSettingsTest
+    if ($LASTEXITCODE -ne 0 -or ($digitalIslandSettingsTestOutput -join "`n").Trim() -notmatch '^PASS: digital islands administrator settings security gates \([1-9][0-9]* assertions\)\.$') {
+        throw "Digital Islands settings tests failed.`n$digitalIslandSettingsTestOutput"
+    }
+
+    $digitalIslandAdaptersTestOutput = & $nodeExecutable $digitalIslandAdaptersTest
+    if ($LASTEXITCODE -ne 0 -or ($digitalIslandAdaptersTestOutput -join "`n").Trim() -ne 'PASS: Digital Islands browser adapters') {
+        throw "Digital Islands adapter tests failed.`n$digitalIslandAdaptersTestOutput"
+    }
+
+    $digitalIslandAcceptanceContractTestOutput = & $nodeExecutable $digitalIslandAcceptanceContractTest
+    if ($LASTEXITCODE -ne 0 -or ($digitalIslandAcceptanceContractTestOutput -join "`n").Trim() -notmatch '^PASS: Digital Islands live acceptance contract and privacy parsers \([1-9][0-9]* assertions\)\.$') {
+        throw "Digital Islands acceptance contract tests failed.`n$digitalIslandAcceptanceContractTestOutput"
     }
 
     $contentRegistryTestOutput = & $pythonExecutable $contentRegistryTest

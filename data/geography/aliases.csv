@@ -1,4 +1,26 @@
 entity_id,locale,alias,context_id,status,ambiguity_group,source_id
+geo:th:island:ko-chang-trat,en,Ko Chang Trat,geo:th:province:23,active,,thai-land-editorial-islands
+geo:th:island:ko-chang-trat,en,Koh Chang,geo:th:province:23,active,,thai-land-editorial-islands
+geo:th:island:ko-chang-trat,he,קוצ'אנג,geo:th:province:23,active,,thai-land-editorial-islands
+geo:th:island:ko-lanta-yai,en,Ko Lanta,geo:th:province:81,active,,thai-land-editorial-islands
+geo:th:island:ko-lanta-yai,en,Koh Lanta,geo:th:province:81,active,,thai-land-editorial-islands
+geo:th:island:ko-lanta-yai,en,Koh Lanta Yai,geo:th:province:81,active,,thai-land-editorial-islands
+geo:th:island:ko-lanta-yai,he,קו לנטה יאי,geo:th:province:81,active,,thai-land-editorial-islands
+geo:th:island:ko-lanta-yai,he,קולנטה,geo:th:province:81,active,,thai-land-editorial-islands
+geo:th:island:ko-pha-ngan,en,Ko Phangan,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-pha-ngan,en,Koh Pha Ngan,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-pha-ngan,en,Koh Pha-ngan,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-pha-ngan,en,Koh Phangan,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-pha-ngan,he,קו פנגן,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-pha-ngan,he,קוה פנגן,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-samui,en,Koh Samui,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-samui,en,Samui,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-samui,he,סאמוי,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-samui,he,קו סמוי,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-tao,en,Koh Tao,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:ko-tao,he,קוטאו,geo:th:province:84,active,,thai-land-editorial-islands
+geo:th:island:phuket,en,Phuket Island,geo:th:province:83,active,,thai-land-editorial-islands
+geo:th:island:phuket,he,פוקט איילנד,geo:th:province:83,active,,thai-land-editorial-islands
 geo:th:province:10,en,Krung Thep,geo:th:country,active,,thai-land-editorial-names
 geo:th:province:10,he,קרונג טפ,geo:th:country,active,,thai-land-editorial-names
 geo:th:province:20,en,Chonburi,geo:th:country,active,,thai-land-editorial-names
@@ -8,4 +30,12 @@ geo:th:province:50,en,Chiangmai,geo:th:country,active,,thai-land-editorial-names
 geo:th:province:50,he,צ׳יאנג מאי,geo:th:country,active,,thai-land-editorial-names
 geo:th:province:73,en,Nakhonpathom,geo:th:country,active,,thai-land-editorial-names
 geo:th:province:80,en,Nakhon,geo:th:country,active,nakhon-province,thai-land-editorial-names
-geo:th:province:83,en,Phuket Island,geo:th:country,active,,thai-land-editorial-names
+geo:th:province:83,en,Phuket Island,geo:th:country,retired,,thai-land-editorial-names
+geo:th:subdistrict:830303,en,Cherng Talay,geo:th:district:8303,active,,thai-land-editorial-islands
+geo:th:subdistrict:830303,en,Cherngtalay,geo:th:district:8303,active,,thai-land-editorial-islands
+geo:th:subdistrict:830303,he,צ'רנג טלאי,geo:th:district:8303,active,,thai-land-editorial-islands
+geo:th:subdistrict:830303,he,צ'רנגטלאי,geo:th:district:8303,active,,thai-land-editorial-islands
+geo:th:subdistrict:840406,en,Bophut,geo:th:district:8404,active,,thai-land-editorial-islands
+geo:th:subdistrict:840406,he,בופוט,geo:th:district:8404,active,,thai-land-editorial-islands
+geo:th:subdistrict:840407,en,Maenam,geo:th:district:8404,active,,thai-land-editorial-islands
+geo:th:subdistrict:840407,he,מאנאם,geo:th:district:8404,active,,thai-land-editorial-islands
