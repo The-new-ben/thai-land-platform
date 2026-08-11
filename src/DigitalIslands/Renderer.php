@@ -39,6 +39,10 @@ final class Renderer {
 
 	/** @return bool */
 	private static function assets_ready() {
+		if ( ! RendererAssets::ready() ) {
+			return false;
+		}
+
 		$required = array(
 			THAILAND_PLATFORM_DIR . 'templates/digital-islands/koh-phangan.php',
 			THAILAND_PLATFORM_DIR . 'assets/digital-islands/digital-islands.css',
@@ -49,8 +53,6 @@ final class Renderer {
 				return false;
 			}
 		}
-
-
 		return true;
 	}
 }

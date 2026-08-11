@@ -113,6 +113,7 @@ $releaseInputs = @(
     'scripts/live_digital_island_acceptance.cjs',
     'scripts/live_guides_acceptance.cjs',
     'scripts/live_homepage_acceptance.cjs',
+    'scripts/local_digital_island_browser_acceptance.cjs',
     'scripts/live_real_estate_acceptance.cjs',
     'scripts/live_seo_migration_acceptance.cjs',
     'scripts/live_sitewide_acceptance.cjs',
@@ -126,6 +127,9 @@ $releaseInputs = @(
     'tests/digital-islands-adapters.test.js',
     'tests/digital-islands-runtime.test.php',
     'tests/digital-islands-settings.test.php',
+    'tests/fixtures/digital-islands-browser-probe.js',
+    'tests/fixtures/digital-islands-browser-server.cjs',
+    'tests/fixtures/digital-islands-live-browser-probe.js',
     'tests/geography-builder.test.py',
     'tests/draft-content-inventory.test.py',
     'tests/geography-resolver.test.php',
@@ -217,6 +221,7 @@ try {
     $digitalIslandRuntimeTest = Join-Path $frozenSource 'tests\digital-islands-runtime.test.php'
     $digitalIslandSettingsTest = Join-Path $frozenSource 'tests\digital-islands-settings.test.php'
     $digitalIslandAdaptersTest = Join-Path $frozenSource 'tests\digital-islands-adapters.test.js'
+    $digitalIslandLiveAcceptance = Join-Path $frozenSource 'scripts\live_digital_island_acceptance.cjs'
     $digitalIslandAcceptanceContractTest = Join-Path $frozenSource 'tests\digital-island-live-acceptance.test.cjs'
     $geographyBuilderTest = Join-Path $frozenSource 'tests\geography-builder.test.py'
     $priorityGuidesCompilerTest = Join-Path $frozenSource 'tests\priority-guides-compiler.test.py'
@@ -312,6 +317,11 @@ try {
     $digitalIslandAcceptanceContractTestOutput = & $nodeExecutable $digitalIslandAcceptanceContractTest
     if ($LASTEXITCODE -ne 0 -or ($digitalIslandAcceptanceContractTestOutput -join "`n").Trim() -notmatch '^PASS: Digital Islands live acceptance contract and privacy parsers \([1-9][0-9]* assertions\)\.$') {
         throw "Digital Islands acceptance contract tests failed.`n$digitalIslandAcceptanceContractTestOutput"
+    }
+
+    $digitalIslandLiveSourceOutput = & $nodeExecutable $digitalIslandLiveAcceptance --source-only
+    if ($LASTEXITCODE -ne 0 -or ($digitalIslandLiveSourceOutput -join "`n").Trim() -ne 'PASS: Digital Islands source gates; 49 Canary entities, 49 public entities, state live.') {
+        throw "Digital Islands live source gates failed.`n$digitalIslandLiveSourceOutput"
     }
 
     $contentRegistryTestOutput = & $pythonExecutable $contentRegistryTest

@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 define( 'THAILAND_PLATFORM_DIR', dirname( __DIR__ ) . DIRECTORY_SEPARATOR );
 define( 'THAILAND_PLATFORM_FILE', THAILAND_PLATFORM_DIR . 'thailand-platform.php' );
-define( 'THAILAND_PLATFORM_VERSION', 'test' );
+define( 'THAILAND_PLATFORM_VERSION', '0.5.1' );
 
 $GLOBALS['di_options']       = array();
 $GLOBALS['di_admin']         = false;
@@ -286,6 +286,7 @@ $class_files = array(
 	'Seo.php',
 	'Schema.php',
 	'Assets.php',
+	'RendererAssets.php',
 	'Renderer.php',
 	'View.php',
 	'RestController.php',
@@ -436,8 +437,49 @@ di_assert( ! isset( $response->get_headers()['ETag'] ), 'Private Canary emitted 
 di_assert( 'private_canary' === $response->get_data()['representation_state'], 'REST representation state mismatch.' );
 $island_data = $response->get_data();
 di_assert( 3 === count( $island_data['official_tools'] ), 'Official land tools are missing.' );
-di_assert( 'dependency_pending' === $island_data['renderers'][0]['state'], 'CesiumJS is presented as ready without pinned local dependencies.' );
-di_assert( 'dependency_pending' === $island_data['renderers'][1]['state'], 'MapLibre is presented as ready without pinned local dependencies.' );
+$map_renderers = array_slice( $island_data['renderers'], 0, 2 );
+di_assert( 2 === count( $map_renderers ), 'The two reviewed map renderers are missing.' );
+foreach ( $map_renderers as $map_renderer ) {
+	di_assert( 'MapLibre' === $map_renderer['adapter'], 'A map mode exposes a non-MapLibre adapter.' );
+	di_assert( '5.18.0' === $map_renderer['library_version'], 'A map mode exposes an unpinned MapLibre version.' );
+	di_assert( 'self_hosted_pinned' === $map_renderer['delivery'], 'A map mode is not self-hosted and pinned.' );
+	di_assert( 'available' === $map_renderer['state'], 'A reviewed local map mode is not available.' );
+}
+di_assert(
+	array( 'camera_presets', 'entity_focus', 'globe', 'hillshade', 'terrain', 'building_extrusion', 'satellite_imagery' ) === $map_renderers[0]['capabilities'],
+	'Immersive MapLibre capabilities differ from the reviewed local contract.'
+);
+di_assert(
+	array( 'camera_presets', 'entity_focus', 'filters', 'keyboard_list', 'vector_basemap' ) === $map_renderers[1]['capabilities'],
+	'Practical MapLibre capabilities differ from the reviewed local contract.'
+);
+$renderer_claims = strtolower( wp_json_encode( $map_renderers ) );
+foreach ( array( 'measurement', 'offline', 'parcel', 'buildability', 'photorealism', 'walking' ) as $forbidden_claim ) {
+	di_assert( false === strpos( $renderer_claims, $forbidden_claim ), 'A prohibited renderer capability claim is public.' );
+}
+di_assert( in_array( 'satellite_imagery', $map_renderers[0]['capabilities'], true ), 'The approved immersive satellite capability is missing.' );
+di_assert( ! in_array( 'satellite_imagery', $map_renderers[1]['capabilities'], true ), 'Satellite imagery leaked into the practical renderer.' );
+di_assert( 'available' === $island_data['renderers'][2]['state'], 'The accessible list fallback is unavailable.' );
+di_assert( 'Protomaps © OpenStreetMap contributors' === $island_data['attribution']['text'], 'Basemap attribution is incomplete.' );
+di_assert( 4 === count( $island_data['attributions'] ), 'The reviewed local map attribution set is incomplete.' );
+di_assert(
+	'Mapzen Terrain Tiles; SRTM and GMTED2010 data courtesy of the U.S. Geological Survey; ETOPO1 courtesy of NOAA/NCEI. Not for navigation.' === $island_data['attributions'][1]['text'],
+	'Terrain attribution or navigation limitation is incomplete.'
+);
+di_assert( 'CC-BY-4.0' === $island_data['attributions'][2]['license'], 'ESA WorldCover CC BY 4.0 notice is missing.' );
+di_assert( 'Contains modified Copernicus Sentinel data 2026. Image observed 26.03.2026.' === $island_data['attributions'][3]['text'], 'Copernicus modified-data notice or exact observation date is missing.' );
+di_assert( 1 === count( $island_data['imagery_sources'] ), 'The approved public satellite source record is missing.' );
+$satellite_source = $island_data['imagery_sources'][0];
+di_assert( 'S2B_47PPL_20260326_0_L2A' === $satellite_source['item_id'], 'Sentinel-2 item identity mismatch.' );
+di_assert( '2026-03-26T03:55:36.171000Z' === $satellite_source['observed_at'], 'Sentinel-2 observation time mismatch.' );
+di_assert( 14.307985 === $satellite_source['tile_cloud_cover_percent'], 'Sentinel-2 source-tile cloud metadata mismatch.' );
+di_assert( 'source_tile_not_cropped_island' === $satellite_source['tile_cloud_metadata_scope'], 'Cloud metadata scope is overstated.' );
+di_assert( 'orientation_only' === $satellite_source['usage_scope'], 'Satellite imagery is not limited to orientation.' );
+foreach ( array( 'not_current_evidence', 'not_parcel_evidence', 'not_title_evidence', 'not_buildability_evidence' ) as $satellite_limit ) {
+	di_assert( in_array( $satellite_limit, $satellite_source['limitations'], true ), 'A satellite evidence limitation is missing.' );
+}
+di_assert( 'https://registry.opendata.aws/sentinel-2-l2a-cogs/' === $satellite_source['registry_url'], 'AWS Open Data access citation is missing.' );
+di_assert( 'https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice' === $satellite_source['legal_notice_url'], 'Copernicus legal notice citation is missing.' );
 di_assert( false === $island_data['decision_policy']['automatic_buildability_verdict'], 'The Canary emits an automatic buildability verdict.' );
 di_assert( in_array( 'parcel_reference_match', $island_data['decision_policy']['required_dimensions'], true ), 'The parcel verification dimension is missing.' );
 foreach ( $island_data['official_tools'] as $official_tool ) {
@@ -583,6 +625,9 @@ $js_path       = THAILAND_PLATFORM_DIR . 'assets/digital-islands/digital-islands
 $template      = file_get_contents( $template_path );
 $css           = file_get_contents( $css_path );
 $js            = file_get_contents( $js_path );
+$context_source = file_get_contents( THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Context.php' );
+$live_method_start = strpos( $context_source, 'public static function is_live_request()' );
+$live_method = false === $live_method_start ? '' : substr( $context_source, $live_method_start, 360 );
 
 di_assert( false !== strpos( $template, '<html lang="he" dir="rtl">' ), 'Template is not Hebrew-first RTL.' );
 di_assert( false !== strpos( $template, 'data-entity-card' ) && false !== strpos( $template, '<ul class="thp-di-cards"' ), 'Static accessible entity list is missing.' );
@@ -591,12 +636,19 @@ di_assert( false !== strpos( $template, 'data-decision-dimension' ), 'The land d
 di_assert( false !== strpos( $template, 'data-official-tool' ) && false !== strpos( $template, 'rel="noopener noreferrer external"' ), 'Official land tools are not rendered safely.' );
 di_assert( 1 === substr_count( $template, 'https://www.openstreetmap.org/copyright' ), 'Persistent OSM attribution link is missing or duplicated.' );
 di_assert( false !== strpos( $template, '© OpenStreetMap contributors' ), 'Visible OSM attribution text is missing.' );
+di_assert( false !== strpos( $template, 'datetime="2026-03-26T03:55:36.171000Z"' ) && false !== strpos( $template, '26.03.2026' ), 'Visible Sentinel observation date is missing.' );
 di_assert( false !== strpos( $template, 'thp-di-evidence-links' ), 'Accessible evidence links are not rendered.' );
-di_assert( false !== strpos( $js, 'class CesiumAdapter' ) && false !== strpos( $js, 'window.Cesium' ), 'CesiumJS adapter seam is missing.' );
+di_assert( false === strpos( $js, 'class CesiumAdapter' ) && false === strpos( $js, 'window.Cesium' ), 'Retired CesiumJS runtime code remains.' );
 di_assert( false !== strpos( $js, 'class MapLibreAdapter' ) && false !== strpos( $js, 'window.maplibregl' ), 'MapLibre adapter seam is missing.' );
 di_assert( false !== strpos( $js, 'navigator.connection.saveData' ), 'Data-saver fallback is missing.' );
 di_assert( false !== strpos( $js, 'prefers-reduced-motion: reduce' ), 'Reduced-motion fallback is missing.' );
 di_assert( false !== strpos( $js, "getContext('webgl2')" ), 'WebGL capability fallback is missing.' );
+di_assert(
+	false !== strpos( $live_method, 'live_identity_matches_request()' )
+	&& false !== strpos( $live_method, 'public_api_ready()' )
+	&& strpos( $live_method, 'live_identity_matches_request()' ) < strpos( $live_method, 'public_api_ready()' ),
+	'Unrelated Live requests do not fast-fail before renderer asset verification.'
+);
 di_assert( false !== strpos( $js, 'window.location.hash' ) && false === strpos( $js, 'window.location.search' ), 'Client state is not fragment-only.' );
 di_assert( false !== strpos( $js, "method: 'GET'" ) && false === strpos( $js, 'body:' ), 'Client GET contract contains a body.' );
 di_assert( false !== strpos( $js, "if (nonce)" ) && false !== strpos( $js, "credentials: nonce ? 'same-origin' : 'omit'" ), 'Live nonce/cookie omission is missing.' );

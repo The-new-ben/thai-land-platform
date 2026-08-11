@@ -4,24 +4,43 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 License: Proprietary
 
 Geography, search, homepage, real-estate, priority guides, and Digital Islands runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.5.0 adds the first Digital Islands pilot for Koh Phangan. It provides
-49 reviewed public map records for settlements, roads, landmarks, government
-services, infrastructure, and three map-only project identities. The runtime is
-bound to one exact WordPress page and stays under independent Off, Canary, and
-Live controls. Private research candidates, held offers, internal review notes,
-and unverified professional-service leads are excluded from the public source
-and plugin package. Advanced CesiumJS and MapLibre terrain dependencies remain
-explicitly pending; the accessible interactive orientation world and full
-static list work without them.
+Version 0.5.1 adds a self-hosted MapLibre renderer to the Koh Phangan Digital
+Islands pilot. The 2D mode uses a local vector archive. The rotatable 3D mode
+adds a Sentinel-2 orientation image observed on 26 March 2026, local terrain,
+and hillshade. The accessible list remains available when graphics are
+unavailable, for data-saver requests, and without JavaScript.
+
+The pilot provides 49 reviewed public records for settlements, roads,
+landmarks, government services, infrastructure, and three map-only project
+identities. Twenty-seven currently have reviewed coordinates; records without
+reviewed coordinates remain in the list and are not assigned invented pins.
+Private research candidates, held offers, internal review notes, and unverified
+professional-service leads are excluded from the public source and plugin
+package. The map is for orientation and is not parcel, title, buildability,
+boundary, measurement, or navigation evidence.
 
 == Changelog ==
+
+= 0.5.1 =
+* Add self-hosted MapLibre GL JS 5.18.0 and PMTiles 4.5.0 with complete bundled
+  MapLibre, PMTiles, and fflate license notices.
+* Add a local-vector 2D map and a rotatable 3D globe with local terrain and
+  hillshade while preserving the accessible list fallback.
+* Add one dated Sentinel-2 orientation image, one local Protomaps vector
+  archive, and exactly 58 local Terrarium terrain tiles.
+* Bind all 65 renderer assets, source attributions, byte counts, and SHA-256
+  hashes to an exact manifest and deterministic release receipt.
+* Require deployment acceptance to prove exact live renderer bytes, PMTiles
+  HTTP Range behavior, and real `activeRenderer=3d` execution.
+* Keep parcel, title, buildability, boundary, measurement, photorealistic, and
+  navigation claims outside the map contract.
 
 = 0.5.0 =
 * Add the Koh Phangan Digital Islands pilot with exactly 49 reviewed public

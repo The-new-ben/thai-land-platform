@@ -67,10 +67,12 @@ final class PublicView {
 			'representation_state' => $representation,
 			'indexing_policy'     => self::REPRESENTATION_PUBLIC === $representation ? 'index_follow' : 'noindex_follow',
 			'attribution'         => array(
-				'text' => '© OpenStreetMap contributors',
+				'text' => 'Protomaps © OpenStreetMap contributors',
 				'url'  => 'https://www.openstreetmap.org/copyright',
-				'use'  => 'derived_orientation_facts_only_no_community_tiles',
+				'use'  => 'self_hosted_vector_basemap_no_community_tiles',
 			),
+			'attributions'        => self::map_attributions(),
+			'imagery_sources'     => self::imagery_sources( $registry['sources_by_id'] ?? array() ),
 			'island'              => array(
 				'geo_id'              => $island['geo_id'],
 				'names'               => self::localized_values( $island['names'] ),
@@ -81,11 +83,7 @@ final class PublicView {
 				'center'              => self::coordinate_pair( $island['center'] ),
 				'bounds'              => self::bounds( $island['bounds'] ),
 			),
-			'renderers'           => array(
-				array( 'renderer_id' => 'immersive_3d', 'adapter' => 'CesiumJS', 'state' => 'dependency_pending' ),
-				array( 'renderer_id' => 'practical_2d', 'adapter' => 'MapLibre', 'state' => 'dependency_pending' ),
-				array( 'renderer_id' => 'accessible_list', 'adapter' => 'HTML', 'state' => 'available' ),
-			),
+			'renderers'           => self::renderers( $registry['renderer_contract'] ?? array() ),
 			'camera_presets'      => self::camera_presets( $registry['camera_presets'] ),
 			'decision_policy'     => array(
 				'parcel_data_mode'              => 'external_official_lookup_only',
@@ -460,6 +458,153 @@ final class PublicView {
 			}
 		}
 		return $result;
+	}
+
+	/** @param mixed $contracts Reviewed renderer contracts. @return array */
+	private static function renderers( $contracts ) {
+		$expected = array(
+			'immersive_3d' => array(
+				'role'              => 'primary_capable_device',
+				'capabilities'      => array( 'camera_presets', 'entity_focus', 'globe', 'hillshade', 'terrain', 'building_extrusion', 'satellite_imagery' ),
+				'fallback_triggers' => array( 'webgl_unavailable', 'data_saver', 'user_choice' ),
+			),
+			'practical_2d' => array(
+				'role'              => 'fallback_and_operational',
+				'capabilities'      => array( 'camera_presets', 'entity_focus', 'filters', 'keyboard_list', 'vector_basemap' ),
+				'fallback_triggers' => array(),
+			),
+		);
+		$indexed = array();
+		foreach ( is_array( $contracts ) ? $contracts : array() as $contract ) {
+			if ( ! is_array( $contract ) ) {
+				continue;
+			}
+			$renderer_id = self::safe_token( $contract['renderer_id'] ?? '' );
+			if ( ! isset( $expected[ $renderer_id ] ) || isset( $indexed[ $renderer_id ] ) ) {
+				continue;
+			}
+			$indexed[ $renderer_id ] = $contract;
+		}
+
+		$result = array();
+		foreach ( $expected as $renderer_id => $required ) {
+			$contract = $indexed[ $renderer_id ] ?? null;
+			if (
+				! is_array( $contract )
+				|| $required['role'] !== ( $contract['role'] ?? null )
+				|| 'MapLibre GL JS' !== ( $contract['library'] ?? null )
+				|| '5.18.0' !== ( $contract['library_version'] ?? null )
+				|| 'self_hosted_pinned' !== ( $contract['delivery'] ?? null )
+				|| $required['capabilities'] !== ( $contract['capabilities'] ?? null )
+				|| $required['fallback_triggers'] !== ( $contract['fallback_triggers'] ?? null )
+			) {
+				continue;
+			}
+			$result[] = array(
+				'renderer_id'       => $renderer_id,
+				'adapter'           => 'MapLibre',
+				'library_version'   => '5.18.0',
+				'delivery'          => 'self_hosted_pinned',
+				'state'             => 'available',
+				'capabilities'      => $required['capabilities'],
+				'fallback_triggers' => $required['fallback_triggers'],
+			);
+		}
+		$result[] = array( 'renderer_id' => 'accessible_list', 'adapter' => 'HTML', 'state' => 'available' );
+		return $result;
+	}
+
+	/** @return array */
+	private static function map_attributions() {
+		return array(
+			array(
+				'attribution_id' => 'basemap',
+				'text'           => 'Protomaps © OpenStreetMap contributors',
+				'url'            => 'https://www.openstreetmap.org/copyright',
+				'license'        => 'ODbL-1.0',
+			),
+			array(
+				'attribution_id' => 'terrain',
+				'text'           => 'Mapzen Terrain Tiles; SRTM and GMTED2010 data courtesy of the U.S. Geological Survey; ETOPO1 courtesy of NOAA/NCEI. Not for navigation.',
+				'url'            => 'https://github.com/tilezen/joerd/blob/master/docs/attribution.md',
+				'license'        => 'source-specific-public-data-terms',
+			),
+			array(
+				'attribution_id' => 'landcover',
+				'text'           => 'ESA WorldCover 2021 land-cover data, licensed under CC BY 4.0.',
+				'url'            => 'https://esa-worldcover.org/en/data-access',
+				'license'        => 'CC-BY-4.0',
+			),
+			array(
+				'attribution_id' => 'satellite',
+				'text'           => 'Contains modified Copernicus Sentinel data 2026. Image observed 26.03.2026.',
+				'url'            => 'https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice',
+				'license'        => 'Copernicus-Sentinel-Data-Legal-Notice',
+			),
+		);
+	}
+
+	/** @param mixed $sources Reviewed source catalog. @return array */
+	private static function imagery_sources( $sources ) {
+		$source_id = 'source:copernicus.sentinel2.s2b_47ppl_20260326_0_l2a';
+		$expected  = array(
+			'item_id'                   => 'S2B_47PPL_20260326_0_L2A',
+			'observed_at'               => '2026-03-26T03:55:36.171000Z',
+			'tile_cloud_cover_percent'  => 14.307985,
+			'tile_cloud_metadata_scope' => 'source_tile_not_cropped_island',
+			'registry_url'              => 'https://registry.opendata.aws/sentinel-2-l2a-cogs/',
+			'legal_notice_url'          => 'https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice',
+			'processed_bounds'          => array(
+				'west'  => 99.92,
+				'south' => 9.63,
+				'east'  => 100.12,
+				'north' => 9.84,
+			),
+			'processing'                => array( 'cropped_to_bounds', 'reprojected_to_epsg_3857', 'compressed_to_webp' ),
+			'processed_projection'      => 'EPSG:3857',
+			'processed_format'          => 'webp',
+			'usage_scope'               => 'orientation_only',
+			'limitations'               => array( 'not_current_evidence', 'not_parcel_evidence', 'not_title_evidence', 'not_buildability_evidence' ),
+			'attribution'               => 'Contains modified Copernicus Sentinel data 2026',
+		);
+		foreach ( is_array( $sources ) ? $sources : array() as $source ) {
+			if ( ! is_array( $source ) || $source_id !== ( $source['source_id'] ?? null ) ) {
+				continue;
+			}
+			if (
+				$expected !== ( $source['imagery'] ?? null )
+				|| 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/47/P/PL/2026/3/S2B_47PPL_20260326_0_L2A/TCI.tif' !== ( $source['url'] ?? null )
+				|| 'licensed_registry' !== ( $source['authority_tier'] ?? null )
+				|| 'official_dataset' !== ( $source['source_type'] ?? null )
+				|| 'current' !== ( $source['access_state'] ?? null )
+				|| 'attribute_and_geometry' !== ( $source['permitted_reuse'] ?? null )
+				|| 'orientation_only' !== ( $source['geometry_use'] ?? null )
+			) {
+				return array();
+			}
+			return array(
+				array(
+					'source_id'                 => $source_id,
+					'publisher'                 => self::bounded_string( $source['publisher'] ?? '', 200 ),
+					'title'                     => self::bounded_string( $source['title'] ?? '', 240 ),
+					'source_cog_url'            => $source['url'],
+					'item_id'                   => $expected['item_id'],
+					'observed_at'               => $expected['observed_at'],
+					'tile_cloud_cover_percent'  => $expected['tile_cloud_cover_percent'],
+					'tile_cloud_metadata_scope' => $expected['tile_cloud_metadata_scope'],
+					'registry_url'              => $expected['registry_url'],
+					'legal_notice_url'          => $expected['legal_notice_url'],
+					'processed_bounds'          => self::bounds( $expected['processed_bounds'] ),
+					'processing'                => $expected['processing'],
+					'processed_projection'      => $expected['processed_projection'],
+					'processed_format'          => $expected['processed_format'],
+					'usage_scope'               => $expected['usage_scope'],
+					'limitations'               => $expected['limitations'],
+					'attribution'               => $expected['attribution'],
+				)
+			);
+		}
+		return array();
 	}
 
 	/** @param mixed $presets Camera presets. @return array */

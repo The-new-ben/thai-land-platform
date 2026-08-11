@@ -15,6 +15,17 @@ from typing import Any
 
 
 SLUG = "thailand-platform"
+RENDERER_MANIFEST_PATH = "resources/digital-islands/renderer-manifest.json"
+RENDERER_LOADER_PATH = "src/DigitalIslands/RendererAssets.php"
+RENDERER_BOUNDS = {"east": 100.12, "north": 9.84, "south": 9.63, "west": 99.92}
+RENDERER_TERRAIN_RANGES = {
+    "8": {"count": 2, "max_x": 199, "max_y": 121, "min_x": 199, "min_y": 120},
+    "9": {"count": 2, "max_x": 398, "max_y": 242, "min_x": 398, "min_y": 241},
+    "10": {"count": 2, "max_x": 796, "max_y": 484, "min_x": 796, "min_y": 483},
+    "11": {"count": 4, "max_x": 1593, "max_y": 968, "min_x": 1592, "min_y": 967},
+    "12": {"count": 12, "max_x": 3187, "max_y": 1937, "min_x": 3184, "min_y": 1935},
+    "13": {"count": 36, "max_x": 6374, "max_y": 3875, "min_x": 6369, "min_y": 3870},
+}
 
 
 def sha256(path: Path) -> str:
@@ -55,6 +66,16 @@ def valid_hash(value: Any) -> bool:
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def expected_renderer_terrain_tiles() -> list[str]:
+    tiles: list[str] = []
+    for zoom in ("8", "9", "10", "11", "12", "13"):
+        tile_range = RENDERER_TERRAIN_RANGES[zoom]
+        for x in range(tile_range["min_x"], tile_range["max_x"] + 1):
+            for y in range(tile_range["min_y"], tile_range["max_y"] + 1):
+                tiles.append(f"assets/digital-islands/terrain/20260811/{zoom}/{x}/{y}.png")
+    return tiles
 
 
 def main() -> int:
@@ -270,6 +291,7 @@ def main() -> int:
             "manifest_sha256",
             "parity",
             "publication_state",
+            "renderer",
             "schema",
             "schema_version",
             "source",
@@ -337,7 +359,7 @@ def main() -> int:
     require(digital_counts["public_map_entities"] == 49, "Digital Islands public count mismatch")
     require(digital_counts["layers"] == 24, "Digital Islands layer count mismatch")
     require(digital_counts["official_tools"] == 3, "Digital Islands official tool count mismatch")
-    require(digital_counts["sources"] == 32, "Digital Islands source count mismatch")
+    require(digital_counts["sources"] == 38, "Digital Islands source count mismatch")
     require(
         isinstance(digital_counts["entity_types"], dict)
         and all(type(value) is int and value > 0 for value in digital_counts["entity_types"].values())
@@ -387,13 +409,37 @@ def main() -> int:
     require(type(license_notice["bytes"]) is int and license_notice["bytes"] == license_notice_path.stat().st_size, "Digital Islands license notice byte count mismatch")
     require(valid_hash(license_notice["sha256"]) and license_notice["sha256"] == sha256(license_notice_path), "Digital Islands license notice hash mismatch")
     license_notice_text = license_notice_path.read_text(encoding="utf-8")
+    license_notice_normalized = re.sub(r"\s+", " ", license_notice_text)
     for required_notice in (
         "© OpenStreetMap contributors",
         "Open Data Commons Open Database License 1.0 (ODbL)",
         "https://opendatacommons.org/licenses/odbl/1-0/",
         "https://www.openstreetmap.org/copyright",
+        "MapLibre GL JS 5.18.0",
+        "PMTiles JavaScript 4.5.0",
+        "fflate 0.8.2",
+        "MIT License",
+        "Copyright (c) 2023 Arjun Barrett",
+        "https://github.com/101arrowz/fflate/blob/v0.8.2/LICENSE",
+        "https://docs.protomaps.com/basemaps/attribution",
+        "Natural Earth data, which is in the public domain",
+        "https://www.naturalearthdata.com/about/terms-of-use/",
+        "ESA WorldCover 2021",
+        "https://creativecommons.org/licenses/by/4.0/",
+        "https://esa-worldcover.org/en/data-access",
+        "Mapzen Terrain Tiles",
+        "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+        "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm",
+        "https://www.usgs.gov/coastal-changes-and-impacts/gmted2010",
+        "https://www.ncei.noaa.gov/products/etopo-global-relief-model",
+        "Contains modified Copernicus Sentinel data 2026",
+        "S2B_47PPL_20260326_0_L2A",
+        "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/47/P/PL/2026/3/S2B_47PPL_20260326_0_L2A/TCI.tif",
+        "https://registry.opendata.aws/sentinel-2-l2a-cogs/",
+        "https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice",
+        "orientation-only historical imagery, not current parcel, title, or buildability evidence",
     ):
-        require(required_notice in license_notice_text, f"Digital Islands license notice is incomplete: {required_notice}")
+        require(required_notice in license_notice_normalized, f"Digital Islands license notice is incomplete: {required_notice}")
     require(
         "https://www.openstreetmap.org/copyright"
         in (source_root / "templates/digital-islands/koh-phangan.php").read_text(encoding="utf-8"),
@@ -404,6 +450,15 @@ def main() -> int:
         "'attribution'" in public_view_text
         and "https://www.openstreetmap.org/copyright" in public_view_text,
         "Digital Islands REST attribution contract is missing",
+    )
+    require(
+        "Contains modified Copernicus Sentinel data 2026. Image observed 26.03.2026."
+        in public_view_text
+        and 'datetime="2026-03-26T03:55:36.171000Z"'
+        in (source_root / "templates/digital-islands/koh-phangan.php").read_text(encoding="utf-8")
+        and "26.03.2026"
+        in (source_root / "templates/digital-islands/koh-phangan.php").read_text(encoding="utf-8"),
+        "Digital Islands visible Sentinel observation date is missing",
     )
 
     digital_artifacts = digital_islands["artifacts"]
@@ -416,9 +471,247 @@ def main() -> int:
         require(type(evidence["bytes"]) is int and evidence["bytes"] == digital_artifact_path.stat().st_size, f"Digital Islands artifact byte count mismatch: {relative}")
         require(valid_hash(evidence["sha256"]) and evidence["sha256"] == sha256(digital_artifact_path), f"Digital Islands artifact hash mismatch: {relative}")
 
+    renderer = digital_islands["renderer"]
+    require(isinstance(renderer, dict), "renderer evidence must be an object")
+    exact_keys(
+        renderer,
+        {
+            "attribution",
+            "basemap",
+            "contract_id",
+            "dependencies",
+            "inventory",
+            "inventory_count",
+            "island_id",
+            "loader",
+            "manifest",
+            "parity",
+            "release_version",
+            "satellite",
+            "schema_version",
+            "terrain",
+        },
+        "renderer evidence",
+    )
+    require(renderer["parity"] == "pass", "renderer parity did not pass")
+    require(renderer["contract_id"] == "thailand-digital-islands-renderer-v1", "renderer contract mismatch")
+    require(renderer["schema_version"] == 1, "renderer schema version mismatch")
+    require(renderer["island_id"] == "geo:th:island:ko-pha-ngan", "renderer island identity mismatch")
+    require(renderer["release_version"] == args.version == "0.5.1", "renderer release version mismatch")
+
+    for label, expected_path in (
+        ("manifest", RENDERER_MANIFEST_PATH),
+        ("loader", RENDERER_LOADER_PATH),
+    ):
+        evidence = renderer[label]
+        require(isinstance(evidence, dict), f"renderer {label} evidence must be an object")
+        exact_keys(evidence, {"bytes", "path", "sha256"}, f"renderer {label} evidence")
+        require(evidence["path"] == expected_path, f"renderer {label} path mismatch")
+        evidence_path = source_root / expected_path
+        require(evidence_path.is_file() and not evidence_path.is_symlink(), f"renderer {label} is missing or unsafe")
+        require(type(evidence["bytes"]) is int and evidence["bytes"] == evidence_path.stat().st_size, f"renderer {label} byte count mismatch")
+        require(valid_hash(evidence["sha256"]) and evidence["sha256"] == sha256(evidence_path), f"renderer {label} hash mismatch")
+        require(expected_path in inventory_entries, f"renderer {label} is not packaged")
+
+    renderer_manifest = parse_json(source_root / RENDERER_MANIFEST_PATH)
+    require(renderer["manifest"]["bytes"] == 15395, "renderer manifest pinned byte count mismatch")
+    require(
+        renderer["manifest"]["sha256"] == "463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb",
+        "renderer manifest pinned SHA-256 mismatch",
+    )
+    exact_keys(
+        renderer_manifest,
+        {
+            "attribution",
+            "basemap",
+            "contract_id",
+            "dependencies",
+            "inventory",
+            "island_id",
+            "release_version",
+            "satellite",
+            "schema_version",
+            "terrain",
+        },
+        "renderer manifest",
+    )
+    for field in (
+        "attribution",
+        "basemap",
+        "contract_id",
+        "dependencies",
+        "inventory",
+        "island_id",
+        "release_version",
+        "satellite",
+        "schema_version",
+        "terrain",
+    ):
+        require(renderer[field] == renderer_manifest[field], f"renderer manifest disagrees: {field}")
+
+    expected_attribution = {
+        "basemap": "Protomaps © OpenStreetMap contributors",
+        "terrain": (
+            "Mapzen Terrain Tiles; SRTM and GMTED2010 data courtesy of the U.S. Geological Survey; "
+            "ETOPO1 courtesy of NOAA/NCEI. Not for navigation."
+        ),
+    }
+    require(renderer["attribution"] == expected_attribution, "renderer attribution mismatch")
+    expected_dependencies = {
+        "maplibre": {
+            "license_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt",
+            "script_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js",
+            "style_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css",
+            "version": "5.18.0",
+        },
+        "pmtiles": {
+            "license_path": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt",
+            "script_path": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js",
+            "version": "4.5.0",
+        },
+    }
+    require(renderer["dependencies"] == expected_dependencies, "renderer dependencies mismatch")
+    expected_basemap = {
+        "bounds": RENDERER_BOUNDS,
+        "format": "pmtiles",
+        "path": "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles",
+    }
+    require(renderer["basemap"] == expected_basemap, "renderer basemap mismatch")
+    expected_satellite = {
+        "attribution": "Contains modified Copernicus Sentinel data 2026",
+        "bounds": RENDERER_BOUNDS,
+        "format": "webp",
+        "height": 2372,
+        "observed_at": "2026-03-26T03:55:36.171000Z",
+        "path": "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp",
+        "projection": "EPSG:3857",
+        "source_item_id": "S2B_47PPL_20260326_0_L2A",
+        "width": 2227,
+    }
+    require(renderer["satellite"] == expected_satellite, "renderer satellite mismatch")
+
+    expected_tiles = expected_renderer_terrain_tiles()
+    terrain = renderer["terrain"]
+    require(isinstance(terrain, dict), "renderer terrain evidence must be an object")
+    exact_keys(
+        terrain,
+        {
+            "base_path",
+            "bounds",
+            "format",
+            "inventory_sha256",
+            "max_zoom",
+            "min_zoom",
+            "tile_count",
+            "tile_ranges",
+            "tiles",
+            "total_bytes",
+            "url_template",
+        },
+        "renderer terrain evidence",
+    )
+    require(terrain["base_path"] == "assets/digital-islands/terrain/20260811", "renderer terrain base path mismatch")
+    require(terrain["bounds"] == RENDERER_BOUNDS, "renderer terrain bounds mismatch")
+    require(terrain["format"] == "terrarium_png", "renderer terrain format mismatch")
+    require(terrain["inventory_sha256"] == "cde017fa9a5443e60d0dfba32984e9fcbdec357644b558b0fa128eb935444918", "renderer terrain digest mismatch")
+    require(terrain["min_zoom"] == 8 and terrain["max_zoom"] == 13, "renderer terrain zoom bounds mismatch")
+    require(terrain["tile_count"] == 58 and terrain["tiles"] == expected_tiles, "renderer terrain tile inventory mismatch")
+    require(terrain["tile_ranges"] == RENDERER_TERRAIN_RANGES, "renderer terrain ranges mismatch")
+    require(terrain["total_bytes"] == 1092999, "renderer terrain byte total mismatch")
+    require(terrain["url_template"] == "assets/digital-islands/terrain/20260811/{z}/{x}/{y}.png", "renderer terrain URL template mismatch")
+
+    renderer_inventory = renderer["inventory"]
+    require(isinstance(renderer_inventory, dict), "renderer inventory must be an object")
+    expected_renderer_paths = sorted(
+        {
+            expected_basemap["path"],
+            expected_satellite["path"],
+            expected_dependencies["maplibre"]["license_path"],
+            expected_dependencies["maplibre"]["script_path"],
+            expected_dependencies["maplibre"]["style_path"],
+            expected_dependencies["pmtiles"]["license_path"],
+            expected_dependencies["pmtiles"]["script_path"],
+            *expected_tiles,
+        }
+    )
+    require(sorted(renderer_inventory) == expected_renderer_paths, "renderer inventory paths mismatch")
+    require(renderer["inventory_count"] == 65 == len(renderer_inventory), "renderer inventory count mismatch")
+    important_receipts = {
+        "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles": (1205287, "9a8614610ea58d282989346763cd5900ad02d54d8bc7104eda799bea79799ded"),
+        "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp": (621958, "9ee99de2269a040c35be113bad44d444fc76c4dc136b36d4afe5cb57b5e3de2a"),
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt": (5984, "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2"),
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css": (69541, "e4711ce4f6225070a859c7a40dc4d2e4e1ab76a5c71a12b4a65227ed2bf362fd"),
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js": (1022148, "bc7101606a893f9018ac4a0d27f7de07d00fb3852231951fcf3dd900796ddfd7"),
+        "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt": (2879, "4ca0c13e0b394eebfefc94cc1ba825b99b120283d98dd5ee2f6bc733bb8a5f77"),
+        "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js": (20229, "caf981bc46f6327ee7e65d5dc964d89d38a69f60edca2bd4c5c890c21b554c6c"),
+    }
+    terrain_receipts: dict[str, dict[str, Any]] = {}
+    terrain_total_bytes = 0
+    for relative, evidence in renderer_inventory.items():
+        require(isinstance(evidence, dict), f"renderer file receipt is invalid: {relative}")
+        exact_keys(evidence, {"bytes", "sha256"}, f"renderer file receipt {relative}")
+        source = source_root / relative
+        require(source.is_file() and not source.is_symlink(), f"renderer asset is missing or unsafe: {relative}")
+        require(type(evidence["bytes"]) is int and evidence["bytes"] > 0 and evidence["bytes"] == source.stat().st_size, f"renderer asset byte count mismatch: {relative}")
+        require(valid_hash(evidence["sha256"]) and evidence["sha256"] == sha256(source), f"renderer asset hash mismatch: {relative}")
+        require(relative in inventory_entries, f"renderer asset is not packaged: {relative}")
+        if relative in expected_tiles:
+            require(source.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), f"renderer terrain tile is not PNG: {relative}")
+            terrain_receipts[relative] = evidence
+            terrain_total_bytes += evidence["bytes"]
+    for relative, (expected_bytes, expected_hash) in important_receipts.items():
+        require(
+            renderer_inventory.get(relative) == {"bytes": expected_bytes, "sha256": expected_hash},
+            f"renderer pinned receipt changed: {relative}",
+        )
+    satellite_payload = (source_root / expected_satellite["path"]).read_bytes()
+    require(satellite_payload[:4] == b"RIFF" and satellite_payload[8:12] == b"WEBP", "renderer satellite is not WebP")
+    terrain_canonical = "".join(
+        f"{relative}\0{terrain_receipts[relative]['bytes']}\0{terrain_receipts[relative]['sha256']}\n"
+        for relative in sorted(terrain_receipts)
+    ).encode("utf-8")
+    require(len(terrain_receipts) == 58, "renderer terrain receipt count mismatch")
+    require(terrain_total_bytes == terrain["total_bytes"], "renderer terrain receipt bytes mismatch")
+    require(hashlib.sha256(terrain_canonical).hexdigest() == terrain["inventory_sha256"], "renderer terrain canonical digest mismatch")
+
+    bounded_directories = (
+        "assets/digital-islands/data",
+        "assets/digital-islands/imagery",
+        "assets/digital-islands/terrain/20260811",
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0",
+        "assets/digital-islands/vendor/pmtiles/4.5.0",
+    )
+    actual_renderer_paths: list[str] = []
+    for relative_directory in bounded_directories:
+        directory = source_root / relative_directory
+        require(directory.is_dir() and not directory.is_symlink(), f"renderer directory is missing or unsafe: {relative_directory}")
+        for candidate in directory.rglob("*"):
+            require(not candidate.is_symlink(), f"renderer filesystem contains a symbolic link: {candidate}")
+            if candidate.is_file():
+                actual_renderer_paths.append(candidate.relative_to(source_root).as_posix())
+            else:
+                require(candidate.is_dir(), f"renderer filesystem contains an invalid entry: {candidate}")
+    require(sorted(actual_renderer_paths) == expected_renderer_paths, "renderer filesystem inventory mismatch")
+
+    loader_text = (source_root / RENDERER_LOADER_PATH).read_text(encoding="utf-8")
+    for marker in (
+        "const CONTRACT_ID  = 'thailand-digital-islands-renderer-v1';",
+        "const MANIFEST_SHA256 = '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb';",
+        "const RELEASE_VERSION = '0.5.1';",
+        "const MAPLIBRE_VERSION = '5.18.0';",
+        "const PMTILES_VERSION = '4.5.0';",
+        "const TERRAIN_TILE_COUNT = 58;",
+    ):
+        require(marker in loader_text, f"renderer loader marker is missing: {marker}")
+
     with zipfile.ZipFile(artifact, "r") as archive:
         require(archive.namelist() == expected_inventory, "ZIP inventory mismatch")
         require(archive.testzip() is None, "ZIP integrity check failed")
+        for relative in expected_renderer_paths + [RENDERER_MANIFEST_PATH, RENDERER_LOADER_PATH]:
+            require(
+                archive.read(f"{SLUG}/{relative}") == (source_root / relative).read_bytes(),
+                f"packaged renderer byte mismatch: {relative}",
+            )
 
     qa = receipt["qa"]
     require(isinstance(qa, dict), "QA evidence must be an object")
@@ -439,8 +732,13 @@ def main() -> int:
             "digital_island_acceptance_contract_tests",
             "digital_island_adapter_test_output",
             "digital_island_adapter_tests",
+            "digital_island_browser_acceptance",
+            "digital_island_browser_acceptance_test_output",
+            "digital_island_browser_acceptance_tests",
             "digital_island_compiler",
             "digital_island_data_tests",
+            "digital_island_live_source_test_output",
+            "digital_island_live_source_tests",
             "digital_island_runtime_test_output",
             "digital_island_runtime_tests",
             "digital_island_settings_test_output",
@@ -523,6 +821,203 @@ def main() -> int:
         "Digital Islands adapter output mismatch",
     )
     require(
+        qa["digital_island_browser_acceptance_tests"] == "pass",
+        "Digital Islands real-browser acceptance did not pass",
+    )
+    require(
+        qa["digital_island_browser_acceptance_test_output"]
+        == "PASS: Digital Islands real-browser acceptance (7 scenarios).",
+        "Digital Islands real-browser acceptance output mismatch",
+    )
+    browser_acceptance = qa["digital_island_browser_acceptance"]
+    require(isinstance(browser_acceptance, dict), "Digital Islands browser evidence must be an object")
+    exact_keys(
+        browser_acceptance,
+        {
+            "artifacts",
+            "assertions",
+            "contract_id",
+            "fixture",
+            "playwright_cli",
+            "release",
+            "result",
+            "reviewed_assets",
+            "scenario_evidence",
+            "scenarios",
+        },
+        "Digital Islands browser evidence",
+    )
+    expected_browser_scenarios = [
+        "desktop-3d",
+        "desktop-2d",
+        "mobile-2d",
+        "reduced-motion",
+        "data-saver",
+        "no-webgl",
+        "asset-failure",
+    ]
+    require(
+        browser_acceptance["contract_id"] == "thp-digital-islands-maplibre-browser-v1",
+        "Digital Islands browser contract mismatch",
+    )
+    require(browser_acceptance["release"] == args.version == "0.5.1", "Digital Islands browser release mismatch")
+    require(browser_acceptance["result"] == "pass", "Digital Islands browser result mismatch")
+    require(browser_acceptance["scenarios"] == expected_browser_scenarios, "Digital Islands browser scenarios mismatch")
+    require(
+        browser_acceptance["playwright_cli"]
+        == {"package": "@playwright/cli@0.1.18", "version": "0.1.18"},
+        "Digital Islands Playwright CLI pin mismatch",
+    )
+    expected_browser_assertions = {
+        "all_scenarios_passed": True,
+        "asset_failure_fail_closed": True,
+        "data_saver_list_only": True,
+        "no_third_party_requests": True,
+        "real_maplibre_execution": True,
+    }
+    require(browser_acceptance["assertions"] == expected_browser_assertions, "Digital Islands browser assertions mismatch")
+    require(
+        browser_acceptance["fixture"]
+        == {
+            "contract_id": "thp-digital-islands-maplibre-browser-v1",
+            "coordinate_entity_count": 27,
+            "entity_count": 49,
+            "island_id": "geo:th:island:ko-pha-ngan",
+            "playwright_cli_package": "@playwright/cli@0.1.18",
+            "status": "ready",
+        },
+        "Digital Islands browser fixture mismatch",
+    )
+    expected_reviewed_assets = {
+        "client": "assets/digital-islands/digital-islands.js",
+        "maplibre": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js",
+        "pmtiles": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js",
+        "satellite": "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp",
+        "vector": "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles",
+    }
+    reviewed_assets = browser_acceptance["reviewed_assets"]
+    require(isinstance(reviewed_assets, dict), "Digital Islands reviewed browser assets must be an object")
+    exact_keys(reviewed_assets, set(expected_reviewed_assets), "Digital Islands reviewed browser assets")
+    for label, relative in expected_reviewed_assets.items():
+        evidence = reviewed_assets[label]
+        require(isinstance(evidence, dict), f"Digital Islands reviewed browser asset is invalid: {label}")
+        exact_keys(evidence, {"bytes", "path", "sha256"}, f"Digital Islands reviewed browser asset {label}")
+        require(evidence["path"] == relative, f"Digital Islands reviewed browser asset path mismatch: {label}")
+        source = source_root / relative
+        require(source.is_file() and not source.is_symlink(), f"Digital Islands reviewed browser asset is missing or unsafe: {label}")
+        require(type(evidence["bytes"]) is int and evidence["bytes"] == source.stat().st_size, f"Digital Islands reviewed browser asset byte count mismatch: {label}")
+        require(valid_hash(evidence["sha256"]) and evidence["sha256"] == sha256(source), f"Digital Islands reviewed browser asset hash mismatch: {label}")
+    browser_artifacts = browser_acceptance["artifacts"]
+    require(isinstance(browser_artifacts, dict), "Digital Islands browser artifacts must be an object")
+    exact_keys(browser_artifacts, set(expected_browser_scenarios), "Digital Islands browser artifacts")
+    for scenario, scenario_artifacts in browser_artifacts.items():
+        require(isinstance(scenario_artifacts, dict), f"Digital Islands browser artifact set is invalid: {scenario}")
+        exact_keys(scenario_artifacts, {"console", "screenshot"}, f"Digital Islands browser artifacts {scenario}")
+        for label, evidence in scenario_artifacts.items():
+            require(isinstance(evidence, dict), f"Digital Islands browser artifact receipt is invalid: {scenario}/{label}")
+            exact_keys(evidence, {"bytes", "sha256"}, f"Digital Islands browser artifact receipt {scenario}/{label}")
+            require(type(evidence["bytes"]) is int and evidence["bytes"] >= 0, f"Digital Islands browser artifact byte count is invalid: {scenario}/{label}")
+            require(valid_hash(evidence["sha256"]), f"Digital Islands browser artifact hash is invalid: {scenario}/{label}")
+            if label == "screenshot":
+                require(evidence["bytes"] > 0, f"Digital Islands browser screenshot is empty: {scenario}")
+    browser_scenario_evidence = browser_acceptance["scenario_evidence"]
+    require(isinstance(browser_scenario_evidence, dict), "Digital Islands browser scenario evidence must be an object")
+    exact_keys(browser_scenario_evidence, set(expected_browser_scenarios), "Digital Islands browser scenario evidence")
+    expected_scenario_states = {
+        "desktop-3d": ("3d", 300, 3, 27, "globe", True, True, True, True),
+        "desktop-2d": ("2d", 300, 1, 27, "mercator", True, False, False, True),
+        "mobile-2d": ("2d", 300, 1, 27, "mercator", True, False, False, True),
+        "reduced-motion": ("2d", None, 1, 27, "mercator", True, False, False, True),
+        "data-saver": ("list", None, 0, 0, "", False, False, False, False),
+        "no-webgl": ("preview", None, 0, 0, "", False, False, False, False),
+        "asset-failure": ("preview", None, 2, 0, "", False, False, False, False),
+    }
+    scenario_evidence_keys = {
+        "accuracy_radius_m",
+        "active_renderer",
+        "broken_asset_requests",
+        "camera_transition_abortions",
+        "map_count",
+        "marker_count",
+        "pmtiles_range_requests",
+        "pmtiles_requests",
+        "projection",
+        "request_budget",
+        "request_count",
+        "satellite_observation_date_visible",
+        "satellite_requests",
+        "terrain_requests",
+        "unexpected_failed_requests",
+        "webgl2",
+    }
+    for scenario, evidence in browser_scenario_evidence.items():
+        require(isinstance(evidence, dict), f"Digital Islands browser scenario receipt is invalid: {scenario}")
+        exact_keys(evidence, scenario_evidence_keys, f"Digital Islands browser scenario receipt {scenario}")
+        (
+            active_renderer,
+            accuracy_radius_m,
+            map_count,
+            marker_count,
+            projection,
+            pmtiles_required,
+            satellite_required,
+            terrain_required,
+            webgl2,
+        ) = expected_scenario_states[scenario]
+        require(evidence["active_renderer"] == active_renderer, f"Digital Islands active renderer mismatch: {scenario}")
+        require(evidence["accuracy_radius_m"] == accuracy_radius_m, f"Digital Islands accuracy disclosure mismatch: {scenario}")
+        require(
+            evidence["map_count"] >= map_count if scenario == "desktop-3d" else evidence["map_count"] == map_count,
+            f"Digital Islands map lifecycle mismatch: {scenario}",
+        )
+        require(evidence["marker_count"] == marker_count, f"Digital Islands marker count mismatch: {scenario}")
+        require(evidence["projection"] == projection, f"Digital Islands projection mismatch: {scenario}")
+        require(evidence["webgl2"] is webgl2, f"Digital Islands WebGL2 state mismatch: {scenario}")
+        require(evidence["satellite_observation_date_visible"] is True, f"Digital Islands visible Sentinel date is missing: {scenario}")
+        for field in (
+            "broken_asset_requests",
+            "camera_transition_abortions",
+            "pmtiles_range_requests",
+            "pmtiles_requests",
+            "request_budget",
+            "request_count",
+            "satellite_requests",
+            "terrain_requests",
+            "unexpected_failed_requests",
+        ):
+            require(type(evidence[field]) is int and evidence[field] >= 0, f"Digital Islands browser count is invalid: {scenario}/{field}")
+        require(
+            evidence["request_budget"] > 0
+            and 0 < evidence["request_count"] <= evidence["request_budget"],
+            f"Digital Islands browser request budget failed: {scenario}",
+        )
+        require(
+            evidence["pmtiles_range_requests"] == evidence["pmtiles_requests"],
+            f"Digital Islands PMTiles Range parity failed: {scenario}",
+        )
+        require(
+            (evidence["pmtiles_requests"] > 0) is pmtiles_required,
+            f"Digital Islands PMTiles request state mismatch: {scenario}",
+        )
+        require(
+            (evidence["satellite_requests"] > 0) is satellite_required,
+            f"Digital Islands Sentinel request state mismatch: {scenario}",
+        )
+        require(
+            (evidence["terrain_requests"] > 0) is terrain_required,
+            f"Digital Islands terrain request state mismatch: {scenario}",
+        )
+        if scenario == "asset-failure":
+            require(
+                evidence["broken_asset_requests"] > 0 and evidence["unexpected_failed_requests"] > 0,
+                "Digital Islands browser asset-failure receipt is missing",
+            )
+        else:
+            require(
+                evidence["broken_asset_requests"] == 0 and evidence["unexpected_failed_requests"] == 0,
+                f"Digital Islands browser observed an unexpected asset failure: {scenario}",
+            )
+    require(
         qa["digital_island_acceptance_contract_tests"] == "pass",
         "Digital Islands acceptance contract did not pass",
     )
@@ -534,6 +1029,12 @@ def main() -> int:
         )
         is not None,
         "Digital Islands acceptance contract output mismatch",
+    )
+    require(qa["digital_island_live_source_tests"] == "pass", "Digital Islands live source gates did not pass")
+    require(
+        qa["digital_island_live_source_test_output"]
+        == "PASS: Digital Islands source gates; 49 Canary entities, 49 public entities, state live.",
+        "Digital Islands live source-gate output mismatch",
     )
     require(qa["geography_compiler"] == "pass", "geography compiler parity did not pass")
     require(qa["geography_builder_tests"] == "pass", "geography builder tests did not pass")
@@ -567,9 +1068,14 @@ def main() -> int:
             "scripts/live_digital_island_acceptance.cjs",
             "scripts/live_guides_acceptance.cjs",
             "scripts/live_homepage_acceptance.cjs",
+            "scripts/local_digital_island_browser_acceptance.cjs",
             "scripts/live_real_estate_acceptance.cjs",
             "scripts/live_seo_migration_acceptance.cjs",
             "scripts/live_sitewide_acceptance.cjs",
+            "tests/digital-island-live-acceptance.test.cjs",
+            "tests/fixtures/digital-islands-browser-probe.js",
+            "tests/fixtures/digital-islands-browser-server.cjs",
+            "tests/fixtures/digital-islands-live-browser-probe.js",
         ]
     )
     require(qa["javascript_files_checked"] == expected_javascript_files, "JavaScript syntax inventory mismatch")

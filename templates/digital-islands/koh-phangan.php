@@ -21,6 +21,7 @@ $island          = $island_payload['island'];
 $groups          = View::grouped_entities( $entities_payload['entities'] );
 $decision_dimensions = View::decision_dimension_labels( $island_payload['decision_policy']['required_dimensions'] );
 $official_tools  = $island_payload['official_tools'];
+$map_attributions = $island_payload['attributions'];
 $rest_base       = rest_url( RestController::REST_NAMESPACE . '/digital-islands/' . RestController::ISLAND_ID );
 $rest_nonce      = PublicView::REPRESENTATION_CANARY === $representation ? wp_create_nonce( 'wp_rest' ) : '';
 ?>
@@ -136,7 +137,21 @@ $rest_nonce      = PublicView::REPRESENTATION_CANARY === $representation ? wp_cr
 					</div>
 				</div>
 			</div>
-			<p class="thp-di-attribution">נתוני התמצאות נגזרו בחלקם מ-<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer external">© OpenStreetMap contributors</a>. אין שימוש באריחי הקהילה של OpenStreetMap.</p>
+			<aside class="thp-di-attribution" aria-label="מקורות ורישיונות של המפה">
+				<p><strong>מקורות המפה:</strong> כל שכבות הבסיס והגובה מוגשות מהאתר שלנו; אין שימוש באריחי הקהילה של OpenStreetMap.</p>
+				<ul>
+					<li><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer external">Protomaps © OpenStreetMap contributors</a></li>
+					<?php foreach ( $map_attributions as $attribution ) : ?>
+						<?php if ( 'basemap' === $attribution['attribution_id'] ) : ?>
+							<?php continue; ?>
+						<?php endif; ?>
+						<li>
+							<a href="<?php echo esc_url( $attribution['url'] ); ?>" target="_blank" rel="noopener noreferrer external"><?php echo esc_html( $attribution['text'] ); ?></a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+				<p>תצלום הלוויין נצפה ב־<time datetime="2026-03-26T03:55:36.171000Z" dir="ltr">26.03.2026</time> והוא שכבת התמצאות ברזולוציה של 10 מטר. הוא אינו מפת חלקות, הוכחת בעלות, מידע תכנוני או אישור בנייה.</p>
+			</aside>
 		</section>
 	</div>
 
