@@ -1,0 +1,1257 @@
+{
+  "builder": {
+    "python_executable": {
+      "name": "python.exe",
+      "sha256": "5341746f92483a93e44c313de830f2fba2956f0759094404a16b2fed06c9a2ed"
+    },
+    "python_runtime": "3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)]",
+    "script_sha256": "ec52c7f069e924b8233644b9111567c8cd160a0b5ee389dd988d33dc968fb102"
+  },
+  "built_at": "2026-08-11T23:56:18.664063+00:00",
+  "bytes": 4638054,
+  "deterministic_zip": true,
+  "digital_islands": {
+    "artifacts": {
+      "resources/digital-islands/registry.php": {
+        "bytes": 354763,
+        "sha256": "01dad95f4d1c1563bd01a506b21fe92d04000664f008e7958c7bcae9a739c208"
+      }
+    },
+    "checked_on": "2026-08-12",
+    "contract_id": "thailand-digital-island-world-v1",
+    "counts": {
+      "canary_map_entities": 49,
+      "entities": 49,
+      "entity_types": {
+        "banking": 2,
+        "education": 1,
+        "government": 9,
+        "health": 3,
+        "landmark": 7,
+        "postal": 1,
+        "property_project": 3,
+        "road": 4,
+        "settlement": 14,
+        "telecom": 1,
+        "transport": 2,
+        "utility": 2
+      },
+      "layers": 24,
+      "official_tools": 3,
+      "public_map_entities": 49,
+      "sources": 38
+    },
+    "dataset_version": "2026.08.12.2",
+    "license_notice": {
+      "bytes": 3641,
+      "path": "THIRD-PARTY-DATA-NOTICES.md",
+      "sha256": "ae9851cfd0ac5b9a88ba04c28b65e9c52d9724722e659904431603f1b3127a0b"
+    },
+    "manifest": "resources/digital-islands/manifest.json",
+    "manifest_sha256": "f0fa3e9f2f112f38aec70cc3ffda2fbb484bc0f679027d0e5721845385fd1b6f",
+    "parity": "pass",
+    "publication_state": "live",
+    "renderer": {
+      "attribution": {
+        "basemap": "Protomaps © OpenStreetMap contributors",
+        "terrain": "Mapzen Terrain Tiles; SRTM and GMTED2010 data courtesy of the U.S. Geological Survey; ETOPO1 courtesy of NOAA/NCEI. Not for navigation."
+      },
+      "basemap": {
+        "bounds": {
+          "east": 100.12,
+          "north": 9.84,
+          "south": 9.63,
+          "west": 99.92
+        },
+        "format": "pmtiles",
+        "path": "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles"
+      },
+      "contract_id": "thailand-digital-islands-renderer-v1",
+      "dependencies": {
+        "maplibre": {
+          "license_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt",
+          "script_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js",
+          "style_path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css",
+          "version": "5.18.0"
+        },
+        "pmtiles": {
+          "license_path": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt",
+          "script_path": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js",
+          "version": "4.5.0"
+        }
+      },
+      "inventory": {
+        "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles": {
+          "bytes": 1205287,
+          "sha256": "9a8614610ea58d282989346763cd5900ad02d54d8bc7104eda799bea79799ded"
+        },
+        "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp": {
+          "bytes": 621958,
+          "sha256": "9ee99de2269a040c35be113bad44d444fc76c4dc136b36d4afe5cb57b5e3de2a"
+        },
+        "assets/digital-islands/terrain/20260811/10/796/483.png": {
+          "bytes": 82495,
+          "sha256": "77564ba46b0ab5c042a1951b999325c2a65c16a001954c350228f2f397558cce"
+        },
+        "assets/digital-islands/terrain/20260811/10/796/484.png": {
+          "bytes": 75721,
+          "sha256": "b5183b2944ede44fa0f2f2ffd5f2fe0525a2e0c3b53502598e005d3c0984c83a"
+        },
+        "assets/digital-islands/terrain/20260811/11/1592/967.png": {
+          "bytes": 2230,
+          "sha256": "6d5939d56a3bd3f14c73b8e7d31166b1464af3082a577cbae77b8f4e5df3c213"
+        },
+        "assets/digital-islands/terrain/20260811/11/1592/968.png": {
+          "bytes": 16024,
+          "sha256": "56d928f914ff7a867fac46a92b369df8f37a4046b57e3c4eb95578cf56e077ff"
+        },
+        "assets/digital-islands/terrain/20260811/11/1593/967.png": {
+          "bytes": 1844,
+          "sha256": "688656fa93aca00c0a8a3b4ebf442f158d741f5f72057654005a385af0cdf6c6"
+        },
+        "assets/digital-islands/terrain/20260811/11/1593/968.png": {
+          "bytes": 21326,
+          "sha256": "46415adab71c6d3fb128a8ca38777c58110c263123cb3c8d9b2be7e080cfc483"
+        },
+        "assets/digital-islands/terrain/20260811/12/3184/1935.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/12/3184/1936.png": {
+          "bytes": 1353,
+          "sha256": "bc72be183c2f86e025d5a90c381bb74d48e5eb6053aa442d2113516a977de14b"
+        },
+        "assets/digital-islands/terrain/20260811/12/3184/1937.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/12/3185/1935.png": {
+          "bytes": 5039,
+          "sha256": "385c8c820f71ae917758afb362ab03e231fbc1b89b8564d8e992e1d98f2015e5"
+        },
+        "assets/digital-islands/terrain/20260811/12/3185/1936.png": {
+          "bytes": 38666,
+          "sha256": "00f4bf055948f0275947832e2fb327baa340afcbf2da5d7d19c104162e404f7d"
+        },
+        "assets/digital-islands/terrain/20260811/12/3185/1937.png": {
+          "bytes": 9333,
+          "sha256": "ec11b0173fcc8f997e7f1827821908117fd795c7ba1884296262c35f45569076"
+        },
+        "assets/digital-islands/terrain/20260811/12/3186/1935.png": {
+          "bytes": 3755,
+          "sha256": "b0289395dfef0bba81eee3e1d393921e690a02e4d6fc481355eee73554c67ea0"
+        },
+        "assets/digital-islands/terrain/20260811/12/3186/1936.png": {
+          "bytes": 43327,
+          "sha256": "cd81a29d4f20715d322e9af3b6eef2946497c4d3b638810d850c5548af879408"
+        },
+        "assets/digital-islands/terrain/20260811/12/3186/1937.png": {
+          "bytes": 22944,
+          "sha256": "5cfee46d6fac2b05b63dd6074798a30d5e23884560ed72861c4f73b8b3f172a6"
+        },
+        "assets/digital-islands/terrain/20260811/12/3187/1935.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/12/3187/1936.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/12/3187/1937.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6369/3870.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6369/3871.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6369/3872.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6369/3873.png": {
+          "bytes": 2129,
+          "sha256": "cf39e70ac7cacc71c3eb0d25ff88e4ff0c6e34683810909f361258152e57bce5"
+        },
+        "assets/digital-islands/terrain/20260811/13/6369/3874.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6369/3875.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6370/3870.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6370/3871.png": {
+          "bytes": 1302,
+          "sha256": "a0bdcec0545ff494bdff3c664a29f2a654fc5b5c25e3b8f4fafc6d6e11225551"
+        },
+        "assets/digital-islands/terrain/20260811/13/6370/3872.png": {
+          "bytes": 23697,
+          "sha256": "4de155994d5e6dc665583f3cc82d48b60fb38fd226348a57ed283d4ab0501676"
+        },
+        "assets/digital-islands/terrain/20260811/13/6370/3873.png": {
+          "bytes": 14748,
+          "sha256": "7e683e9588d1f6917a9e9119c5e21e48ddbbfab0a3ee41bed5791f92f1601485"
+        },
+        "assets/digital-islands/terrain/20260811/13/6370/3874.png": {
+          "bytes": 13549,
+          "sha256": "9cb000e90ed7a47343488aef2567127c1db14d12d1ddf046cb86498fd2867a06"
+        },
+        "assets/digital-islands/terrain/20260811/13/6370/3875.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6371/3870.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6371/3871.png": {
+          "bytes": 12369,
+          "sha256": "4b9a10e463af886c8eb2ac83ce589abf3b6277b8c9b3b7e17dee03208089564f"
+        },
+        "assets/digital-islands/terrain/20260811/13/6371/3872.png": {
+          "bytes": 43387,
+          "sha256": "0902162247aac3bcbe8c431df33ea591dd9dcb285c66e485f9aa83bf1cc5b830"
+        },
+        "assets/digital-islands/terrain/20260811/13/6371/3873.png": {
+          "bytes": 36964,
+          "sha256": "9eca0d86f66824a6124fd725d28cd75f66018070c8b3d49ea24c2e1b222bc259"
+        },
+        "assets/digital-islands/terrain/20260811/13/6371/3874.png": {
+          "bytes": 13092,
+          "sha256": "1c19eb6fa14707287857803be60268e3b8afc4165c554e3bc002ed5b93220992"
+        },
+        "assets/digital-islands/terrain/20260811/13/6371/3875.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6372/3870.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6372/3871.png": {
+          "bytes": 8715,
+          "sha256": "1bbaf52047581dae0de6664a6bbe9b44cbba384a25905542dce21727141433ea"
+        },
+        "assets/digital-islands/terrain/20260811/13/6372/3872.png": {
+          "bytes": 48640,
+          "sha256": "5d4c9cfe32644ae303e449a331cf311471d121819c7719ffedb7d349c7111b09"
+        },
+        "assets/digital-islands/terrain/20260811/13/6372/3873.png": {
+          "bytes": 39909,
+          "sha256": "e7b21c4326db4d03e0958aa5e473128b9a41812d52ee1cf73b892aac78ef01c9"
+        },
+        "assets/digital-islands/terrain/20260811/13/6372/3874.png": {
+          "bytes": 33358,
+          "sha256": "a757483f862d483b28e3f8c3cd116c718ae8b1b5583e6b3df028b7624bb2229c"
+        },
+        "assets/digital-islands/terrain/20260811/13/6372/3875.png": {
+          "bytes": 777,
+          "sha256": "22598f3949dade9944e8d779810a15bf4a8bfdaad9058fcdf7181070bdcc411f"
+        },
+        "assets/digital-islands/terrain/20260811/13/6373/3870.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6373/3871.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6373/3872.png": {
+          "bytes": 16560,
+          "sha256": "db7312e7109e2626740b596e8e8e1d6ee893ff79f140810e57e98a1309c0b81f"
+        },
+        "assets/digital-islands/terrain/20260811/13/6373/3873.png": {
+          "bytes": 29921,
+          "sha256": "7ee5f6b7146dcfd0d2c33091193e6ded507ff27a33f3632b60d48f77e078cb12"
+        },
+        "assets/digital-islands/terrain/20260811/13/6373/3874.png": {
+          "bytes": 33117,
+          "sha256": "e3af077262eff6efd4b7d24b5936f55ed169d6f27525e9bc45c3325bd4c5e7f2"
+        },
+        "assets/digital-islands/terrain/20260811/13/6373/3875.png": {
+          "bytes": 4422,
+          "sha256": "d7219865504ee96d71f5c272ef178c7171a67ea1d6a51e86a3adaa97e9165d31"
+        },
+        "assets/digital-islands/terrain/20260811/13/6374/3870.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6374/3871.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6374/3872.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6374/3873.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6374/3874.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/13/6374/3875.png": {
+          "bytes": 757,
+          "sha256": "4fcfdd8fbc702879e491242fc08d77e6305ca6c6847fb360c6e0994e40adf9bc"
+        },
+        "assets/digital-islands/terrain/20260811/8/199/120.png": {
+          "bytes": 97588,
+          "sha256": "f1f22ab188ff9122065f6afa3dd321559971c4fee625a9990ce5f75e9b2d86cb"
+        },
+        "assets/digital-islands/terrain/20260811/8/199/121.png": {
+          "bytes": 95925,
+          "sha256": "fc1216836d089916a7513a5050f9f6b6864d4608a47c7b6586a14eb40c849568"
+        },
+        "assets/digital-islands/terrain/20260811/9/398/241.png": {
+          "bytes": 93658,
+          "sha256": "55fd3e64078d3e27e68754fe217dbd3acd2c6083b0892ff47ab7f451c45250f7"
+        },
+        "assets/digital-islands/terrain/20260811/9/398/242.png": {
+          "bytes": 87704,
+          "sha256": "b496391cd37e99d5f8d2222d06f414e5126423efb57a9db99805e4f7dbfc72fc"
+        },
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt": {
+          "bytes": 5984,
+          "sha256": "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2"
+        },
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css": {
+          "bytes": 69541,
+          "sha256": "e4711ce4f6225070a859c7a40dc4d2e4e1ab76a5c71a12b4a65227ed2bf362fd"
+        },
+        "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js": {
+          "bytes": 1022148,
+          "sha256": "bc7101606a893f9018ac4a0d27f7de07d00fb3852231951fcf3dd900796ddfd7"
+        },
+        "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt": {
+          "bytes": 2879,
+          "sha256": "4ca0c13e0b394eebfefc94cc1ba825b99b120283d98dd5ee2f6bc733bb8a5f77"
+        },
+        "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js": {
+          "bytes": 20229,
+          "sha256": "caf981bc46f6327ee7e65d5dc964d89d38a69f60edca2bd4c5c890c21b554c6c"
+        }
+      },
+      "inventory_count": 65,
+      "island_id": "geo:th:island:ko-pha-ngan",
+      "loader": {
+        "bytes": 25287,
+        "path": "src/DigitalIslands/RendererAssets.php",
+        "sha256": "8ce5493838b3954d65c92f8ec010f029363e8448d8fba34c4b4eb1b1c28515dd"
+      },
+      "manifest": {
+        "bytes": 15395,
+        "path": "resources/digital-islands/renderer-manifest.json",
+        "sha256": "463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb"
+      },
+      "parity": "pass",
+      "release_version": "0.5.1",
+      "satellite": {
+        "attribution": "Contains modified Copernicus Sentinel data 2026",
+        "bounds": {
+          "east": 100.12,
+          "north": 9.84,
+          "south": 9.63,
+          "west": 99.92
+        },
+        "format": "webp",
+        "height": 2372,
+        "observed_at": "2026-03-26T03:55:36.171000Z",
+        "path": "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp",
+        "projection": "EPSG:3857",
+        "source_item_id": "S2B_47PPL_20260326_0_L2A",
+        "width": 2227
+      },
+      "schema_version": 1,
+      "terrain": {
+        "base_path": "assets/digital-islands/terrain/20260811",
+        "bounds": {
+          "east": 100.12,
+          "north": 9.84,
+          "south": 9.63,
+          "west": 99.92
+        },
+        "format": "terrarium_png",
+        "inventory_sha256": "cde017fa9a5443e60d0dfba32984e9fcbdec357644b558b0fa128eb935444918",
+        "max_zoom": 13,
+        "min_zoom": 8,
+        "tile_count": 58,
+        "tile_ranges": {
+          "10": {
+            "count": 2,
+            "max_x": 796,
+            "max_y": 484,
+            "min_x": 796,
+            "min_y": 483
+          },
+          "11": {
+            "count": 4,
+            "max_x": 1593,
+            "max_y": 968,
+            "min_x": 1592,
+            "min_y": 967
+          },
+          "12": {
+            "count": 12,
+            "max_x": 3187,
+            "max_y": 1937,
+            "min_x": 3184,
+            "min_y": 1935
+          },
+          "13": {
+            "count": 36,
+            "max_x": 6374,
+            "max_y": 3875,
+            "min_x": 6369,
+            "min_y": 3870
+          },
+          "8": {
+            "count": 2,
+            "max_x": 199,
+            "max_y": 121,
+            "min_x": 199,
+            "min_y": 120
+          },
+          "9": {
+            "count": 2,
+            "max_x": 398,
+            "max_y": 242,
+            "min_x": 398,
+            "min_y": 241
+          }
+        },
+        "tiles": [
+          "assets/digital-islands/terrain/20260811/8/199/120.png",
+          "assets/digital-islands/terrain/20260811/8/199/121.png",
+          "assets/digital-islands/terrain/20260811/9/398/241.png",
+          "assets/digital-islands/terrain/20260811/9/398/242.png",
+          "assets/digital-islands/terrain/20260811/10/796/483.png",
+          "assets/digital-islands/terrain/20260811/10/796/484.png",
+          "assets/digital-islands/terrain/20260811/11/1592/967.png",
+          "assets/digital-islands/terrain/20260811/11/1592/968.png",
+          "assets/digital-islands/terrain/20260811/11/1593/967.png",
+          "assets/digital-islands/terrain/20260811/11/1593/968.png",
+          "assets/digital-islands/terrain/20260811/12/3184/1935.png",
+          "assets/digital-islands/terrain/20260811/12/3184/1936.png",
+          "assets/digital-islands/terrain/20260811/12/3184/1937.png",
+          "assets/digital-islands/terrain/20260811/12/3185/1935.png",
+          "assets/digital-islands/terrain/20260811/12/3185/1936.png",
+          "assets/digital-islands/terrain/20260811/12/3185/1937.png",
+          "assets/digital-islands/terrain/20260811/12/3186/1935.png",
+          "assets/digital-islands/terrain/20260811/12/3186/1936.png",
+          "assets/digital-islands/terrain/20260811/12/3186/1937.png",
+          "assets/digital-islands/terrain/20260811/12/3187/1935.png",
+          "assets/digital-islands/terrain/20260811/12/3187/1936.png",
+          "assets/digital-islands/terrain/20260811/12/3187/1937.png",
+          "assets/digital-islands/terrain/20260811/13/6369/3870.png",
+          "assets/digital-islands/terrain/20260811/13/6369/3871.png",
+          "assets/digital-islands/terrain/20260811/13/6369/3872.png",
+          "assets/digital-islands/terrain/20260811/13/6369/3873.png",
+          "assets/digital-islands/terrain/20260811/13/6369/3874.png",
+          "assets/digital-islands/terrain/20260811/13/6369/3875.png",
+          "assets/digital-islands/terrain/20260811/13/6370/3870.png",
+          "assets/digital-islands/terrain/20260811/13/6370/3871.png",
+          "assets/digital-islands/terrain/20260811/13/6370/3872.png",
+          "assets/digital-islands/terrain/20260811/13/6370/3873.png",
+          "assets/digital-islands/terrain/20260811/13/6370/3874.png",
+          "assets/digital-islands/terrain/20260811/13/6370/3875.png",
+          "assets/digital-islands/terrain/20260811/13/6371/3870.png",
+          "assets/digital-islands/terrain/20260811/13/6371/3871.png",
+          "assets/digital-islands/terrain/20260811/13/6371/3872.png",
+          "assets/digital-islands/terrain/20260811/13/6371/3873.png",
+          "assets/digital-islands/terrain/20260811/13/6371/3874.png",
+          "assets/digital-islands/terrain/20260811/13/6371/3875.png",
+          "assets/digital-islands/terrain/20260811/13/6372/3870.png",
+          "assets/digital-islands/terrain/20260811/13/6372/3871.png",
+          "assets/digital-islands/terrain/20260811/13/6372/3872.png",
+          "assets/digital-islands/terrain/20260811/13/6372/3873.png",
+          "assets/digital-islands/terrain/20260811/13/6372/3874.png",
+          "assets/digital-islands/terrain/20260811/13/6372/3875.png",
+          "assets/digital-islands/terrain/20260811/13/6373/3870.png",
+          "assets/digital-islands/terrain/20260811/13/6373/3871.png",
+          "assets/digital-islands/terrain/20260811/13/6373/3872.png",
+          "assets/digital-islands/terrain/20260811/13/6373/3873.png",
+          "assets/digital-islands/terrain/20260811/13/6373/3874.png",
+          "assets/digital-islands/terrain/20260811/13/6373/3875.png",
+          "assets/digital-islands/terrain/20260811/13/6374/3870.png",
+          "assets/digital-islands/terrain/20260811/13/6374/3871.png",
+          "assets/digital-islands/terrain/20260811/13/6374/3872.png",
+          "assets/digital-islands/terrain/20260811/13/6374/3873.png",
+          "assets/digital-islands/terrain/20260811/13/6374/3874.png",
+          "assets/digital-islands/terrain/20260811/13/6374/3875.png"
+        ],
+        "total_bytes": 1092999,
+        "url_template": "assets/digital-islands/terrain/20260811/{z}/{x}/{y}.png"
+      }
+    },
+    "schema": {
+      "bytes": 18289,
+      "path": "data/digital-islands/island-world.schema.json",
+      "sha256": "9357cae0c8857c2bd125c98ea6b03b5bdcb321adeb49540319ec736c139e08d2"
+    },
+    "schema_version": 1,
+    "source": {
+      "bytes": 122984,
+      "path": "data/digital-islands/koh-phangan.json",
+      "sha256": "48302ff6f6c97132476c8e7e72f658c118f33a5f1c6dee9ed37988b9cb760ce8"
+    },
+    "source_digest": "dc4ecc2cc557ecf2e874cd29fd2f704494de5aa25015991bfd843260e16666ed"
+  },
+  "geography": {
+    "artifacts": {
+      "assets/geography/core.json": {
+        "bytes": 80140,
+        "sha256": "4f8ed1187b1cb758c0aef01de988eb02a37b97479142f1ca70fc3a3100685a8a"
+      },
+      "resources/geography/registry.php": {
+        "bytes": 337625,
+        "sha256": "e77d4031267765361ddb70de450c542b037c275462c806507ce1932d889af4ff"
+      }
+    },
+    "country_id": "geo:th:country",
+    "counts": {
+      "alias_candidates": 480,
+      "alias_keys": 478,
+      "entities": 132,
+      "places": 47,
+      "provinces": 77,
+      "regions": 7,
+      "relations": 220
+    },
+    "dataset_version": "2026.08.11.1",
+    "manifest": "resources/geography/manifest.json",
+    "manifest_sha256": "8c48f875ba23d6db2c02278a4c72b913515283ce0888b3095da175af9011597c",
+    "parity": "pass",
+    "schema_version": "1.0.0",
+    "source_inputs": {
+      "aliases.csv": {
+        "bytes": 3811,
+        "sha256": "ade0b68809272754b0f595fb48172a0a336997c183a4483bf31b210745e5a50e"
+      },
+      "geometry.json": {
+        "bytes": 86,
+        "sha256": "0dd0d606fcfb8e3c6004c2e9f76f807647ab1d7eeebdd76780298a08ded917b5"
+      },
+      "normalization-vectors.json": {
+        "bytes": 542,
+        "sha256": "8354e52f3608e2a9010c5f2d1c7c1e8086fc1bb378b609d47f086acaa6e57720"
+      },
+      "places.csv": {
+        "bytes": 8277,
+        "sha256": "6a77edbfde8ff896114c9d191d56440bf552852b9f10f5373c063ad2807344fd"
+      },
+      "provinces.csv": {
+        "bytes": 6021,
+        "sha256": "db9d2566ec2f11f515c0a713dc3f0deac408cc756ca09abddcc43caca3530366"
+      },
+      "regions.json": {
+        "bytes": 3060,
+        "sha256": "0827eaa5a764ea810d85362022103a475ba58114663e6cc9992a29675bfd0547"
+      },
+      "registry.json": {
+        "bytes": 6372,
+        "sha256": "1cdd71dac500ebe0b04a316df173730aeca60616cf99b2e66ff2893a73c11cfa"
+      },
+      "registry.schema.json": {
+        "bytes": 4260,
+        "sha256": "4dfa60a026a37f74de0b64867f78d38f2e425e804c3f2c5627b1a8bfd70240ed"
+      },
+      "relations.json": {
+        "bytes": 20484,
+        "sha256": "c0bceac9d814d9b2709abcba410e2f38ced973380af9a977c4773c98ccdcb704"
+      }
+    },
+    "source_manifest_sha256": "1cdd71dac500ebe0b04a316df173730aeca60616cf99b2e66ff2893a73c11cfa"
+  },
+  "inventory": [
+    "thailand-platform/THIRD-PARTY-DATA-NOTICES.md",
+    "thailand-platform/assets/content/bangkok-rental.css",
+    "thailand-platform/assets/content/bangkok-rental.js",
+    "thailand-platform/assets/content/content.css",
+    "thailand-platform/assets/content/content.js",
+    "thailand-platform/assets/content/images/bangkok-rental-atlas-v1-1200.webp",
+    "thailand-platform/assets/content/images/bangkok-rental-atlas-v1-1717.webp",
+    "thailand-platform/assets/content/images/bangkok-rental-atlas-v1-720.webp",
+    "thailand-platform/assets/content/images/real-estate-thailand-atlas-v1-1200.webp",
+    "thailand-platform/assets/content/images/real-estate-thailand-atlas-v1-1717.webp",
+    "thailand-platform/assets/content/images/real-estate-thailand-atlas-v1-720.webp",
+    "thailand-platform/assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles",
+    "thailand-platform/assets/digital-islands/digital-islands.css",
+    "thailand-platform/assets/digital-islands/digital-islands.js",
+    "thailand-platform/assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp",
+    "thailand-platform/assets/digital-islands/terrain/20260811/10/796/483.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/10/796/484.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/11/1592/967.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/11/1592/968.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/11/1593/967.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/11/1593/968.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3184/1935.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3184/1936.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3184/1937.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3185/1935.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3185/1936.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3185/1937.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3186/1935.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3186/1936.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3186/1937.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3187/1935.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3187/1936.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/12/3187/1937.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6369/3870.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6369/3871.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6369/3872.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6369/3873.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6369/3874.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6369/3875.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6370/3870.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6370/3871.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6370/3872.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6370/3873.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6370/3874.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6370/3875.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6371/3870.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6371/3871.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6371/3872.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6371/3873.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6371/3874.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6371/3875.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6372/3870.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6372/3871.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6372/3872.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6372/3873.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6372/3874.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6372/3875.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6373/3870.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6373/3871.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6373/3872.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6373/3873.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6373/3874.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6373/3875.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6374/3870.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6374/3871.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6374/3872.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6374/3873.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6374/3874.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/13/6374/3875.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/8/199/120.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/8/199/121.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/9/398/241.png",
+    "thailand-platform/assets/digital-islands/terrain/20260811/9/398/242.png",
+    "thailand-platform/assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.LICENSE.txt",
+    "thailand-platform/assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css",
+    "thailand-platform/assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js",
+    "thailand-platform/assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.LICENSE.txt",
+    "thailand-platform/assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js",
+    "thailand-platform/assets/geography/core.json",
+    "thailand-platform/assets/guides/guides.css",
+    "thailand-platform/assets/guides/guides.js",
+    "thailand-platform/assets/guides/images/cannabis-law-thailand-v1-1200.webp",
+    "thailand-platform/assets/guides/images/cannabis-law-thailand-v1-1717.webp",
+    "thailand-platform/assets/guides/images/cannabis-law-thailand-v1-720.webp",
+    "thailand-platform/assets/guides/images/visas-entry-thailand-v1-1200.webp",
+    "thailand-platform/assets/guides/images/visas-entry-thailand-v1-1717.webp",
+    "thailand-platform/assets/guides/images/visas-entry-thailand-v1-720.webp",
+    "thailand-platform/assets/homepage/homepage.css",
+    "thailand-platform/assets/homepage/homepage.js",
+    "thailand-platform/assets/homepage/images/homepage-hero-thailand-system-v1-1024.webp",
+    "thailand-platform/assets/homepage/images/homepage-hero-thailand-system-v1-1713.webp",
+    "thailand-platform/assets/homepage/images/homepage-hero-thailand-system-v1-640.webp",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5/PucFactory.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Autoloader.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/DebugBar/Extension.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/DebugBar/Panel.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/DebugBar/PluginExtension.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/DebugBar/PluginPanel.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/DebugBar/ThemePanel.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/InstalledPackage.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Metadata.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/OAuthSignature.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Plugin/Package.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Plugin/PluginInfo.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Plugin/Ui.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Plugin/Update.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Plugin/UpdateChecker.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/PucFactory.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Scheduler.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/StateStore.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Theme/Package.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Theme/Update.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Theme/UpdateChecker.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Update.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/UpdateChecker.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/UpgraderStatus.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Utils.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/Api.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/BaseChecker.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/BitBucketApi.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/GitHubApi.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/GitLabApi.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/PluginUpdateChecker.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/Reference.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/ReleaseAssetSupport.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/ReleaseFilteringFeature.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/ThemeUpdateChecker.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/Vcs/VcsCheckerMethods.php",
+    "thailand-platform/lib/plugin-update-checker/Puc/v5p6/WpCliCheckTrigger.php",
+    "thailand-platform/lib/plugin-update-checker/README.md",
+    "thailand-platform/lib/plugin-update-checker/VENDOR-MANIFEST.sha256",
+    "thailand-platform/lib/plugin-update-checker/VENDOR-RECEIPT.md",
+    "thailand-platform/lib/plugin-update-checker/composer.json",
+    "thailand-platform/lib/plugin-update-checker/css/puc-debug-bar.css",
+    "thailand-platform/lib/plugin-update-checker/js/debug-bar.js",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-ca.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-ca.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-cs_CZ.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-cs_CZ.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-da_DK.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-da_DK.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-de_DE.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-de_DE.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-el.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-el.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_AR.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_AR.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_CL.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_CL.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_CO.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_CO.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_CR.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_CR.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_DO.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_DO.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_ES.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_ES.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_GT.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_GT.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_HN.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_HN.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_MX.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_MX.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_PE.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_PE.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_PR.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_PR.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_UY.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_UY.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_VE.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-es_VE.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-fa_IR.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-fa_IR.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-fr_CA.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-fr_CA.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-fr_FR.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-fr_FR.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-hu_HU.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-hu_HU.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-it_IT.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-it_IT.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-ja.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-ja.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-nl_BE.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-nl_BE.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-nl_NL.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-nl_NL.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-pt_BR.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-pt_BR.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-ru_RU.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-ru_RU.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-sl_SI.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-sl_SI.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-sr_RS.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-sr_RS.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-sv_SE.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-sv_SE.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-tr_TR.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-tr_TR.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-uk_UA.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-uk_UA.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-zh_CN.mo",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker-zh_CN.po",
+    "thailand-platform/lib/plugin-update-checker/languages/plugin-update-checker.pot",
+    "thailand-platform/lib/plugin-update-checker/license.txt",
+    "thailand-platform/lib/plugin-update-checker/load-v5p6.php",
+    "thailand-platform/lib/plugin-update-checker/plugin-update-checker.php",
+    "thailand-platform/lib/plugin-update-checker/vendor/Parsedown.php",
+    "thailand-platform/lib/plugin-update-checker/vendor/ParsedownModern.php",
+    "thailand-platform/lib/plugin-update-checker/vendor/PucReadmeParser.php",
+    "thailand-platform/readme.txt",
+    "thailand-platform/resources/content/bangkok-rental-areas.php",
+    "thailand-platform/resources/content/priority-guides.php",
+    "thailand-platform/resources/content/real-estate.php",
+    "thailand-platform/resources/digital-islands/manifest.json",
+    "thailand-platform/resources/digital-islands/registry.php",
+    "thailand-platform/resources/digital-islands/renderer-manifest.json",
+    "thailand-platform/resources/geography/manifest.json",
+    "thailand-platform/resources/geography/registry.php",
+    "thailand-platform/resources/homepage.html",
+    "thailand-platform/resources/seo/migration-gates.php",
+    "thailand-platform/src/Content/Assets.php",
+    "thailand-platform/src/Content/BangkokRentalExplorer.php",
+    "thailand-platform/src/Content/BangkokRentalRepository.php",
+    "thailand-platform/src/Content/Breadcrumbs.php",
+    "thailand-platform/src/Content/Context.php",
+    "thailand-platform/src/Content/ContextualLinks.php",
+    "thailand-platform/src/Content/FeatureFlag.php",
+    "thailand-platform/src/Content/Module.php",
+    "thailand-platform/src/Content/Renderer.php",
+    "thailand-platform/src/Content/Repository.php",
+    "thailand-platform/src/Content/Seo.php",
+    "thailand-platform/src/Content/Settings.php",
+    "thailand-platform/src/DigitalIslands/ArtifactVerifier.php",
+    "thailand-platform/src/DigitalIslands/Assets.php",
+    "thailand-platform/src/DigitalIslands/Context.php",
+    "thailand-platform/src/DigitalIslands/FeatureFlag.php",
+    "thailand-platform/src/DigitalIslands/HomepageNavigation.php",
+    "thailand-platform/src/DigitalIslands/Module.php",
+    "thailand-platform/src/DigitalIslands/Privacy.php",
+    "thailand-platform/src/DigitalIslands/PublicView.php",
+    "thailand-platform/src/DigitalIslands/Renderer.php",
+    "thailand-platform/src/DigitalIslands/RendererAssets.php",
+    "thailand-platform/src/DigitalIslands/Repository.php",
+    "thailand-platform/src/DigitalIslands/RestController.php",
+    "thailand-platform/src/DigitalIslands/Schema.php",
+    "thailand-platform/src/DigitalIslands/Seo.php",
+    "thailand-platform/src/DigitalIslands/Settings.php",
+    "thailand-platform/src/DigitalIslands/StrictJson.php",
+    "thailand-platform/src/DigitalIslands/View.php",
+    "thailand-platform/src/Geography/Repository.php",
+    "thailand-platform/src/Geography/Resolver.php",
+    "thailand-platform/src/Geography/Route.php",
+    "thailand-platform/src/Guides/Assets.php",
+    "thailand-platform/src/Guides/Context.php",
+    "thailand-platform/src/Guides/FeatureFlag.php",
+    "thailand-platform/src/Guides/HomepageNavigation.php",
+    "thailand-platform/src/Guides/Module.php",
+    "thailand-platform/src/Guides/Renderer.php",
+    "thailand-platform/src/Guides/Repository.php",
+    "thailand-platform/src/Guides/Schema.php",
+    "thailand-platform/src/Guides/Seo.php",
+    "thailand-platform/src/Guides/Settings.php",
+    "thailand-platform/src/Guides/View.php",
+    "thailand-platform/src/Health/Route.php",
+    "thailand-platform/src/Homepage/Assets.php",
+    "thailand-platform/src/Homepage/Context.php",
+    "thailand-platform/src/Homepage/FeatureFlag.php",
+    "thailand-platform/src/Homepage/Module.php",
+    "thailand-platform/src/Homepage/Renderer.php",
+    "thailand-platform/src/Homepage/Seo.php",
+    "thailand-platform/src/Homepage/Settings.php",
+    "thailand-platform/src/Support/Compatibility.php",
+    "thailand-platform/src/Support/Loader.php",
+    "thailand-platform/src/Updates/Checker.php",
+    "thailand-platform/templates/content-document.php",
+    "thailand-platform/templates/digital-islands/koh-phangan.php",
+    "thailand-platform/templates/front-page.php",
+    "thailand-platform/templates/guides/document.php",
+    "thailand-platform/templates/guides/partials/footer.php",
+    "thailand-platform/templates/guides/partials/header.php",
+    "thailand-platform/templates/partials/content-footer.php",
+    "thailand-platform/templates/partials/content-header.php",
+    "thailand-platform/thailand-platform.php",
+    "thailand-platform/uninstall.php"
+  ],
+  "inventory_count": 285,
+  "path": "plugin-dist/0.5.1/thailand-platform-0.5.1.zip",
+  "qa": {
+    "bangkok_asset_compiler": "pass",
+    "bangkok_data_tests": "pass",
+    "bangkok_registry_compiler": "pass",
+    "content_migration_ledger_compiler": "pass",
+    "content_migration_ledger_compiler_output": "PASS: content migration ledger is current",
+    "content_migration_ledger_tests": "pass",
+    "content_registry_compiler": "pass",
+    "contract_test_output": "PASS: Thailand Platform release contract",
+    "contract_tests": "pass",
+    "digital_island_acceptance_contract_test_output": "PASS: Digital Islands live acceptance contract and privacy parsers (70 assertions).",
+    "digital_island_acceptance_contract_tests": "pass",
+    "digital_island_adapter_test_output": "PASS: Digital Islands browser adapters",
+    "digital_island_adapter_tests": "pass",
+    "digital_island_browser_acceptance": {
+      "artifacts": {
+        "asset-failure": {
+          "console": {
+            "bytes": 738,
+            "sha256": "9b0184a32f20124f9bb7c53e997c3b338cfa4ddfbe53e0575f75c8c23e4e4664"
+          },
+          "screenshot": {
+            "bytes": 432769,
+            "sha256": "4ea4ba1d578c4184d65766290c608d665cb2be84b2e92dbe7561b54c7b2b5244"
+          }
+        },
+        "data-saver": {
+          "console": {
+            "bytes": 55,
+            "sha256": "d0e5634bb0c1271965327ad2ac18107af18fa7da6d2c9ce13e03eeda6cb603db"
+          },
+          "screenshot": {
+            "bytes": 261745,
+            "sha256": "16f3db901a1643795162620cd1c86b943e6b5865e3fdc3a66c2b82cea292f45f"
+          }
+        },
+        "desktop-2d": {
+          "console": {
+            "bytes": 55,
+            "sha256": "d0e5634bb0c1271965327ad2ac18107af18fa7da6d2c9ce13e03eeda6cb603db"
+          },
+          "screenshot": {
+            "bytes": 268370,
+            "sha256": "ee7f4669108226faa36a629a4abc1698532bf276405628f6cce4261ff744da12"
+          }
+        },
+        "desktop-3d": {
+          "console": {
+            "bytes": 2125,
+            "sha256": "6546987e3853eeccb812f22a84c72948b582bf11e285ae9a45b5e7bbedd5bee9"
+          },
+          "screenshot": {
+            "bytes": 684904,
+            "sha256": "869c2b978f6ae9e1c4ccd7f4f7b14126355cbc698fde0ed8e37fa4c1e4cea73f"
+          }
+        },
+        "mobile-2d": {
+          "console": {
+            "bytes": 55,
+            "sha256": "d0e5634bb0c1271965327ad2ac18107af18fa7da6d2c9ce13e03eeda6cb603db"
+          },
+          "screenshot": {
+            "bytes": 140938,
+            "sha256": "0d51e75e8343b84f9eb77ac7b4d586f2bb3a80e652de529b6ffc9046c10e4d1d"
+          }
+        },
+        "no-webgl": {
+          "console": {
+            "bytes": 55,
+            "sha256": "d0e5634bb0c1271965327ad2ac18107af18fa7da6d2c9ce13e03eeda6cb603db"
+          },
+          "screenshot": {
+            "bytes": 432769,
+            "sha256": "4ea4ba1d578c4184d65766290c608d665cb2be84b2e92dbe7561b54c7b2b5244"
+          }
+        },
+        "reduced-motion": {
+          "console": {
+            "bytes": 55,
+            "sha256": "d0e5634bb0c1271965327ad2ac18107af18fa7da6d2c9ce13e03eeda6cb603db"
+          },
+          "screenshot": {
+            "bytes": 351583,
+            "sha256": "86b072071549820f1af6baf85f1745cf38c6308fe6959bfd61574e190f03de58"
+          }
+        }
+      },
+      "assertions": {
+        "all_scenarios_passed": true,
+        "asset_failure_fail_closed": true,
+        "data_saver_list_only": true,
+        "no_third_party_requests": true,
+        "real_maplibre_execution": true
+      },
+      "contract_id": "thp-digital-islands-maplibre-browser-v1",
+      "fixture": {
+        "contract_id": "thp-digital-islands-maplibre-browser-v1",
+        "coordinate_entity_count": 27,
+        "entity_count": 49,
+        "island_id": "geo:th:island:ko-pha-ngan",
+        "playwright_cli_package": "@playwright/cli@0.1.18",
+        "status": "ready"
+      },
+      "playwright_cli": {
+        "package": "@playwright/cli@0.1.18",
+        "version": "0.1.18"
+      },
+      "release": "0.5.1",
+      "result": "pass",
+      "reviewed_assets": {
+        "client": {
+          "bytes": 54617,
+          "path": "assets/digital-islands/digital-islands.js",
+          "sha256": "fc2d925bc3ea68a2fc9d1ef727cac27eabfd4e1537d06114b89dc3bfcaaa9895"
+        },
+        "maplibre": {
+          "bytes": 1022148,
+          "path": "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js",
+          "sha256": "bc7101606a893f9018ac4a0d27f7de07d00fb3852231951fcf3dd900796ddfd7"
+        },
+        "pmtiles": {
+          "bytes": 20229,
+          "path": "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js",
+          "sha256": "caf981bc46f6327ee7e65d5dc964d89d38a69f60edca2bd4c5c890c21b554c6c"
+        },
+        "satellite": {
+          "bytes": 621958,
+          "path": "assets/digital-islands/imagery/koh-phangan-sentinel2-20260326.webp",
+          "sha256": "9ee99de2269a040c35be113bad44d444fc76c4dc136b36d4afe5cb57b5e3de2a"
+        },
+        "vector": {
+          "bytes": 1205287,
+          "path": "assets/digital-islands/data/koh-phangan-basemap-20260811.pmtiles",
+          "sha256": "9a8614610ea58d282989346763cd5900ad02d54d8bc7104eda799bea79799ded"
+        }
+      },
+      "scenario_evidence": {
+        "asset-failure": {
+          "accuracy_radius_m": null,
+          "active_renderer": "preview",
+          "broken_asset_requests": 2,
+          "camera_transition_abortions": 0,
+          "map_count": 2,
+          "marker_count": 0,
+          "pmtiles_range_requests": 0,
+          "pmtiles_requests": 0,
+          "projection": "",
+          "request_budget": 25,
+          "request_count": 11,
+          "satellite_observation_date_visible": true,
+          "satellite_requests": 0,
+          "terrain_requests": 0,
+          "unexpected_failed_requests": 1,
+          "webgl2": false
+        },
+        "data-saver": {
+          "accuracy_radius_m": null,
+          "active_renderer": "list",
+          "broken_asset_requests": 0,
+          "camera_transition_abortions": 0,
+          "map_count": 0,
+          "marker_count": 0,
+          "pmtiles_range_requests": 0,
+          "pmtiles_requests": 0,
+          "projection": "",
+          "request_budget": 20,
+          "request_count": 9,
+          "satellite_observation_date_visible": true,
+          "satellite_requests": 0,
+          "terrain_requests": 0,
+          "unexpected_failed_requests": 0,
+          "webgl2": false
+        },
+        "desktop-2d": {
+          "accuracy_radius_m": 300,
+          "active_renderer": "2d",
+          "broken_asset_requests": 0,
+          "camera_transition_abortions": 0,
+          "map_count": 1,
+          "marker_count": 27,
+          "pmtiles_range_requests": 21,
+          "pmtiles_requests": 21,
+          "projection": "mercator",
+          "request_budget": 45,
+          "request_count": 30,
+          "satellite_observation_date_visible": true,
+          "satellite_requests": 0,
+          "terrain_requests": 0,
+          "unexpected_failed_requests": 0,
+          "webgl2": true
+        },
+        "desktop-3d": {
+          "accuracy_radius_m": 300,
+          "active_renderer": "3d",
+          "broken_asset_requests": 0,
+          "camera_transition_abortions": 0,
+          "map_count": 3,
+          "marker_count": 27,
+          "pmtiles_range_requests": 34,
+          "pmtiles_requests": 34,
+          "projection": "globe",
+          "request_budget": 100,
+          "request_count": 78,
+          "satellite_observation_date_visible": true,
+          "satellite_requests": 3,
+          "terrain_requests": 32,
+          "unexpected_failed_requests": 0,
+          "webgl2": true
+        },
+        "mobile-2d": {
+          "accuracy_radius_m": 300,
+          "active_renderer": "2d",
+          "broken_asset_requests": 0,
+          "camera_transition_abortions": 0,
+          "map_count": 1,
+          "marker_count": 27,
+          "pmtiles_range_requests": 17,
+          "pmtiles_requests": 17,
+          "projection": "mercator",
+          "request_budget": 40,
+          "request_count": 26,
+          "satellite_observation_date_visible": true,
+          "satellite_requests": 0,
+          "terrain_requests": 0,
+          "unexpected_failed_requests": 0,
+          "webgl2": true
+        },
+        "no-webgl": {
+          "accuracy_radius_m": null,
+          "active_renderer": "preview",
+          "broken_asset_requests": 0,
+          "camera_transition_abortions": 0,
+          "map_count": 0,
+          "marker_count": 0,
+          "pmtiles_range_requests": 0,
+          "pmtiles_requests": 0,
+          "projection": "",
+          "request_budget": 20,
+          "request_count": 9,
+          "satellite_observation_date_visible": true,
+          "satellite_requests": 0,
+          "terrain_requests": 0,
+          "unexpected_failed_requests": 0,
+          "webgl2": false
+        },
+        "reduced-motion": {
+          "accuracy_radius_m": null,
+          "active_renderer": "2d",
+          "broken_asset_requests": 0,
+          "camera_transition_abortions": 0,
+          "map_count": 1,
+          "marker_count": 27,
+          "pmtiles_range_requests": 5,
+          "pmtiles_requests": 5,
+          "projection": "mercator",
+          "request_budget": 30,
+          "request_count": 14,
+          "satellite_observation_date_visible": true,
+          "satellite_requests": 0,
+          "terrain_requests": 0,
+          "unexpected_failed_requests": 0,
+          "webgl2": true
+        }
+      },
+      "scenarios": [
+        "desktop-3d",
+        "desktop-2d",
+        "mobile-2d",
+        "reduced-motion",
+        "data-saver",
+        "no-webgl",
+        "asset-failure"
+      ]
+    },
+    "digital_island_browser_acceptance_test_output": "PASS: Digital Islands real-browser acceptance (7 scenarios).",
+    "digital_island_browser_acceptance_tests": "pass",
+    "digital_island_compiler": "pass",
+    "digital_island_data_tests": "pass",
+    "digital_island_live_source_test_output": "PASS: Digital Islands source gates; 49 Canary entities, 49 public entities, state live.",
+    "digital_island_live_source_tests": "pass",
+    "digital_island_runtime_test_output": "PASS: Digital Islands runtime (Canary and Live)",
+    "digital_island_runtime_tests": "pass",
+    "digital_island_settings_test_output": "PASS: digital islands administrator settings security gates (94 assertions).",
+    "digital_island_settings_tests": "pass",
+    "draft_content_inventory_tests": "pass",
+    "geography_builder_tests": "pass",
+    "geography_compiler": "pass",
+    "guide_asset_compiler": "pass",
+    "guides_runtime_test_output": "PASS: priority guides runtime tests",
+    "guides_runtime_tests": "pass",
+    "homepage_asset_compiler": "pass",
+    "javascript_files_checked": [
+      "assets/content/bangkok-rental.js",
+      "assets/content/content.js",
+      "assets/digital-islands/digital-islands.js",
+      "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js",
+      "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js",
+      "assets/guides/guides.js",
+      "assets/homepage/homepage.js",
+      "lib/plugin-update-checker/js/debug-bar.js",
+      "scripts/live_digital_island_acceptance.cjs",
+      "scripts/live_guides_acceptance.cjs",
+      "scripts/live_homepage_acceptance.cjs",
+      "scripts/live_real_estate_acceptance.cjs",
+      "scripts/live_seo_migration_acceptance.cjs",
+      "scripts/live_sitewide_acceptance.cjs",
+      "scripts/local_digital_island_browser_acceptance.cjs",
+      "tests/digital-island-live-acceptance.test.cjs",
+      "tests/fixtures/digital-islands-browser-probe.js",
+      "tests/fixtures/digital-islands-browser-server.cjs",
+      "tests/fixtures/digital-islands-live-browser-probe.js"
+    ],
+    "javascript_source_sha256": {
+      "assets/content/bangkok-rental.js": "6a82c3ed0da714330df9dbf01c35ba93ff1121183afcd037c62a0b0ab473a33b",
+      "assets/content/content.js": "0c2ef16ead73844357fbb75b5920a70ca4c9743e5094326d77efbbd1283df1ed",
+      "assets/digital-islands/digital-islands.js": "fc2d925bc3ea68a2fc9d1ef727cac27eabfd4e1537d06114b89dc3bfcaaa9895",
+      "assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js": "bc7101606a893f9018ac4a0d27f7de07d00fb3852231951fcf3dd900796ddfd7",
+      "assets/digital-islands/vendor/pmtiles/4.5.0/pmtiles.js": "caf981bc46f6327ee7e65d5dc964d89d38a69f60edca2bd4c5c890c21b554c6c",
+      "assets/guides/guides.js": "885494795d183ad49f6714b593cb61d0ffa4d534294b5ce0a0df4ec310ce48c1",
+      "assets/homepage/homepage.js": "6dfac747f34b46e64dbf1737002e87d7829ffd6e3911ef9d1aed81e10ba57dd7",
+      "lib/plugin-update-checker/js/debug-bar.js": "c9f56a0c782ede2d46bac3949722a55976fd6b32dc62facc21ce695ae475ec2f",
+      "scripts/live_digital_island_acceptance.cjs": "7ce180adb6937c26b0a098b0dd4f65396cc4778d71d273db9960aba0a791b41e",
+      "scripts/live_guides_acceptance.cjs": "673a75258754339943fc40176c5a177321e07288105597c425848dd3e79c087d",
+      "scripts/live_homepage_acceptance.cjs": "473b733013723817c3cf8bddd7770ecb3ba2883579a58a2cd7498d065213f284",
+      "scripts/live_real_estate_acceptance.cjs": "35640a3d20f2923a7c30ea0d440e079e618a43531be9e8fd2d430317cc91bcc7",
+      "scripts/live_seo_migration_acceptance.cjs": "b306df117325fc87f0c3f24cc0fcf7d4986b7fe46efdcbaf38886ea7243fb3a0",
+      "scripts/live_sitewide_acceptance.cjs": "541c8485eb8e47cfd7953d069827119c5d80a9136009bd653d05e1327d059e8b",
+      "scripts/local_digital_island_browser_acceptance.cjs": "d4ec74748101abfb2f6ff1f6d8213077e35f1bdb54f2d7fba908dd3f12a732a6",
+      "tests/digital-island-live-acceptance.test.cjs": "17515d20f4ab785f62648c49dfb54f4304c9515d00942a5b488b4c1fa86a4372",
+      "tests/fixtures/digital-islands-browser-probe.js": "a1ead1f5213a36fa944ecf34b9296fa55ae4e077440f7ea63fbfed75f8783ec0",
+      "tests/fixtures/digital-islands-browser-server.cjs": "d6281f6f5bfcf9951b4b322f899dd4bdddf6083049e04bc2eea0d063f4e8ee00",
+      "tests/fixtures/digital-islands-live-browser-probe.js": "a1123d693b14f3b72fa26c19c4dda8df9faa6ed9b8c289ace9d73f8da4251641"
+    },
+    "javascript_syntax": "pass",
+    "node_binary": {
+      "name": "node.exe",
+      "sha256": "91ec09dda8f20556f366110859f106ab189d45f8f6a2bd092e6785174ad4a0fa"
+    },
+    "node_runtime": "v25.2.1",
+    "php_binary": {
+      "name": "php.exe",
+      "sha256": "e20b65c56c26382d2e3d2c4e68f5e666ae4424aa9367df90f8f03a7b09f58929"
+    },
+    "php_files_linted": 112,
+    "php_lint": "pass",
+    "php_runtime": "PHP 8.3.31 (cli) (built: May  5 2026 17:23:34) (ZTS Visual C++ 2019 x64)",
+    "priority_guides_compiler_test_output": "PASS: priority guides compiler tests",
+    "priority_guides_compiler_tests": "pass",
+    "priority_guides_registry_compiler": "pass",
+    "queued_expired_content_tests": "pass",
+    "real_estate_content_tests": "pass",
+    "real_estate_runtime_test_output": "PASS: Thailand Platform release contract\nPASS: managed real-estate runtime contract",
+    "real_estate_runtime_tests": "pass",
+    "seo_registry_compiler": "pass",
+    "seo_registry_tests": "pass",
+    "seo_runtime_compiler": "pass",
+    "seo_runtime_gate_tests": "pass",
+    "sitewide_acceptance_contract_test_output": "PASS: sitewide acceptance contract",
+    "sitewide_acceptance_contract_tests": "pass",
+    "tawk_state_test_output": "PASS: Tawk chat behavior",
+    "tawk_state_tests": "pass"
+  },
+  "release_contract": {
+    "requires": "6.9",
+    "requires_php": "7.4",
+    "tested": "7.0.3",
+    "version": "0.5.1"
+  },
+  "secret_scan": {
+    "matches": 0,
+    "patterns": [
+      "authorization_header",
+      "aws_access_key",
+      "database_password",
+      "github_token",
+      "private_key",
+      "stripe_secret"
+    ],
+    "result": "pass"
+  },
+  "sha256": "6fd70ad92d566eb806b33faaafc86998312f865359c9915dbb977c3af0ad4b7d",
+  "slug": "thailand-platform",
+  "source_commit": "590cd3548375203003e5f50395840dc06b6a5b24",
+  "vendor": {
+    "bytes": 381461,
+    "files": 116,
+    "manifest": "lib/plugin-update-checker/VENDOR-MANIFEST.sha256",
+    "manifest_sha256": "ef8a9bf3fda9e07fef93b873288117e0886f127f7461c9d508e99e38a78bc75f",
+    "upstream_commit": "a2db6871deec989a74e1f90fafc6d58ae526a879",
+    "upstream_tag": "v5.6"
+  },
+  "version": "0.5.1"
+}
