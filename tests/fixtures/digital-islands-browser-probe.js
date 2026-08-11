@@ -42,16 +42,28 @@ async (page) => {
 			await page.waitForFunction(() => {
 				const root = document.querySelector('[data-digital-island-app]');
 				const host = document.querySelector('.thp-di-map-canvas-maplibre[data-renderer-mode="3d"]');
-				return root && root.dataset.activeRenderer === '3d' && host && host.dataset.acceptancePreviousHost !== 'true';
-			}, null, { timeout: 30000 });
-			await page.waitForTimeout(1200);
+				const poster = document.querySelector('[data-list-poster]');
+				const browserEvidence = window.__thpBrowserEvidence || { maps: [] };
+				const activeRecord = browserEvidence.maps.reduceRight((found, record) => (
+					found || record.removed ? found : record
+				), null);
+				return root
+					&& root.dataset.activeRenderer === '3d'
+					&& host
+					&& host.dataset.acceptancePreviousHost !== 'true'
+					&& poster
+					&& poster.hidden
+					&& activeRecord
+					&& activeRecord.loaded === true
+					&& document.querySelectorAll('.thp-di-map-marker').length === 27;
+			}, null, { timeout: 45000 });
 		}
 
 		if (scenario === 'desktop-3d' || scenario === 'desktop-2d' || scenario === 'mobile-2d') {
 			const marker = page.locator('.thp-di-map-marker').first();
-			await marker.waitFor({ state: 'visible', timeout: 10000 });
+			await marker.waitFor({ state: 'visible', timeout: 15000 });
 			await marker.click();
-			await page.locator('.thp-di-detail-drawer:not([hidden])').waitFor({ state: 'visible', timeout: 5000 });
+			await page.locator('.thp-di-detail-drawer:not([hidden])').waitFor({ state: 'visible', timeout: 10000 });
 			await page.waitForTimeout(1000);
 		}
 
