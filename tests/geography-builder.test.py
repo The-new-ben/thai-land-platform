@@ -125,7 +125,7 @@ class GeographyBuilderTest(unittest.TestCase):
             },
             set(registry),
         )
-        self.assertEqual(85, len(registry["entities_by_id"]))
+        self.assertEqual(132, len(registry["entities_by_id"]))
         self.assertEqual(
             {
                 "by_external_id",
@@ -179,7 +179,7 @@ class GeographyBuilderTest(unittest.TestCase):
             "source_id",
         }
         relations = registry["indexes"]["relations_by_subject"]
-        self.assertEqual(154, sum(len(items) for items in relations.values()))
+        self.assertEqual(220, sum(len(items) for items in relations.values()))
         for subject_relations in relations.values():
             for relation in subject_relations:
                 self.assertEqual(relation_fields, set(relation))
@@ -187,6 +187,22 @@ class GeographyBuilderTest(unittest.TestCase):
         public_payload = registry["public_payload"]
         self.assertEqual(77, len(public_payload["provinces"]))
         self.assertEqual(7, len(public_payload["regions"]))
+        self.assertEqual(47, len(public_payload["places"]))
+        self.assertEqual(
+            {"district": 7, "island": 6, "subdistrict": 34},
+            {
+                place_type: sum(1 for place in public_payload["places"] if place["type"] == place_type)
+                for place_type in ("district", "island", "subdistrict")
+            },
+        )
+        self.assertTrue(all(place["geometry"] is None for place in public_payload["places"]))
+        self.assertTrue(all(place["center"] is None for place in public_payload["places"]))
+        self.assertTrue(all(place["bounds"] is None for place in public_payload["places"]))
+        for place in public_payload["places"]:
+            self.assertEqual(
+                expected_entity_fields | {"admin_parent_id", "located_in_ids", "center", "bounds"},
+                set(place),
+            )
         self.assertEqual(
             registry["public_digest"],
             hashlib.sha256(result.artifacts["assets/geography/core.json"]).hexdigest(),
@@ -351,9 +367,95 @@ class GeographyBuilderTest(unittest.TestCase):
                 }
             ]
             write_json(path, document)
+            set_input_sources(
+                source_dir,
+                "relations",
+                ["nso-geographic-standard", "nso-yearbook-2025"],
+            )
             refresh_input_digest(source_dir, "relations.json")
 
         self.assert_rejected(mutate, "graph contains a cycle")
+
+    def test_reviewed_place_scope_and_external_namespaces(self) -> None:
+        result = COMPILER.compile_registry(SOURCE)
+        registry = result.registry
+        islands = {
+            entity_id: entity
+            for entity_id, entity in registry["entities_by_id"].items()
+            if entity["type"] == "island"
+        }
+        self.assertEqual(
+            {
+                "geo:th:island:ko-chang-trat",
+                "geo:th:island:ko-lanta-yai",
+                "geo:th:island:ko-pha-ngan",
+                "geo:th:island:ko-samui",
+                "geo:th:island:ko-tao",
+                "geo:th:island:phuket",
+            },
+            set(islands),
+        )
+        for island in islands.values():
+            self.assertEqual({}, island["external_ids"])
+
+        external = registry["indexes"]["by_external_id"]
+        self.assertEqual("geo:th:district:8404", external["moi_district_code"]["8404"])
+        self.assertEqual("geo:th:subdistrict:840406", external["moi_subdistrict_code"]["840406"])
+        self.assertNotIn("thai_land_island_id", external)
+
+        phuket_alias = registry["indexes"]["by_alias"]["en"]["phuket island"]
+        self.assertEqual(
+            [
+                ("geo:th:island:phuket", "active"),
+                ("geo:th:province:83", "retired"),
+            ],
+            [(candidate["entity_id"], candidate["status"]) for candidate in phuket_alias],
+        )
+
+        public_places = {
+            place["id"]: place
+            for place in registry["public_payload"]["places"]
+        }
+        self.assertEqual(
+            ["geo:th:province:84", "geo:th:district:8404"],
+            public_places["geo:th:island:ko-samui"]["located_in_ids"],
+        )
+        self.assertEqual(
+            "geo:th:district:8404",
+            public_places["geo:th:subdistrict:840406"]["admin_parent_id"],
+        )
+
+    def test_missing_reviewed_place_is_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "places.csv"
+            rows = read_csv_rows(path)
+            rows.pop()
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "places.csv")
+
+        self.assert_rejected(mutate, "reviewed place registry row count is invalid")
+
+    def test_island_cannot_borrow_an_administrative_code(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "places.csv"
+            rows = read_csv_rows(path)
+            island = next(row for row in rows[1:] if row[0] == "geo:th:island:ko-samui")
+            island[6] = "moi_district_code"
+            island[7] = "8404"
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "places.csv")
+
+        self.assert_rejected(mutate, "island must not borrow an administrative code")
+
+    def test_unsorted_reviewed_places_are_rejected(self) -> None:
+        def mutate(source_dir: Path) -> None:
+            path = source_dir / "places.csv"
+            rows = read_csv_rows(path)
+            rows[1], rows[2] = rows[2], rows[1]
+            write_csv_rows(path, rows)
+            refresh_input_digest(source_dir, "places.csv")
+
+        self.assert_rejected(mutate, "reviewed place IDs or ordering are invalid")
 
     def test_invalid_relation_scheme_is_rejected(self) -> None:
         def mutate(source_dir: Path) -> None:
@@ -579,10 +681,18 @@ class GeographyBuilderTest(unittest.TestCase):
             for entity in baseline.registry["entities_by_id"].values():
                 thai_name = entity["names"]["th"]
                 if COMPILER.normalize_alias(thai_name) != COMPILER.normalize_alias_without_intl(thai_name):
-                    selected = (entity["id"], thai_name)
+                    canonical_candidates = baseline.registry["indexes"]["by_alias"]["th"][
+                        COMPILER.normalize_alias(thai_name)
+                    ]
+                    canonical = next(
+                        candidate
+                        for candidate in canonical_candidates
+                        if candidate["entity_id"] == entity["id"] and candidate["status"] == "active"
+                    )
+                    selected = (entity["id"], thai_name, canonical["context_id"])
                     break
             self.assertIsNotNone(selected)
-            entity_id, thai_alias = selected
+            entity_id, thai_alias, context_id = selected
 
             path = source_dir / "aliases.csv"
             rows = read_csv_rows(path)
@@ -591,7 +701,7 @@ class GeographyBuilderTest(unittest.TestCase):
                     entity_id,
                     "th",
                     thai_alias,
-                    "" if entity_id == "geo:th:country" else "geo:th:country",
+                    context_id or "",
                     "active",
                     "",
                     "thai-land-editorial-names",

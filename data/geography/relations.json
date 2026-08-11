@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "dataset_version": "2026.08.08.1",
+  "dataset_version": "2026.08.11.1",
   "relation_types": [
     "admin_parent",
     "available_in",
@@ -34,5 +34,666 @@
       "source_id": "nso-yearbook-2025"
     }
   ],
-  "records": []
+  "records": [
+    {
+      "subject_id": "geo:th:district:2307",
+      "type": "admin_parent",
+      "object_id": "geo:th:province:23",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:district:8103",
+      "type": "admin_parent",
+      "object_id": "geo:th:province:81",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:district:8301",
+      "type": "admin_parent",
+      "object_id": "geo:th:province:83",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:district:8302",
+      "type": "admin_parent",
+      "object_id": "geo:th:province:83",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:district:8303",
+      "type": "admin_parent",
+      "object_id": "geo:th:province:83",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:district:8404",
+      "type": "admin_parent",
+      "object_id": "geo:th:province:84",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:district:8405",
+      "type": "admin_parent",
+      "object_id": "geo:th:province:84",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:island:ko-chang-trat",
+      "type": "located_in",
+      "object_id": "geo:th:district:2307",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-chang-trat",
+      "type": "located_in",
+      "object_id": "geo:th:province:23",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-lanta-yai",
+      "type": "located_in",
+      "object_id": "geo:th:district:8103",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-lanta-yai",
+      "type": "located_in",
+      "object_id": "geo:th:province:81",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-pha-ngan",
+      "type": "located_in",
+      "object_id": "geo:th:district:8405",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-pha-ngan",
+      "type": "located_in",
+      "object_id": "geo:th:province:84",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-samui",
+      "type": "located_in",
+      "object_id": "geo:th:district:8404",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-samui",
+      "type": "located_in",
+      "object_id": "geo:th:province:84",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-tao",
+      "type": "located_in",
+      "object_id": "geo:th:district:8405",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:ko-tao",
+      "type": "located_in",
+      "object_id": "geo:th:province:84",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:island:phuket",
+      "type": "located_in",
+      "object_id": "geo:th:province:83",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:230701",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:2307",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:230701",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-chang-trat",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:230702",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:2307",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:230702",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-chang-trat",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:810301",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8103",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:810301",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-lanta-yai",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:810302",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8103",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:810303",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8103",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:810304",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8103",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:810305",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8103",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:810305",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-lanta-yai",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830101",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8301",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830102",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8301",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830103",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8301",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830104",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8301",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830105",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8301",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830106",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8301",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830107",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8301",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830108",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8301",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830201",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8302",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830202",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8302",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830203",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8302",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830301",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8303",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830302",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8303",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830303",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8303",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830304",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8303",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830305",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8303",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:830306",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8303",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840401",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8404",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840401",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-samui",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840402",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8404",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840402",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-samui",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840403",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8404",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840403",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-samui",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840404",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8404",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840404",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-samui",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840405",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8404",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840405",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-samui",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840406",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8404",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840406",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-samui",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840407",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8404",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840407",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-samui",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840501",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8405",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840501",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-pha-ngan",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840502",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8405",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840502",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-pha-ngan",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840503",
+      "type": "admin_parent",
+      "object_id": "geo:th:district:8405",
+      "scheme_id": "thai-administrative",
+      "is_primary": true,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "cdd-admin-units-2026"
+    },
+    {
+      "subject_id": "geo:th:subdistrict:840503",
+      "type": "part_of",
+      "object_id": "geo:th:island:ko-tao",
+      "scheme_id": "thai-administrative",
+      "is_primary": false,
+      "valid_from": null,
+      "valid_to": null,
+      "source_id": "thai-land-editorial-islands"
+    }
+  ]
 }

@@ -73,7 +73,7 @@ return json_decode(
       "primary_keyword": "ויזות לתאילנד"
     }
   },
-  "registry_sha256": "b8402c617df26a1680e086f6614b398d05bc0c2da0a4e7140bbccf2c0d431875",
+  "registry_sha256": "389c8b4c38c53ff096cfc95b2715a8ac858ef66e46a16d044062feb9eb4d6d36",
   "route_id_by_path": {
     "/hello-world/": "thailand-entry-requirements",
     "/permanent-residence-thailand/": "thailand-permanent-residence",
@@ -2012,7 +2012,7 @@ return json_decode(
   },
   "schema_sha256": "f80326f8f541df9e652df17c375284139e905321bdccec125f591393826a39c3",
   "schema_version": 1,
-  "seo_registry_sha256": "1a834f9f35e3963e45447ef29c97c2276dbbb2e02b2247b04be584782da233db",
+  "seo_registry_sha256": "c3dda8c5e991e977e46b7694f7e170b1ff4a268875ec29f428766aa66988763e",
   "site": {
     "direction": "rtl",
     "locale": "he-IL",

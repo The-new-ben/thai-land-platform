@@ -2,27 +2,29 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
-## Release 0.4.1 boundary
+## Release 0.5.0 boundary
 
-Version 0.4.1 is the parent-hub lifecycle and public activation release that
-follows successful administrator-only Canary verification of version 0.4.0.
-It moves the visa and law-and-tax hubs from reviewed draft ownership into the
-released guide hierarchy while keeping the live RTL homepage, country,
-seven-region, 77-province, national real-estate, and five child-guide systems
-intact.
+Version 0.5.0 adds the first Digital Islands pilot: a searchable, interactive
+Koh Phangan world with 49 reviewed public records for settlements, roads,
+landmarks, government services, infrastructure and three map-only project
+identities. Private research candidates, held offers, internal review notes and
+unlicensed professional-service leads are not part of the public source,
+runtime or plugin package.
 
-The released contract gives every managed guide one SEO owner, one canonical
-path, and one breadcrumb path. Parent availability, child ancestry, and
-homepage link expectations now agree with the public lifecycle. The homepage
-adds both hub links to desktop navigation, mobile navigation, and the footer
-only when both exact WordPress pages satisfy their public identity, path, and
-asset gates. If either hub fails a gate, neither is exposed through those
-homepage surfaces.
+The release expands the canonical geography spine with seven districts, 34
+subdistricts and six physical islands. The Koh Phangan page has one SEO owner,
+one canonical path and one breadcrumb path. Its planned Thailand Map parent is
+shown as plain breadcrumb text until that parent is released; a fail-closed
+homepage link gives the child a real crawl path only while the exact map page
+is publicly ready.
 
-No stored WordPress body or canonical URL changes in this release. The
-historical April 2022 route remains archival and noindex, follow. Guides stay
-independent from Homepage and Real Estate under separate Off, Canary, and Live
-controls.
+Digital Islands has an independent Off, Canary and Live control plus an exact
+WordPress page-ID binding. Live mode requires the reviewed artifact, a
+published password-free page at the exact path and all local assets. CesiumJS
+and MapLibre adapters are present for a future pinned terrain release, but
+their external engines and terrain data are deliberately marked pending in
+0.5.0. The current release keeps an accessible interactive orientation world
+and full static list available without those dependencies.
 
 The public healthcheck confirms that the compiled geography artifact can be
 loaded. Upgrade and activation still create no content, options, tables,
@@ -39,6 +41,7 @@ node --check prototype/app.js
 node tests/tawk-state.test.js
 python scripts/build_homepage_assets.py
 python scripts/build_geography_registry.py --check
+python scripts/build_digital_island_registry.py --check
 python scripts/build_content_registry.py --check
 python scripts/build_bangkok_rental_assets.py --check
 python scripts/build_bangkok_rental_registry.py --check
@@ -47,6 +50,7 @@ python scripts/build_priority_guides_registry.py --check
 python scripts/build_seo_registry.py --check
 python scripts/build_seo_runtime.py --check
 python tests/geography-builder.test.py
+python tests/digital-island-data.test.py
 python tests/real-estate-content.test.py
 python tests/bangkok-rental-data.test.py
 python tests/priority-guides-compiler.test.py
@@ -54,6 +58,8 @@ python tests/draft-content-inventory.test.py
 python tests/seo-runtime-gates.test.py
 python tests/seo-ownership-registry.test.py
 php -n tests/geography-resolver.test.php
+php tests/digital-islands-runtime.test.php
+php tests/digital-islands-settings.test.php
 php tests/real-estate-runtime.test.php
 php tests/guides-runtime.test.php
 node --check assets/guides/guides.js
@@ -62,7 +68,10 @@ node --check scripts/live_homepage_acceptance.cjs
 node --check scripts/live_real_estate_acceptance.cjs
 node --check scripts/live_seo_migration_acceptance.cjs
 node --check scripts/live_sitewide_acceptance.cjs
+node --check scripts/live_digital_island_acceptance.cjs
 node tests/live-sitewide-acceptance.test.cjs
+node tests/digital-islands-adapters.test.js
+node tests/digital-island-live-acceptance.test.cjs
 ```
 
 The deterministic builder includes only the exact sorted inventory in

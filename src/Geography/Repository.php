@@ -100,6 +100,7 @@ final class Repository {
 				'classification_schemes',
 				'regions',
 				'provinces',
+				'places',
 			),
 			'public geography payload'
 		);
@@ -109,12 +110,17 @@ final class Repository {
 			|| $registry['dataset_version'] !== $registry['public_payload']['dataset_version']
 			|| ! isset( $registry['entities_by_id'][ $registry['country_id'] ] )
 			|| 77 !== count( $registry['public_payload']['provinces'] )
+			|| 47 !== count( $registry['public_payload']['places'] )
 		) {
 			throw new RuntimeException( 'The compiled geography payload is inconsistent.' );
 		}
 
 		foreach ( $registry['entities_by_id'] as $entity_id => $entity ) {
 			self::assert_entity( $entity_id, $entity );
+		}
+
+		foreach ( $registry['public_payload']['places'] as $place ) {
+			self::assert_public_place( $place, $registry['entities_by_id'] );
 		}
 
 		self::$registry = $registry;
@@ -290,7 +296,7 @@ final class Repository {
 		if (
 			(string) $entity_id !== $entity['id']
 			|| 'geography' !== $entity['kind']
-			|| ! in_array( $entity['type'], array( 'country', 'statistical_region', 'province' ), true )
+			|| ! in_array( $entity['type'], array( 'country', 'statistical_region', 'province', 'district', 'subdistrict', 'island' ), true )
 			|| ! in_array( $entity['status'], array( 'active', 'retired' ), true )
 			|| ! is_array( $entity['names'] )
 			|| ! is_array( $entity['external_ids'] )
@@ -298,6 +304,54 @@ final class Repository {
 			|| ( null !== $entity['geometry'] && ! is_array( $entity['geometry'] ) )
 		) {
 			throw new RuntimeException( 'A compiled geography entity has an invalid identity.' );
+		}
+	}
+
+	/**
+	 * Validate one public district, subdistrict, or island payload.
+	 *
+	 * @param mixed $place Public place payload.
+	 * @param array $entities Canonical entity index.
+	 * @return void
+	 */
+	private static function assert_public_place( $place, $entities ) {
+		if ( ! is_array( $place ) ) {
+			throw new RuntimeException( 'A public geography place is invalid.' );
+		}
+
+		self::assert_exact_keys(
+			$place,
+			array( 'id', 'kind', 'type', 'status', 'slug', 'names', 'external_ids', 'priority', 'geometry', 'admin_parent_id', 'located_in_ids', 'center', 'bounds' ),
+			'public geography place'
+		);
+
+		if (
+			! isset( $entities[ $place['id'] ] )
+			|| ! in_array( $place['type'], array( 'district', 'subdistrict', 'island' ), true )
+			|| ( ! is_array( $place['external_ids'] ) && ! is_object( $place['external_ids'] ) )
+			|| ! is_array( $place['located_in_ids'] )
+			|| ( null !== $place['admin_parent_id'] && ! isset( $entities[ $place['admin_parent_id'] ] ) )
+			|| ( null !== $place['center'] && ! is_array( $place['center'] ) )
+			|| ( null !== $place['bounds'] && ! is_array( $place['bounds'] ) )
+		) {
+			throw new RuntimeException( 'A public geography place has an invalid identity.' );
+		}
+
+		foreach ( $place['located_in_ids'] as $location_id ) {
+			if ( ! isset( $entities[ $location_id ] ) ) {
+				throw new RuntimeException( 'A public geography location is invalid.' );
+			}
+		}
+
+		if (
+			in_array( $place['type'], array( 'district', 'subdistrict' ), true )
+			&& null === $place['admin_parent_id']
+		) {
+			throw new RuntimeException( 'A public administrative place has no parent.' );
+		}
+
+		if ( 'island' === $place['type'] && ( null !== $place['admin_parent_id'] || array() === $place['located_in_ids'] ) ) {
+			throw new RuntimeException( 'A public island place has an invalid location.' );
 		}
 	}
 

@@ -21,6 +21,14 @@ including Bangkok. The compiler derives immutable IDs such as
 order and every code-to-region membership are checked against the reviewed
 truth map, rather than inferred from aggregate totals.
 
+`places.csv` is the reviewed island-market prerequisite. It contains only the
+seven districts, 34 subdistricts, and six physical islands needed for the
+first property-project release. Administrative records retain their DOPA code
+namespace. Islands use only their immutable canonical geography ID and never
+borrow an administrative code, even when an island, district, and subdistrict
+share a name. The compiler fails closed if any row,
+type total, code shape, source, or ordering drifts from this reviewed set.
+
 `relations.json` defines typed relation rules and explicit relation records.
 This permits one administrative parent while preserving separate statistical,
 editorial, physical, service-area, availability, proximity, and part-of
@@ -32,7 +40,10 @@ It must never choose between duplicate names without context. Every row-level
 source must also appear in that input's source declaration.
 
 `geometry.json` holds optional centers and bounds. Boundary polygons do not
-belong in the core homepage payload. `normalization-vectors.json` fixes the
+belong in the core homepage payload. These new place records intentionally
+leave geometry empty until an approved geographic source is added. Property
+project coordinates are separate project-level evidence and must not be
+reused as island centers. `normalization-vectors.json` fixes the
 normalization contract shared by the compiler and PHP resolver.
 
 Build or verify the generated artifacts with:

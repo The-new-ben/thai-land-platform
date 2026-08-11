@@ -963,6 +963,25 @@ PLANNED = {
 }
 
 
+DIGITAL_ISLANDS_LIVE = {
+    "/מפת-קופנגן/": public(
+        "koh-phangan-map",
+        "he|map|koh-phangan|services-projects|interact",
+        "מפת קופנגן",
+        "מפת קופנגן",
+        ["מפה אינטראקטיבית קופנגן", "Koh Phangan map"],
+        "להתמצא בקופנגן ולבדוק יישובים, שירותים רשמיים, תשתיות ופרויקטים על מפה",
+        "thailand-map",
+        "tool",
+        "discovery",
+        "generated_daily",
+        "create",
+        ["geo:th:island:ko-pha-ngan"],
+        unique_contribution="מפת אי מבוקרת המחברת בין יישובים, שירותים, תשתיות ופרויקטים ללא מסקנת קנייה או בנייה אוטומטית",
+    ),
+}
+
+
 MANAGED_LIVE_PATHS = (
     "/נדלן-בתאילנד/",
     "/ויזות-לתאילנד/",
@@ -1463,6 +1482,14 @@ def build_registry() -> dict[str, Any]:
         canonical_urls[owner_id] = url
         lifecycle_by_owner[owner_id] = "planned"
 
+    for url, definition in DIGITAL_ISLANDS_LIVE.items():
+        owner_id = definition["owner_id"]
+        if owner_id in definitions:
+            raise ValueError(f"duplicate owner definition: {owner_id}")
+        definitions[owner_id] = dict(definition)
+        canonical_urls[owner_id] = url
+        lifecycle_by_owner[owner_id] = "live"
+
     for url, definition in TECHNICAL.items():
         owner_id = definition["owner_id"]
         if owner_id in definitions:
@@ -1618,6 +1645,8 @@ def build_registry() -> dict[str, Any]:
             _, source_evidence = source_for_path(canonical_url, snapshot_paths)
         elif canonical_url in MANAGED_LIVE:
             source_evidence = [MANAGED_LIVE_EVIDENCE_BY_OWNER[owner_id]]
+        elif canonical_url in DIGITAL_ISLANDS_LIVE:
+            source_evidence = ["data/digital-islands/koh-phangan.json"]
         else:
             source_evidence = ["README.md"]
 
@@ -1751,6 +1780,23 @@ def build_registry() -> dict[str, Any]:
                 "indexing_policy": "index",
                 "observed_in": [],
                 "source_evidence": ["research/serp/2026-08-08-hebrew-thailand-serp.md"],
+                "assignment": {
+                    "kind": "canonical_owner",
+                    "owner_id": definition["owner_id"],
+                },
+            }
+        )
+
+    for url, definition in sorted(DIGITAL_ISLANDS_LIVE.items()):
+        routes.append(
+            {
+                "route_id": f"route-{definition['owner_id']}",
+                "url": url,
+                "route_kind": "exact",
+                "lifecycle": "live",
+                "indexing_policy": "index",
+                "observed_in": [],
+                "source_evidence": ["data/digital-islands/koh-phangan.json"],
                 "assignment": {
                     "kind": "canonical_owner",
                     "owner_id": definition["owner_id"],

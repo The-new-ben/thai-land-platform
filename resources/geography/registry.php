@@ -7,9 +7,9 @@
 
 return array(
 	'schema_version' => '1.0.0',
-	'dataset_version' => '2026.08.08.1',
+	'dataset_version' => '2026.08.11.1',
 	'country_id' => 'geo:th:country',
-	'public_digest' => '52793d56d7435d7f526578c3aee3e54ff24a0e45448638fda6f1cf659be3af02',
+	'public_digest' => '4f8ed1187b1cb758c0aef01de988eb02a37b97479142f1ca70fc3a3100685a8a',
 	'entities_by_id' => array(
 		'geo:th:country' => array(
 			'id' => 'geo:th:country',
@@ -25,6 +25,215 @@ return array(
 			'external_ids' => array(
 				'iso_3166_1_alpha_2' => 'TH',
 			),
+			'priority' => true,
+			'geometry' => null,
+		),
+		'geo:th:district:2307' => array(
+			'id' => 'geo:th:district:2307',
+			'kind' => 'geography',
+			'type' => 'district',
+			'status' => 'active',
+			'slug' => 'ko-chang',
+			'names' => array(
+				'he' => 'נפת קו צ\'אנג',
+				'en' => 'Ko Chang District',
+				'th' => 'อำเภอเกาะช้าง',
+			),
+			'external_ids' => array(
+				'moi_district_code' => '2307',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:district:8103' => array(
+			'id' => 'geo:th:district:8103',
+			'kind' => 'geography',
+			'type' => 'district',
+			'status' => 'active',
+			'slug' => 'ko-lanta',
+			'names' => array(
+				'he' => 'נפת קו לנטה',
+				'en' => 'Ko Lanta District',
+				'th' => 'อำเภอเกาะลันตา',
+			),
+			'external_ids' => array(
+				'moi_district_code' => '8103',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:district:8301' => array(
+			'id' => 'geo:th:district:8301',
+			'kind' => 'geography',
+			'type' => 'district',
+			'status' => 'active',
+			'slug' => 'mueang-phuket',
+			'names' => array(
+				'he' => 'נפת מואנג פוקט',
+				'en' => 'Mueang Phuket District',
+				'th' => 'อำเภอเมืองภูเก็ต',
+			),
+			'external_ids' => array(
+				'moi_district_code' => '8301',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:district:8302' => array(
+			'id' => 'geo:th:district:8302',
+			'kind' => 'geography',
+			'type' => 'district',
+			'status' => 'active',
+			'slug' => 'kathu',
+			'names' => array(
+				'he' => 'נפת קאטו',
+				'en' => 'Kathu District',
+				'th' => 'อำเภอกะทู้',
+			),
+			'external_ids' => array(
+				'moi_district_code' => '8302',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:district:8303' => array(
+			'id' => 'geo:th:district:8303',
+			'kind' => 'geography',
+			'type' => 'district',
+			'status' => 'active',
+			'slug' => 'thalang',
+			'names' => array(
+				'he' => 'נפת תאלאנג',
+				'en' => 'Thalang District',
+				'th' => 'อำเภอถลาง',
+			),
+			'external_ids' => array(
+				'moi_district_code' => '8303',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:district:8404' => array(
+			'id' => 'geo:th:district:8404',
+			'kind' => 'geography',
+			'type' => 'district',
+			'status' => 'active',
+			'slug' => 'ko-samui',
+			'names' => array(
+				'he' => 'נפת קוסמוי',
+				'en' => 'Ko Samui District',
+				'th' => 'อำเภอเกาะสมุย',
+			),
+			'external_ids' => array(
+				'moi_district_code' => '8404',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:district:8405' => array(
+			'id' => 'geo:th:district:8405',
+			'kind' => 'geography',
+			'type' => 'district',
+			'status' => 'active',
+			'slug' => 'ko-pha-ngan',
+			'names' => array(
+				'he' => 'נפת קופנגן',
+				'en' => 'Ko Pha-ngan District',
+				'th' => 'อำเภอเกาะพะงัน',
+			),
+			'external_ids' => array(
+				'moi_district_code' => '8405',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:island:ko-chang-trat' => array(
+			'id' => 'geo:th:island:ko-chang-trat',
+			'kind' => 'geography',
+			'type' => 'island',
+			'status' => 'active',
+			'slug' => 'ko-chang-trat',
+			'names' => array(
+				'he' => 'קו צ\'אנג',
+				'en' => 'Ko Chang Island in Trat',
+				'th' => 'เกาะช้าง จังหวัดตราด',
+			),
+			'external_ids' => array(),
+			'priority' => true,
+			'geometry' => null,
+		),
+		'geo:th:island:ko-lanta-yai' => array(
+			'id' => 'geo:th:island:ko-lanta-yai',
+			'kind' => 'geography',
+			'type' => 'island',
+			'status' => 'active',
+			'slug' => 'ko-lanta-yai',
+			'names' => array(
+				'he' => 'קו לנטה',
+				'en' => 'Ko Lanta Yai Island',
+				'th' => 'เกาะลันตาใหญ่',
+			),
+			'external_ids' => array(),
+			'priority' => true,
+			'geometry' => null,
+		),
+		'geo:th:island:ko-pha-ngan' => array(
+			'id' => 'geo:th:island:ko-pha-ngan',
+			'kind' => 'geography',
+			'type' => 'island',
+			'status' => 'active',
+			'slug' => 'ko-pha-ngan',
+			'names' => array(
+				'he' => 'קופנגן',
+				'en' => 'Ko Pha-ngan Island',
+				'th' => 'เกาะพะงัน',
+			),
+			'external_ids' => array(),
+			'priority' => true,
+			'geometry' => null,
+		),
+		'geo:th:island:ko-samui' => array(
+			'id' => 'geo:th:island:ko-samui',
+			'kind' => 'geography',
+			'type' => 'island',
+			'status' => 'active',
+			'slug' => 'ko-samui',
+			'names' => array(
+				'he' => 'קוסמוי',
+				'en' => 'Ko Samui Island',
+				'th' => 'เกาะสมุย',
+			),
+			'external_ids' => array(),
+			'priority' => true,
+			'geometry' => null,
+		),
+		'geo:th:island:ko-tao' => array(
+			'id' => 'geo:th:island:ko-tao',
+			'kind' => 'geography',
+			'type' => 'island',
+			'status' => 'active',
+			'slug' => 'ko-tao',
+			'names' => array(
+				'he' => 'קו טאו',
+				'en' => 'Ko Tao Island',
+				'th' => 'เกาะเต่า',
+			),
+			'external_ids' => array(),
+			'priority' => true,
+			'geometry' => null,
+		),
+		'geo:th:island:phuket' => array(
+			'id' => 'geo:th:island:phuket',
+			'kind' => 'geography',
+			'type' => 'island',
+			'status' => 'active',
+			'slug' => 'phuket-island',
+			'names' => array(
+				'he' => 'האי פוקט',
+				'en' => 'Phuket Island',
+				'th' => 'เกาะภูเก็ต',
+			),
+			'external_ids' => array(),
 			'priority' => true,
 			'geometry' => null,
 		),
@@ -1533,11 +1742,598 @@ return array(
 			'priority' => false,
 			'geometry' => null,
 		),
+		'geo:th:subdistrict:230701' => array(
+			'id' => 'geo:th:subdistrict:230701',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ko-chang',
+			'names' => array(
+				'he' => 'תת נפת קו צ\'אנג',
+				'en' => 'Ko Chang Subdistrict',
+				'th' => 'ตำบลเกาะช้าง',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '230701',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:230702' => array(
+			'id' => 'geo:th:subdistrict:230702',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ko-chang-tai',
+			'names' => array(
+				'he' => 'תת נפת קו צ\'אנג דרום',
+				'en' => 'Ko Chang Tai Subdistrict',
+				'th' => 'ตำบลเกาะช้างใต้',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '230702',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:810301' => array(
+			'id' => 'geo:th:subdistrict:810301',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ko-lanta-yai',
+			'names' => array(
+				'he' => 'תת נפת קו לנטה יאי',
+				'en' => 'Ko Lanta Yai Subdistrict',
+				'th' => 'ตำบลเกาะลันตาใหญ่',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '810301',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:810302' => array(
+			'id' => 'geo:th:subdistrict:810302',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ko-lanta-noi',
+			'names' => array(
+				'he' => 'תת נפת קו לנטה נוי',
+				'en' => 'Ko Lanta Noi Subdistrict',
+				'th' => 'ตำบลเกาะลันตาน้อย',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '810302',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:810303' => array(
+			'id' => 'geo:th:subdistrict:810303',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ko-klang',
+			'names' => array(
+				'he' => 'תת נפת קו קלאנג',
+				'en' => 'Ko Klang Subdistrict',
+				'th' => 'ตำบลเกาะกลาง',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '810303',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:810304' => array(
+			'id' => 'geo:th:subdistrict:810304',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'khlong-yang',
+			'names' => array(
+				'he' => 'תת נפת קלונג יאנג',
+				'en' => 'Khlong Yang Subdistrict',
+				'th' => 'ตำบลคลองยาง',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '810304',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:810305' => array(
+			'id' => 'geo:th:subdistrict:810305',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'sala-dan',
+			'names' => array(
+				'he' => 'תת נפת סאלה דאן',
+				'en' => 'Sala Dan Subdistrict',
+				'th' => 'ตำบลศาลาด่าน',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '810305',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830101' => array(
+			'id' => 'geo:th:subdistrict:830101',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'talat-yai',
+			'names' => array(
+				'he' => 'תת נפת טאלאט יאי',
+				'en' => 'Talat Yai Subdistrict',
+				'th' => 'ตำบลตลาดใหญ่',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830101',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830102' => array(
+			'id' => 'geo:th:subdistrict:830102',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'talat-nuea',
+			'names' => array(
+				'he' => 'תת נפת טאלאט נואה',
+				'en' => 'Talat Nuea Subdistrict',
+				'th' => 'ตำบลตลาดเหนือ',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830102',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830103' => array(
+			'id' => 'geo:th:subdistrict:830103',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ko-kaeo',
+			'names' => array(
+				'he' => 'תת נפת קו קאו',
+				'en' => 'Ko Kaeo Subdistrict',
+				'th' => 'ตำบลเกาะแก้ว',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830103',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830104' => array(
+			'id' => 'geo:th:subdistrict:830104',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ratsada',
+			'names' => array(
+				'he' => 'תת נפת ראטסאדה',
+				'en' => 'Ratsada Subdistrict',
+				'th' => 'ตำบลรัษฎา',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830104',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830105' => array(
+			'id' => 'geo:th:subdistrict:830105',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'wichit',
+			'names' => array(
+				'he' => 'תת נפת ויצ\'יט',
+				'en' => 'Wichit Subdistrict',
+				'th' => 'ตำบลวิชิต',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830105',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830106' => array(
+			'id' => 'geo:th:subdistrict:830106',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'chalong',
+			'names' => array(
+				'he' => 'תת נפת צ\'אלונג',
+				'en' => 'Chalong Subdistrict',
+				'th' => 'ตำบลฉลอง',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830106',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830107' => array(
+			'id' => 'geo:th:subdistrict:830107',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'rawai',
+			'names' => array(
+				'he' => 'תת נפת ראוואי',
+				'en' => 'Rawai Subdistrict',
+				'th' => 'ตำบลราไวย์',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830107',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830108' => array(
+			'id' => 'geo:th:subdistrict:830108',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'karon',
+			'names' => array(
+				'he' => 'תת נפת קארון',
+				'en' => 'Karon Subdistrict',
+				'th' => 'ตำบลกะรน',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830108',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830201' => array(
+			'id' => 'geo:th:subdistrict:830201',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'kathu',
+			'names' => array(
+				'he' => 'תת נפת קאטו',
+				'en' => 'Kathu Subdistrict',
+				'th' => 'ตำบลกะทู้',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830201',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830202' => array(
+			'id' => 'geo:th:subdistrict:830202',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'pa-tong',
+			'names' => array(
+				'he' => 'תת נפת פאטונג',
+				'en' => 'Pa Tong Subdistrict',
+				'th' => 'ตำบลป่าตอง',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830202',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830203' => array(
+			'id' => 'geo:th:subdistrict:830203',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'kamala',
+			'names' => array(
+				'he' => 'תת נפת קאמאלה',
+				'en' => 'Kamala Subdistrict',
+				'th' => 'ตำบลกมลา',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830203',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830301' => array(
+			'id' => 'geo:th:subdistrict:830301',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'thepkrasattri',
+			'names' => array(
+				'he' => 'תת נפת תפקראסאטרי',
+				'en' => 'Thepkrasattri Subdistrict',
+				'th' => 'ตำบลเทพกระษัตรี',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830301',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830302' => array(
+			'id' => 'geo:th:subdistrict:830302',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'sisunthon',
+			'names' => array(
+				'he' => 'תת נפת סי סונתון',
+				'en' => 'Sisunthon Subdistrict',
+				'th' => 'ตำบลศรีสุนทร',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830302',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830303' => array(
+			'id' => 'geo:th:subdistrict:830303',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'choeng-thale',
+			'names' => array(
+				'he' => 'תת נפת צ\'ואנג תאלה',
+				'en' => 'Choeng Thale Subdistrict',
+				'th' => 'ตำบลเชิงทะเล',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830303',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830304' => array(
+			'id' => 'geo:th:subdistrict:830304',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'pa-khlok',
+			'names' => array(
+				'he' => 'תת נפת פה קלוק',
+				'en' => 'Pa Khlok Subdistrict',
+				'th' => 'ตำบลป่าคลอก',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830304',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830305' => array(
+			'id' => 'geo:th:subdistrict:830305',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'mai-khao',
+			'names' => array(
+				'he' => 'תת נפת מאי קאו',
+				'en' => 'Mai Khao Subdistrict',
+				'th' => 'ตำบลไม้ขาว',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830305',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:830306' => array(
+			'id' => 'geo:th:subdistrict:830306',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'sakhu',
+			'names' => array(
+				'he' => 'תת נפת סאקו',
+				'en' => 'Sakhu Subdistrict',
+				'th' => 'ตำบลสาคู',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '830306',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840401' => array(
+			'id' => 'geo:th:subdistrict:840401',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ang-thong',
+			'names' => array(
+				'he' => 'תת נפת אנג תונג',
+				'en' => 'Ang Thong Subdistrict',
+				'th' => 'ตำบลอ่างทอง',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840401',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840402' => array(
+			'id' => 'geo:th:subdistrict:840402',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'lipa-noi',
+			'names' => array(
+				'he' => 'תת נפת ליפה נוי',
+				'en' => 'Lipa Noi Subdistrict',
+				'th' => 'ตำบลลิปะน้อย',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840402',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840403' => array(
+			'id' => 'geo:th:subdistrict:840403',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'taling-ngam',
+			'names' => array(
+				'he' => 'תת נפת טאלינג נגאם',
+				'en' => 'Taling Ngam Subdistrict',
+				'th' => 'ตำบลตลิ่งงาม',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840403',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840404' => array(
+			'id' => 'geo:th:subdistrict:840404',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'na-mueang',
+			'names' => array(
+				'he' => 'תת נפת נה מואנג',
+				'en' => 'Na Mueang Subdistrict',
+				'th' => 'ตำบลหน้าเมือง',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840404',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840405' => array(
+			'id' => 'geo:th:subdistrict:840405',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'maret',
+			'names' => array(
+				'he' => 'תת נפת מארט',
+				'en' => 'Maret Subdistrict',
+				'th' => 'ตำบลมะเร็ต',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840405',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840406' => array(
+			'id' => 'geo:th:subdistrict:840406',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'bo-phut',
+			'names' => array(
+				'he' => 'תת נפת בו פוט',
+				'en' => 'Bo Phut Subdistrict',
+				'th' => 'ตำบลบ่อผุด',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840406',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840407' => array(
+			'id' => 'geo:th:subdistrict:840407',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'mae-nam',
+			'names' => array(
+				'he' => 'תת נפת מא נאם',
+				'en' => 'Mae Nam Subdistrict',
+				'th' => 'ตำบลแม่น้ำ',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840407',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840501' => array(
+			'id' => 'geo:th:subdistrict:840501',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ko-pha-ngan',
+			'names' => array(
+				'he' => 'תת נפת קופנגן',
+				'en' => 'Ko Pha-ngan Subdistrict',
+				'th' => 'ตำบลเกาะพะงัน',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840501',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840502' => array(
+			'id' => 'geo:th:subdistrict:840502',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ban-tai',
+			'names' => array(
+				'he' => 'תת נפת באן טאי',
+				'en' => 'Ban Tai Subdistrict',
+				'th' => 'ตำบลบ้านใต้',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840502',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
+		'geo:th:subdistrict:840503' => array(
+			'id' => 'geo:th:subdistrict:840503',
+			'kind' => 'geography',
+			'type' => 'subdistrict',
+			'status' => 'active',
+			'slug' => 'ko-tao',
+			'names' => array(
+				'he' => 'תת נפת קו טאו',
+				'en' => 'Ko Tao Subdistrict',
+				'th' => 'ตำบลเกาะเต่า',
+			),
+			'external_ids' => array(
+				'moi_subdistrict_code' => '840503',
+			),
+			'priority' => false,
+			'geometry' => null,
+		),
 	),
 	'indexes' => array(
 		'by_external_id' => array(
 			'iso_3166_1_alpha_2' => array(
 				'TH' => 'geo:th:country',
+			),
+			'moi_district_code' => array(
+				'2307' => 'geo:th:district:2307',
+				'8103' => 'geo:th:district:8103',
+				'8301' => 'geo:th:district:8301',
+				'8302' => 'geo:th:district:8302',
+				'8303' => 'geo:th:district:8303',
+				'8404' => 'geo:th:district:8404',
+				'8405' => 'geo:th:district:8405',
 			),
 			'iso_3166_2' => array(
 				'TH-10' => 'geo:th:province:10',
@@ -1706,10 +2502,63 @@ return array(
 				'southern' => 'geo:th:region:nso-seven-region-2025:southern',
 				'western' => 'geo:th:region:nso-seven-region-2025:western',
 			),
+			'moi_subdistrict_code' => array(
+				'230701' => 'geo:th:subdistrict:230701',
+				'230702' => 'geo:th:subdistrict:230702',
+				'810301' => 'geo:th:subdistrict:810301',
+				'810302' => 'geo:th:subdistrict:810302',
+				'810303' => 'geo:th:subdistrict:810303',
+				'810304' => 'geo:th:subdistrict:810304',
+				'810305' => 'geo:th:subdistrict:810305',
+				'830101' => 'geo:th:subdistrict:830101',
+				'830102' => 'geo:th:subdistrict:830102',
+				'830103' => 'geo:th:subdistrict:830103',
+				'830104' => 'geo:th:subdistrict:830104',
+				'830105' => 'geo:th:subdistrict:830105',
+				'830106' => 'geo:th:subdistrict:830106',
+				'830107' => 'geo:th:subdistrict:830107',
+				'830108' => 'geo:th:subdistrict:830108',
+				'830201' => 'geo:th:subdistrict:830201',
+				'830202' => 'geo:th:subdistrict:830202',
+				'830203' => 'geo:th:subdistrict:830203',
+				'830301' => 'geo:th:subdistrict:830301',
+				'830302' => 'geo:th:subdistrict:830302',
+				'830303' => 'geo:th:subdistrict:830303',
+				'830304' => 'geo:th:subdistrict:830304',
+				'830305' => 'geo:th:subdistrict:830305',
+				'830306' => 'geo:th:subdistrict:830306',
+				'840401' => 'geo:th:subdistrict:840401',
+				'840402' => 'geo:th:subdistrict:840402',
+				'840403' => 'geo:th:subdistrict:840403',
+				'840404' => 'geo:th:subdistrict:840404',
+				'840405' => 'geo:th:subdistrict:840405',
+				'840406' => 'geo:th:subdistrict:840406',
+				'840407' => 'geo:th:subdistrict:840407',
+				'840501' => 'geo:th:subdistrict:840501',
+				'840502' => 'geo:th:subdistrict:840502',
+				'840503' => 'geo:th:subdistrict:840503',
+			),
 		),
 		'by_slug' => array(
 			'country' => array(
 				'thailand' => 'geo:th:country',
+			),
+			'district' => array(
+				'ko-chang' => 'geo:th:district:2307',
+				'ko-lanta' => 'geo:th:district:8103',
+				'mueang-phuket' => 'geo:th:district:8301',
+				'kathu' => 'geo:th:district:8302',
+				'thalang' => 'geo:th:district:8303',
+				'ko-samui' => 'geo:th:district:8404',
+				'ko-pha-ngan' => 'geo:th:district:8405',
+			),
+			'island' => array(
+				'ko-chang-trat' => 'geo:th:island:ko-chang-trat',
+				'ko-lanta-yai' => 'geo:th:island:ko-lanta-yai',
+				'ko-pha-ngan' => 'geo:th:island:ko-pha-ngan',
+				'ko-samui' => 'geo:th:island:ko-samui',
+				'ko-tao' => 'geo:th:island:ko-tao',
+				'phuket-island' => 'geo:th:island:phuket',
 			),
 			'province' => array(
 				'bangkok' => 'geo:th:province:10',
@@ -1799,6 +2648,42 @@ return array(
 				'southern' => 'geo:th:region:nso-seven-region-2025:southern',
 				'western' => 'geo:th:region:nso-seven-region-2025:western',
 			),
+			'subdistrict' => array(
+				'ko-chang' => 'geo:th:subdistrict:230701',
+				'ko-chang-tai' => 'geo:th:subdistrict:230702',
+				'ko-lanta-yai' => 'geo:th:subdistrict:810301',
+				'ko-lanta-noi' => 'geo:th:subdistrict:810302',
+				'ko-klang' => 'geo:th:subdistrict:810303',
+				'khlong-yang' => 'geo:th:subdistrict:810304',
+				'sala-dan' => 'geo:th:subdistrict:810305',
+				'talat-yai' => 'geo:th:subdistrict:830101',
+				'talat-nuea' => 'geo:th:subdistrict:830102',
+				'ko-kaeo' => 'geo:th:subdistrict:830103',
+				'ratsada' => 'geo:th:subdistrict:830104',
+				'wichit' => 'geo:th:subdistrict:830105',
+				'chalong' => 'geo:th:subdistrict:830106',
+				'rawai' => 'geo:th:subdistrict:830107',
+				'karon' => 'geo:th:subdistrict:830108',
+				'kathu' => 'geo:th:subdistrict:830201',
+				'pa-tong' => 'geo:th:subdistrict:830202',
+				'kamala' => 'geo:th:subdistrict:830203',
+				'thepkrasattri' => 'geo:th:subdistrict:830301',
+				'sisunthon' => 'geo:th:subdistrict:830302',
+				'choeng-thale' => 'geo:th:subdistrict:830303',
+				'pa-khlok' => 'geo:th:subdistrict:830304',
+				'mai-khao' => 'geo:th:subdistrict:830305',
+				'sakhu' => 'geo:th:subdistrict:830306',
+				'ang-thong' => 'geo:th:subdistrict:840401',
+				'lipa-noi' => 'geo:th:subdistrict:840402',
+				'taling-ngam' => 'geo:th:subdistrict:840403',
+				'na-mueang' => 'geo:th:subdistrict:840404',
+				'maret' => 'geo:th:subdistrict:840405',
+				'bo-phut' => 'geo:th:subdistrict:840406',
+				'mae-nam' => 'geo:th:subdistrict:840407',
+				'ko-pha-ngan' => 'geo:th:subdistrict:840501',
+				'ban-tai' => 'geo:th:subdistrict:840502',
+				'ko-tao' => 'geo:th:subdistrict:840503',
+			),
 		),
 		'by_alias' => array(
 			'en' => array(
@@ -1818,6 +2703,22 @@ return array(
 						'alias' => 'Ang Thong',
 					),
 				),
+				'ang thong subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840401',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Ang Thong Subdistrict',
+					),
+				),
+				'ban tai subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840502',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'Ban Tai Subdistrict',
+					),
+				),
 				'bangkok and vicinities' => array(
 					array(
 						'entity_id' => 'geo:th:region:nso-seven-region-2025:bangkok-vicinity',
@@ -1832,6 +2733,22 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'Bangkok Metropolis',
+					),
+				),
+				'bo phut subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840406',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Bo Phut Subdistrict',
+					),
+				),
+				'bophut' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840406',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Bophut',
 					),
 				),
 				'bueng kan' => array(
@@ -1882,12 +2799,36 @@ return array(
 						'alias' => 'Chaiyaphum',
 					),
 				),
+				'chalong subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830106',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'Chalong Subdistrict',
+					),
+				),
 				'chanthaburi' => array(
 					array(
 						'entity_id' => 'geo:th:province:22',
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'Chanthaburi',
+					),
+				),
+				'cherng talay' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830303',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'Cherng Talay',
+					),
+				),
+				'cherngtalay' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830303',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'Cherngtalay',
 					),
 				),
 				'chiang mai' => array(
@@ -1912,6 +2853,14 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'Chiangmai',
+					),
+				),
+				'choeng thale subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830303',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'Choeng Thale Subdistrict',
 					),
 				),
 				'chon buri' => array(
@@ -1954,6 +2903,14 @@ return array(
 						'alias' => 'Kalasin',
 					),
 				),
+				'kamala subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830203',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'Kamala Subdistrict',
+					),
+				),
 				'kamphaeng phet' => array(
 					array(
 						'entity_id' => 'geo:th:province:62',
@@ -1970,12 +2927,268 @@ return array(
 						'alias' => 'Kanchanaburi',
 					),
 				),
+				'karon subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830108',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'Karon Subdistrict',
+					),
+				),
+				'kathu district' => array(
+					array(
+						'entity_id' => 'geo:th:district:8302',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'Kathu District',
+					),
+				),
+				'kathu subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830201',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'Kathu Subdistrict',
+					),
+				),
+				'khlong yang subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810304',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'Khlong Yang Subdistrict',
+					),
+				),
 				'khon kaen' => array(
 					array(
 						'entity_id' => 'geo:th:province:40',
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'Khon Kaen',
+					),
+				),
+				'ko chang district' => array(
+					array(
+						'entity_id' => 'geo:th:district:2307',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'Ko Chang District',
+					),
+				),
+				'ko chang island in trat' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-chang-trat',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'Ko Chang Island in Trat',
+					),
+				),
+				'ko chang subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:230701',
+						'context_id' => 'geo:th:district:2307',
+						'status' => 'active',
+						'alias' => 'Ko Chang Subdistrict',
+					),
+				),
+				'ko chang tai subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:230702',
+						'context_id' => 'geo:th:district:2307',
+						'status' => 'active',
+						'alias' => 'Ko Chang Tai Subdistrict',
+					),
+				),
+				'ko chang trat' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-chang-trat',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'Ko Chang Trat',
+					),
+				),
+				'ko kaeo subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830103',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'Ko Kaeo Subdistrict',
+					),
+				),
+				'ko klang subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810303',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'Ko Klang Subdistrict',
+					),
+				),
+				'ko lanta' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-lanta-yai',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'Ko Lanta',
+					),
+				),
+				'ko lanta district' => array(
+					array(
+						'entity_id' => 'geo:th:district:8103',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'Ko Lanta District',
+					),
+				),
+				'ko lanta noi subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810302',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'Ko Lanta Noi Subdistrict',
+					),
+				),
+				'ko lanta yai island' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-lanta-yai',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'Ko Lanta Yai Island',
+					),
+				),
+				'ko lanta yai subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810301',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'Ko Lanta Yai Subdistrict',
+					),
+				),
+				'ko pha-ngan district' => array(
+					array(
+						'entity_id' => 'geo:th:district:8405',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Ko Pha-ngan District',
+					),
+				),
+				'ko pha-ngan island' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Ko Pha-ngan Island',
+					),
+				),
+				'ko pha-ngan subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840501',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'Ko Pha-ngan Subdistrict',
+					),
+				),
+				'ko phangan' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Ko Phangan',
+					),
+				),
+				'ko samui district' => array(
+					array(
+						'entity_id' => 'geo:th:district:8404',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Ko Samui District',
+					),
+				),
+				'ko samui island' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-samui',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Ko Samui Island',
+					),
+				),
+				'ko tao island' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-tao',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Ko Tao Island',
+					),
+				),
+				'ko tao subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840503',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'Ko Tao Subdistrict',
+					),
+				),
+				'koh chang' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-chang-trat',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'Koh Chang',
+					),
+				),
+				'koh lanta' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-lanta-yai',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'Koh Lanta',
+					),
+				),
+				'koh lanta yai' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-lanta-yai',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'Koh Lanta Yai',
+					),
+				),
+				'koh pha ngan' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Koh Pha Ngan',
+					),
+				),
+				'koh pha-ngan' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Koh Pha-ngan',
+					),
+				),
+				'koh phangan' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Koh Phangan',
+					),
+				),
+				'koh samui' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-samui',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Koh Samui',
+					),
+				),
+				'koh tao' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-tao',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Koh Tao',
 					),
 				),
 				'krabi' => array(
@@ -2010,6 +3223,14 @@ return array(
 						'alias' => 'Lamphun',
 					),
 				),
+				'lipa noi subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840402',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Lipa Noi Subdistrict',
+					),
+				),
 				'loei' => array(
 					array(
 						'entity_id' => 'geo:th:province:42',
@@ -2034,6 +3255,22 @@ return array(
 						'alias' => 'Mae Hong Son',
 					),
 				),
+				'mae nam subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840407',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Mae Nam Subdistrict',
+					),
+				),
+				'maenam' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840407',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Maenam',
+					),
+				),
 				'maha sarakham' => array(
 					array(
 						'entity_id' => 'geo:th:province:44',
@@ -2042,12 +3279,44 @@ return array(
 						'alias' => 'Maha Sarakham',
 					),
 				),
+				'mai khao subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830305',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'Mai Khao Subdistrict',
+					),
+				),
+				'maret subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840405',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Maret Subdistrict',
+					),
+				),
+				'mueang phuket district' => array(
+					array(
+						'entity_id' => 'geo:th:district:8301',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'Mueang Phuket District',
+					),
+				),
 				'mukdahan' => array(
 					array(
 						'entity_id' => 'geo:th:province:49',
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'Mukdahan',
+					),
+				),
+				'na mueang subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840404',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Na Mueang Subdistrict',
 					),
 				),
 				'nakhon' => array(
@@ -2176,6 +3445,22 @@ return array(
 						'alias' => 'Northern Region',
 					),
 				),
+				'pa khlok subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830304',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'Pa Khlok Subdistrict',
+					),
+				),
+				'pa tong subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830202',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'Pa Tong Subdistrict',
+					),
+				),
 				'pathum thani' => array(
 					array(
 						'entity_id' => 'geo:th:province:13',
@@ -2274,9 +3559,15 @@ return array(
 				),
 				'phuket island' => array(
 					array(
+						'entity_id' => 'geo:th:island:phuket',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'Phuket Island',
+					),
+					array(
 						'entity_id' => 'geo:th:province:83',
 						'context_id' => 'geo:th:country',
-						'status' => 'active',
+						'status' => 'retired',
 						'alias' => 'Phuket Island',
 					),
 				),
@@ -2312,6 +3603,22 @@ return array(
 						'alias' => 'Ratchaburi',
 					),
 				),
+				'ratsada subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830104',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'Ratsada Subdistrict',
+					),
+				),
+				'rawai subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830107',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'Rawai Subdistrict',
+					),
+				),
 				'rayong' => array(
 					array(
 						'entity_id' => 'geo:th:province:21',
@@ -2336,12 +3643,36 @@ return array(
 						'alias' => 'Sa Kaeo',
 					),
 				),
+				'sakhu subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830306',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'Sakhu Subdistrict',
+					),
+				),
 				'sakon nakhon' => array(
 					array(
 						'entity_id' => 'geo:th:province:47',
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'Sakon Nakhon',
+					),
+				),
+				'sala dan subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810305',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'Sala Dan Subdistrict',
+					),
+				),
+				'samui' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-samui',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'Samui',
 					),
 				),
 				'samut prakan' => array(
@@ -2398,6 +3729,14 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'Sing Buri',
+					),
+				),
+				'sisunthon subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830302',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'Sisunthon Subdistrict',
 					),
 				),
 				'songkhla' => array(
@@ -2464,12 +3803,52 @@ return array(
 						'alias' => 'Tak',
 					),
 				),
+				'talat nuea subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830102',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'Talat Nuea Subdistrict',
+					),
+				),
+				'talat yai subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830101',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'Talat Yai Subdistrict',
+					),
+				),
+				'taling ngam subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840403',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'Taling Ngam Subdistrict',
+					),
+				),
 				'thailand' => array(
 					array(
 						'entity_id' => 'geo:th:country',
 						'context_id' => null,
 						'status' => 'active',
 						'alias' => 'Thailand',
+					),
+				),
+				'thalang district' => array(
+					array(
+						'entity_id' => 'geo:th:district:8303',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'Thalang District',
+					),
+				),
+				'thepkrasattri subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830301',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'Thepkrasattri Subdistrict',
 					),
 				),
 				'trang' => array(
@@ -2526,6 +3905,14 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'Western Region',
+					),
+				),
+				'wichit subdistrict' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830105',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'Wichit Subdistrict',
 					),
 				),
 				'yala' => array(
@@ -2610,6 +3997,14 @@ return array(
 						'alias' => 'בואנג קאן',
 					),
 				),
+				'בופוט' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840406',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'בופוט',
+					),
+				),
 				'בורי ראם' => array(
 					array(
 						'entity_id' => 'geo:th:province:31',
@@ -2640,6 +4035,14 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'דרום תאילנד',
+					),
+				),
+				'האי פוקט' => array(
+					array(
+						'entity_id' => 'geo:th:island:phuket',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'האי פוקט',
 					),
 				),
 				'טאק' => array(
@@ -2720,6 +4123,14 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'מאה הונג סון',
+					),
+				),
+				'מאנאם' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840407',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'מאנאם',
 					),
 				),
 				'מהא סראקהאם' => array(
@@ -2850,12 +4261,76 @@ return array(
 						'alias' => 'נונתבורי',
 					),
 				),
+				'נפת מואנג פוקט' => array(
+					array(
+						'entity_id' => 'geo:th:district:8301',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'נפת מואנג פוקט',
+					),
+				),
+				'נפת קאטו' => array(
+					array(
+						'entity_id' => 'geo:th:district:8302',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'נפת קאטו',
+					),
+				),
+				'נפת קו לנטה' => array(
+					array(
+						'entity_id' => 'geo:th:district:8103',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'נפת קו לנטה',
+					),
+				),
+				'נפת קו צ\'אנג' => array(
+					array(
+						'entity_id' => 'geo:th:district:2307',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'נפת קו צ\'אנג',
+					),
+				),
+				'נפת קוסמוי' => array(
+					array(
+						'entity_id' => 'geo:th:district:8404',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'נפת קוסמוי',
+					),
+				),
+				'נפת קופנגן' => array(
+					array(
+						'entity_id' => 'geo:th:district:8405',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'נפת קופנגן',
+					),
+				),
+				'נפת תאלאנג' => array(
+					array(
+						'entity_id' => 'geo:th:district:8303',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'נפת תאלאנג',
+					),
+				),
 				'סאטון' => array(
 					array(
 						'entity_id' => 'geo:th:province:91',
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'סאטון',
+					),
+				),
+				'סאמוי' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-samui',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'סאמוי',
 					),
 				),
 				'סאקון נאקון' => array(
@@ -2984,6 +4459,14 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'פוקט',
+					),
+				),
+				'פוקט איילנד' => array(
+					array(
+						'entity_id' => 'geo:th:island:phuket',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'פוקט איילנד',
 					),
 				),
 				'פטאלונג' => array(
@@ -3130,6 +4613,22 @@ return array(
 						'alias' => 'צ\'נתבורי',
 					),
 				),
+				'צ\'רנג טלאי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830303',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'צ\'רנג טלאי',
+					),
+				),
+				'צ\'רנגטלאי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830303',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'צ\'רנגטלאי',
+					),
+				),
 				'צפון מזרח תאילנד' => array(
 					array(
 						'entity_id' => 'geo:th:region:nso-seven-region-2025:northeastern',
@@ -3146,12 +4645,108 @@ return array(
 						'alias' => 'צפון תאילנד',
 					),
 				),
+				'קו טאו' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-tao',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'קו טאו',
+					),
+				),
+				'קו לנטה' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-lanta-yai',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'קו לנטה',
+					),
+				),
+				'קו לנטה יאי' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-lanta-yai',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'קו לנטה יאי',
+					),
+				),
+				'קו סמוי' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-samui',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'קו סמוי',
+					),
+				),
+				'קו פנגן' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'קו פנגן',
+					),
+				),
+				'קו צ\'אנג' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-chang-trat',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'קו צ\'אנג',
+					),
+				),
+				'קוה פנגן' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'קוה פנגן',
+					),
+				),
+				'קוטאו' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-tao',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'קוטאו',
+					),
+				),
+				'קולנטה' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-lanta-yai',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'קולנטה',
+					),
+				),
 				'קון קאן' => array(
 					array(
 						'entity_id' => 'geo:th:province:40',
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'קון קאן',
+					),
+				),
+				'קוסמוי' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-samui',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'קוסמוי',
+					),
+				),
+				'קופנגן' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'קופנגן',
+					),
+				),
+				'קוצ\'אנג' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-chang-trat',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'קוצ\'אנג',
 					),
 				),
 				'קלאסין' => array(
@@ -3232,6 +4827,278 @@ return array(
 						'context_id' => null,
 						'status' => 'active',
 						'alias' => 'תאילנד',
+					),
+				),
+				'תת נפת אנג תונג' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840401',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'תת נפת אנג תונג',
+					),
+				),
+				'תת נפת באן טאי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840502',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'תת נפת באן טאי',
+					),
+				),
+				'תת נפת בו פוט' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840406',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'תת נפת בו פוט',
+					),
+				),
+				'תת נפת ויצ\'יט' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830105',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'תת נפת ויצ\'יט',
+					),
+				),
+				'תת נפת טאלאט יאי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830101',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'תת נפת טאלאט יאי',
+					),
+				),
+				'תת נפת טאלאט נואה' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830102',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'תת נפת טאלאט נואה',
+					),
+				),
+				'תת נפת טאלינג נגאם' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840403',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'תת נפת טאלינג נגאם',
+					),
+				),
+				'תת נפת ליפה נוי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840402',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'תת נפת ליפה נוי',
+					),
+				),
+				'תת נפת מא נאם' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840407',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'תת נפת מא נאם',
+					),
+				),
+				'תת נפת מאי קאו' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830305',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'תת נפת מאי קאו',
+					),
+				),
+				'תת נפת מארט' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840405',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'תת נפת מארט',
+					),
+				),
+				'תת נפת נה מואנג' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840404',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'תת נפת נה מואנג',
+					),
+				),
+				'תת נפת סאלה דאן' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810305',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'תת נפת סאלה דאן',
+					),
+				),
+				'תת נפת סאקו' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830306',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'תת נפת סאקו',
+					),
+				),
+				'תת נפת סי סונתון' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830302',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'תת נפת סי סונתון',
+					),
+				),
+				'תת נפת פאטונג' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830202',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'תת נפת פאטונג',
+					),
+				),
+				'תת נפת פה קלוק' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830304',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'תת נפת פה קלוק',
+					),
+				),
+				'תת נפת צ\'אלונג' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830106',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'תת נפת צ\'אלונג',
+					),
+				),
+				'תת נפת צ\'ואנג תאלה' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830303',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'תת נפת צ\'ואנג תאלה',
+					),
+				),
+				'תת נפת קאטו' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830201',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'תת נפת קאטו',
+					),
+				),
+				'תת נפת קאמאלה' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830203',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'תת נפת קאמאלה',
+					),
+				),
+				'תת נפת קארון' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830108',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'תת נפת קארון',
+					),
+				),
+				'תת נפת קו טאו' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840503',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'תת נפת קו טאו',
+					),
+				),
+				'תת נפת קו לנטה יאי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810301',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'תת נפת קו לנטה יאי',
+					),
+				),
+				'תת נפת קו לנטה נוי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810302',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'תת נפת קו לנטה נוי',
+					),
+				),
+				'תת נפת קו צ\'אנג' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:230701',
+						'context_id' => 'geo:th:district:2307',
+						'status' => 'active',
+						'alias' => 'תת נפת קו צ\'אנג',
+					),
+				),
+				'תת נפת קו צ\'אנג דרום' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:230702',
+						'context_id' => 'geo:th:district:2307',
+						'status' => 'active',
+						'alias' => 'תת נפת קו צ\'אנג דרום',
+					),
+				),
+				'תת נפת קו קאו' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830103',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'תת נפת קו קאו',
+					),
+				),
+				'תת נפת קו קלאנג' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810303',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'תת נפת קו קלאנג',
+					),
+				),
+				'תת נפת קופנגן' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840501',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'תת נפת קופנגן',
+					),
+				),
+				'תת נפת קלונג יאנג' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810304',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'תת נפת קלונג יאנג',
+					),
+				),
+				'תת נפת ראוואי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830107',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'תת נפת ראוואי',
+					),
+				),
+				'תת נפת ראטסאדה' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830104',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'תת נפת ראטסאדה',
+					),
+				),
+				'תת נפת תפקראסאטרי' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830301',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'תת נפת תפקראסאטרי',
 					),
 				),
 			),
@@ -3370,6 +5237,550 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'ตาก',
+					),
+				),
+				'ตำบลกมลา' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830203',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'ตำบลกมลา',
+					),
+				),
+				'ตำบลกะทู้' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830201',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'ตำบลกะทู้',
+					),
+				),
+				'ตำบลกะรน' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830108',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลกะรน',
+					),
+				),
+				'ตำบลคลองยาง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810304',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลคลองยาง',
+					),
+				),
+				'ตำบลฉลอง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830106',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลฉลอง',
+					),
+				),
+				'ตำบลตลาดเหนือ' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830102',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลตลาดเหนือ',
+					),
+				),
+				'ตำบลตลาดใหญ่' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830101',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลตลาดใหญ่',
+					),
+				),
+				'ตำบลตลิ่งงาม' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840403',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลตลิ่งงาม',
+					),
+				),
+				'ตำบลบ่อผุด' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840406',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลบ่อผุด',
+					),
+				),
+				'ตำบลบ้านใต้' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840502',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'ตำบลบ้านใต้',
+					),
+				),
+				'ตำบลป่าคลอก' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830304',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลป่าคลอก',
+					),
+				),
+				'ตำบลป่าตอง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830202',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'ตำบลป่าตอง',
+					),
+				),
+				'ตำบลมะเร็ต' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840405',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลมะเร็ต',
+					),
+				),
+				'ตำบลรัษฎา' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830104',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลรัษฎา',
+					),
+				),
+				'ตำบลราไวย์' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830107',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลราไวย์',
+					),
+				),
+				'ตำบลลิปะน้อย' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840402',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลลิปะน้อย',
+					),
+				),
+				'ตำบลวิชิต' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830105',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลวิชิต',
+					),
+				),
+				'ตำบลศรีสุนทร' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830302',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลศรีสุนทร',
+					),
+				),
+				'ตำบลศาลาด่าน' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810305',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลศาลาด่าน',
+					),
+				),
+				'ตำบลสาคู' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830306',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลสาคู',
+					),
+				),
+				'ตำบลหน้าเมือง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840404',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลหน้าเมือง',
+					),
+				),
+				'ตำบลอ่างทอง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840401',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลอ่างทอง',
+					),
+				),
+				'ตำบลเกาะกลาง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810303',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะกลาง',
+					),
+				),
+				'ตำบลเกาะช้าง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:230701',
+						'context_id' => 'geo:th:district:2307',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะช้าง',
+					),
+				),
+				'ตำบลเกาะช้างใต้' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:230702',
+						'context_id' => 'geo:th:district:2307',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะช้างใต้',
+					),
+				),
+				'ตำบลเกาะพะงัน' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840501',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะพะงัน',
+					),
+				),
+				'ตำบลเกาะลันตาน้อย' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810302',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะลันตาน้อย',
+					),
+				),
+				'ตำบลเกาะลันตาใหญ่' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810301',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะลันตาใหญ่',
+					),
+				),
+				'ตำบลเกาะเต่า' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840503',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะเต่า',
+					),
+				),
+				'ตำบลเกาะแก้ว' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830103',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะแก้ว',
+					),
+				),
+				'ตำบลเชิงทะเล' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830303',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลเชิงทะเล',
+					),
+				),
+				'ตำบลเทพกระษัตรี' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830301',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลเทพกระษัตรี',
+					),
+				),
+				'ตำบลแม่น้ำ' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840407',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลแม่น้ำ',
+					),
+				),
+				'ตำบลไม้ขาว' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830305',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลไม้ขาว',
+					),
+				),
+				'ตําบลกมลา' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830203',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'ตำบลกมลา',
+					),
+				),
+				'ตําบลกะทู้' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830201',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'ตำบลกะทู้',
+					),
+				),
+				'ตําบลกะรน' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830108',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลกะรน',
+					),
+				),
+				'ตําบลคลองยาง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810304',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลคลองยาง',
+					),
+				),
+				'ตําบลฉลอง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830106',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลฉลอง',
+					),
+				),
+				'ตําบลตลาดเหนือ' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830102',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลตลาดเหนือ',
+					),
+				),
+				'ตําบลตลาดใหญ่' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830101',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลตลาดใหญ่',
+					),
+				),
+				'ตําบลตลิ่งงาม' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840403',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลตลิ่งงาม',
+					),
+				),
+				'ตําบลบ่อผุด' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840406',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลบ่อผุด',
+					),
+				),
+				'ตําบลบ้านใต้' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840502',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'ตำบลบ้านใต้',
+					),
+				),
+				'ตําบลป่าคลอก' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830304',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลป่าคลอก',
+					),
+				),
+				'ตําบลป่าตอง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830202',
+						'context_id' => 'geo:th:district:8302',
+						'status' => 'active',
+						'alias' => 'ตำบลป่าตอง',
+					),
+				),
+				'ตําบลมะเร็ต' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840405',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลมะเร็ต',
+					),
+				),
+				'ตําบลรัษฎา' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830104',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลรัษฎา',
+					),
+				),
+				'ตําบลราไวย์' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830107',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลราไวย์',
+					),
+				),
+				'ตําบลลิปะน้อย' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840402',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลลิปะน้อย',
+					),
+				),
+				'ตําบลวิชิต' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830105',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลวิชิต',
+					),
+				),
+				'ตําบลศรีสุนทร' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830302',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลศรีสุนทร',
+					),
+				),
+				'ตําบลศาลาด่าน' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810305',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลศาลาด่าน',
+					),
+				),
+				'ตําบลสาคู' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830306',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลสาคู',
+					),
+				),
+				'ตําบลหน้าเมือง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840404',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลหน้าเมือง',
+					),
+				),
+				'ตําบลอ่างทอง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840401',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลอ่างทอง',
+					),
+				),
+				'ตําบลเกาะกลาง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810303',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะกลาง',
+					),
+				),
+				'ตําบลเกาะช้าง' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:230701',
+						'context_id' => 'geo:th:district:2307',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะช้าง',
+					),
+				),
+				'ตําบลเกาะช้างใต้' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:230702',
+						'context_id' => 'geo:th:district:2307',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะช้างใต้',
+					),
+				),
+				'ตําบลเกาะพะงัน' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840501',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะพะงัน',
+					),
+				),
+				'ตําบลเกาะลันตาน้อย' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810302',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะลันตาน้อย',
+					),
+				),
+				'ตําบลเกาะลันตาใหญ่' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:810301',
+						'context_id' => 'geo:th:district:8103',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะลันตาใหญ่',
+					),
+				),
+				'ตําบลเกาะเต่า' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840503',
+						'context_id' => 'geo:th:district:8405',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะเต่า',
+					),
+				),
+				'ตําบลเกาะแก้ว' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830103',
+						'context_id' => 'geo:th:district:8301',
+						'status' => 'active',
+						'alias' => 'ตำบลเกาะแก้ว',
+					),
+				),
+				'ตําบลเชิงทะเล' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830303',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลเชิงทะเล',
+					),
+				),
+				'ตําบลเทพกระษัตรี' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830301',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลเทพกระษัตรี',
+					),
+				),
+				'ตําบลแม่น้ํา' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:840407',
+						'context_id' => 'geo:th:district:8404',
+						'status' => 'active',
+						'alias' => 'ตำบลแม่น้ำ',
+					),
+				),
+				'ตําบลไม้ขาว' => array(
+					array(
+						'entity_id' => 'geo:th:subdistrict:830305',
+						'context_id' => 'geo:th:district:8303',
+						'status' => 'active',
+						'alias' => 'ตำบลไม้ขาว',
 					),
 				),
 				'นครนายก' => array(
@@ -3852,6 +6263,62 @@ return array(
 						'alias' => 'อำนาจเจริญ',
 					),
 				),
+				'อำเภอกะทู้' => array(
+					array(
+						'entity_id' => 'geo:th:district:8302',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'อำเภอกะทู้',
+					),
+				),
+				'อำเภอถลาง' => array(
+					array(
+						'entity_id' => 'geo:th:district:8303',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'อำเภอถลาง',
+					),
+				),
+				'อำเภอเกาะช้าง' => array(
+					array(
+						'entity_id' => 'geo:th:district:2307',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'อำเภอเกาะช้าง',
+					),
+				),
+				'อำเภอเกาะพะงัน' => array(
+					array(
+						'entity_id' => 'geo:th:district:8405',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'อำเภอเกาะพะงัน',
+					),
+				),
+				'อำเภอเกาะลันตา' => array(
+					array(
+						'entity_id' => 'geo:th:district:8103',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'อำเภอเกาะลันตา',
+					),
+				),
+				'อำเภอเกาะสมุย' => array(
+					array(
+						'entity_id' => 'geo:th:district:8404',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'อำเภอเกาะสมุย',
+					),
+				),
+				'อำเภอเมืองภูเก็ต' => array(
+					array(
+						'entity_id' => 'geo:th:district:8301',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'อำเภอเมืองภูเก็ต',
+					),
+				),
 				'อุดรธานี' => array(
 					array(
 						'entity_id' => 'geo:th:province:41',
@@ -3898,6 +6365,110 @@ return array(
 						'context_id' => 'geo:th:country',
 						'status' => 'active',
 						'alias' => 'อำนาจเจริญ',
+					),
+				),
+				'อําเภอกะทู้' => array(
+					array(
+						'entity_id' => 'geo:th:district:8302',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'อำเภอกะทู้',
+					),
+				),
+				'อําเภอถลาง' => array(
+					array(
+						'entity_id' => 'geo:th:district:8303',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'อำเภอถลาง',
+					),
+				),
+				'อําเภอเกาะช้าง' => array(
+					array(
+						'entity_id' => 'geo:th:district:2307',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'อำเภอเกาะช้าง',
+					),
+				),
+				'อําเภอเกาะพะงัน' => array(
+					array(
+						'entity_id' => 'geo:th:district:8405',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'อำเภอเกาะพะงัน',
+					),
+				),
+				'อําเภอเกาะลันตา' => array(
+					array(
+						'entity_id' => 'geo:th:district:8103',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'อำเภอเกาะลันตา',
+					),
+				),
+				'อําเภอเกาะสมุย' => array(
+					array(
+						'entity_id' => 'geo:th:district:8404',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'อำเภอเกาะสมุย',
+					),
+				),
+				'อําเภอเมืองภูเก็ต' => array(
+					array(
+						'entity_id' => 'geo:th:district:8301',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'อำเภอเมืองภูเก็ต',
+					),
+				),
+				'เกาะช้าง จังหวัดตราด' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-chang-trat',
+						'context_id' => 'geo:th:province:23',
+						'status' => 'active',
+						'alias' => 'เกาะช้าง จังหวัดตราด',
+					),
+				),
+				'เกาะพะงัน' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-pha-ngan',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'เกาะพะงัน',
+					),
+				),
+				'เกาะภูเก็ต' => array(
+					array(
+						'entity_id' => 'geo:th:island:phuket',
+						'context_id' => 'geo:th:province:83',
+						'status' => 'active',
+						'alias' => 'เกาะภูเก็ต',
+					),
+				),
+				'เกาะลันตาใหญ่' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-lanta-yai',
+						'context_id' => 'geo:th:province:81',
+						'status' => 'active',
+						'alias' => 'เกาะลันตาใหญ่',
+					),
+				),
+				'เกาะสมุย' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-samui',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'เกาะสมุย',
+					),
+				),
+				'เกาะเต่า' => array(
+					array(
+						'entity_id' => 'geo:th:island:ko-tao',
+						'context_id' => 'geo:th:province:84',
+						'status' => 'active',
+						'alias' => 'เกาะเต่า',
 					),
 				),
 				'เชียงราย' => array(
@@ -3959,6 +6530,194 @@ return array(
 			),
 		),
 		'relations_by_subject' => array(
+			'geo:th:district:2307' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:province:23',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:district:8103' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:province:81',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:district:8301' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:province:83',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:district:8302' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:province:83',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:district:8303' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:province:83',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:district:8404' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:province:84',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:district:8405' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:province:84',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:island:ko-chang-trat' => array(
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:district:2307',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:province:23',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:island:ko-lanta-yai' => array(
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:district:8103',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:province:81',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:island:ko-pha-ngan' => array(
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:district:8405',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:province:84',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:island:ko-samui' => array(
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:district:8404',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:province:84',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:island:ko-tao' => array(
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:district:8405',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:province:84',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:island:phuket' => array(
+				array(
+					'type' => 'located_in',
+					'object_id' => 'geo:th:province:83',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
 			'geo:th:province:10' => array(
 				array(
 					'type' => 'admin_parent',
@@ -5499,9 +8258,524 @@ return array(
 					'source_id' => 'nso-yearbook-2025',
 				),
 			),
+			'geo:th:subdistrict:230701' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:2307',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-chang-trat',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:230702' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:2307',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-chang-trat',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:810301' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8103',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-lanta-yai',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:810302' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8103',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:810303' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8103',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:810304' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8103',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:810305' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8103',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-lanta-yai',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:830101' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8301',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830102' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8301',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830103' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8301',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830104' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8301',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830105' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8301',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830106' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8301',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830107' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8301',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830108' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8301',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830201' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8302',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830202' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8302',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830203' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8302',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830301' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8303',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830302' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8303',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830303' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8303',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830304' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8303',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830305' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8303',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:830306' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8303',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+			),
+			'geo:th:subdistrict:840401' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8404',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-samui',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840402' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8404',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-samui',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840403' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8404',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-samui',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840404' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8404',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-samui',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840405' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8404',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-samui',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840406' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8404',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-samui',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840407' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8404',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-samui',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840501' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8405',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-pha-ngan',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840502' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8405',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-pha-ngan',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
+			'geo:th:subdistrict:840503' => array(
+				array(
+					'type' => 'admin_parent',
+					'object_id' => 'geo:th:district:8405',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => true,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'cdd-admin-units-2026',
+				),
+				array(
+					'type' => 'part_of',
+					'object_id' => 'geo:th:island:ko-tao',
+					'scheme_id' => 'thai-administrative',
+					'is_primary' => false,
+					'valid_from' => null,
+					'valid_to' => null,
+					'source_id' => 'thai-land-editorial-islands',
+				),
+			),
 		),
 		'children_by_parent' => array(
 			'admin_parent' => array(
+				'geo:th:province:23' => array(
+					'geo:th:district:2307',
+				),
+				'geo:th:province:81' => array(
+					'geo:th:district:8103',
+				),
+				'geo:th:province:83' => array(
+					'geo:th:district:8301',
+					'geo:th:district:8302',
+					'geo:th:district:8303',
+				),
+				'geo:th:province:84' => array(
+					'geo:th:district:8404',
+					'geo:th:district:8405',
+				),
 				'geo:th:country' => array(
 					'geo:th:province:10',
 					'geo:th:province:11',
@@ -5580,6 +8854,83 @@ return array(
 					'geo:th:province:94',
 					'geo:th:province:95',
 					'geo:th:province:96',
+				),
+				'geo:th:district:2307' => array(
+					'geo:th:subdistrict:230701',
+					'geo:th:subdistrict:230702',
+				),
+				'geo:th:district:8103' => array(
+					'geo:th:subdistrict:810301',
+					'geo:th:subdistrict:810302',
+					'geo:th:subdistrict:810303',
+					'geo:th:subdistrict:810304',
+					'geo:th:subdistrict:810305',
+				),
+				'geo:th:district:8301' => array(
+					'geo:th:subdistrict:830101',
+					'geo:th:subdistrict:830102',
+					'geo:th:subdistrict:830103',
+					'geo:th:subdistrict:830104',
+					'geo:th:subdistrict:830105',
+					'geo:th:subdistrict:830106',
+					'geo:th:subdistrict:830107',
+					'geo:th:subdistrict:830108',
+				),
+				'geo:th:district:8302' => array(
+					'geo:th:subdistrict:830201',
+					'geo:th:subdistrict:830202',
+					'geo:th:subdistrict:830203',
+				),
+				'geo:th:district:8303' => array(
+					'geo:th:subdistrict:830301',
+					'geo:th:subdistrict:830302',
+					'geo:th:subdistrict:830303',
+					'geo:th:subdistrict:830304',
+					'geo:th:subdistrict:830305',
+					'geo:th:subdistrict:830306',
+				),
+				'geo:th:district:8404' => array(
+					'geo:th:subdistrict:840401',
+					'geo:th:subdistrict:840402',
+					'geo:th:subdistrict:840403',
+					'geo:th:subdistrict:840404',
+					'geo:th:subdistrict:840405',
+					'geo:th:subdistrict:840406',
+					'geo:th:subdistrict:840407',
+				),
+				'geo:th:district:8405' => array(
+					'geo:th:subdistrict:840501',
+					'geo:th:subdistrict:840502',
+					'geo:th:subdistrict:840503',
+				),
+			),
+			'located_in' => array(
+				'geo:th:district:2307' => array(
+					'geo:th:island:ko-chang-trat',
+				),
+				'geo:th:province:23' => array(
+					'geo:th:island:ko-chang-trat',
+				),
+				'geo:th:district:8103' => array(
+					'geo:th:island:ko-lanta-yai',
+				),
+				'geo:th:province:81' => array(
+					'geo:th:island:ko-lanta-yai',
+				),
+				'geo:th:district:8405' => array(
+					'geo:th:island:ko-pha-ngan',
+					'geo:th:island:ko-tao',
+				),
+				'geo:th:province:84' => array(
+					'geo:th:island:ko-pha-ngan',
+					'geo:th:island:ko-samui',
+					'geo:th:island:ko-tao',
+				),
+				'geo:th:district:8404' => array(
+					'geo:th:island:ko-samui',
+				),
+				'geo:th:province:83' => array(
+					'geo:th:island:phuket',
 				),
 			),
 			'classified_in' => array(
@@ -5673,6 +9024,32 @@ return array(
 					'geo:th:province:94',
 					'geo:th:province:95',
 					'geo:th:province:96',
+				),
+			),
+			'part_of' => array(
+				'geo:th:island:ko-chang-trat' => array(
+					'geo:th:subdistrict:230701',
+					'geo:th:subdistrict:230702',
+				),
+				'geo:th:island:ko-lanta-yai' => array(
+					'geo:th:subdistrict:810301',
+					'geo:th:subdistrict:810305',
+				),
+				'geo:th:island:ko-samui' => array(
+					'geo:th:subdistrict:840401',
+					'geo:th:subdistrict:840402',
+					'geo:th:subdistrict:840403',
+					'geo:th:subdistrict:840404',
+					'geo:th:subdistrict:840405',
+					'geo:th:subdistrict:840406',
+					'geo:th:subdistrict:840407',
+				),
+				'geo:th:island:ko-pha-ngan' => array(
+					'geo:th:subdistrict:840501',
+					'geo:th:subdistrict:840502',
+				),
+				'geo:th:island:ko-tao' => array(
+					'geo:th:subdistrict:840503',
 				),
 			),
 		),
@@ -5774,7 +9151,7 @@ return array(
 	),
 	'public_payload' => array(
 		'schema_version' => '1.0.0',
-		'dataset_version' => '2026.08.08.1',
+		'dataset_version' => '2026.08.11.1',
 		'country' => array(
 			'id' => 'geo:th:country',
 			'kind' => 'geography',
@@ -7862,6 +11239,1000 @@ return array(
 						'entity_id' => 'geo:th:region:nso-seven-region-2025:southern',
 					),
 				),
+			),
+		),
+		'places' => array(
+			array(
+				'id' => 'geo:th:district:2307',
+				'kind' => 'geography',
+				'type' => 'district',
+				'status' => 'active',
+				'slug' => 'ko-chang',
+				'names' => array(
+					'he' => 'נפת קו צ\'אנג',
+					'en' => 'Ko Chang District',
+					'th' => 'อำเภอเกาะช้าง',
+				),
+				'external_ids' => array(
+					'moi_district_code' => '2307',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:province:23',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:district:8103',
+				'kind' => 'geography',
+				'type' => 'district',
+				'status' => 'active',
+				'slug' => 'ko-lanta',
+				'names' => array(
+					'he' => 'נפת קו לנטה',
+					'en' => 'Ko Lanta District',
+					'th' => 'อำเภอเกาะลันตา',
+				),
+				'external_ids' => array(
+					'moi_district_code' => '8103',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:province:81',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:district:8301',
+				'kind' => 'geography',
+				'type' => 'district',
+				'status' => 'active',
+				'slug' => 'mueang-phuket',
+				'names' => array(
+					'he' => 'נפת מואנג פוקט',
+					'en' => 'Mueang Phuket District',
+					'th' => 'อำเภอเมืองภูเก็ต',
+				),
+				'external_ids' => array(
+					'moi_district_code' => '8301',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:province:83',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:district:8302',
+				'kind' => 'geography',
+				'type' => 'district',
+				'status' => 'active',
+				'slug' => 'kathu',
+				'names' => array(
+					'he' => 'נפת קאטו',
+					'en' => 'Kathu District',
+					'th' => 'อำเภอกะทู้',
+				),
+				'external_ids' => array(
+					'moi_district_code' => '8302',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:province:83',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:district:8303',
+				'kind' => 'geography',
+				'type' => 'district',
+				'status' => 'active',
+				'slug' => 'thalang',
+				'names' => array(
+					'he' => 'נפת תאלאנג',
+					'en' => 'Thalang District',
+					'th' => 'อำเภอถลาง',
+				),
+				'external_ids' => array(
+					'moi_district_code' => '8303',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:province:83',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:district:8404',
+				'kind' => 'geography',
+				'type' => 'district',
+				'status' => 'active',
+				'slug' => 'ko-samui',
+				'names' => array(
+					'he' => 'נפת קוסמוי',
+					'en' => 'Ko Samui District',
+					'th' => 'อำเภอเกาะสมุย',
+				),
+				'external_ids' => array(
+					'moi_district_code' => '8404',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:province:84',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:district:8405',
+				'kind' => 'geography',
+				'type' => 'district',
+				'status' => 'active',
+				'slug' => 'ko-pha-ngan',
+				'names' => array(
+					'he' => 'נפת קופנגן',
+					'en' => 'Ko Pha-ngan District',
+					'th' => 'อำเภอเกาะพะงัน',
+				),
+				'external_ids' => array(
+					'moi_district_code' => '8405',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:province:84',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:island:ko-chang-trat',
+				'kind' => 'geography',
+				'type' => 'island',
+				'status' => 'active',
+				'slug' => 'ko-chang-trat',
+				'names' => array(
+					'he' => 'קו צ\'אנג',
+					'en' => 'Ko Chang Island in Trat',
+					'th' => 'เกาะช้าง จังหวัดตราด',
+				),
+				'external_ids' => (object) array(),
+				'priority' => true,
+				'geometry' => null,
+				'admin_parent_id' => null,
+				'located_in_ids' => array(
+					'geo:th:province:23',
+					'geo:th:district:2307',
+				),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:island:ko-lanta-yai',
+				'kind' => 'geography',
+				'type' => 'island',
+				'status' => 'active',
+				'slug' => 'ko-lanta-yai',
+				'names' => array(
+					'he' => 'קו לנטה',
+					'en' => 'Ko Lanta Yai Island',
+					'th' => 'เกาะลันตาใหญ่',
+				),
+				'external_ids' => (object) array(),
+				'priority' => true,
+				'geometry' => null,
+				'admin_parent_id' => null,
+				'located_in_ids' => array(
+					'geo:th:province:81',
+					'geo:th:district:8103',
+				),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:island:ko-pha-ngan',
+				'kind' => 'geography',
+				'type' => 'island',
+				'status' => 'active',
+				'slug' => 'ko-pha-ngan',
+				'names' => array(
+					'he' => 'קופנגן',
+					'en' => 'Ko Pha-ngan Island',
+					'th' => 'เกาะพะงัน',
+				),
+				'external_ids' => (object) array(),
+				'priority' => true,
+				'geometry' => null,
+				'admin_parent_id' => null,
+				'located_in_ids' => array(
+					'geo:th:province:84',
+					'geo:th:district:8405',
+				),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:island:ko-samui',
+				'kind' => 'geography',
+				'type' => 'island',
+				'status' => 'active',
+				'slug' => 'ko-samui',
+				'names' => array(
+					'he' => 'קוסמוי',
+					'en' => 'Ko Samui Island',
+					'th' => 'เกาะสมุย',
+				),
+				'external_ids' => (object) array(),
+				'priority' => true,
+				'geometry' => null,
+				'admin_parent_id' => null,
+				'located_in_ids' => array(
+					'geo:th:province:84',
+					'geo:th:district:8404',
+				),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:island:ko-tao',
+				'kind' => 'geography',
+				'type' => 'island',
+				'status' => 'active',
+				'slug' => 'ko-tao',
+				'names' => array(
+					'he' => 'קו טאו',
+					'en' => 'Ko Tao Island',
+					'th' => 'เกาะเต่า',
+				),
+				'external_ids' => (object) array(),
+				'priority' => true,
+				'geometry' => null,
+				'admin_parent_id' => null,
+				'located_in_ids' => array(
+					'geo:th:province:84',
+					'geo:th:district:8405',
+				),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:island:phuket',
+				'kind' => 'geography',
+				'type' => 'island',
+				'status' => 'active',
+				'slug' => 'phuket-island',
+				'names' => array(
+					'he' => 'האי פוקט',
+					'en' => 'Phuket Island',
+					'th' => 'เกาะภูเก็ต',
+				),
+				'external_ids' => (object) array(),
+				'priority' => true,
+				'geometry' => null,
+				'admin_parent_id' => null,
+				'located_in_ids' => array(
+					'geo:th:province:83',
+				),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:230701',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ko-chang',
+				'names' => array(
+					'he' => 'תת נפת קו צ\'אנג',
+					'en' => 'Ko Chang Subdistrict',
+					'th' => 'ตำบลเกาะช้าง',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '230701',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:2307',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:230702',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ko-chang-tai',
+				'names' => array(
+					'he' => 'תת נפת קו צ\'אנג דרום',
+					'en' => 'Ko Chang Tai Subdistrict',
+					'th' => 'ตำบลเกาะช้างใต้',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '230702',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:2307',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:810301',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ko-lanta-yai',
+				'names' => array(
+					'he' => 'תת נפת קו לנטה יאי',
+					'en' => 'Ko Lanta Yai Subdistrict',
+					'th' => 'ตำบลเกาะลันตาใหญ่',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '810301',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8103',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:810302',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ko-lanta-noi',
+				'names' => array(
+					'he' => 'תת נפת קו לנטה נוי',
+					'en' => 'Ko Lanta Noi Subdistrict',
+					'th' => 'ตำบลเกาะลันตาน้อย',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '810302',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8103',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:810303',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ko-klang',
+				'names' => array(
+					'he' => 'תת נפת קו קלאנג',
+					'en' => 'Ko Klang Subdistrict',
+					'th' => 'ตำบลเกาะกลาง',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '810303',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8103',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:810304',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'khlong-yang',
+				'names' => array(
+					'he' => 'תת נפת קלונג יאנג',
+					'en' => 'Khlong Yang Subdistrict',
+					'th' => 'ตำบลคลองยาง',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '810304',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8103',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:810305',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'sala-dan',
+				'names' => array(
+					'he' => 'תת נפת סאלה דאן',
+					'en' => 'Sala Dan Subdistrict',
+					'th' => 'ตำบลศาลาด่าน',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '810305',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8103',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830101',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'talat-yai',
+				'names' => array(
+					'he' => 'תת נפת טאלאט יאי',
+					'en' => 'Talat Yai Subdistrict',
+					'th' => 'ตำบลตลาดใหญ่',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830101',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8301',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830102',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'talat-nuea',
+				'names' => array(
+					'he' => 'תת נפת טאלאט נואה',
+					'en' => 'Talat Nuea Subdistrict',
+					'th' => 'ตำบลตลาดเหนือ',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830102',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8301',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830103',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ko-kaeo',
+				'names' => array(
+					'he' => 'תת נפת קו קאו',
+					'en' => 'Ko Kaeo Subdistrict',
+					'th' => 'ตำบลเกาะแก้ว',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830103',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8301',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830104',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ratsada',
+				'names' => array(
+					'he' => 'תת נפת ראטסאדה',
+					'en' => 'Ratsada Subdistrict',
+					'th' => 'ตำบลรัษฎา',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830104',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8301',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830105',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'wichit',
+				'names' => array(
+					'he' => 'תת נפת ויצ\'יט',
+					'en' => 'Wichit Subdistrict',
+					'th' => 'ตำบลวิชิต',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830105',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8301',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830106',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'chalong',
+				'names' => array(
+					'he' => 'תת נפת צ\'אלונג',
+					'en' => 'Chalong Subdistrict',
+					'th' => 'ตำบลฉลอง',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830106',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8301',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830107',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'rawai',
+				'names' => array(
+					'he' => 'תת נפת ראוואי',
+					'en' => 'Rawai Subdistrict',
+					'th' => 'ตำบลราไวย์',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830107',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8301',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830108',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'karon',
+				'names' => array(
+					'he' => 'תת נפת קארון',
+					'en' => 'Karon Subdistrict',
+					'th' => 'ตำบลกะรน',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830108',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8301',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830201',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'kathu',
+				'names' => array(
+					'he' => 'תת נפת קאטו',
+					'en' => 'Kathu Subdistrict',
+					'th' => 'ตำบลกะทู้',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830201',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8302',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830202',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'pa-tong',
+				'names' => array(
+					'he' => 'תת נפת פאטונג',
+					'en' => 'Pa Tong Subdistrict',
+					'th' => 'ตำบลป่าตอง',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830202',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8302',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830203',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'kamala',
+				'names' => array(
+					'he' => 'תת נפת קאמאלה',
+					'en' => 'Kamala Subdistrict',
+					'th' => 'ตำบลกมลา',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830203',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8302',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830301',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'thepkrasattri',
+				'names' => array(
+					'he' => 'תת נפת תפקראסאטרי',
+					'en' => 'Thepkrasattri Subdistrict',
+					'th' => 'ตำบลเทพกระษัตรี',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830301',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8303',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830302',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'sisunthon',
+				'names' => array(
+					'he' => 'תת נפת סי סונתון',
+					'en' => 'Sisunthon Subdistrict',
+					'th' => 'ตำบลศรีสุนทร',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830302',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8303',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830303',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'choeng-thale',
+				'names' => array(
+					'he' => 'תת נפת צ\'ואנג תאלה',
+					'en' => 'Choeng Thale Subdistrict',
+					'th' => 'ตำบลเชิงทะเล',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830303',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8303',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830304',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'pa-khlok',
+				'names' => array(
+					'he' => 'תת נפת פה קלוק',
+					'en' => 'Pa Khlok Subdistrict',
+					'th' => 'ตำบลป่าคลอก',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830304',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8303',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830305',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'mai-khao',
+				'names' => array(
+					'he' => 'תת נפת מאי קאו',
+					'en' => 'Mai Khao Subdistrict',
+					'th' => 'ตำบลไม้ขาว',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830305',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8303',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:830306',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'sakhu',
+				'names' => array(
+					'he' => 'תת נפת סאקו',
+					'en' => 'Sakhu Subdistrict',
+					'th' => 'ตำบลสาคู',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '830306',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8303',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840401',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ang-thong',
+				'names' => array(
+					'he' => 'תת נפת אנג תונג',
+					'en' => 'Ang Thong Subdistrict',
+					'th' => 'ตำบลอ่างทอง',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840401',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8404',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840402',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'lipa-noi',
+				'names' => array(
+					'he' => 'תת נפת ליפה נוי',
+					'en' => 'Lipa Noi Subdistrict',
+					'th' => 'ตำบลลิปะน้อย',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840402',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8404',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840403',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'taling-ngam',
+				'names' => array(
+					'he' => 'תת נפת טאלינג נגאם',
+					'en' => 'Taling Ngam Subdistrict',
+					'th' => 'ตำบลตลิ่งงาม',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840403',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8404',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840404',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'na-mueang',
+				'names' => array(
+					'he' => 'תת נפת נה מואנג',
+					'en' => 'Na Mueang Subdistrict',
+					'th' => 'ตำบลหน้าเมือง',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840404',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8404',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840405',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'maret',
+				'names' => array(
+					'he' => 'תת נפת מארט',
+					'en' => 'Maret Subdistrict',
+					'th' => 'ตำบลมะเร็ต',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840405',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8404',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840406',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'bo-phut',
+				'names' => array(
+					'he' => 'תת נפת בו פוט',
+					'en' => 'Bo Phut Subdistrict',
+					'th' => 'ตำบลบ่อผุด',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840406',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8404',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840407',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'mae-nam',
+				'names' => array(
+					'he' => 'תת נפת מא נאם',
+					'en' => 'Mae Nam Subdistrict',
+					'th' => 'ตำบลแม่น้ำ',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840407',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8404',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840501',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ko-pha-ngan',
+				'names' => array(
+					'he' => 'תת נפת קופנגן',
+					'en' => 'Ko Pha-ngan Subdistrict',
+					'th' => 'ตำบลเกาะพะงัน',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840501',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8405',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840502',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ban-tai',
+				'names' => array(
+					'he' => 'תת נפת באן טאי',
+					'en' => 'Ban Tai Subdistrict',
+					'th' => 'ตำบลบ้านใต้',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840502',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8405',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
+			),
+			array(
+				'id' => 'geo:th:subdistrict:840503',
+				'kind' => 'geography',
+				'type' => 'subdistrict',
+				'status' => 'active',
+				'slug' => 'ko-tao',
+				'names' => array(
+					'he' => 'תת נפת קו טאו',
+					'en' => 'Ko Tao Subdistrict',
+					'th' => 'ตำบลเกาะเต่า',
+				),
+				'external_ids' => array(
+					'moi_subdistrict_code' => '840503',
+				),
+				'priority' => false,
+				'geometry' => null,
+				'admin_parent_id' => 'geo:th:district:8405',
+				'located_in_ids' => array(),
+				'center' => null,
+				'bounds' => null,
 			),
 		),
 	),

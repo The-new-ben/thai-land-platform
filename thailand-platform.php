@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Thailand Platform
  * Plugin URI: https://thai-land.co.il/
- * Description: Geography, search, homepage, real-estate, and priority guide runtime for thai-land.co.il.
- * Version: 0.4.1
+ * Description: Geography, search, homepage, real-estate, priority guide, and Digital Islands runtime for thai-land.co.il.
+ * Version: 0.5.0
  * Requires at least: 6.9
  * Requires PHP: 7.4
  * Author: thai-land.co.il
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THAILAND_PLATFORM_VERSION', '0.4.1' );
+define( 'THAILAND_PLATFORM_VERSION', '0.5.0' );
 define( 'THAILAND_PLATFORM_FILE', __FILE__ );
 define( 'THAILAND_PLATFORM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'THAILAND_PLATFORM_ENABLE_UPDATE_CHECKER', false );
@@ -57,6 +57,22 @@ require_once THAILAND_PLATFORM_DIR . 'src/Guides/Schema.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Guides/Renderer.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Guides/Settings.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Guides/Module.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/StrictJson.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/ArtifactVerifier.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Repository.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/PublicView.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/FeatureFlag.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Context.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Privacy.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Seo.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Schema.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Assets.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Renderer.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/View.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/RestController.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/HomepageNavigation.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Settings.php';
+require_once THAILAND_PLATFORM_DIR . 'src/DigitalIslands/Module.php';
 require_once THAILAND_PLATFORM_DIR . 'src/Updates/Checker.php';
 
 define(

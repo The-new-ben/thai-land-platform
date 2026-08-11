@@ -53,7 +53,7 @@ final class Resolver {
 
 		$slug_ids = array();
 		$slug_types = null === $type
-			? array( 'country', 'statistical_region', 'province' )
+			? array( 'country', 'statistical_region', 'province', 'district', 'subdistrict', 'island' )
 			: array( $type );
 
 		foreach ( $slug_types as $slug_type ) {

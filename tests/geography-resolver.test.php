@@ -19,7 +19,8 @@ function geography_test_assert( $condition, $message ) {
 
 $registry = Repository::all();
 geography_test_assert( 'geo:th:country' === $registry['country_id'], 'Country ID mismatch.' );
-geography_test_assert( 85 === count( $registry['entities_by_id'] ), 'Compiled entity count mismatch.' );
+geography_test_assert( 132 === count( $registry['entities_by_id'] ), 'Compiled entity count mismatch.' );
+geography_test_assert( 47 === count( Repository::public_payload()['places'] ), 'Public place count mismatch.' );
 geography_test_assert( 77 === count( Repository::children( 'geo:th:country' ) ), 'Country province children mismatch.' );
 geography_test_assert(
 	14 === count( Repository::members( 'nso-seven-region-2025', 'geo:th:region:nso-seven-region-2025:southern' ) ),
@@ -37,9 +38,26 @@ geography_test_assert( 'geo:th:province:83' === $code['entity']['id'], 'Official
 $slug = Resolver::resolve( 'phuket', array( 'type' => 'province' ) );
 geography_test_assert( Resolver::STATUS_RESOLVED === $slug['status'], 'Province slug did not resolve.' );
 
+$island_alias = Resolver::resolve( 'Koh Samui', array( 'locale' => 'en', 'type' => 'island' ) );
+geography_test_assert( Resolver::STATUS_RESOLVED === $island_alias['status'], 'Island alias did not resolve.' );
+geography_test_assert( 'geo:th:island:ko-samui' === $island_alias['entity']['id'], 'Island alias resolved incorrectly.' );
+
+$subdistrict_code = Resolver::resolve(
+	'840406',
+	array(
+		'external_namespace' => 'moi_subdistrict_code',
+		'type'               => 'subdistrict',
+	)
+);
+geography_test_assert( Resolver::STATUS_RESOLVED === $subdistrict_code['status'], 'Subdistrict code did not resolve.' );
+geography_test_assert( 'geo:th:subdistrict:840406' === $subdistrict_code['entity']['id'], 'Subdistrict code resolved incorrectly.' );
+
+$retired_phuket_province_alias = Resolver::resolve( 'Phuket Island', array( 'locale' => 'en', 'type' => 'province' ) );
+geography_test_assert( Resolver::STATUS_RETIRED === $retired_phuket_province_alias['status'], 'Retired Phuket province alias was not preserved.' );
+
 $english_alias = Resolver::resolve( 'Phuket Island', array( 'locale' => 'en' ) );
 geography_test_assert( Resolver::STATUS_RESOLVED === $english_alias['status'], 'English alias did not resolve.' );
-geography_test_assert( 'geo:th:province:83' === $english_alias['entity']['id'], 'English alias resolved incorrectly.' );
+geography_test_assert( 'geo:th:island:phuket' === $english_alias['entity']['id'], 'English island alias resolved incorrectly.' );
 
 $hebrew_name = Resolver::resolve( 'פוקט', array( 'locale' => 'he' ) );
 geography_test_assert( Resolver::STATUS_RESOLVED === $hebrew_name['status'], 'Hebrew canonical name did not resolve.' );
@@ -69,8 +87,12 @@ geography_test_assert( null === $unknown['entity'], 'Unknown identity returned a
 $phuket_relations = Repository::relations( 'geo:th:province:83' );
 geography_test_assert( 2 === count( $phuket_relations ), 'Province relation count mismatch.' );
 geography_test_assert(
-	array() === Repository::children( 'geo:th:province:83', 'part_of' ),
-	'Unknown child relation should be empty.'
+	array( 'geo:th:district:8301', 'geo:th:district:8302', 'geo:th:district:8303' ) === Repository::children( 'geo:th:province:83' ),
+	'Phuket district children mismatch.'
+);
+geography_test_assert(
+	7 === count( Repository::children( 'geo:th:island:ko-samui', 'part_of' ) ),
+	'Ko Samui subdistrict membership mismatch.'
 );
 
 fwrite( STDOUT, "PASS: geography resolver contract\n" );

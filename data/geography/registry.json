@@ -1,7 +1,7 @@
 {
   "$schema": "./registry.schema.json",
   "schema_version": "1.0.0",
-  "dataset_version": "2026.08.08.1",
+  "dataset_version": "2026.08.11.1",
   "country_id": "geo:th:country",
   "geography_types": [
     "beach",
@@ -42,6 +42,8 @@
         "village"
       ],
       "source_ids": [
+        "cdd-admin-units-2026",
+        "dopa-locality-code-structure",
         "nso-geographic-standard",
         "nso-province-codes"
       ]
@@ -50,21 +52,30 @@
   "inputs": {
     "aliases": {
       "path": "aliases.csv",
-      "sha256": "b958c316bcbf761e723f90a77075b2127b8cfd845fa81e33ad70010fa98424c8",
+      "sha256": "ade0b68809272754b0f595fb48172a0a336997c183a4483bf31b210745e5a50e",
       "source_ids": [
         "nso-province-codes",
+        "thai-land-editorial-islands",
         "thai-land-editorial-names"
       ]
     },
     "geometry": {
       "path": "geometry.json",
-      "sha256": "3915232d4b9e97fef9bbe63f0c73d8f7211346859e84e119b6e48c6b382e15d2",
+      "sha256": "0dd0d606fcfb8e3c6004c2e9f76f807647ab1d7eeebdd76780298a08ded917b5",
       "source_ids": []
     },
     "normalization_vectors": {
       "path": "normalization-vectors.json",
       "sha256": "8354e52f3608e2a9010c5f2d1c7c1e8086fc1bb378b609d47f086acaa6e57720",
       "source_ids": []
+    },
+    "places": {
+      "path": "places.csv",
+      "sha256": "6a77edbfde8ff896114c9d191d56440bf552852b9f10f5373c063ad2807344fd",
+      "source_ids": [
+        "cdd-admin-units-2026",
+        "thai-land-editorial-islands"
+      ]
     },
     "provinces": {
       "path": "provinces.csv",
@@ -84,14 +95,46 @@
     },
     "relations": {
       "path": "relations.json",
-      "sha256": "df57bf7931b7bf15afb36f212343441d2ca8f3acf2adc1bef73f009ab4bedf68",
+      "sha256": "c0bceac9d814d9b2709abcba410e2f38ced973380af9a977c4773c98ccdcb704",
       "source_ids": [
+        "cdd-admin-units-2026",
         "nso-geographic-standard",
-        "nso-yearbook-2025"
+        "nso-yearbook-2025",
+        "thai-land-editorial-islands"
       ]
     }
   },
   "sources": [
+    {
+      "id": "cdd-admin-units-2026",
+      "authority": "Thailand Community Development Department",
+      "title": "Thailand province, district and subdistrict directory",
+      "url": "https://www.audit.cdd.go.th/file/get/file/1.20260625567981582fd8e99f826a603c2df13a0e170111.pdf",
+      "published_on": null,
+      "effective_on": null,
+      "retrieved_on": "2026-08-11",
+      "license": "not-stated",
+      "covers": [
+        "district codes and names",
+        "province, district and subdistrict containment",
+        "subdistrict codes and names"
+      ]
+    },
+    {
+      "id": "dopa-locality-code-structure",
+      "authority": "Thailand Department of Provincial Administration",
+      "title": "Locality code data structure",
+      "url": "https://stat.bora.dopa.go.th/stat/statnew/statMenu/newStat/ccaa/",
+      "published_on": "2017-12-21",
+      "effective_on": "2017-12-21",
+      "retrieved_on": "2026-08-11",
+      "license": "not-stated",
+      "covers": [
+        "district code structure",
+        "province code structure",
+        "subdistrict code structure"
+      ]
+    },
     {
       "id": "nso-geographic-standard",
       "authority": "Thailand National Statistical Office",
@@ -137,13 +180,28 @@
       ]
     },
     {
+      "id": "thai-land-editorial-islands",
+      "authority": "Thai-Land.co.il",
+      "title": "Reviewed island identities, labels and containment",
+      "url": "https://thai-land.co.il/",
+      "published_on": null,
+      "effective_on": "2026-08-11",
+      "retrieved_on": "2026-08-11",
+      "license": "proprietary",
+      "covers": [
+        "physical island identities and containment",
+        "reviewed Hebrew and English island aliases",
+        "reviewed island labels"
+      ]
+    },
+    {
       "id": "thai-land-editorial-names",
       "authority": "Thai-Land.co.il",
       "title": "Hebrew labels and reviewed transliteration aliases",
       "url": "https://thai-land.co.il/",
       "published_on": null,
-      "effective_on": "2026-08-08",
-      "retrieved_on": "2026-08-08",
+      "effective_on": "2026-08-11",
+      "retrieved_on": "2026-08-11",
       "license": "proprietary",
       "covers": [
         "Hebrew province labels",

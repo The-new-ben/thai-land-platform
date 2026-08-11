@@ -113,8 +113,8 @@
     {
       "path": "data/seo/ownership-registry.json",
       "kind": "json_ownership_registry",
-      "sha256_lf": "1a834f9f35e3963e45447ef29c97c2276dbbb2e02b2247b04be584782da233db",
-      "record_count": 119
+      "sha256_lf": "c3dda8c5e991e977e46b7694f7e170b1ff4a268875ec29f428766aa66988763e",
+      "record_count": 121
     },
     {
       "path": "data/seo/evidence/managed-live-routes.0.3.5.json",
