@@ -406,7 +406,7 @@ tl_test_assert( 3 === tl_test_hook_count( 'tl_test_actions', 'rest_api_init' ), 
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'init' ), 'Duplicate update hook registered.' );
 tl_test_assert( 3 === tl_test_hook_count( 'tl_test_actions', 'template_redirect' ), 'Canary protection hook mismatch.' );
 tl_test_assert( 4 === tl_test_hook_count( 'tl_test_actions', 'wp_enqueue_scripts' ), 'Presentation enqueue hook count mismatch.' );
-tl_test_assert( 7 === tl_test_hook_count( 'tl_test_actions', 'wp_head' ), 'Presentation head hook count mismatch.' );
+tl_test_assert( 8 === tl_test_hook_count( 'tl_test_actions', 'wp_head' ), 'Presentation head hook count mismatch.' );
 tl_test_assert( 4 === tl_test_hook_count( 'tl_test_actions', 'admin_init' ), 'Presentation setting hook count mismatch.' );
 tl_test_assert( 4 === tl_test_hook_count( 'tl_test_actions', 'admin_menu' ), 'Presentation settings page hook count mismatch.' );
 tl_test_assert( 1 === tl_test_hook_count( 'tl_test_actions', 'add_option_thailand_platform_homepage_mode' ), 'Homepage add-option cache hook mismatch.' );
