@@ -145,7 +145,7 @@ function fixtureHtml(scenario) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="noindex,nofollow">
 	<link rel="icon" href="data:,">
-	<title>Koh Phangan MapLibre 0.5.1 browser fixture</title>
+	<title>Koh Phangan MapLibre 0.5.2 browser fixture</title>
 	<link rel="stylesheet" href="${PLUGIN_PREFIX}assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.css">
 	<link rel="stylesheet" href="${PLUGIN_PREFIX}assets/digital-islands/digital-islands.css">
 	<style>
@@ -155,7 +155,7 @@ function fixtureHtml(scenario) {
 	</style>
 </head>
 <body class="thp-di-document">
-	<div class="thp-di-fixture-banner">LOCAL QA · release <code>0.5.1</code> · scenario <code>${escapeHtml(scenario)}</code> · real vendored MapLibre</div>
+	<div class="thp-di-fixture-banner">LOCAL QA · release <code>0.5.2</code> · scenario <code>${escapeHtml(scenario)}</code> · real vendored MapLibre</div>
 	<main class="thp-di-main" data-digital-island-app data-rest-base="${REST_BASE}" data-island-id="${ISLAND_ID}" data-island-center-lat="${dataset.island.center.latitude}" data-island-center-lng="${dataset.island.center.longitude}">
 		<section class="thp-di-intro"><div class="thp-di-frame"><p class="thp-di-kicker">Local browser acceptance</p><h1>Koh Phangan interactive map</h1><p>Same-origin PMTiles, Sentinel orientation imagery, and Terrarium terrain.</p></div></section>
 		<div class="thp-di-frame thp-di-workspace" data-acceptance-capture>

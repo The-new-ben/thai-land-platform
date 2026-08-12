@@ -497,7 +497,7 @@ def main() -> int:
     require(renderer["contract_id"] == "thailand-digital-islands-renderer-v1", "renderer contract mismatch")
     require(renderer["schema_version"] == 1, "renderer schema version mismatch")
     require(renderer["island_id"] == "geo:th:island:ko-pha-ngan", "renderer island identity mismatch")
-    require(renderer["release_version"] == args.version == "0.5.1", "renderer release version mismatch")
+    require(renderer["release_version"] == args.version == "0.5.2", "renderer release version mismatch")
 
     for label, expected_path in (
         ("manifest", RENDERER_MANIFEST_PATH),
@@ -516,7 +516,7 @@ def main() -> int:
     renderer_manifest = parse_json(source_root / RENDERER_MANIFEST_PATH)
     require(renderer["manifest"]["bytes"] == 15395, "renderer manifest pinned byte count mismatch")
     require(
-        renderer["manifest"]["sha256"] == "463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb",
+        renderer["manifest"]["sha256"] == "bf24b0b134e8c6abd3e38d1f7c2b712f7057d636950accdf61f1fe9eed864bb3",
         "renderer manifest pinned SHA-256 mismatch",
     )
     exact_keys(
@@ -696,8 +696,8 @@ def main() -> int:
     loader_text = (source_root / RENDERER_LOADER_PATH).read_text(encoding="utf-8")
     for marker in (
         "const CONTRACT_ID  = 'thailand-digital-islands-renderer-v1';",
-        "const MANIFEST_SHA256 = '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb';",
-        "const RELEASE_VERSION = '0.5.1';",
+        "const MANIFEST_SHA256 = 'bf24b0b134e8c6abd3e38d1f7c2b712f7057d636950accdf61f1fe9eed864bb3';",
+        "const RELEASE_VERSION = '0.5.2';",
         "const MAPLIBRE_VERSION = '5.18.0';",
         "const PMTILES_VERSION = '4.5.0';",
         "const TERRAIN_TILE_COUNT = 58;",
@@ -860,7 +860,7 @@ def main() -> int:
         browser_acceptance["contract_id"] == "thp-digital-islands-maplibre-browser-v1",
         "Digital Islands browser contract mismatch",
     )
-    require(browser_acceptance["release"] == args.version == "0.5.1", "Digital Islands browser release mismatch")
+    require(browser_acceptance["release"] == args.version == "0.5.2", "Digital Islands browser release mismatch")
     require(browser_acceptance["result"] == "pass", "Digital Islands browser result mismatch")
     require(browser_acceptance["scenarios"] == expected_browser_scenarios, "Digital Islands browser scenarios mismatch")
     require(

@@ -584,7 +584,6 @@ final class PublicView {
 			}
 			return array(
 				array(
-					'source_id'                 => $source_id,
 					'publisher'                 => self::bounded_string( $source['publisher'] ?? '', 200 ),
 					'title'                     => self::bounded_string( $source['title'] ?? '', 240 ),
 					'source_cog_url'            => $source['url'],

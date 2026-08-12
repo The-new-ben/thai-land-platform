@@ -2,6 +2,14 @@
 
 Plugin-first platform code and design prototypes for `thai-land.co.il`.
 
+## Release 0.5.2 privacy hotfix
+
+Version 0.5.2 removes the internal Sentinel source identifier from every public
+Digital Islands representation. Recursive runtime and production acceptance
+gates reject both `source_id` and `source_ids`. The public map remains
+`index, follow` in Live mode; administrator-only Canary remains private and
+anonymous requests fail closed as 404.
+
 ## Release 0.5.1 boundary
 
 Version 0.5.1 gives the Koh Phangan Digital Islands pilot a self-hosted map

@@ -12,10 +12,10 @@ use RuntimeException;
 final class RendererAssets {
 	const CONTRACT_ID  = 'thailand-digital-islands-renderer-v1';
 	const MANIFEST_PATH = 'resources/digital-islands/renderer-manifest.json';
-	const MANIFEST_SHA256 = '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb';
+	const MANIFEST_SHA256 = 'bf24b0b134e8c6abd3e38d1f7c2b712f7057d636950accdf61f1fe9eed864bb3';
 	const MANIFEST_MAX_BYTES = 65536;
 	const ISLAND_ID = 'geo:th:island:ko-pha-ngan';
-	const RELEASE_VERSION = '0.5.1';
+	const RELEASE_VERSION = '0.5.2';
 	const MAPLIBRE_VERSION = '5.18.0';
 	const PMTILES_VERSION = '4.5.0';
 	const MAPLIBRE_SCRIPT_PATH = 'assets/digital-islands/vendor/maplibre-gl/5.18.0/maplibre-gl.js';

@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 define( 'THAILAND_PLATFORM_DIR', dirname( __DIR__ ) . DIRECTORY_SEPARATOR );
 define( 'THAILAND_PLATFORM_FILE', THAILAND_PLATFORM_DIR . 'thailand-platform.php' );
-define( 'THAILAND_PLATFORM_VERSION', '0.5.1' );
+define( 'THAILAND_PLATFORM_VERSION', '0.5.2' );
 
 $GLOBALS['di_options']       = array();
 $GLOBALS['di_admin']         = false;
@@ -275,6 +275,16 @@ function di_assert( $condition, $message ) {
 	}
 }
 
+function di_assert_no_source_keys( $value, $label ) {
+	if ( ! is_array( $value ) ) {
+		return;
+	}
+	foreach ( $value as $key => $child ) {
+		di_assert( 'source_id' !== $key && 'source_ids' !== $key, $label . ' leaked internal source identity.' );
+		di_assert_no_source_keys( $child, $label );
+	}
+}
+
 $class_files = array(
 	'StrictJson.php',
 	'ArtifactVerifier.php',
@@ -348,7 +358,7 @@ di_assert( 1 === ( $entity_types['telecom'] ?? 0 ), 'The held-pin telecom card i
 di_assert( 3 === ( $entity_types['property_project'] ?? 0 ), 'The three map-only project candidates are not present.' );
 di_assert( ! isset( $entity_types['property_offer'] ), 'Review-held offers entered the map-safe projection.' );
 di_assert( ! isset( $entity_types['professional_service'] ), 'Review-held professionals entered the map-safe projection.' );
-foreach ( array( 'holds', 'conflicts', 'source_ids', 'property_offer:th:', 'legal_overlay:th:', 'professional_service' ) as $private_marker ) {
+foreach ( array( 'holds', 'conflicts', 'source_id', 'source_ids', 'property_offer:th:', 'legal_overlay:th:', 'professional_service' ) as $private_marker ) {
 	di_assert( false === strpos( $payload_json, $private_marker ), 'Private marker leaked: ' . $private_marker );
 }
 
@@ -470,6 +480,7 @@ di_assert( 'CC-BY-4.0' === $island_data['attributions'][2]['license'], 'ESA Worl
 di_assert( 'Contains modified Copernicus Sentinel data 2026. Image observed 26.03.2026.' === $island_data['attributions'][3]['text'], 'Copernicus modified-data notice or exact observation date is missing.' );
 di_assert( 1 === count( $island_data['imagery_sources'] ), 'The approved public satellite source record is missing.' );
 $satellite_source = $island_data['imagery_sources'][0];
+di_assert( ! array_key_exists( 'source_id', $satellite_source ), 'Internal satellite source ID leaked into the public imagery record.' );
 di_assert( 'S2B_47PPL_20260326_0_L2A' === $satellite_source['item_id'], 'Sentinel-2 item identity mismatch.' );
 di_assert( '2026-03-26T03:55:36.171000Z' === $satellite_source['observed_at'], 'Sentinel-2 observation time mismatch.' );
 di_assert( 14.307985 === $satellite_source['tile_cloud_cover_percent'], 'Sentinel-2 source-tile cloud metadata mismatch.' );
@@ -489,6 +500,8 @@ foreach ( $island_data['official_tools'] as $official_tool ) {
 
 $entities_response = $controller->respond_entities( $request );
 di_assert( 49 === $entities_response->get_data()['entity_count'], 'Entities endpoint count mismatch.' );
+$layers_response = $controller->respond_layers( $request );
+di_assert( $layers_response instanceof WP_REST_Response, 'Layers endpoint failed.' );
 
 $safe_item_request = new DI_Test_Request(
 	array_merge( $base_params, array( 'entity_id' => 'property_project:th:84:840501:nava-koh-phangan' ) )
@@ -507,6 +520,17 @@ $search_request = new DI_Test_Request( array_merge( $base_params, array( 'term' 
 $search_response = $controller->respond_search( $search_request );
 di_assert( $search_response instanceof WP_REST_Response, 'Search endpoint failed.' );
 di_assert( 1 === $search_response->get_data()['result_count'], 'Stable English-name search mismatch.' );
+foreach (
+	array(
+		'island'   => $island_data,
+		'layers'   => $layers_response->get_data(),
+		'entities' => $entities_response->get_data(),
+		'item'     => $safe_item->get_data(),
+		'search'   => $search_response->get_data(),
+	) as $shape_label => $public_shape
+) {
+	di_assert_no_source_keys( $public_shape, $shape_label );
+}
 
 $missing_item_request = new DI_Test_Request(
 	array_merge( $base_params, array( 'entity_id' => 'service:th:84:8405:not-reviewed' ) )
@@ -540,6 +564,7 @@ di_assert( 5 === count( $GLOBALS['di_routes'] ), 'Live REST routes were not regi
 $live_response = $controller->respond_island( $request );
 di_assert( 'public, max-age=300, stale-while-revalidate=60' === $live_response->get_headers()['Cache-Control'], 'Live REST cache policy mismatch.' );
 di_assert( 'public_live' === $live_response->get_data()['representation_state'], 'Live representation state mismatch.' );
+di_assert( 'index_follow' === $live_response->get_data()['indexing_policy'], 'The public Live map is not index/follow.' );
 di_assert( 'https://www.openstreetmap.org/copyright' === $live_response->get_data()['attribution']['url'], 'REST attribution URL is missing.' );
 $live_entities = $controller->respond_entities( $request )->get_data();
 di_assert( 49 === $live_entities['entity_count'], 'Live REST projection is not exactly 49.' );

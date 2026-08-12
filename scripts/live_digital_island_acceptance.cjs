@@ -153,7 +153,7 @@ function rendererManifestContract(candidate = readJson(FILES.rendererManifest)) 
   invariant(JSON.stringify(Object.keys(candidate).sort()) === JSON.stringify(expectedTopKeys.sort()), 'Renderer manifest top-level boundary changed');
   invariant(candidate.contract_id === RENDERER_CONTRACT_ID, 'Renderer manifest contract ID changed');
   invariant(candidate.schema_version === 1, 'Renderer manifest schema version changed');
-  invariant(candidate.release_version === '0.5.1', 'Renderer manifest release version changed');
+  invariant(candidate.release_version === '0.5.2', 'Renderer manifest release version changed');
   invariant(candidate.island_id === ISLAND_ID, 'Renderer manifest island identity changed');
   invariant(candidate.dependencies && candidate.dependencies.maplibre && candidate.dependencies.pmtiles, 'Renderer dependency contract is missing');
   invariant(candidate.dependencies.maplibre.version === '5.18.0', 'Reviewed MapLibre version changed');
@@ -1211,7 +1211,7 @@ function runSelfTest() {
   invariant(contentRange && contentRange.start === 0 && contentRange.end === 16383 && contentRange.total === 1205287, 'Self-test Content-Range parsing failed');
   invariant(parseContentRange('bytes 10-20/20') === null && parseContentRange('not-a-range') === null, 'Self-test accepted an invalid Content-Range');
   const pluginBase = pluginBaseFromAssetUrl(
-    'https://thai-land.co.il/wp-content/plugins/thailand-platform/assets/digital-islands/digital-islands.js?ver=0.5.1',
+    'https://thai-land.co.il/wp-content/plugins/thailand-platform/assets/digital-islands/digital-islands.js?ver=0.5.2',
     new URL('https://thai-land.co.il/')
   );
   invariant(pluginBase.toString() === 'https://thai-land.co.il/wp-content/plugins/thailand-platform/', 'Self-test plugin base derivation failed');

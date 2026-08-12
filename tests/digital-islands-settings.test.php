@@ -6,7 +6,7 @@
 $root = dirname( __DIR__ );
 define( 'THAILAND_PLATFORM_DIR', $root . DIRECTORY_SEPARATOR );
 define( 'THAILAND_PLATFORM_FILE', $root . DIRECTORY_SEPARATOR . 'thailand-platform.php' );
-define( 'THAILAND_PLATFORM_VERSION', '0.5.1' );
+define( 'THAILAND_PLATFORM_VERSION', '0.5.2' );
 
 $hooks = array();
 $test_options = array();
