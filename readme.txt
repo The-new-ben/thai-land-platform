@@ -4,14 +4,14 @@ Tags: thailand, platform
 Requires at least: 6.9
 Tested up to: 7.0.3
 Requires PHP: 7.4
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 License: Proprietary
 
 Geography, search, homepage, real-estate, priority guides, and Digital Islands runtime for thai-land.co.il.
 
 == Description ==
 
-Version 0.5.1 adds a self-hosted MapLibre renderer to the Koh Phangan Digital
+Version 0.5.2 applies a privacy hotfix to the self-hosted MapLibre renderer for the Koh Phangan Digital
 Islands pilot. The 2D mode uses a local vector archive. The rotatable 3D mode
 adds a Sentinel-2 orientation image observed on 26 March 2026, local terrain,
 and hillshade. The accessible list remains available when graphics are
@@ -27,6 +27,11 @@ package. The map is for orientation and is not parcel, title, buildability,
 boundary, measurement, or navigation evidence.
 
 == Changelog ==
+
+= 0.5.2 =
+* Remove the internal Sentinel source identifier from all public map and REST representations.
+* Reject singular and plural internal source-ID fields in runtime and live acceptance checks.
+* Preserve `index, follow` for the public Live map and private 404/no-store Canary behavior for anonymous requests.
 
 = 0.5.1 =
 * Add self-hosted MapLibre GL JS 5.18.0 and PMTiles 4.5.0 with complete bundled

@@ -90,7 +90,7 @@ const parsedRange = parseContentRange('bytes 0-16383/1205287');
 assert(parsedRange && parsedRange.start === 0 && parsedRange.end === 16383 && parsedRange.total === 1205287, 'valid Content-Range was rejected');
 assert(parseContentRange('bytes 10-20/20') === null && parseContentRange('invalid') === null, 'invalid Content-Range was accepted');
 const pluginBase = pluginBaseFromAssetUrl(
-  'https://thai-land.co.il/wp-content/plugins/thailand-platform/assets/digital-islands/digital-islands.js?ver=0.5.1',
+  'https://thai-land.co.il/wp-content/plugins/thailand-platform/assets/digital-islands/digital-islands.js?ver=0.5.2',
   new URL('https://thai-land.co.il/')
 );
 assert(pluginBase.toString() === 'https://thai-land.co.il/wp-content/plugins/thailand-platform/', 'plugin base derivation changed');
@@ -171,6 +171,13 @@ try {
   privacyRejected = true;
 }
 assert(privacyRejected, 'private field leak was not rejected');
+let sourceIdRejected = false;
+try {
+  validatePublicPayload({ ...publicPayload, imagery_sources: [{ source_id: 'internal' }] }, 'synthetic source ID leak');
+} catch {
+  sourceIdRejected = true;
+}
+assert(sourceIdRejected, 'singular source_id leak was not rejected');
 assert(recursiveForbiddenKeys({ item: { source_ids: ['private'] } }, new Set(['source_ids'])).length === 1, 'recursive privacy scanner failed');
 
 const locations = xmlLocations('<urlset><url><loc>https://thai-land.co.il/a/</loc></url><url><loc>https://thai-land.co.il/b/?x=1&amp;y=2</loc></url></urlset>');

@@ -154,7 +154,7 @@ function startFixtureServer(logDirectory) {
 
 async function main() {
 	const options = parseArguments(process.argv.slice(2));
-	const runDirectory = options.output || path.join(DEFAULT_OUTPUT_PARENT, `koh-phangan-maplibre-0.5.1-${timestamp()}`);
+	const runDirectory = options.output || path.join(DEFAULT_OUTPUT_PARENT, `koh-phangan-maplibre-0.5.2-${timestamp()}`);
 	fs.mkdirSync(runDirectory, { recursive: true });
 	invariant(fs.existsSync(SERVER_PATH), 'Browser fixture server is missing');
 	invariant(fs.existsSync(PROBE_PATH), 'Playwright CLI probe is missing');
@@ -244,7 +244,7 @@ async function main() {
 				satellite: fileReceipt(path.join(ROOT, 'assets', 'digital-islands', 'imagery', 'koh-phangan-sentinel2-20260326.webp')),
 				vector: fileReceipt(path.join(ROOT, 'assets', 'digital-islands', 'data', 'koh-phangan-basemap-20260811.pmtiles')),
 			},
-			release: '0.5.1',
+			release: '0.5.2',
 			results,
 			started_at: startedAt,
 		};

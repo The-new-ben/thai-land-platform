@@ -219,7 +219,7 @@ def renderer_evidence(root: Path, entries: list[str], release_version: str) -> d
     manifest_payload = manifest_path.read_bytes()
     if (
         len(manifest_payload) != 15395
-        or sha256_bytes(manifest_payload) != "463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb"
+        or sha256_bytes(manifest_payload) != "bf24b0b134e8c6abd3e38d1f7c2b712f7057d636950accdf61f1fe9eed864bb3"
     ):
         raise ValueError("renderer manifest pinned receipt mismatch")
     manifest = json_no_duplicates(manifest_path)
@@ -242,7 +242,7 @@ def renderer_evidence(root: Path, entries: list[str], release_version: str) -> d
         or manifest.get("schema_version") != 1
         or manifest.get("island_id") != "geo:th:island:ko-pha-ngan"
         or manifest.get("release_version") != release_version
-        or release_version != "0.5.1"
+        or release_version != "0.5.2"
     ):
         raise ValueError("renderer manifest identity or release version mismatch")
 
@@ -453,8 +453,8 @@ def renderer_evidence(root: Path, entries: list[str], release_version: str) -> d
     loader_text = loader_path.read_text(encoding="utf-8")
     for marker in (
         "const CONTRACT_ID  = 'thailand-digital-islands-renderer-v1';",
-        "const MANIFEST_SHA256 = '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb';",
-        "const RELEASE_VERSION = '0.5.1';",
+        "const MANIFEST_SHA256 = 'bf24b0b134e8c6abd3e38d1f7c2b712f7057d636950accdf61f1fe9eed864bb3';",
+        "const RELEASE_VERSION = '0.5.2';",
         "const MAPLIBRE_VERSION = '5.18.0';",
         "const PMTILES_VERSION = '4.5.0';",
         "const TERRAIN_TILE_COUNT = 58;",
@@ -935,7 +935,7 @@ def renderer_browser_evidence(root: Path, node_bin: Path) -> tuple[str, dict[str
             raise ValueError("Real-browser acceptance report fields are missing or unexpected")
         if (
             report.get("contract_id") != "thp-digital-islands-maplibre-browser-v1"
-            or report.get("release") != "0.5.1"
+            or report.get("release") != "0.5.2"
             or report.get("playwright_cli")
             != {"package": "@playwright/cli@0.1.18", "version": "0.1.18"}
         ):

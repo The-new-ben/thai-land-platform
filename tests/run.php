@@ -388,7 +388,7 @@ use Thailand_Platform\Content\FeatureFlag as Content_FeatureFlag;
 use Thailand_Platform\Guides\FeatureFlag as Guides_FeatureFlag;
 use Thailand_Platform\DigitalIslands\FeatureFlag as Digital_Islands_FeatureFlag;
 
-tl_test_assert( '0.5.1' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
+tl_test_assert( '0.5.2' === THAILAND_PLATFORM_VERSION, 'Version constant mismatch.' );
 tl_test_assert( isset( $GLOBALS['tl_test_activation'][ THAILAND_PLATFORM_FILE ] ), 'Activation hook missing.' );
 tl_test_assert( isset( $GLOBALS['tl_test_deactivation'][ THAILAND_PLATFORM_FILE ] ), 'Deactivation hook missing.' );
 
@@ -761,10 +761,10 @@ foreach ( $digital_islands_runtime_files as $runtime_file ) {
 $renderer_manifest_payload = file_get_contents( $root . '/resources/digital-islands/renderer-manifest.json' );
 tl_test_assert( false !== $renderer_manifest_payload, 'Renderer manifest is unreadable.' );
 tl_test_assert( 15395 === strlen( $renderer_manifest_payload ), 'Renderer manifest pinned byte count mismatch.' );
-tl_test_assert( '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb' === hash( 'sha256', $renderer_manifest_payload ), 'Renderer manifest pinned SHA-256 mismatch.' );
+tl_test_assert( 'bf24b0b134e8c6abd3e38d1f7c2b712f7057d636950accdf61f1fe9eed864bb3' === hash( 'sha256', $renderer_manifest_payload ), 'Renderer manifest pinned SHA-256 mismatch.' );
 $renderer_assets_source = file_get_contents( $root . '/src/DigitalIslands/RendererAssets.php' );
 tl_test_assert( false !== $renderer_assets_source, 'Renderer asset verifier source is unreadable.' );
-tl_test_assert( false !== strpos( $renderer_assets_source, "const MANIFEST_SHA256 = '463260168c1908770cadf7e3fd673a120fe192513f801468303745b12cffefcb';" ), 'Renderer manifest SHA-256 constant mismatch.' );
+tl_test_assert( false !== strpos( $renderer_assets_source, "const MANIFEST_SHA256 = 'bf24b0b134e8c6abd3e38d1f7c2b712f7057d636950accdf61f1fe9eed864bb3';" ), 'Renderer manifest SHA-256 constant mismatch.' );
 $renderer_manifest = json_decode( $renderer_manifest_payload, true );
 tl_test_assert( JSON_ERROR_NONE === json_last_error() && is_array( $renderer_manifest ), 'Renderer manifest is not valid JSON.' );
 $renderer_manifest_keys = array_keys( $renderer_manifest );
@@ -787,7 +787,7 @@ tl_test_assert(
 tl_test_assert( 'thailand-digital-islands-renderer-v1' === $renderer_manifest['contract_id'], 'Renderer contract identity mismatch.' );
 tl_test_assert( 1 === $renderer_manifest['schema_version'], 'Renderer schema version mismatch.' );
 tl_test_assert( 'geo:th:island:ko-pha-ngan' === $renderer_manifest['island_id'], 'Renderer island identity mismatch.' );
-tl_test_assert( '0.5.1' === THAILAND_PLATFORM_VERSION && THAILAND_PLATFORM_VERSION === $renderer_manifest['release_version'], 'Renderer release version mismatch.' );
+tl_test_assert( '0.5.2' === THAILAND_PLATFORM_VERSION && THAILAND_PLATFORM_VERSION === $renderer_manifest['release_version'], 'Renderer release version mismatch.' );
 tl_test_assert( '5.18.0' === $renderer_manifest['dependencies']['maplibre']['version'], 'MapLibre release pin mismatch.' );
 tl_test_assert( '4.5.0' === $renderer_manifest['dependencies']['pmtiles']['version'], 'PMTiles release pin mismatch.' );
 tl_test_assert( 65 === count( $renderer_manifest['inventory'] ), 'Renderer asset inventory must contain exactly 65 files.' );
